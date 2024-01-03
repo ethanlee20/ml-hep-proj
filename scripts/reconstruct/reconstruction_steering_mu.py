@@ -1,4 +1,5 @@
-import os.path
+
+import os
 import sys
 
 import basf2 as b2
@@ -7,168 +8,92 @@ from variables import collections as vc
 from variables import utils as vu
 
 
-path_input_mc_events_file = '/home/belle2/elee20/ml-hep-proj/data/2023-12-8_tryingStopDoubleCandidates/mc_events_mu.root'
+data_dir = sys.argv[1] 
 
- 
-path_output_dir = '/home/belle2/elee20/ml-hep-proj/data/2023-12-8_tryingStopDoubleCandidates'
+input_file_name = "mc_events_mu.root"
+output_file_name = "mc_events_mu_reconstructed.root"
+
+path_input_file = os.path.join(data_dir, input_file_name)
+path_output_file = os.path.join(data_dir, output_file_name)
 
 
 main = b2.Path()
 
 
-def open_events_file(path_events_file):
-    ma.inputMdstList(filelist=path_events_file, path=main, environmentType="default")
+def input():
+    ma.inputMdstList(filelist=path_input_file, path=main, environmentType="default")
+
+input()
 
 
-def reconstruct_particles():
+def reconstruct_generator_level():
+    ma.fillParticleListFromMC(decayString='K-:gen', cut='', path=main)    
+    ma.fillParticleListFromMC(decayString='pi+:gen', cut='', path=main)    
+    ma.fillParticleListFromMC(decayString='mu+:gen', cut='', path=main)    
+    ma.fillParticleListFromMC(decayString='mu-:gen', cut='', path=main)    
+
+    ma.reconstructMCDecay("K*0:gen -> K-:gen pi+:gen", cut='', path=main)
+    ma.reconstructMCDecay("B0:gen -> K*0:gen mu+:gen mu-:gen", cut='', path=main)
+
+reconstruct_generator_level()
+
+
+def reconstruct_detector_level():
     ma.fillParticleList(decayString="mu+", cut="muonID > 0.9", path=main)
     ma.fillParticleList(decayString="K-", cut="kaonID > 0.9", path=main)
     ma.fillParticleList(decayString="pi+", cut="", path=main)
     ma.reconstructDecay("K*0 -> K- pi+", cut="", path=main)
     ma.reconstructDecay("B0 -> K*0 mu+ mu-", cut="", path=main)
-
-
-def match_mc_truth():
     ma.matchMCTruth("B0", path=main)
 
+reconstruct_detector_level()
+ 
 
-def find_generator_level_particles():
-    ma.fillParticleListFromMC(decayString='B0:gen', cut='', addDaughters=True, path=main)
-    #ma.findMCDecay(
-    #    list_name="B0:generator_level",
-    #    decay="B0 -> K*0 mu+ mu-",
-    #    appendAllDaughters=True,
-    #    path=main,
-    #)
-
-
-def make_variables_lists():
-    standard_vars = (
+def create_variable_lists():
+    std_vars = (
         vc.deltae_mbc + vc.inv_mass + vc.mc_truth + vc.kinematics + vc.mc_kinematics
     )
 
     Kstar0_vars = vu.create_aliases_for_selected(
-        list_of_variables=standard_vars,
+        list_of_variables=std_vars,
         decay_string="B0 -> ^K*0 mu+ mu-",
     )
     finalstate_vars = vu.create_aliases_for_selected(
-        list_of_variables=vc.pid + standard_vars,
+        list_of_variables=vc.pid + std_vars,
         decay_string="B0 -> [K*0 -> ^K- ^pi+] ^mu+ ^mu-",
         prefix=["K_m", "pi_p", "mu_p", "mu_m"],
     )
-    B0_generator_level_vars = standard_vars + Kstar0_vars + finalstate_vars
 
-    B0_detector_level_vars = (
-        standard_vars + Kstar0_vars + finalstate_vars + ["cosHelicityAngle(0,0)"]
-    )
+    B0_gen_vars = std_vars + Kstar0_vars + finalstate_vars
 
-    return B0_generator_level_vars, B0_detector_level_vars
+    B0_det_vars = B0_gen_vars + ["cosHelicityAngle(0,0)"]
+
+    return B0_gen_vars, B0_det_vars
+
+B0_gen_vars, B0_det_vars = create_variable_lists()
 
 
-def save_variables_to_file(decay_string, variables, tree_name, path_output_file):
+def save_output():
     ma.variablesToNtuple(
-        decayString=decay_string,
-        variables=variables,
+        decayString='B0:gen',
+        variables=B0_gen_vars,
         filename=path_output_file,
-        treename=tree_name,
-        path=main,
+        treename='gen',
+        path=main
     )
 
+    ma.variablesToNtuple(
+        decayString='B0',
+        variables=B0_det_vars,
+        filename=path_output_file,
+        treename='det',
+        path=main
+    )
 
-open_events_file(path_input_mc_events_file)
+save_output()
 
-reconstruct_particles()
-
-match_mc_truth()
-
-find_generator_level_particles()
-
-generator_level_variables, detector_level_variables = make_variables_lists()
-
-path_output_file = os.path.join(path_output_dir, "mc_events_mu_reconstructed.root")
-
-save_variables_to_file(
-    "B0:gen",
-    generator_level_variables,
-    "generator_variables",
-    path_output_file,
-)
-save_variables_to_file(
-    "B0",
-    detector_level_variables,
-    "detector_variables",
-    path_output_file
-)
 
 b2.process(main)
 
 print(b2.statistics)
 
-
-"""
-def save_generator_variables():
-    standard_vars = (
-            vc.deltae_mbc + vc.inv_mass + vc.mc_truth + vc.kinematics + vc.mc_kinematics
-    )
-
-    Kstar0_vars = vu.create_aliases_for_selected(
-        list_of_variables=standard_vars,
-        decay_string="B0 -> ^K*0 mu+ mu-",
-    )
-    finalstate_vars = vu.create_aliases_for_selected(
-        list_of_variables=vc.pid + standard_vars,
-        decay_string="B0 -> [K*0 -> ^K- ^pi+] ^mu+ ^mu-",
-        prefix=["K_m", "pi_p", "mu_p", "mu_m"],
-    )
-    B0_gen_vars = standard_vars + Kstar0_vars + finalstate_vars + ["cosHelicityAngle(1,1)"] 
-    path_ntupleoutput = "./variables_with_gen_tree.root"
-    ma.variablesToNtuple(
-        decayString="B0:MyB0",
-        variables=B0_gen_vars,
-        filename=path_ntupleoutput,
-        treename="gen_variables",
-        path=main,
-    )
-"""
-
-
-"""
-
-How I was saving variables output before:
-
-# save variables to an output file
-ma.variablesToNtuple(
-    decayString= "B0",
-    variables=['Mbc', 'M', 'deltaE', 'isSignal'],
-    filename=path_ntupleoutput_B0,
-    path=main,
-)
-
-ma.variablesToNtuple(
-    decayString= "mu+",
-    variables=['Mbc', 'M', 'deltaE', 'isSignal', 'muonID'],
-    filename=path_ntupleoutput_muplus,
-    path=main,
-)
-
-ma.variablesToNtuple(
-    decayString= "K-",
-    variables=['Mbc', 'M', 'deltaE', 'isSignal', 'kaonID'],
-    filename=path_ntupleoutput_kminus,
-    path=main,
-)
-
-ma.variablesToNtuple(
-    decayString= "pi+",
-    variables=['Mbc', 'M', 'deltaE', 'isSignal', 'pionID'],
-    filename=path_ntupleoutput_piplus,
-    path=main,
-)
-
-ma.variablesToNtuple(
-    decayString= "K*0",
-    variables=['Mbc', 'M', 'deltaE', 'isSignal'],
-    filename=path_ntupleoutput_kstar0,
-    path=main,
-)
-"""

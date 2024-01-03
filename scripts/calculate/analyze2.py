@@ -3,11 +3,13 @@ import sys
 
 import pandas as pd
 
-import util
-import physics
+import mylib
 
 
 # Setup
+
+data_dir = sys.argv[1]
+
 path_input = '../data/2023-12-8_tryingStopDoubleCandidates/mc_events_mu_reconstructed.root:gen'
 path_output = '../data/2023-12-8_tryingStopDoubleCandidates/mu_gen_ana.pkl'
 

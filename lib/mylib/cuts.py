@@ -42,3 +42,10 @@ def deltaE_cut(df_data):
     cut = abs(df_data["deltaE"]) <= 0.05
     df_cut_data = df_data[cut]
     return df_cut_data
+
+
+def apply_all_cuts(df_data):
+    df_cut1_data = kst_invmass_cut(df_data)
+    df_cut2_data = Mbc_cut(df_cut1_data)
+    df_cut3_data = deltaE_cut(df_cut2_data)
+    return df_cut3_data

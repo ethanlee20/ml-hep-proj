@@ -35,3 +35,34 @@ test_df_square_mat = pd.DataFrame(
     }, index = [1, 5, 6]
 )
  
+
+test_df_4vec_a = pd.DataFrame(
+    {
+        "v_1":[1, 5, 4],
+        "v_2":[5, 2, 4],
+        "v_3":[8, 9, 5],
+        "v_4":[1, 5, 3]
+    }, index = [4, 6, 9]
+)
+
+
+test_df_4mom_a = pd.DataFrame(
+    {
+        "E":[1, 5, 4],
+        "px":[5, 2, 4],
+        "py":[8, 9, 5],
+        "pz":[1, 5, 3]
+    }, index = [4, 6, 9]
+)
+
+
+test_df_4mom_b = pd.DataFrame(
+    {
+        "E":[3, 2, 3],
+        "px":[1, 4, 3],
+        "py":[1, 4, 2],
+        "pz":[0, 2, 5]
+    }, index = [4, 6, 9]
+)
+
+

@@ -3,14 +3,19 @@ import sys
 
 import pandas as pd
 
-import util
-import physics
+import mylib
+
 
 # Setup
-path_input = '../data/2023-12-8_tryingStopDoubleCandidates/mc_events_mu_reconstructed.root:gen'
-path_output_file = sys.argv[2]
+data_dir = sys.argv[1]
+input_file_name = 'mc_events_mu_reconstructed.root'
 
-df_B0 = util.open_tree(path_input)
+data_gen_uncut =  
+data_det_cut = 
+
+
+
+df_B0 = mylib.open_tree(path_input)
 
 df_B0_sig = df_B0[df_B0['isSignal']==1]
 

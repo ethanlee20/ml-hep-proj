@@ -1,9 +1,13 @@
+
 """Functions for special relavitiy and particle physics calculations."""
 
+import os
+import sys
 
 import numpy as np
 import pandas as pd
 
+sys.path.insert(0, os.path.dirname(__file__))
 import maths
 
 
@@ -84,7 +88,7 @@ def three_velocity_from_four_momentum_dataframe(df_4mom):
 
 def compute_gamma(df_3vel):
     """
-    Compute a Lorentz factors.
+    Compute a series of Lorentz factors.
 
     Given a dataframe of three velocities,
     return a series of corresponding Lorentz factors.

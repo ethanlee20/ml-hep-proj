@@ -3,15 +3,31 @@ import sys
 
 import pandas as pd
 
-import lib.cuts
+import mylib
 
-path_input_data = sys.argv[1]
-path_output_file = sys.argv[2]
 
-df = pd.read_pickle(path_input_data)
+# configure paths
 
-df_cut1 = lib.cuts.kst_invmass_cut(df)
-df_cut2 = lib.cuts.Mbc_cut(df_cut1)
-df_cut3 = lib.cuts.deltaE_cut(df_cut2)
+data_dir = sys.argv[1]
+input_filename = "mc_events_mu_reconstructed.root"
+input_filepath = os.path.join(data_dir, input_filename)
 
-df_cut3.to_pickle(path_output_file)
+output_generator_data_filename = "mc_events_mu_reconstructed_gen_uncut.pkl"
+output_detector_data_filename = "mc_events_mu_reconstructed_det_cut.pkl"
+
+output_generator_data_path = os.path.join(data_dir, output_generator_data_filename)
+output_detector_data_path = os.path.join(data_dir, output_detector_data_filename)
+
+
+# load data 
+
+df_det_uncut = mylib.open_tree(input_filepath+':det')
+df_gen_uncut = mylib.open_tree(input_filepath+':gen')
+
+df_det_cut = mylib.apply_all_cuts(df_det_uncut)
+
+
+# save output
+df_det_cut.to_pickle(output_detector_data_path)
+df_gen_uncut.to_pickle(output_generator_data_path)
+
