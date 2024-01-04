@@ -1,39 +1,39 @@
+
 import sys
 import os
+import pathlib
 
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-import plotting
+import mylib
 
 
-path_input = '../data/2023-12-8_tryingStopDoubleCandidates/mu_gen_ana.pkl'
-path_output_dir = '../data/2023-12-8_tryingStopDoubleCandidates/plot_mu_gen'
-
-try: os.mkdir(path_output_dir)
-except: pass
-
-plotting.setup_mpl_params_save()
-
-data_all = pd.read_pickle(path_input)
-data_med =data_all[(data_all['q_squared'] > 1) & (data_all['q_squared'] < 6)]
+mylib.setup_mpl_params_save()
 
 
+data_dir_path = pathlib.Path(sys.argv[1])
+data_filepaths = [data_dir_path.joinpath(path) for path in sys.argv[2:]] 
 
-for label, data, q2_range in [('q2all', data_all, (-0.1,20)), ('q2med', data_med, (1,6))]:
-    plotting.plot_signal_and_misrecon(
+plots_dir_path = data_dir_path.joinpath('plots')
+generic_plots_dir_path = plots_dir_path.joinpath('generic')
+generic_plots_dir_path.mkdir(parents=True, exist_ok=True)
+
+
+def plot_q_squared_range(data, range):
+    mylib.plot_signal_and_misrecon(
         df=data,
         var="q_squared",
         is_sig_var="isSignal",
         title=r"$q^2$",
         xlabel=r"GeV$^2$",
-	range=q2_range
+	    range=range
     )
-    plt.savefig(os.path.join(path_output_dir, f"{label}_q_squared.png"), bbox_inches="tight")
-    plt.close()
 
-    plotting.plot_signal_and_misrecon(
+    
+def plot_cos_theta_mu(data):
+    mylib.plot_signal_and_misrecon(
         df=data,
         var="costheta_mu",
         is_sig_var="isSignal",
@@ -41,10 +41,10 @@ for label, data, q2_range in [('q2all', data_all, (-0.1,20)), ('q2med', data_med
         xlabel="",
         range=(-1, 1),
     )
-    plt.savefig(os.path.join(path_output_dir, f"{label}_costheta_mu.png"), bbox_inches="tight")
-    plt.close()
 
-    plotting.plot_signal_and_misrecon(
+
+def plot_cos_theta_k(data):
+    mylib.plot_signal_and_misrecon(
         df=data,
         var="costheta_K",
         is_sig_var="isSignal",
@@ -52,32 +52,10 @@ for label, data, q2_range in [('q2all', data_all, (-0.1,20)), ('q2med', data_med
         xlabel="",
         range=(-1, 1),
     )
-    plt.savefig(os.path.join(path_output_dir, f"{label}_costheta_K.png"), bbox_inches="tight")
-    plt.close()
 
-    # plotting.plot_signal_and_misrecon(
-    #     df=data,
-    #     var="costheta_K_builtin",
-    #     is_sig_var="isSignal",
-    #     title=r"$\cos\theta_K$ (basf2)",
-    #     xlabel="",
-    #     range=(-1, 1),
-    # )
-    # plt.savefig(os.path.join(path_output_dir, f"{label}_costheta_K_builtin.png"), bbox_inches="tight")
-    # plt.close()
 
-    #plotting.plot_signal_and_misrecon(
-    #    df=data,
-    #    var="coschi",
-    #    is_sig_var="isSignal",
-    #    title=r"$\cos\chi$",
-    #    xlabel="",
-    #    range=(-1, 1),
-    #)
-    #plt.savefig(os.path.join(path_output_dir, f"{label}_coschi.png"), bbox_inches="tight")
-    #plt.close()
-
-    plotting.plot_signal_and_misrecon(
+def plot_chi(data):
+    mylib.plot_signal_and_misrecon(
         df=data,
         var="chi",
         is_sig_var="isSignal",
@@ -89,83 +67,35 @@ for label, data, q2_range in [('q2all', data_all, (-0.1,20)), ('q2med', data_med
         [r"$0$", r"$\frac{\pi}{2}$", r"$\pi$", r"$\frac{3\pi}{2}$", r"$2\pi$"],
     )
 
-    plt.savefig(os.path.join(path_output_dir, f'{label}_chi.png'), bbox_inches="tight")
-    plt.close()
+
+def plot_datafile(data_filepath):
+    data = pd.read_pickle(data_filepath)
+
+    datafile_plots_path = generic_plots_dir_path.joinpath(data_filepath.stem)
+    datafile_plots_path.mkdir(exist_ok=True)
+    
+    q_squared_cut_names = ('all_q2', 'med_q2')
+    q_squared_cut_ranges = ((0, 20), (1, 6))
+    q_squared_cut_info = zip(q_squared_cut_names, q_squared_cut_ranges)
+
+    def save_and_close(plot_name, cut_name):
+        plt.savefig(
+            datafile_plots_path.joinpath(cut_name+'_'+plot_name+'.png'),
+            bbox_inches='tight'
+        )
+        plt.clf()
+        
+    for cut_name, cut_range in q_squared_cut_info:
+        cut_data = data[(data['q_squared'] > cut_range[0]) & (data['q_squared'] < cut_range[1])]
+        plot_q_squared_range(cut_data, cut_range)
+        save_and_close('q_squared', cut_name)
+        plot_cos_theta_mu(cut_data)
+        save_and_close('cos_theta_mu', cut_name)
+        plot_cos_theta_k(cut_data)
+        save_and_close('cos_theta_k', cut_name)
+        plot_chi(cut_data)
+        save_and_close('chi', cut_name)
 
 
-
-
-
-
-
-
-
-# for split in image_file_paths:
-#     plotting.plot_image(
-#         image_file_paths[split],
-#         "costheta_mu_bin",
-#         "costheta_K_bin",
-#         "chi_bin",
-#         "q_squared",
-#         len(data[split]),
-#     )
-#     plt.savefig(out_dir[split] + "image.png", bbox_inches="tight", pad_inches=0.4)
-#     plt.close()
-
-"""def plot_costheta_K_comparison(data):
-    plt.hist(
-        data[data["isSignal"] == 1]["costheta_K"],
-        label="My Calc. (sig. only)",
-        histtype="step",
-        bins=25,
-        color="red",
-        alpha=0.8,
-    )
-    plt.hist(
-        data[data["isSignal"] == 1]["costheta_K_builtin"],
-        label="basf2 (sig. only)",
-        histtype="step",
-        bins=25,
-        color="blue",
-        alpha=0.8,
-    )
-    plt.legend()
-    plt.title(r"$\cos \theta_K$ Comparison ($q^2 > 15$ GeV$^2$)")
-    plt.savefig("./Plots/q2_high/costheta_K_compare.png", bbox_inches="tight")
-    print("Plotted costheta_K comparison")
-    plt.clf()
-
-
-def plot_hist2d_costheta_mu_and_q_squared(data):
-    plt.hist2d(data["q_squared"], data["costheta_mu"], bins=25, cmap="magma")
-    plt.colorbar()
-    plt.xlabel(r"$q^2$ [GeV$^2$]")
-    plt.ylabel(r"$\cos\theta_\mu$")
-    plt.title(r"($q^2 > 15$ GeV$^2$)")
-    plt.savefig("./Plots/q2_high/costheta_mu_q2_plot.png", bbox_inches="tight")
-    print("Plotted 2d hist costheta_mu and q_squared")
-    plt.clf()
-
-
-def plot_hist2d_costheta_K_and_q_squared(data):
-    plt.hist2d(data["q_squared"], data["costheta_K"], bins=25, cmap="magma")
-    plt.colorbar()
-    plt.xlabel(r"$q^2$ [GeV$^2$]")
-    plt.ylabel(r"$\cos\theta_K$ \small{(My Calc.)}")
-    plt.title(r"($q^2 > 15$ GeV$^2$)")
-    plt.savefig("./Plots/q2_high/costheta_K_q2_plot.png", bbox_inches="tight")
-    print("Plotted 2d hist costheta_K and q_squared")
-    plt.clf()
-
-
-def plot_hist2d_coschi_and_q_squared(data):
-    plt.hist2d(data["q_squared"], data["coschi"], bins=25, cmap="magma")
-    plt.colorbar()
-    plt.xlabel(r"$q^2$ [GeV$^2$]")
-    plt.ylabel(r"$\cos\chi$")
-    plt.title(r"($q^2 > 15$ GeV$^2$)")
-    plt.savefig("./Plots/q2_high/coschi_q2_plot.png", bbox_inches="tight")
-    print("Plotted 2d hist coschi and q_squared")
-    plt.clf()
-
-"""
+for filepath in data_filepaths:
+    plot_datafile(filepath)

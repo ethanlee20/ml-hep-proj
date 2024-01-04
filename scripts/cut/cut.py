@@ -18,13 +18,26 @@ output_detector_data_filename = "mc_events_mu_reconstructed_det_cut.pkl"
 output_generator_data_path = os.path.join(data_dir, output_generator_data_filename)
 output_detector_data_path = os.path.join(data_dir, output_detector_data_filename)
 
+plots_dir_name = "plots"
+cut_plots_dir_name = "cuts"
+
+plots_dir_path = os.path.join(data_dir, plots_dir_name)
+cut_plots_dir_path = os.path.join(plots_dir_path, cut_plots_dir_name)
+
+if not os.path.exists(cut_plots_dir_path):
+    if not os.path.exists(plots_dir_path):
+        os.mkdir(plots_dir_path)
+    os.mkdir(cut_plots_dir_path)
 
 # load data 
 
 df_det_uncut = mylib.open_tree(input_filepath+':det')
 df_gen_uncut = mylib.open_tree(input_filepath+':gen')
 
-df_det_cut = mylib.apply_all_cuts(df_det_uncut)
+
+# apply cuts
+
+df_det_cut = mylib.apply_all_cuts(df_det_uncut, cut_plots_dir_path)
 
 
 # save output

@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-import calc_stats
+import eff_and_res
 import util
 
 
@@ -138,20 +138,22 @@ def plot_image(
         fig.colorbar(sc, ax=ax, pad=0.025, shrink=0.6, location="left")
 
 
-def plot_efficiency(data_recon, data_gen, variable, num_data_points, title, xlabel):
+def plot_efficiency(data_recon, data_gen, variable, num_data_points, title, xlabel, **kwargs):
+
     data_min = np.min([data_recon[variable].min(), data_gen[variable].min()])
     data_max = np.max([data_recon[variable].max(), data_gen[variable].max()])
-    bin_edges = util.generate_bin_edges(
+    bin_edges = eff_and_res.generate_bin_edges(
         start=data_min, stop=data_max, num_of_bins=num_data_points
     )
 
-    efficiency = calc_stats.calculate_efficiency(
+    efficiency = eff_and_res.calculate_efficiency(
         data_recon, data_gen, variable, bin_edges
     )
-    efficiency_errorbars = calc_stats.calculate_efficiency_errorbars(
+    efficiency_errorbars = eff_and_res.calculate_efficiency_errorbars(
         data_recon, data_gen, variable, bin_edges
     )
-    bin_middles = calc_stats.find_bin_middles(bin_edges)
+    
+    bin_middles = eff_and_res.find_bin_middles(bin_edges)
 
     fig, ax = plt.subplots()
     ax.scatter(
@@ -159,6 +161,7 @@ def plot_efficiency(data_recon, data_gen, variable, num_data_points, title, xlab
         efficiency,
         label=f"Entries (Generator): {len(data_gen)}\nEntries (Reconstructed): {len(data_recon)}",
         color="red",
+        **kwargs
     )
     ax.errorbar(
         bin_middles,
@@ -167,9 +170,9 @@ def plot_efficiency(data_recon, data_gen, variable, num_data_points, title, xlab
         fmt="none",
         capsize=5,
         color="black",
+        **kwargs
     )
     ax.legend()
-    ax.set_ylim(0, 1)
     ax.set_xlim(data_min - 0.05, data_max + 0.05)
     ax.set_ylabel(r"$\varepsilon$", rotation=0, labelpad=20)
     ax.set_xlabel(xlabel)
@@ -212,25 +215,26 @@ def plot_gen_recon_compare(
     ax.set_xlabel(xlabel)
 
 
-"""
-def plot_resolution(var_recon, var_gen, data, title, xlabel, periodic=False):
+def plot_resolution(var, mc_truth_var, data, title, xlabel, periodic=False):
     signal_data = data[data['isSignal'] == 1]
 
+    resolution = signal_data[mc_truth_var] - signal_data[var]
+
     if periodic:
-
-
-    res = signal_data[var_gen] - signal_data[var_recon]
-
+        resolution.where(resolution > np.pi, resolution - 2*np.pi)
+            
     fig, ax = plt.subplots()
 
     ax.hist(
-        res,
-        label=f'Signal Entries ({len(signal_data)})',
+        resolution,
+        label=f'Signal Events: {len(signal_data)}',
         bins=round(np.sqrt(len(signal_data))),
         color='red',
         histtype='step'
     )
+    
+
     ax.legend()
     ax.set_title(title)
     ax.set_xlabel(xlabel)
-"""
+

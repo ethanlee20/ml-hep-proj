@@ -3,6 +3,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
+def generate_bin_edges(start, stop, num_of_bins):
+    bin_size = (stop - start) / num_of_bins
+    return np.arange(start, stop + bin_size, bin_size)
+
+
 def find_bin_counts(data, binning_variable, bin_edges):
     bin_series = pd.cut(data[binning_variable], bin_edges, include_lowest=True)
     data_by_bin = data.groupby(bin_series)

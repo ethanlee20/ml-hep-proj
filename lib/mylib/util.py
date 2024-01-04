@@ -15,6 +15,7 @@ def check_root(path):
     print("length: ", len(df))
 
 
-def generate_bin_edges(start, stop, num_of_bins):
-    bin_size = (stop - start) / num_of_bins
-    return np.arange(start, stop + bin_size, bin_size)
+def check_columns_root(path):
+    df = open_tree(path)
+    print("columns: ")
+    print(df.columns.values.tolist())
