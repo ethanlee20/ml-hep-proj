@@ -97,7 +97,7 @@ def plot(path_data_gen, path_data_recon):
     cut_ranges = [(0,20), (1,6)]
 
     def save_and_close(plot_name, cut_name):
-        plt.savefig(path_eff_and_res_plots_dir.joinpath(cut_name + '_' + plot_name + '.png'))
+        plt.savefig(path_eff_and_res_plots_dir.joinpath(cut_name + '_' + plot_name + '.png'), bbox_inches='tight')
         plt.clf()
         
     for cut_name, cut_range in zip(cut_names, cut_ranges):

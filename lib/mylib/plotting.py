@@ -219,10 +219,11 @@ def plot_resolution(var, mc_truth_var, data, title, xlabel, periodic=False):
     signal_data = data[data['isSignal'] == 1]
 
     resolution = signal_data[mc_truth_var] - signal_data[var]
-
+    
     if periodic:
-        resolution.where(resolution > np.pi, resolution - 2*np.pi)
-            
+        resolution = resolution.where(resolution < np.pi, resolution - 2*np.pi)
+        resolution = resolution.where(resolution > -np.pi, resolution + 2*np.pi)
+
     fig, ax = plt.subplots()
 
     ax.hist(
