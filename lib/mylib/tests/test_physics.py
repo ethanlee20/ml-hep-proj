@@ -1,12 +1,12 @@
-
 import sys
 import os
 
-sys.path.append(os.path.join(os.path.dirname(__file__), "../"))
+sys.path.append(
+    os.path.join(os.path.dirname(__file__), "../")
+)
 
 import physics
 import test_df
-
 
 
 def test_four_momemtum_dataframe():
@@ -28,7 +28,7 @@ def test_three_momentum_dataframe():
 
 
 def test_three_velocity_dataframe():
-    print(test_three_velocity_dataframe.__name__)    
+    print(test_three_velocity_dataframe.__name__)
 
     df_3vec = test_df.test_df_vec_a
     df_3vel = physics.three_velocity_dataframe(df_3vec)
@@ -37,21 +37,31 @@ def test_three_velocity_dataframe():
 
 
 def test_invariant_mass_squared_two_particles():
-    print(test_invariant_mass_squared_two_particles.__name__)
+    print(
+        test_invariant_mass_squared_two_particles.__name__
+    )
 
     df_4mom_p1 = test_df.test_df_4mom_a
     df_4mom_p2 = test_df.test_df_4mom_b
 
-    inv_m_sq = physics.invariant_mass_squared_two_particles(df_4mom_p1, df_4mom_p2)
+    inv_m_sq = physics.invariant_mass_squared_two_particles(
+        df_4mom_p1, df_4mom_p2
+    )
 
     print(inv_m_sq)
 
 
 def test_three_velocity_from_four_momentum_dataframe():
-    print(test_three_velocity_from_four_momentum_dataframe.__name__)
+    print(
+        test_three_velocity_from_four_momentum_dataframe.__name__
+    )
 
     df_4mom = test_df.test_df_4mom_a
-    df_3vel = physics.three_velocity_from_four_momentum_dataframe(df_4mom)
+    df_3vel = (
+        physics.three_velocity_from_four_momentum_dataframe(
+            df_4mom
+        )
+    )
 
     print(df_3vel)
 
@@ -79,7 +89,7 @@ def test_boost():
 
     df_ref_4mom = test_df.test_df_4mom_a
     df_4vec = test_df.test_df_4vec_a
-    
+
     boosted = physics.boost(df_ref_4mom, df_4vec)
 
     print(boosted)
@@ -93,9 +103,7 @@ def test_find_costheta_mu():
     df_4mom_B = test_df.test_df_4vec_a
 
     cos_theta_mu = physics.find_costheta_mu(
-        df_4mom_mu_p,
-        df_4mom_mu_m,
-        df_4mom_B
+        df_4mom_mu_p, df_4mom_mu_m, df_4mom_B
     )
 
     print(cos_theta_mu)
@@ -109,9 +117,7 @@ def test_find_costheta_K():
     df_4mom_B = test_df.test_df_4vec_a
 
     cos_theta_K = physics.find_costheta_K(
-        df_4mom_K,
-        df_4mom_KST,
-        df_4mom_B
+        df_4mom_K, df_4mom_KST, df_4mom_B
     )
 
     print(cos_theta_K)
@@ -125,9 +131,7 @@ def test_find_unit_normal_KST_K_plane():
     df_4mom_K = test_df.test_df_4vec_a
 
     df_norm = physics.find_unit_normal_KST_K_plane(
-        df_4mom_B,
-        df_4mom_KST,
-        df_4mom_K
+        df_4mom_B, df_4mom_KST, df_4mom_K
     )
 
     print(df_norm)
@@ -139,15 +143,12 @@ def test_find_unit_normal_mumu_muplus_plane():
     df_4mom_B = test_df.test_df_4mom_a
     df_4mom_mu_p = test_df.test_df_4mom_b
     df_4mom_mu_m = test_df.test_df_4vec_a
-    
+
     df_norm = physics.find_unit_normal_mumu_muplus_plane(
-        df_4mom_B, 
-        df_4mom_mu_p, 
-        df_4mom_mu_m
+        df_4mom_B, df_4mom_mu_p, df_4mom_mu_m
     )
 
     print(df_norm)
-    
 
 
 if __name__ == "__main__":

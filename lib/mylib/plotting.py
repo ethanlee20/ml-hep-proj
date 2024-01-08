@@ -18,7 +18,9 @@ def setup_mpl_params_save():
     mpl.rcParams["xtick.labelsize"] = 20
     mpl.rcParams["ytick.labelsize"] = 20
     mpl.rcParams["text.usetex"] = True
-    mpl.rcParams["text.latex.preamble"] = r"\usepackage{physics}"
+    mpl.rcParams[
+        "text.latex.preamble"
+    ] = r"\usepackage{physics}"
     mpl.rcParams["font.family"] = "serif"
     mpl.rcParams["font.serif"] = ["Computer Modern"]
 
@@ -32,17 +34,29 @@ def setup_mpl_params_view():
     mpl.rcParams["xtick.labelsize"] = 20
     mpl.rcParams["ytick.labelsize"] = 20
     mpl.rcParams["text.usetex"] = True
-    mpl.rcParams["text.latex.preamble"] = r"\usepackage{physics}"
+    mpl.rcParams[
+        "text.latex.preamble"
+    ] = r"\usepackage{physics}"
     mpl.rcParams["font.family"] = "serif"
     mpl.rcParams["font.serif"] = ["Computer Modern"]
 
 
-def generate_stats_label(x, descrp="", show_mean=True, show_count=True, show_rms=True):
+def generate_stats_label(
+    x,
+    descrp="",
+    show_mean=True,
+    show_count=True,
+    show_rms=True,
+):
     def stats(x):
         mean = np.mean(x)
         count = x.count()
         rms = np.std(x)
-        collection = {"mean": mean, "count": count, "rms": rms}
+        collection = {
+            "mean": mean,
+            "count": count,
+            "rms": rms,
+        }
         return collection
 
     stats = stats(x)
@@ -60,13 +74,20 @@ def generate_stats_label(x, descrp="", show_mean=True, show_count=True, show_rms
     return stats_label
 
 
-def plot_signal_and_misrecon(df, var, is_sig_var, title, xlabel, **kwargs):
+def plot_signal_and_misrecon(
+    df, var, is_sig_var, title, xlabel, **kwargs
+):
     signal = df[df[is_sig_var] == 1][var]
     misrecon = df[df[is_sig_var] == 0][var]
 
-    signal_label = generate_stats_label(signal, descrp="Signal")
+    signal_label = generate_stats_label(
+        signal, descrp="Signal"
+    )
     misrecon_label = generate_stats_label(
-        misrecon, descrp="Misrecon.", show_mean=False, show_rms=False
+        misrecon,
+        descrp="Misrecon.",
+        show_mean=False,
+        show_rms=False,
     )
 
     fig, ax = plt.subplots()
@@ -135,24 +156,51 @@ def plot_image(
             xycoords="axes points",
             fontsize="xx-large",
         )
-        fig.colorbar(sc, ax=ax, pad=0.025, shrink=0.6, location="left")
+        fig.colorbar(
+            sc,
+            ax=ax,
+            pad=0.025,
+            shrink=0.6,
+            location="left",
+        )
 
 
-def plot_efficiency(data_recon, data_gen, variable, num_data_points, title, xlabel, **kwargs):
-
-    data_min = np.min([data_recon[variable].min(), data_gen[variable].min()])
-    data_max = np.max([data_recon[variable].max(), data_gen[variable].max()])
+def plot_efficiency(
+    data_recon,
+    data_gen,
+    variable,
+    num_data_points,
+    title,
+    xlabel,
+    **kwargs,
+):
+    data_min = np.min(
+        [
+            data_recon[variable].min(),
+            data_gen[variable].min(),
+        ]
+    )
+    data_max = np.max(
+        [
+            data_recon[variable].max(),
+            data_gen[variable].max(),
+        ]
+    )
     bin_edges = eff_and_res.generate_bin_edges(
-        start=data_min, stop=data_max, num_of_bins=num_data_points
+        start=data_min,
+        stop=data_max,
+        num_of_bins=num_data_points,
     )
 
     efficiency = eff_and_res.calculate_efficiency(
         data_recon, data_gen, variable, bin_edges
     )
-    efficiency_errorbars = eff_and_res.calculate_efficiency_errorbars(
-        data_recon, data_gen, variable, bin_edges
+    efficiency_errorbars = (
+        eff_and_res.calculate_efficiency_errorbars(
+            data_recon, data_gen, variable, bin_edges
+        )
     )
-    
+
     bin_middles = eff_and_res.find_bin_middles(bin_edges)
 
     fig, ax = plt.subplots()
@@ -161,7 +209,7 @@ def plot_efficiency(data_recon, data_gen, variable, num_data_points, title, xlab
         efficiency,
         label=f"Entries (Generator): {len(data_gen)}\nEntries (Reconstructed): {len(data_recon)}",
         color="red",
-        **kwargs
+        **kwargs,
     )
     ax.errorbar(
         bin_middles,
@@ -170,7 +218,7 @@ def plot_efficiency(data_recon, data_gen, variable, num_data_points, title, xlab
         fmt="none",
         capsize=5,
         color="black",
-        **kwargs
+        **kwargs,
     )
     ax.legend()
     ax.set_xlim(data_min - 0.05, data_max + 0.05)
@@ -180,7 +228,12 @@ def plot_efficiency(data_recon, data_gen, variable, num_data_points, title, xlab
 
 
 def plot_gen_recon_compare(
-    data_gen, data_recon, variable, title, xlabel, radians=False
+    data_gen,
+    data_recon,
+    variable,
+    title,
+    xlabel,
+    radians=False,
 ):
     def sqrt_of_count(data):
         return np.sqrt(len(data))
@@ -207,35 +260,53 @@ def plot_gen_recon_compare(
 
     if radians:
         plt.xticks(
-            [0, np.pi / 2, np.pi, (3 / 2) * np.pi, 2 * np.pi],
-            [r"$0$", r"$\frac{\pi}{2}$", r"$\pi$", r"$\frac{3\pi}{2}$", r"$2\pi$"],
+            [
+                0,
+                np.pi / 2,
+                np.pi,
+                (3 / 2) * np.pi,
+                2 * np.pi,
+            ],
+            [
+                r"$0$",
+                r"$\frac{\pi}{2}$",
+                r"$\pi$",
+                r"$\frac{3\pi}{2}$",
+                r"$2\pi$",
+            ],
         )
     ax.legend()
     ax.set_title(title)
     ax.set_xlabel(xlabel)
 
 
-def plot_resolution(var, mc_truth_var, data, title, xlabel, periodic=False):
-    signal_data = data[data['isSignal'] == 1]
+def plot_resolution(
+    var, mc_truth_var, data, title, xlabel, periodic=False
+):
+    signal_data = data[data["isSignal"] == 1]
 
-    resolution = signal_data[mc_truth_var] - signal_data[var]
-    
+    resolution = (
+        signal_data[mc_truth_var] - signal_data[var]
+    )
+
     if periodic:
-        resolution = resolution.where(resolution < np.pi, resolution - 2*np.pi)
-        resolution = resolution.where(resolution > -np.pi, resolution + 2*np.pi)
+        resolution = resolution.where(
+            resolution < np.pi, resolution - 2 * np.pi
+        )
+        resolution = resolution.where(
+            resolution > -np.pi, resolution + 2 * np.pi
+        )
 
     fig, ax = plt.subplots()
 
     ax.hist(
         resolution,
-        label=f'Signal Events: {len(signal_data)}',
+        label=f"Signal Events: {len(signal_data)}",
         bins=round(np.sqrt(len(signal_data))),
-        color='red',
-        histtype='step'
+        color="red",
+        histtype="step",
     )
-    
 
     ax.legend()
     ax.set_title(title)
     ax.set_xlabel(xlabel)
-

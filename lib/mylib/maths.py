@@ -28,7 +28,10 @@ def square_matrix_transform(df_matrix, df_vec):
 
     for i in range(dims):
         for j in range(dims):
-            result.iloc[:, i] += df_matrix.iloc[:, dims * i + j] * df_vec.iloc[:, j]
+            result.iloc[:, i] += (
+                df_matrix.iloc[:, dims * i + j]
+                * df_vec.iloc[:, j]
+            )
     return result
 
 
@@ -43,10 +46,14 @@ def dot_product(df_vec1, df_vec2):
     dims = df_vec1.shape[1]
 
     result = pd.Series(
-        data=np.zeros(len(df_vec1)), index=df_vec1.index, dtype="float64"
+        data=np.zeros(len(df_vec1)),
+        index=df_vec1.index,
+        dtype="float64",
     )
     for dim in range(dims):
-        result += df_vec1.iloc[:, dim] * df_vec2.iloc[:, dim]
+        result += (
+            df_vec1.iloc[:, dim] * df_vec2.iloc[:, dim]
+        )
     return result
 
 
@@ -68,7 +75,8 @@ def cosine_angle(df_vec1, df_vec2):
     """
 
     return dot_product(df_vec1, df_vec2) / (
-        vector_magnitude(df_vec1) * vector_magnitude(df_vec2)
+        vector_magnitude(df_vec1)
+        * vector_magnitude(df_vec2)
     )
 
 
@@ -98,9 +106,18 @@ def cross_product_3d(df_3vec1, df_3vec2):
         dtype="float64",
     )
 
-    result["x"] = df_3vec1["y"] * df_3vec2["z"] - df_3vec1["z"] * df_3vec2["y"]
-    result["y"] = df_3vec1["z"] * df_3vec2["x"] - df_3vec1["x"] * df_3vec2["z"]
-    result["z"] = df_3vec1["x"] * df_3vec2["y"] - df_3vec1["y"] * df_3vec2["x"]
+    result["x"] = (
+        df_3vec1["y"] * df_3vec2["z"]
+        - df_3vec1["z"] * df_3vec2["y"]
+    )
+    result["y"] = (
+        df_3vec1["z"] * df_3vec2["x"]
+        - df_3vec1["x"] * df_3vec2["z"]
+    )
+    result["z"] = (
+        df_3vec1["x"] * df_3vec2["y"]
+        - df_3vec1["y"] * df_3vec2["x"]
+    )
 
     return result
 

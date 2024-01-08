@@ -14,7 +14,7 @@ def open_root(file_path, tree_names):
 		open_tree(file_path, tree_name) 
 		for tree_name in tree_names
 	]
-	return pd.concat(dfs, keys=tree_names)
+	pd.concat(dfs, keys=tree_names)
 
 
 def check_root(path):

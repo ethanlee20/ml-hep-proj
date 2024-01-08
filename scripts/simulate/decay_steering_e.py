@@ -10,15 +10,21 @@ main = b2.Path()
 
 
 # define input and output file paths
-path_dec_file = '/home/belle2/elee20/ml-hep-proj/mc_creation/decay_e.dec'
+path_dec_file = "/home/belle2/elee20/ml-hep-proj/mc_creation/decay_e.dec"
 
-path_output = '/home/belle2/elee20/ml-hep-proj/mc_creation/mc_events_e.root'
+path_output = "/home/belle2/elee20/ml-hep-proj/mc_creation/mc_events_e.root"
 
 
 # add simulation generation modules to path
-main.add_module("EventInfoSetter", evtNumList=[10_000], expList=[0])
+main.add_module(
+    "EventInfoSetter", evtNumList=[10_000], expList=[0]
+)
 
-ge.add_evtgen_generator(path=main, finalstate="signal", signaldecfile=path_dec_file)
+ge.add_evtgen_generator(
+    path=main,
+    finalstate="signal",
+    signaldecfile=path_dec_file,
+)
 
 si.add_simulation(path=main)
 

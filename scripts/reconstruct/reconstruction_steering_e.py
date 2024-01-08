@@ -8,15 +8,27 @@ main = b2.Path()
 
 
 def open_events_file(path_events_file):
-    ma.inputMdstList(filelist=path_events_file, path=main, environmentType="default")
+    ma.inputMdstList(
+        filelist=path_events_file,
+        path=main,
+        environmentType="default",
+    )
 
 
 def reconstruct_particles():
-    ma.fillParticleList(decayString="mu+", cut="muonID > 0.9", path=main)
-    ma.fillParticleList(decayString="K-", cut="kaonID > 0.9", path=main)
-    ma.fillParticleList(decayString="pi+", cut="", path=main)
+    ma.fillParticleList(
+        decayString="mu+", cut="muonID > 0.9", path=main
+    )
+    ma.fillParticleList(
+        decayString="K-", cut="kaonID > 0.9", path=main
+    )
+    ma.fillParticleList(
+        decayString="pi+", cut="", path=main
+    )
     ma.reconstructDecay("K*0 -> K- pi+", cut="", path=main)
-    ma.reconstructDecay("B0 -> K*0 mu+ mu-", cut="", path=main)
+    ma.reconstructDecay(
+        "B0 -> K*0 mu+ mu-", cut="", path=main
+    )
 
 
 def match_mc_truth():
@@ -34,7 +46,11 @@ def find_generator_level_particles():
 
 def make_variables_lists():
     standard_vars = (
-        vc.deltae_mbc + vc.inv_mass + vc.mc_truth + vc.kinematics + vc.mc_kinematics
+        vc.deltae_mbc
+        + vc.inv_mass
+        + vc.mc_truth
+        + vc.kinematics
+        + vc.mc_kinematics
     )
 
     Kstar0_vars = vu.create_aliases_for_selected(
@@ -46,16 +62,23 @@ def make_variables_lists():
         decay_string="B0 -> [K*0 -> ^K- ^pi+] ^mu+ ^mu-",
         prefix=["K_m", "pi_p", "mu_p", "mu_m"],
     )
-    B0_generator_level_vars = standard_vars + Kstar0_vars + finalstate_vars
+    B0_generator_level_vars = (
+        standard_vars + Kstar0_vars + finalstate_vars
+    )
 
     B0_detector_level_vars = (
-        standard_vars + Kstar0_vars + finalstate_vars + ["cosHelicityAngle(0,0)"]
+        standard_vars
+        + Kstar0_vars
+        + finalstate_vars
+        + ["cosHelicityAngle(0,0)"]
     )
 
     return B0_generator_level_vars, B0_detector_level_vars
 
 
-def save_variables_to_file(decay_string, variables, tree_name, path_output_file):
+def save_variables_to_file(
+    decay_string, variables, tree_name, path_output_file
+):
     ma.variablesToNtuple(
         decayString=decay_string,
         variables=variables,
@@ -75,7 +98,10 @@ match_mc_truth()
 
 find_generator_level_particles()
 
-generator_level_variables, detector_level_variables = make_variables_lists()
+(
+    generator_level_variables,
+    detector_level_variables,
+) = make_variables_lists()
 
 path_output_file = "/home/belle2/elee20/ml-hep-proj/reconstruction/mc_events_e_reconstructed.root"
 
@@ -89,7 +115,7 @@ save_variables_to_file(
     "B0",
     detector_level_variables,
     "detector_variables",
-    path_output_file
+    path_output_file,
 )
 
 b2.process(main)
