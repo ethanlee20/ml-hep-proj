@@ -11,28 +11,18 @@ def configure_data_paths():
 
 	data_dir_path = pl.Path(sys.argv[1])
 
-	in_file_names = [
-    	pl.Path(file_name) for file_name in sys.argv[2:]
-	]
+	in_file_name = pl.Path(sys.argv[2])
 	
-	in_file_paths = [
-    	data_dir_path.joinpath(file_name)
-    	for file_name in in_file_names
-	]
+	in_file_path = data_dir_path.joinpath(in_file_name)
 
-	out_file_names = [
-		file_name.stem + "_cut" + file_name.suffix for file_name in in_file_names
-  	] 
+	out_file_name = in_file_name.stem + "_cut" + file_name.suffix
 
-	out_file_paths = [
-		data_dir.joinpath(file_name) 
-		for file_name in out_file_names
-	]
+	out_file_path = data_dir.joinpath(out_file_name) 
 	
-	return data_dir_path, in_file_paths, out_file_paths
+	return data_dir_path, in_file_path, out_file_path
 
 
-def configure_plot_paths(data_dir_path):
+def configure_plot_path(data_dir_path):
 
 	plots_dir_name = "plots"
 	cut_plots_dir_name = "cuts"
@@ -69,17 +59,15 @@ def save(df, out_file_path):
 
 
 def main():
-	data_dir_path, in_file_paths, out_file_paths = configure_data_paths()
+	data_dir_path, in_file_path, out_file_path = configure_data_paths()
 
-	cut_plots_dir_path = configure_plot_paths(data_dir_path)
+	cut_plots_dir_path = configure_plot_path(data_dir_path)
 
-	for in_path, out_path in zip(in_file_paths, out_file_paths):
+	df = load_data(in_file_path)
 
-		df = load_data(in_path)
+	df_cut = apply_cuts(df, cut_plots_dir_path)
 
-		apply_cuts(df, cut_plots_dir_path)
-
-		save(df, out_path)
+	save(df_cut, out_file_path)
 
 
 if __name__ == "__main__":
