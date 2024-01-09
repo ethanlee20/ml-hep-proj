@@ -147,3 +147,85 @@ def plot(path_data_gen, path_data_recon):
 plot(path_data_gen, path_data_recon)
 
 
+"""
+
+def plot_comparison_costheta_K():
+    bins = 20
+
+    for split in split_data_recon_level:
+        fig, ax = plt.subplots()
+        ax.hist(
+            split_data_gen_level[split]['costheta_K'],
+            label=f'Generator (Entries: {len(split_data_gen_level[split])})',
+            color='purple',
+            bins=bins,
+            histtype='step',
+            linestyle='-',
+        )
+        ax.hist(
+            split_data_recon_level[split]['costheta_K'],
+            label=f'Reconstructed (Entries: {len(split_data_recon_level[split])})',
+            color='blue',
+            bins=bins,
+            histtype='step'
+        )
+        ax.hist(
+            split_data_recon_level[split]['costheta_K_builtin'],
+            label='Reconstructed basf2',
+            color='red',
+            bins=bins,
+            histtype='step',
+            linestyle='--',
+            linewidth=1.2
+        )
+        ax.set_title(r'Comparison of $\cos\theta_K$')
+        ax.set_xlabel(r'$\cos\theta_K$')
+
+        ax.legend()
+
+        plt.savefig(os.path.join(path_output_dir, f'{split}_comp_costheta_K.png'), bbox_inches='tight')
+        plt.close()
+
+
+def plot_comparison_costheta_mu():
+    var = 'costheta_mu'
+    xlabel = r'$\cos\theta_\mu$'
+    title = r'Comparison of $\cos\theta_\mu$'
+
+    for split in split_data_recon_level:
+
+        mylib.plot_gen_recon_compare(
+            split_data_gen_level[split],
+            split_data_recon_level[split],
+            var,
+            title=title,
+            xlabel=xlabel
+        )
+        plt.savefig(
+            os.path.join(path_output_dir, f'{split}_comp_{var}.png'),
+            bbox_inches='tight'
+        )
+        plt.close()
+
+
+def plot_comparison_chi():
+    var = 'chi'
+    xlabel = r'$\chi$'
+    title = r'Comparison of $\chi$'
+
+    for split in split_data_recon_level:
+
+        mylib.plot_gen_recon_compare(
+            split_data_gen_level[split],
+            split_data_recon_level[split],
+            var,
+            title=title,
+            xlabel=xlabel,
+            radians=True
+        )
+        plt.savefig(
+            os.path.join(path_output_dir, f'{split}_comp_{var}.png'),
+            bbox_inches='tight'
+        )
+        plt.close()
+"""

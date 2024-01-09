@@ -1,0 +1,16 @@
+
+alias B0sig B0
+alias anti-B0sig anti-B0
+
+Decay Upsilon(4S)
+1.000 B0sig  anti-B0sig B0 anti-B0  VSS_BMIX dm;
+Enddecay
+#
+
+Decay B0sig
+1.000 K*0     mu+     mu-                             PHOTOS BTOSLLBALL;
+Enddecay
+CDecay anti-B0sig
+
+#
+End

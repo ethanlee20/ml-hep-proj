@@ -1,5 +1,6 @@
-import os
+
 import sys
+import pathlib as pl
 
 import basf2 as b2
 import modularAnalysis as ma
@@ -7,35 +8,36 @@ from variables import collections as vc
 from variables import utils as vu
 
 
-data_dir = sys.argv[1]
-
-input_file_name = "mc_events_mu.root"
-output_file_name = "mc_events_mu_reconstructed.root"
-
-path_input_file = os.path.join(data_dir, input_file_name)
-path_output_file = os.path.join(data_dir, output_file_name)
-
-
 main = b2.Path()
 
 
-def input():
+def configure_paths():
+	data_dir_path = pl.Path(sys.argv[1])
+
+	out_file_name = sys.argv[2]
+	out_file_path = data_dir_path.joinpath(out_file_name)
+
+	in_file_names = sys.argv[3:]
+	in_file_paths = [data_dir_path.joinpath(file_name) for file_name in in_file_names]
+
+	return out_file_path, in_file_paths
+
+
+
+def input_to_the_path(in_file_paths):
     ma.inputMdstList(
-        filelist=path_input_file,
+        filelist=[str(file_path) for file_path in in_file_paths],
         path=main,
         environmentType="default",
     )
 
 
-input()
-
-
 def reconstruct_generator_level():
     ma.fillParticleListFromMC(
-        decayString="K-:gen", cut="", path=main
+        decayString="K+:gen", cut="", path=main
     )
     ma.fillParticleListFromMC(
-        decayString="pi+:gen", cut="", path=main
+        decayString="pi-:gen", cut="", path=main
     )
     ma.fillParticleListFromMC(
         decayString="mu+:gen", cut="", path=main
@@ -45,7 +47,7 @@ def reconstruct_generator_level():
     )
 
     ma.reconstructMCDecay(
-        "K*0:gen -> K-:gen pi+:gen", cut="", path=main
+        "K*0:gen -> K+:gen pi-:gen", cut="", path=main
     )
     ma.reconstructMCDecay(
         "B0:gen -> K*0:gen mu+:gen mu-:gen",
@@ -54,27 +56,21 @@ def reconstruct_generator_level():
     )
 
 
-reconstruct_generator_level()
-
-
 def reconstruct_detector_level():
     ma.fillParticleList(
         decayString="mu+", cut="muonID > 0.9", path=main
     )
     ma.fillParticleList(
-        decayString="K-", cut="kaonID > 0.9", path=main
+        decayString="K+", cut="kaonID > 0.9", path=main
     )
     ma.fillParticleList(
-        decayString="pi+", cut="", path=main
+        decayString="pi-", cut="", path=main
     )
-    ma.reconstructDecay("K*0 -> K- pi+", cut="", path=main)
+    ma.reconstructDecay("K*0 -> K+ pi-", cut="", path=main)
     ma.reconstructDecay(
         "B0 -> K*0 mu+ mu-", cut="", path=main
     )
     ma.matchMCTruth("B0", path=main)
-
-
-reconstruct_detector_level()
 
 
 def create_variable_lists():
@@ -92,7 +88,7 @@ def create_variable_lists():
     )
     finalstate_vars = vu.create_aliases_for_selected(
         list_of_variables=vc.pid + std_vars,
-        decay_string="B0 -> [K*0 -> ^K- ^pi+] ^mu+ ^mu-",
+        decay_string="B0 -> [K*0 -> ^K+ ^pi-] ^mu+ ^mu-",
         prefix=["K_m", "pi_p", "mu_p", "mu_m"],
     )
 
@@ -103,14 +99,11 @@ def create_variable_lists():
     return B0_gen_vars, B0_det_vars
 
 
-B0_gen_vars, B0_det_vars = create_variable_lists()
-
-
-def save_output():
+def save_output(B0_gen_vars, B0_det_vars, out_file_path):
     ma.variablesToNtuple(
         decayString="B0:gen",
         variables=B0_gen_vars,
-        filename=path_output_file,
+        filename=str(out_file_path),
         treename="gen",
         path=main,
     )
@@ -118,14 +111,23 @@ def save_output():
     ma.variablesToNtuple(
         decayString="B0",
         variables=B0_det_vars,
-        filename=path_output_file,
+        filename=str(out_file_path),
         treename="det",
         path=main,
     )
 
 
-save_output()
+out_file_path, in_file_paths = configure_paths()
 
+input_to_the_path(in_file_paths)
+
+reconstruct_generator_level()
+
+reconstruct_detector_level()
+
+B0_gen_vars, B0_det_vars = create_variable_lists()
+
+save_output(B0_gen_vars, B0_det_vars, out_file_path)
 
 b2.process(main)
 

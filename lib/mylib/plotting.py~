@@ -220,7 +220,6 @@ def plot_efficiency(
         color="black",
         **kwargs,
     )
-    plt.ylim(bottom=0)
     ax.legend()
     ax.set_xlim(data_min - 0.05, data_max + 0.05)
     ax.set_ylabel(r"$\varepsilon$", rotation=0, labelpad=20)

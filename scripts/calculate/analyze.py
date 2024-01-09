@@ -12,28 +12,15 @@ def configure_paths():
 
 	data_dir_path = pl.Path(sys.argv[1])
 
-	in_file_names = [
-		pl.Path(file_name) for file_name in sys.argv[2:]
-	]
+	in_file_name = pl.Path(sys.argv[2])
 
-	in_file_paths = [
-    	data_dir_path.joinpath(file_name)
-    	for file_name in in_file_names
-	]
+	in_file_path = data_dir_path.joinpath(in_file_name)
 
-	out_file_names = [
-    	file_name.stem + "_an" + file_name.suffix
-    	for file_name in in_file_names
-	]
+	out_file_name = in_file_name.stem + "_an" + in_file_name.suffix
 	
-	out_file_paths = [
-    	data_dir.joinpath(file_name)
-    	for file_name in out_file_names
-	]
+	out_file_path = data_dir.joinpath(out_file_name)
 
-	return in_file_paths, out_file_paths
-
-
+	return in_file_path, out_file_path
 
 
 def run_analysis(in_file_path, out_file_path):
@@ -149,9 +136,12 @@ def run_analysis(in_file_path, out_file_path):
     df_B0.to_pickle(out_file_path)
 
 
-in_file_paths, out_file_paths = configure_paths()
+def main():
 
-for in_path, out_path in zip(
-    in_file_paths, out_file_paths
-):
-    run_analysis(in_path, out_path)
+	in_file_path, out_file_path = configure_paths()
+
+	run_analysis(in_file_path, out_file_path)
+
+
+if __name__ == "__main__":
+	main()
