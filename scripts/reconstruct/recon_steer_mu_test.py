@@ -1,4 +1,3 @@
-
 import sys
 import pathlib as pl
 
@@ -12,16 +11,15 @@ main = b2.Path()
 
 
 def configure_paths():
-	data_dir_path = pl.Path(sys.argv[1])
+    data_dir_path = pl.Path(sys.argv[1])
 
-	in_file_name = sys.argv[2]
-	in_file_path = data_dir_path.joinpath(in_file_name)
+    in_file_name = sys.argv[2]
+    in_file_path = data_dir_path.joinpath(in_file_name)
 
-	out_file_name = sys.argv[3]
-	out_file_path = data_dir_path.joinpath(out_file_name)
+    out_file_name = sys.argv[3]
+    out_file_path = data_dir_path.joinpath(out_file_name)
 
-	return in_file_path, out_file_path
-
+    return in_file_path, out_file_path
 
 
 def input_to_the_path(in_file_path):
@@ -33,22 +31,12 @@ def input_to_the_path(in_file_path):
 
 
 def reconstruct_generator_level():
-    ma.fillParticleListFromMC(
-        decayString="K+:gen", cut="", path=main
-    )
-    ma.fillParticleListFromMC(
-        decayString="pi-:gen", cut="", path=main
-    )
-    ma.fillParticleListFromMC(
-        decayString="mu+:gen", cut="", path=main
-    )
-    ma.fillParticleListFromMC(
-        decayString="mu-:gen", cut="", path=main
-    )
+    ma.fillParticleListFromMC(decayString="K+:gen", cut="", path=main)
+    ma.fillParticleListFromMC(decayString="pi-:gen", cut="", path=main)
+    ma.fillParticleListFromMC(decayString="mu+:gen", cut="", path=main)
+    ma.fillParticleListFromMC(decayString="mu-:gen", cut="", path=main)
 
-    ma.reconstructMCDecay(
-        "K*0:gen -> K+:gen pi-:gen", cut="", path=main
-    )
+    ma.reconstructMCDecay("K*0:gen -> K+:gen pi-:gen", cut="", path=main)
     ma.reconstructMCDecay(
         "B0:gen -> K*0:gen mu+:gen mu-:gen",
         cut="",
@@ -56,15 +44,9 @@ def reconstruct_generator_level():
     )
 
 
-
-
 def create_variable_list():
     std_vars = (
-        vc.deltae_mbc
-        + vc.inv_mass
-        + vc.mc_truth
-        + vc.kinematics
-        + vc.mc_kinematics
+        vc.deltae_mbc + vc.inv_mass + vc.mc_truth + vc.kinematics + vc.mc_kinematics
     )
 
     Kstar0_vars = vu.create_aliases_for_selected(
@@ -105,5 +87,3 @@ save_output(B0_gen_vars, out_file_path)
 b2.process(main)
 
 print(b2.statistics)
-
-

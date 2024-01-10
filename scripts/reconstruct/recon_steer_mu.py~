@@ -11,16 +11,32 @@ from variables import utils as vu
 main = b2.Path()
 
 
-def configure_paths():
-	data_dir_path = pl.Path(sys.argv[1])
+def get_user_input():
+    data_dir_path = pl.Path(sys.argv[1])
+    out_file_base_name = sys.argv[2]
+    in_file_names = sys.argv[3:]
 
-	out_file_name = sys.argv[2]
-	out_file_path = data_dir_path.joinpath(out_file_name)
+    return data_dir_path, out_file_base_name, in_file_names
 
-	in_file_names = sys.argv[3:]
-	in_file_paths = [data_dir_path.joinpath(file_name) for file_name in in_file_names]
 
-	return out_file_path, in_file_paths
+def configure_paths(data_dir_path, out_file_base_name, in_file_names):
+    out_file_extension = '.root'
+
+    top_level_particle_names = {'B0':'B0', 'anti-B0':'anti-B0'}
+    
+    out_file_names = {
+        name: f'{out_file_base_name}_{top_level_particle_names[name]}_{out_file_extension}' 
+        for name in list(top_level_particle_names)
+    }
+
+    out_file_paths = {
+        name: data_dir_path.joinpath(out_file_names[name])
+        for name in list(top_level_particle_names)
+    }
+
+    in_file_paths = [data_dir_path.joinpath(file_name) for file_name in in_file_names]
+
+    return out_file_paths, in_file_paths
 
 
 
@@ -86,38 +102,72 @@ def create_variable_lists():
         list_of_variables=std_vars,
         decay_string="B0 -> ^K*0 mu+ mu-",
     )
+
+    Kstar0_anti_vars = vu.create_aliases_for_selected(
+        list_of_variables=std_vars,
+        decay_string="anti-B0 -> ^anti-K*0 mu+ mu-",
+    )
+
     finalstate_vars = vu.create_aliases_for_selected(
         list_of_variables=vc.pid + std_vars,
         decay_string="B0 -> [K*0 -> ^K+ ^pi-] ^mu+ ^mu-",
+        prefix=["K_p", "pi_m", "mu_p", "mu_m"],
+    )
+    
+    finalstate_anti_vars = vu.create_aliases_for_selected(
+        list_of_variables=vc.pid + std_vars,
+        decay_string="anti-B0 -> [anti-K*0 -> ^K- ^pi+] ^mu+ ^mu-",
         prefix=["K_m", "pi_p", "mu_p", "mu_m"],
     )
+       
+    B0_vars = dict(
+        gen=std_vars + Kstar0_vars + finalstate_vars, 
+        det=std_vars + Kstar0_vars + finalstate_vars + ["cosHelicityAngle(0,0)"]
+    )
 
-    B0_gen_vars = std_vars + Kstar0_vars + finalstate_vars
+    B0_anti_vars = dict(
+        gen=std_vars + Kstar0_anti_vars + finalstate_anti_vars,
+        det=std_vars + Kstar0_anti_vars + finalstate_anti_vars + ["cosHelicityAngle(0,0)"]
+    )
+        
+    return B0_vars, B0_anti_vars
 
-    B0_det_vars = B0_gen_vars + ["cosHelicityAngle(0,0)"]
 
-    return B0_gen_vars, B0_det_vars
-
-
-def save_output(B0_gen_vars, B0_det_vars, out_file_path):
+def save_output(B0_vars, B0_anti_vars, out_file_paths):
     ma.variablesToNtuple(
         decayString="B0:gen",
-        variables=B0_gen_vars,
-        filename=str(out_file_path),
+        variables=B0_vars['gen'],
+        filename=str(out_file_paths['B0']),
         treename="gen",
         path=main,
     )
 
     ma.variablesToNtuple(
         decayString="B0",
-        variables=B0_det_vars,
-        filename=str(out_file_path),
+        variables=B0_vars['det'],
+        filename=str(out_file_paths['B0']),
+        treename="det",
+        path=main,
+    )
+
+    ma.variablesToNtuple(
+        decayString="anti-B0:gen",
+        variables=B0_anti_vars['gen'],
+        filename=str(out_file_paths['anti-B0']),
+        treename="gen",
+        path=main,
+    )
+
+    ma.variablesToNtuple(
+        decayString="anti-B0",
+        variables=B0_anti_vars['det'],
+        filename=str(out_file_paths['anti-B0']),
         treename="det",
         path=main,
     )
 
 
-out_file_path, in_file_paths = configure_paths()
+out_file_paths, in_file_paths = configure_paths(*get_user_input())
 
 input_to_the_path(in_file_paths)
 
@@ -125,9 +175,9 @@ reconstruct_generator_level()
 
 reconstruct_detector_level()
 
-B0_gen_vars, B0_det_vars = create_variable_lists()
+B0_vars, B0_anti_vars = create_variable_lists()
 
-save_output(B0_gen_vars, B0_det_vars, out_file_path)
+save_output(B0_vars, B0_anti_vars, out_file_paths)
 
 b2.process(main)
 

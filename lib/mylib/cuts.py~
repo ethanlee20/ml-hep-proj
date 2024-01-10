@@ -28,7 +28,7 @@ def kst_inv_mass_cut(df_data, plot_dir):
     def calculate_difference_inv_mass_k_pi_inv_mass_kst():
         inv_mass_kst = 0.892
         df_inv_mass_k_pi = calculate_inv_mass_k_pi()
-        df_data["inv_mass_k_pi - inv_mass_kst"] = (df_inv_mass_k_pi - inv_mass_kst)
+
         return (df_inv_mass_k_pi - inv_mass_kst)
 
     def cut_on_inv_mass_k_pi():
