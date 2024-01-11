@@ -75,10 +75,17 @@ def generate_stats_label(
 
 
 def plot_signal_and_misrecon(
-    df, var, is_sig_var, title, xlabel, **kwargs
+    var, df, q_squared_slice, reconstruction_level, title, xlabel, out_dir_path, radians=False, **kwargs
 ):
-    signal = df[df[is_sig_var] == 1][var]
-    misrecon = df[df[is_sig_var] == 0][var]
+    df = df.loc[reconstruction_level]
+
+    if q_squared_slice=="med":
+        df = df[(df["q_squared"] > 1) & (df["q_squared"] < 6)]
+    elif q_squared_slice=="all":
+        df = df
+
+    signal = df[df["isSignal"] == 1][var]
+    misrecon = df[df["isSignal"] == 0][var]
 
     signal_label = generate_stats_label(
         signal, descrp="Signal"
@@ -121,6 +128,22 @@ def plot_signal_and_misrecon(
     ax.set_title(title)
     ax.set_xlabel(xlabel)
 
+    if radians:
+        plt.xticks(
+            [0, np.pi / 2, np.pi, (3 / 2) * np.pi, 2 * np.pi],
+            [
+                r"$0$",
+                r"$\frac{\pi}{2}$",
+                r"$\pi$",
+                r"$\frac{3\pi}{2}$",
+                r"$2\pi$",
+            ],
+        )
+            
+    file_name = f'q2{q_squared_slice}_{reconstruction_level}_{var}.png'
+    plt.savefig(out_dir_path.joinpath(file_name), bbox_inches='tight') 
+    plt.clf()
+    
 
 def plot_image(
     path_image_pickle_file,

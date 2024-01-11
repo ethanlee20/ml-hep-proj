@@ -1,5 +1,5 @@
 import sys
-print(sys.path)
+import pathlib as pl
 
 import uproot
 
@@ -22,6 +22,11 @@ def open_root(file_path, tree_names):
 	print(len(dfs))
 	return pd.concat(dfs, keys=tree_names)
 
+def open(file_path, tree_names=None):
+    file_path = pl.Path(file_path)
+    if file_path.suffix == ".root":
+        return open_root(file_path, tree_names) 
+    return pd.read_pickle(file_path)
 
 def check_root(file_path, tree_names):
     df = open_root(file_path, tree_names)

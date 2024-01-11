@@ -2,9 +2,11 @@ import sys
 
 import mylib
 
-file_path = '/home/belle2/elee20/ml-hep-proj/data/2024-01-08_LargeMu_backup/mc_re.root'
+file_path = '/home/belle2/elee20/ml-hep-proj/data/2024-01-08_LargeMu_backup/mc_re_cut.pkl'
 
-df = mylib.open_root(file_path, ['gen','det']) 
+df = mylib.open(file_path, ['gen','det']) 
+
+print('test:\n', df['mcE'])
 
 df_gen = df.loc['gen']
 df_det = df.loc['det']

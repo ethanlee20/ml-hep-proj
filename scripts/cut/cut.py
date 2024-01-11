@@ -17,7 +17,9 @@ def configure_data_paths(data_dir_path, in_file_name):
     
     in_file_path = data_dir_path.joinpath(in_file_name)
 
-    out_file_name = f"{in_file_path.stem}_cut{in_file_path.suffix}"
+    out_file_suffix = ".pkl"
+    
+    out_file_name = f"{in_file_path.stem}_cut{out_file_suffix}"
 
     out_file_path = data_dir_path.joinpath(out_file_name) 
     

@@ -19,6 +19,7 @@ def open_root(file_path, tree_names):
 		open_tree(file_path, tree_name) 
 		for tree_name in tree_names
 	]
+	print(len(dfs))
 	return pd.concat(dfs, keys=tree_names)
 
 
