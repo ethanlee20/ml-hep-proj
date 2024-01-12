@@ -6,108 +6,89 @@ import pandas as pd
 import mylib
 
 
-def configure_paths():
-	data_dir_path = pl.Path(sys.argv[1])
-	in_file_name = sys.argv[2]
+def get_user_input():
+    data_dir_path = pl.Path(sys.argv[1])
+    in_file_name = sys.argv[2]
 
-	in_file_path = data_dir_path.joinpath(in_file_path)
+    return data_dir_path, in_file_name
+    
 
-	plots_dir_name = "plots"
-	comp_plots_dir_name = "comp"
+def configure_paths(data_dir_path, in_file_name):
 
-	comp_plots_dir_path = data_dir_path.joinpath(plots_dir_name, comp_plots_dir_name)
-	comp_plots_dir_path.mkdir(parents=True, exist_ok=True)
+    in_file_path = data_dir_path.joinpath(in_file_name)
 
-	return in_file_path, comp_plots_dir_path
+    plots_dir_name = "plots"
+    comp_plots_dir_name = "comp"
 
+    comp_plots_dir_path = data_dir_path.joinpath(plots_dir_name, comp_plots_dir_name)
+    comp_plots_dir_path.mkdir(parents=True, exist_ok=True)
 
-def plot_comparison_costheta_k(data, out_file_path):
-
-    mylib.plot_gen_recon_compare(
-        data['gen'],
-        data['det'],
-        var='costheta_K',
-        title=r'Comparison of $\cos\theta_K$',
-        xlabel=r'$\cos\theta_K$'
-    )
-    plt.savefig(
-        out_file_path,
-        bbox_inches='tight'
-    )
-    plt.close()
+    return in_file_path, comp_plots_dir_path
 
 
-def plot_comparison_costheta_mu(data, out_file_path):
+def plot(data, comp_plots_dir_path):
 
-    mylib.plot_gen_recon_compare(
-        data['gen'],
-        data['det'],
-        var='costheta_mu',
-        title=r'Comparison of $\cos\theta_\mu$',
-        xlabel=r'$\cos\theta_\mu$'
-    )
-    plt.savefig(
-        out_file_path,
-        bbox_inches='tight'
-    )
-    plt.close()
+    for q_squared_split in ['all', 'med']:
+        mylib.plot_gen_det_compare(
+            variable='costheta_K',
+            data=data,
+            q_squared_split=q_squared_split,
+            title=r'Comparison of $\cos\theta_K$',
+            xlabel=r'',
+            out_dir_path=comp_plots_dir_path
+        )
+        
+        mylib.plot_gen_det_compare(
+            variable='costheta_mu',
+            data=data,
+            q_squared_split=q_squared_split,
+            title=r'Comparison of $\cos\theta_\mu$',
+            xlabel='',
+            out_dir_path=comp_plots_dir_path
+        )
+        
+        mylib.plot_gen_det_compare(
+            variable='chi',
+            data=data,
+            q_squared_split=q_squared_split,
+            title=r'Comparison of $\chi$',
+            xlabel='',
+            radians=True,
+            out_dir_path=comp_plots_dir_path
+        )
 
-
-
-def plot_comparison_chi(data, out_file_path):
-
-    mylib.plot_gen_recon_compare(
-        data['gen'],
-        data['det'],
-        var='chi',
-        title=r'Comparison of $\chi$',
-        xlabel=r'$\chi$',
-        radians=True
-    )
-    plt.savefig(
-		out_file_path,
-        bbox_inches='tight'
-    )
-    plt.close()
-
-
-def split_data_by_q_squared(data):
-	data_all = data
-	data_med = data[(data['q_squared'] > 1) & (data['q_squared'] < 6)] 
-	return data_all, data_med 
+        mylib.plot_gen_det_compare(
+            variable='q_squared',
+            data=data,
+            q_squared_split=q_squared_split,
+            title=r'Comparison of $q^2$',
+            xlabel='GeV$^2$',
+            out_dir_path=comp_plots_dir_path
+        )
 
 
 def main():
-	in_file_path, comp_plots_dir_path = configure_paths()
-	
-	data = pd.read_pickle(in_file_path)
+    mylib.setup_mpl_params_save()
 
-	splits = split_data_by_q_squared(data)
-	split_names = ('q2_all', 'q2_med')
-	
-	plot_base_file_names = ('comp_costheta_mu', 'comp_costheta_k', 'comp_chi')
-	plot_file_name_suffix = '.png'
-	
-	for split, split_name in zip(splits, split_names):
-	 	out_path_costheta_mu = comp_plots_dir_path.joinpath(f'{split_name}_cos_theta_mu{plot_file_name_suffix})
-	 	out_path_costheta_k = comp_plots_dir_path.joinpath(f'{split_name}_cos_theta_k{plot_file_name_suffix})
-	 	out_path_chi = comp_plots_dir_path.joinpath(f'{split_name}_chi{plot_file_name_suffix})
+    in_file_path, comp_plots_dir_path = configure_paths(*get_user_input())
+    
+    data = pd.read_pickle(in_file_path)
 
-		plot_comparison_costheta_mu(split, out_path_costheta_mu)
-		plot_comparison_costheta_k(split, out_path_costheta_k)
-		plot_comparison_chi(split, out_path_chi)
+    data = data[data["isSignal"]==1]
+    
+    plot(data, comp_plots_dir_path)
 
 
 if __name__ == "__main__":
-	main()
+    main()
 
 
 """
 def plot_comparison_costheta_K(data, num_bins, out_file_path):
-	data_gen = data['gen']['costheta_K']
-	data_det = data['det']['costheta_K']
-	data_det_basf = data['det']['']
-	
+    data_gen = data['gen']['costheta_K']
+    data_det = data['det']['costheta_K']
+    data_det_basf = data['det']['']
+    
     fig, ax = plt.subplots()
     ax.hist(
         data_gen,

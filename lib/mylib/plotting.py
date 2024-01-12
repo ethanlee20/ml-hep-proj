@@ -189,48 +189,51 @@ def plot_image(
 
 
 def plot_efficiency(
-    data_recon,
-    data_gen,
+    data,
     variable,
+    q_squared_split,
     num_data_points,
     title,
     xlabel,
+    out_dir_path,
+    radians=False,
     **kwargs,
 ):
-    data_min = np.min(
-        [
-            data_recon[variable].min(),
-            data_gen[variable].min(),
-        ]
-    )
-    data_max = np.max(
-        [
-            data_recon[variable].max(),
-            data_gen[variable].max(),
-        ]
-    )
+
+    if q_squared_split == "med":
+        data = data[(data['q_squared']>1)&(data['q_squared']<6)]
+    elif q_squared_split == "all":
+        data = data
+
+    data = data[data["isSignal"]==1]
+    
+    data_gen = data.loc['gen']
+    data_det = data.loc['det']
+        
     bin_edges = eff_and_res.generate_bin_edges(
-        start=data_min,
-        stop=data_max,
+        start=data[variable].min(),
+        stop=data[variable].max(),
         num_of_bins=num_data_points,
     )
 
+    bin_middles = eff_and_res.find_bin_middles(bin_edges)
+
     efficiency = eff_and_res.calculate_efficiency(
-        data_recon, data_gen, variable, bin_edges
+        data_det, data_gen, variable, bin_edges
     )
+    
     efficiency_errorbars = (
         eff_and_res.calculate_efficiency_errorbars(
-            data_recon, data_gen, variable, bin_edges
+            data_det, data_gen, variable, bin_edges
         )
     )
 
-    bin_middles = eff_and_res.find_bin_middles(bin_edges)
 
     fig, ax = plt.subplots()
     ax.scatter(
         bin_middles,
         efficiency,
-        label=f"Entries (Generator): {len(data_gen)}\nEntries (Reconstructed): {len(data_recon)}",
+        label=f"Detector: {len(data_det)}\nGenerator: {len(data_gen)}",
         color="red",
         **kwargs,
     )
@@ -243,31 +246,65 @@ def plot_efficiency(
         color="black",
         **kwargs,
     )
-    plt.ylim(bottom=0)
+
+    if radians:
+        plt.xticks(
+            [0, np.pi / 2, np.pi, (3 / 2) * np.pi, 2 * np.pi],
+            [
+                r"$0$",
+                r"$\frac{\pi}{2}$",
+                r"$\pi$",
+                r"$\frac{3\pi}{2}$",
+                r"$2\pi$",
+            ],
+        )
+
     ax.legend()
-    ax.set_xlim(data_min - 0.05, data_max + 0.05)
+    ax.set_xlim(data[variable].min() - 0.05, data[variable].max() + 0.05)
+    ax.set_ymargin(0.25)
+    ax.set_ylim(bottom=0, top=0.5)
     ax.set_ylabel(r"$\varepsilon$", rotation=0, labelpad=20)
     ax.set_xlabel(xlabel)
     ax.set_title(title)
 
+    out_file_name = f"q2{q_squared_split}_eff_{variable}.png" 
+    plt.savefig(out_dir_path.joinpath(out_file_name), bbox_inches="tight")
+    plt.clf()
 
-def plot_gen_recon_compare(
-    data_gen,
-    data_recon,
+
+def plot_gen_det_compare(
     variable,
+    data,
+    q_squared_split, 
     title,
     xlabel,
+    out_dir_path,
     radians=False,
 ):
-    def sqrt_of_count(data):
-        return np.sqrt(len(data))
 
-    num_bins = round(sqrt_of_count(data_recon))
+    data_gen = data.loc['gen']
+    data_det = data.loc['det']
+    
+    if q_squared_split == "med":
+        data_gen = data_gen[(data_gen['q_squared']>1)&(data_gen['q_squared']<6)]
+        data_det = data_det[(data_det['q_squared']>1)&(data_det['q_squared']<6)]
+
+    elif q_squared_split == "all":
+        data_gen = data_gen
+        data_det = data_det
+
+    def approx_num_bins(data): 
+        return round(np.sqrt(len(data)))
+
+    num_bins = approx_num_bins(data_det)
 
     fig, ax = plt.subplots()
     ax.hist(
         data_gen[variable],
-        label=f"Generator (Entries: {len(data_gen[variable])})",
+        label=generate_stats_label(
+            data_gen[variable], 
+            "Generator"
+        ),    
         bins=num_bins,
         color="purple",
         histtype="step",
@@ -275,8 +312,11 @@ def plot_gen_recon_compare(
     )
 
     ax.hist(
-        data_recon[variable],
-        label=f"Reconstructed (Entries: {len(data_recon[variable])})",
+        data_det[variable],
+        label=generate_stats_label(
+            data_det[variable],
+            "Detector (signal)"
+        ),    
         bins=num_bins,
         color="blue",
         histtype="step",
@@ -303,34 +343,48 @@ def plot_gen_recon_compare(
     ax.set_title(title)
     ax.set_xlabel(xlabel)
 
+    file_name = f'q2{q_squared_split}_{variable}.png'
+    plt.savefig(out_dir_path.joinpath(file_name), bbox_inches='tight') 
+
+    plt.clf()
+
 
 def plot_resolution(
-    var, mc_truth_var, data, title, xlabel, periodic=False
+    vars, 
+    q_squared_splits,
+    data,
+    out_dir_path,
 ):
-    signal_data = data[data["isSignal"] == 1]
 
-    resolution = (
-       signal_data[var] - signal_data[mc_truth_var] 
+    titles = dict(
+        costheta_mu=r"Resolution of $\cos\theta_\mu$", 
+        costheta_K=r"Resolution of $\cos\theta_K$", 
+        chi=r"Resolution of $\chi$"
     )
 
-    if periodic:
-        resolution = resolution.where(
-            resolution < np.pi, resolution - 2 * np.pi
-        )
-        resolution = resolution.where(
-            resolution > -np.pi, resolution + 2 * np.pi
-        )
-
-    fig, ax = plt.subplots()
-
-    ax.hist(
-        resolution,
-        label=f"Signal Events: {len(signal_data)}",
-        bins=round(np.sqrt(len(signal_data))),
-        color="red",
-        histtype="step",
+    xlabels = dict(
+        costheta_mu=r"$\cos\theta_\mu - \cos\theta_\mu^\text{MC}$", 
+        costheta_K=r"$\cos\theta_K - \cos\theta_K^\text{MC}$", 
+        chi=r"$\chi - \chi^\text{MC}$"
     )
 
-    ax.legend()
-    ax.set_title(title)
-    ax.set_xlabel(xlabel)
+    for resolution, calc_info in eff_and_res.calculate_resolutions(
+        vars, q_squared_splits, data.loc["det"]
+    ): 
+        fig, ax = plt.subplots()
+        
+        ax.hist(
+            resolution,
+            label=generate_stats_label(resolution, "Signal Events"),
+            bins=round(np.sqrt(len(resolution))),
+            color="red",
+            histtype="step",
+        )
+
+        ax.legend()
+        ax.set_title(titles[calc_info["var"]])
+        ax.set_xlabel(xlabels[calc_info["var"]])
+
+        out_file_name = f"q2{calc_info['split']}_res_{calc_info['var']}.png"
+        plt.savefig(out_dir_path.joinpath(out_file_name), bbox_inches='tight')
+

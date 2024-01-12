@@ -1,6 +1,6 @@
 import sys
 import os
-import pathlib
+import pathlib as pl
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -9,63 +9,83 @@ import numpy as np
 import mylib
 
 
-mylib.setup_mpl_params_save()
+def get_user_input():
+    data_dir_path = pl.Path(sys.argv[1])
+    in_file_name = sys.argv[2]    
+
+    return data_dir_path, in_file_name
+    
+
+def configure_paths(data_dir_path, in_file_name):
+    in_file_path = data_dir_path.joinpath(in_file_name)
+    
+    plots_dir_name = "plots"
+    eff_res_plots_dir_name = "eff_and_res"
+    out_dir_path = data_dir_path.joinpath(plots_dir_name, eff_res_plots_dir_name)
+    out_dir_path.mkdir(parents=True, exist_ok=True)
+    
+    return in_file_path, out_dir_path 
 
 
-data_dir_path = pathlib.Path(sys.argv[1])
-path_data_gen = data_dir_path.joinpath(sys.argv[2])
-path_data_recon = data_dir_path.joinpath(sys.argv[3])
+def plot_eff(data, out_dir_path):
 
-path_plots_dir = data_dir_path.joinpath("plots")
-path_eff_and_res_plots_dir = path_plots_dir.joinpath(
-    "efficiency_and_resolution"
-)
-path_eff_and_res_plots_dir.mkdir(
-    parents=True, exist_ok=True
-)
+    num_data_points = 20
+    
+    for q_squared_split in ["all","med"]:
+        mylib.plot_efficiency(
+            data=data,
+            variable="costheta_mu", 
+            q_squared_split=q_squared_split,
+            num_data_points=num_data_points,
+            title=r"Efficiency for $\cos\theta_\mu$",
+            xlabel=r"$\cos\theta_\mu$",
+            out_dir_path=out_dir_path
+        )
+
+        mylib.plot_efficiency(
+            data=data,
+            variable="costheta_K", 
+            q_squared_split=q_squared_split,
+            num_data_points=num_data_points,
+            title=r"Efficiency for $\cos\theta_K$",
+            xlabel=r"$\cos\theta_K$",
+            out_dir_path=out_dir_path
+        )
+
+        mylib.plot_efficiency(
+            data=data,
+            variable="chi", 
+            q_squared_split=q_squared_split,
+            num_data_points=num_data_points,
+            title=r"Efficiency for $\chi$",
+            xlabel=r"$\chi$",
+            radians=True,
+            out_dir_path=out_dir_path
+        )
 
 
-def plot_cos_theta_mu_efficiency(data_gen, data_recon):
-    mylib.plot_efficiency(
-        data_recon=data_recon,
-        data_gen=data_gen,
-        variable="costheta_mu",
-        num_data_points=10,
-        title=r"Efficiency for $\cos\theta_\mu$",
-        xlabel=r"$\cos\theta_\mu$",
+def plot_res(data, out_dir_path):
+
+    mylib.plot_resolution(
+        vars=['costheta_mu', 'costheta_K', 'chi'], 
+        q_squared_splits=['all', 'med'],
+        data=data,
+        out_dir_path=out_dir_path,
     )
 
 
-def plot_cos_theta_k_efficiency(data_gen, data_recon):
-    mylib.plot_efficiency(
-        data_recon=data_recon,
-        data_gen=data_gen,
-        variable="costheta_K",
-        num_data_points=10,
-        title=r"Efficiency for $\cos\theta_K$",
-        xlabel=r"$\cos\theta_K$",
-    )
+def main():
+    mylib.setup_mpl_params_save()
+    in_file_path, out_dir_path = configure_paths(*get_user_input())
+    data = pd.read_pickle(in_file_path)
+    plot_eff(data, out_dir_path)
+    plot_res(data, out_dir_path)
 
 
-def plot_chi_efficiency(data_gen, data_recon):
-    mylib.plot_efficiency(
-        data_recon=data_recon,
-        data_gen=data_gen,
-        variable="chi",
-        num_data_points=10,
-        title=r"Efficiency for $\chi$",
-        xlabel=r"$\chi$",
-    )
-    plt.xticks(
-        [0, np.pi / 2, np.pi, (3 / 2) * np.pi, 2 * np.pi],
-        [
-            r"$0$",
-            r"$\frac{\pi}{2}$",
-            r"$\pi$",
-            r"$\frac{3\pi}{2}$",
-            r"$2\pi$",
-        ],
-    )
+if __name__ == "__main__":
+    main()
+
+
 
 
 def plot_resolution_cos_theta_k(data):
@@ -144,6 +164,5 @@ def plot(path_data_gen, path_data_recon):
         save_and_close("res_chi", cut_name)
 
 
-plot(path_data_gen, path_data_recon)
 
 
