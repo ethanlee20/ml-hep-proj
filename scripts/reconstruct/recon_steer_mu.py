@@ -92,33 +92,17 @@ def create_variable_lists():
         decay_string="B0 -> ^K*0 mu+ mu-",
     )
 
-#    Kstar0_anti_vars = vu.create_aliases_for_selected(
-#        list_of_variables=std_vars,
-#        decay_string="anti-B0 -> ^anti-K*0 mu+ mu-",
-#    )
-
     finalstate_vars = vu.create_aliases_for_selected(
         list_of_variables=vc.pid + std_vars,
         decay_string="B0 -> [K*0 -> ^K+ ^pi-] ^mu+ ^mu-",
         prefix=["K_p", "pi_m", "mu_p", "mu_m"],
     )
     
-#    finalstate_anti_vars = vu.create_aliases_for_selected(
-#        list_of_variables=vc.pid + std_vars,
-#        decay_string="anti-B0 -> [anti-K*0 -> ^K- ^pi+] ^mu+ ^mu-",
-#        prefix=["K_m", "pi_p", "mu_p", "mu_m"],
-#    )
-       
     B0_vars = dict(
         gen=std_vars + Kstar0_vars + finalstate_vars, 
         det=std_vars + Kstar0_vars + finalstate_vars + ["cosHelicityAngle(0,0)"]
     )
 
-#    B0_anti_vars = dict(
-#        gen=std_vars + Kstar0_anti_vars + finalstate_anti_vars,
-#        det=std_vars + Kstar0_anti_vars + finalstate_anti_vars + ["cosHelicityAngle(0,0)"]
-#    )
-        
     return B0_vars
 
 
@@ -138,22 +122,6 @@ def save_output(B0_vars, out_file_path):
         treename="det",
         path=main,
     )
-
-#    ma.variablesToNtuple(
-#        decayString="anti-B0:gen",
-#        variables=B0_anti_vars['gen'],
-#        filename=str(out_file_paths['anti-B0']),
-#        treename="gen",
-#        path=main,
-#    )
-#
-#    ma.variablesToNtuple(
-#        decayString="anti-B0",
-#        variables=B0_anti_vars['det'],
-#        filename=str(out_file_paths['anti-B0']),
-#        treename="det",
-#        path=main,
-#    )
 
 
 out_file_path, in_file_paths = configure_paths(*get_user_input())

@@ -2,7 +2,7 @@ import sys
 
 import mylib
 
-file_path = '/home/belle2/elee20/ml-hep-proj/data/2024-01-08_LargeMu_backup/mc_re_cut.pkl'
+file_path = '../reconstruct/mu_re.root'
 
 df = mylib.open(file_path, ['gen','det']) 
 
@@ -24,4 +24,7 @@ def print_columns():
     print('columns:')
     print(df_gen.columns.values.tolist())
 
-#print_columns()
+    print("det:", df_det.head())
+#    breakpoint()
+
+print_columns()

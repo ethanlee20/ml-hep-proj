@@ -388,3 +388,13 @@ def plot_resolution(
         out_file_name = f"q2{calc_info['split']}_res_{calc_info['var']}.png"
         plt.savefig(out_dir_path.joinpath(out_file_name), bbox_inches='tight')
 
+
+def plot_candidate_multiplicity(data, label, out_dir_path):
+    counts, bins = np.histogram(data["__event__"].value_counts().values)
+    plt.stairs(counts, bins)
+    plt.title("Candidate Multiplicity")
+    plt.xlabel("Candidates per Event")
+    plt.legend()
+    plt.savefig(out_dir_path.joinpath("cand_mult.png"), bbox_inches="tight")
+    plt.clf()
+
