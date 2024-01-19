@@ -8,28 +8,29 @@ import mylib
 
 # Setup
 
-def get_user_input():
-    data_dir_path = pl.Path(sys.argv[1])
-    in_file_name = pl.Path(sys.argv[2])
 
-    return data_dir_path, in_file_name
+def configure_paths(data_dir_path):
+    cut_data_dir_name = 'cut'
+    cut_data_dir_path = data_dir_path.joinpath(cut_data_dir_name)
+    
+    cut_data_file_paths = list(cut_data_dir_path.glob('*.pkl')) 
 
+    analyzed_data_dir_name = "analyzed/"
+    analyzed_data_dir_path = data_dir_path.joinpath(analyzed_data_dir_name)
+    analyzed_data_dir_path.mkdir(parents=True, exist_ok=True)
+    
+    analyzed_data_file_paths = [
+        analyzed_data_dir_path.joinpath(f"{path.stem}_an.pkl") 
+        for path in cut_data_file_paths
+    ]
 
-def configure_paths(data_dir_path, in_file_name):
-
-	in_file_path = data_dir_path.joinpath(in_file_name)
-
-	out_file_name = f"{in_file_name.stem}_an{in_file_name.suffix}"
-	
-	out_file_path = data_dir_path.joinpath(out_file_name)
-
-	return in_file_path, out_file_path
+    return cut_data_file_paths, analyzed_data_file_paths
 
 
 def run_analysis(in_file_path, out_file_path):
 
-	#setup
-    df_B0 = pd.read_pickle(in_file_path)
+    #setup
+    df_B0 = mylib.open(in_file_path)
     df_B_4mom = mylib.four_momemtum_dataframe(
         df_B0[["E", "px", "py", "pz"]]
     )
@@ -83,7 +84,7 @@ def run_analysis(in_file_path, out_file_path):
             ]
         ]
     )
-	
+    
     # solve
     df_B0[
         "q_squared"
@@ -141,10 +142,13 @@ def run_analysis(in_file_path, out_file_path):
 
 def main():
 
-	in_file_path, out_file_path = configure_paths(*get_user_input())
+    data_dir_path = pl.Path("/home/belle2/elee20/ml-hep-proj/data/2024-01-17_GridMu_backup/BtoKstMuMu/")
+    
+    cut_data_file_paths, analyzed_data_file_paths = configure_paths(data_dir_path)
 
-	run_analysis(in_file_path, out_file_path)
+    for cut_path, ana_path in zip(cut_data_file_paths, analyzed_data_file_paths):
+        run_analysis(cut_path, ana_path)
 
 
 if __name__ == "__main__":
-	main()
+    main()

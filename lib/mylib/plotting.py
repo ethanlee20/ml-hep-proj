@@ -1,4 +1,5 @@
 import os.path
+import pathlib as pl
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -75,7 +76,15 @@ def generate_stats_label(
 
 
 def plot_signal_and_misrecon(
-    var, df, q_squared_slice, reconstruction_level, title, xlabel, out_dir_path, radians=False, **kwargs
+    var, 
+    df, 
+    q_squared_slice, 
+    reconstruction_level, 
+    title, 
+    xlabel, 
+    out_dir_path, 
+    radians=False, 
+    **kwargs
 ):
     df = df.loc[reconstruction_level]
 
@@ -239,7 +248,7 @@ def plot_efficiency(
     )
     ax.errorbar(
         bin_middles,
-        efficiency,
+        e--fficiency,
         yerr=efficiency_errorbars,
         fmt="none",
         capsize=5,
@@ -343,7 +352,7 @@ def plot_gen_det_compare(
     ax.set_title(title)
     ax.set_xlabel(xlabel)
 
-    file_name = f'q2{q_squared_split}_{variable}.png'
+    file_name = f'q2{q_squared_split}_comp_{variable}.png'
     plt.savefig(out_dir_path.joinpath(file_name), bbox_inches='tight') 
 
     plt.clf()
@@ -389,12 +398,26 @@ def plot_resolution(
         plt.savefig(out_dir_path.joinpath(out_file_name), bbox_inches='tight')
 
 
-def plot_candidate_multiplicity(data, label, out_dir_path):
-    counts, bins = np.histogram(data["__event__"].value_counts().values)
-    plt.stairs(counts, bins)
-    plt.title("Candidate Multiplicity")
-    plt.xlabel("Candidates per Event")
-    plt.legend()
-    plt.savefig(out_dir_path.joinpath("cand_mult.png"), bbox_inches="tight")
-    plt.clf()
+def plot_candidate_multiplicity(data, out_dir_path):
+    datas = (data.loc['gen'], data.loc['det'])
+    labels = (
+        f"Generator: {len(data.loc['gen'])}",
+        f"Detector (after cuts): {len(data.loc['det'])}"
+    )
+    file_ids = ('gen', 'det')
+    
+    for data, label, id  in zip(datas, labels, file_ids):
+        plt.hist(
+            data["__event__"].value_counts().values, 
+            bins=[-0.5, 0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5], 
+            label=label, 
+            color="red", 
+            fill=True
+        )
+        plt.title("Candidate Multiplicity")
+        plt.xlabel("Candidates per Event")
+        plt.xticks([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+        plt.legend()
+        plt.savefig(out_dir_path.joinpath(f"cand_mult_{id}.png"), bbox_inches="tight")
+        plt.clf()
 

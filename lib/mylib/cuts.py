@@ -54,13 +54,13 @@ def kst_inv_mass_cut(df_data, plot_dir):
         )
         plt.savefig(
             os.path.join(
-                plot_dir, "inv_mass_cut_before.png"
+                plot_dir, "cut_inv_mass_before.png"
             ),
             bbox_inches="tight",
         )
         plt.clf()
 
-    plot_before_cut()
+    #plot_before_cut()
 
     def plot_after_cut():
         title = r"$M_{K^+\pi^-} - M_{K^*(892)}$, after cut on width"
@@ -74,13 +74,13 @@ def kst_inv_mass_cut(df_data, plot_dir):
         )
         plt.savefig(
             os.path.join(
-                plot_dir, "inv_mass_cut_after.png"
+                plot_dir, "cut_inv_mass_after.png"
             ),
             bbox_inches="tight",
         )
         plt.clf()
 
-    plot_after_cut()
+    #plot_after_cut()
 
     return df_cut_data
 
@@ -98,12 +98,12 @@ def mbc_cut(df_data, plot_dir):
             df_data, "deltaE", "isSignal", title, xlabel
         )
         plt.savefig(
-            os.path.join(plot_dir, "mbc_cut_before.png"),
+            os.path.join(plot_dir, "cut_mbc_before.png"),
             bbox_inches="tight",
         )
         plt.clf()
 
-    plot_before_cut()
+    #plot_before_cut()
 
     def plot_after_cut():
         title = r"$\Delta E$ after cut on $M_{bc}$"
@@ -112,12 +112,12 @@ def mbc_cut(df_data, plot_dir):
             df_cut_data, "deltaE", "isSignal", title, xlabel
         )
         plt.savefig(
-            os.path.join(plot_dir, "mbc_cut_after.png"),
+            os.path.join(plot_dir, "cut_mbc_after.png"),
             bbox_inches="tight",
         )
         plt.clf()
 
-    plot_after_cut()
+    #plot_after_cut()
 
     return df_cut_data
 
@@ -134,26 +134,26 @@ def deltaE_cut(df_data, plot_dir):
             df_data, "Mbc", "isSignal", title, xlabel
         )
         plt.savefig(
-            os.path.join(plot_dir, "deltaE_cut_before.png"),
+            os.path.join(plot_dir, "cut_deltaE_before.png"),
             bbox_inches="tight",
         )
         plt.clf()
 
-    plot_before_cut()
+    #plot_before_cut()
 
     def plot_after_cut():
         title = r"$M_{bc}$ after cut on $\Delta E$"
         xlabel = r"[GeV]"
         plotting.plot_signal_and_misrecon(
-            df_cut_data, "Mbc", "isSignal", title, xlabel
+            "Mbc", df_cut_data, "all", "isSignal", title, xlabel
         )
         plt.savefig(
-            os.path.join(plot_dir, "deltaE_cut_after.png"),
+            os.path.join(plot_dir, "cut_deltaE_after.png"),
             bbox_inches="tight",
         )
         plt.clf()
 
-    plot_after_cut()
+    #plot_after_cut()
 
     return df_cut_data
 
