@@ -5,6 +5,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
+import preprocess as pre
+
 
 def generate_bin_edges(start, stop, num_of_bins):
     """Generate histogram bin edges."""
@@ -27,81 +29,67 @@ def find_bin_middles(bin_edges):
     return shifted_edges[:-1]
     
 
-def find_bin_counts(data, binning_variable, bin_edges):
+def find_bin_counts(data_series, bin_edges):
     """Find the numbers of entries in each bin."""
     bin_series = pd.cut(
-        data[binning_variable],
+        data_series,
         bin_edges,
         include_lowest=True,
     )
-    data_by_bin = data.groupby(bin_series)
+    data_by_bin = data_series.groupby(bin_series)
     counts = data_by_bin.size()
     return counts
 
 
-def calculate_efficiency(data1, data2, variable, bin_edges):
+def calculate_efficiency(data, variable, num_bins, q_squared_region, error_bars=True):
     """
     Calculate the efficiency per bin.
     
     The efficiency of bin i is defined as the number of
-    data1 entries in i divided by the number of data2
+    detector entries in i divided by the number of generator
     entries in i.
-    """
-    bin_counts_data1 = find_bin_counts(
-        data1, variable, bin_edges
-    )
-    bin_counts_data2 = find_bin_counts(
-        data2, variable, bin_edges
-    )
-    return (bin_counts_data1 / bin_counts_data2).values
-
-
-def calculate_efficiency_errorbars(
-    data1, data2, variable, bin_edges
-):
-    """
-    Calculate the errorbar of the efficiency for each bin.
-
+    
     The errorbar for bin i is calculated as the squareroot of the
-    number of data1 entries in i divided by the number of
-    data2 entries in i.
+    number of detector entries in i divided by the number of
+    generator entries in i.
     """
-    bin_counts_data1 = find_bin_counts(
-        data1, variable, bin_edges
+    data_det = pre.preprocess(data, variable=variable, q_squared_region=q_squared_region, reconstruction_level="det", signal_only=True)
+    data_gen = pre.preprocess(data, variable=variable, q_squared_region=q_squared_region, reconstruction_level="gen")
+
+    data_min = min(data_det.min(), data_gen.min())
+    data_max = max(data_det.max(), data_gen.max())
+    bin_edges = generate_bin_edges(start=data_min, stop=data_max, num_of_bins=num_bins)
+
+    bin_counts_detector = find_bin_counts(
+        data_det, bin_edges
     )
-    bin_counts_data2 = find_bin_counts(
-        data2, variable, bin_edges
+    bin_counts_generator = find_bin_counts(
+        data_gen, bin_edges
     )
-    return (
-        np.sqrt(bin_counts_data1) / bin_counts_data2
-    ).values
+    
+    eff = (bin_counts_detector / bin_counts_generator).values
+    
+    bin_middles = find_bin_middles(bin_edges)
+    
+    if not error_bars:
+        return eff, bin_middles
+    
+    errors = (np.sqrt(bin_counts_detector) / bin_counts_generator).values
+
+    return eff, bin_middles, errors
 
 
-def apply_q_squared_split(split, data):
-    """Split the data by q squared value."""
-    if split == "med":
-        return data[(data['q_squared']>1)&(data['q_squared']<6)]
-    elif split == "all":
-        return data
-    else: print(f"Unrecognized split: {split}")
-
-
-def calculate_resolution(variable, q_squared_split, data):
+def calculate_resolution(data, variable, q_squared_region):
     """
     Calculate the resolution.
     
     The resolution of a variable is defined as the 
     reconstructed value minus the MC truth value.
     """
-
-
-    signal_data = data[data["isSignal"]==1]
-
-    signal_data = apply_q_squared_split(q_squared_split, signal_data)
+    data_calc = pre.preprocess(data, variable=variable, q_squared_region=q_squared_region, reconstruction_level="det", signal_only=True)
+    data_mc = pre.preprocess(data, variable=variable+'_mc', q_squared_region=q_squared_region, reconstruction_level="det", signal_only=True)
     
-    mc_variable = variable + '_mc'
-    
-    resolution = signal_data[variable] - signal_data[mc_variable]
+    resolution = data_calc - data_mc
 
     if variable != "chi":
         return resolution
@@ -117,22 +105,6 @@ def calculate_resolution(variable, q_squared_split, data):
 
     return apply_periodicity(resolution)
 
-
-def calculate_resolutions(variables, q_squared_splits, data):
-    """Calculate the resolutions of multiple variables and q squared regions."""
-
-    calc_info = [
-        dict(var=var, split=split) 
-        for var, split 
-        in itertools.product(variables, q_squared_splits)
-    ]
-     
-    resolutions = [
-        calculate_resolution(*info.values(), data)
-        for info
-        in calc_info    
-    ]
-    return zip(resolutions, calc_info)
 
 
     

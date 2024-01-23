@@ -1,5 +1,6 @@
 import os.path
 import pathlib as pl
+import itertools
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -7,6 +8,7 @@ import numpy as np
 import pandas as pd
 
 import eff_and_res
+import preprocess as pre
 import util
 
 
@@ -200,63 +202,38 @@ def plot_image(
 def plot_efficiency(
     data,
     variable,
-    q_squared_split,
-    num_data_points,
+    q_squared_region,
+    num_points,
     title,
     xlabel,
     out_dir_path,
-    radians=False,
     **kwargs,
 ):
 
-    if q_squared_split == "med":
-        data = data[(data['q_squared']>1)&(data['q_squared']<6)]
-    elif q_squared_split == "all":
-        data = data
-
-    data = data[data["isSignal"]==1]
-    
-    data_gen = data.loc['gen']
-    data_det = data.loc['det']
-        
-    bin_edges = eff_and_res.generate_bin_edges(
-        start=data[variable].min(),
-        stop=data[variable].max(),
-        num_of_bins=num_data_points,
+    efficiency, bin_middles, errors = eff_and_res.calculate_efficiency(
+        data, variable, num_points, q_squared_region
     )
-
-    bin_middles = eff_and_res.find_bin_middles(bin_edges)
-
-    efficiency = eff_and_res.calculate_efficiency(
-        data_det, data_gen, variable, bin_edges
-    )
-    
-    efficiency_errorbars = (
-        eff_and_res.calculate_efficiency_errorbars(
-            data_det, data_gen, variable, bin_edges
-        )
-    )
-
 
     fig, ax = plt.subplots()
+
     ax.scatter(
         bin_middles,
         efficiency,
-        label=f"Detector: {len(data_det)}\nGenerator: {len(data_gen)}",
+        label=f"Detector (signal): {len(data.loc['det'])}\nGenerator: {len(data.loc['gen'])}",
         color="red",
         **kwargs,
     )
     ax.errorbar(
         bin_middles,
-        e--fficiency,
-        yerr=efficiency_errorbars,
+        efficiency,
+        yerr=errors,
         fmt="none",
         capsize=5,
         color="black",
         **kwargs,
     )
 
-    if radians:
+    if variable=="chi":
         plt.xticks(
             [0, np.pi / 2, np.pi, (3 / 2) * np.pi, 2 * np.pi],
             [
@@ -276,32 +253,23 @@ def plot_efficiency(
     ax.set_xlabel(xlabel)
     ax.set_title(title)
 
-    out_file_name = f"q2{q_squared_split}_eff_{variable}.png" 
+    out_file_name = f"q2{q_squared_region}_eff_{variable}.png" 
     plt.savefig(out_dir_path.joinpath(out_file_name), bbox_inches="tight")
     plt.clf()
 
 
 def plot_gen_det_compare(
-    variable,
     data,
-    q_squared_split, 
+    variable,
+    q_squared_region, 
     title,
     xlabel,
     out_dir_path,
-    radians=False,
 ):
 
-    data_gen = data.loc['gen']
-    data_det = data.loc['det']
+    data_gen = pre.preprocess(data, variable=variable, q_squared_region=q_squared_region, reconstruction_level="gen")
+    data_det = pre.preprocess(data, variable=variable, q_squared_region=q_squared_region, reconstruction_level="det", signal_only=True)
     
-    if q_squared_split == "med":
-        data_gen = data_gen[(data_gen['q_squared']>1)&(data_gen['q_squared']<6)]
-        data_det = data_det[(data_det['q_squared']>1)&(data_det['q_squared']<6)]
-
-    elif q_squared_split == "all":
-        data_gen = data_gen
-        data_det = data_det
-
     def approx_num_bins(data): 
         return round(np.sqrt(len(data)))
 
@@ -309,9 +277,9 @@ def plot_gen_det_compare(
 
     fig, ax = plt.subplots()
     ax.hist(
-        data_gen[variable],
+        data_gen,
         label=generate_stats_label(
-            data_gen[variable], 
+            data_gen, 
             "Generator"
         ),    
         bins=num_bins,
@@ -321,9 +289,9 @@ def plot_gen_det_compare(
     )
 
     ax.hist(
-        data_det[variable],
+        data_det,
         label=generate_stats_label(
-            data_det[variable],
+            data_det,
             "Detector (signal)"
         ),    
         bins=num_bins,
@@ -331,7 +299,7 @@ def plot_gen_det_compare(
         histtype="step",
     )
 
-    if radians:
+    if variable == "chi":
         plt.xticks(
             [
                 0,
@@ -352,72 +320,164 @@ def plot_gen_det_compare(
     ax.set_title(title)
     ax.set_xlabel(xlabel)
 
-    file_name = f'q2{q_squared_split}_comp_{variable}.png'
+    file_name = f'q2{q_squared_region}_comp_{variable}.png'
     plt.savefig(out_dir_path.joinpath(file_name), bbox_inches='tight') 
-
     plt.clf()
 
 
 def plot_resolution(
-    vars, 
-    q_squared_splits,
     data,
+    variable,
+    q_squared_region,
+    title,
+    xlabel, 
     out_dir_path,
 ):
 
-    titles = dict(
-        costheta_mu=r"Resolution of $\cos\theta_\mu$", 
-        costheta_K=r"Resolution of $\cos\theta_K$", 
-        chi=r"Resolution of $\chi$"
+    resolution = eff_and_res.calculate_resolution(
+        data,
+        variable,
+        q_squared_region,
+    )
+    
+    fig, ax = plt.subplots()
+    
+    ax.hist(
+        resolution,
+        label=generate_stats_label(resolution, "Signal Events"),
+        bins=round(np.sqrt(len(resolution))),
+        color="red",
+        histtype="step",
     )
 
-    xlabels = dict(
-        costheta_mu=r"$\cos\theta_\mu - \cos\theta_\mu^\text{MC}$", 
-        costheta_K=r"$\cos\theta_K - \cos\theta_K^\text{MC}$", 
-        chi=r"$\chi - \chi^\text{MC}$"
-    )
+    ax.legend()
+    ax.set_title(title)
+    ax.set_xlabel(xlabel)
 
-    for resolution, calc_info in eff_and_res.calculate_resolutions(
-        vars, q_squared_splits, data.loc["det"]
-    ): 
-        fig, ax = plt.subplots()
-        
-        ax.hist(
-            resolution,
-            label=generate_stats_label(resolution, "Signal Events"),
-            bins=round(np.sqrt(len(resolution))),
-            color="red",
-            histtype="step",
-        )
-
-        ax.legend()
-        ax.set_title(titles[calc_info["var"]])
-        ax.set_xlabel(xlabels[calc_info["var"]])
-
-        out_file_name = f"q2{calc_info['split']}_res_{calc_info['var']}.png"
-        plt.savefig(out_dir_path.joinpath(out_file_name), bbox_inches='tight')
-
+    out_file_name = f"q2{q_squared_region}_res_{variable}.png"
+    plt.savefig(out_dir_path.joinpath(out_file_name), bbox_inches='tight')
+    plt.clf()
+    
 
 def plot_candidate_multiplicity(data, out_dir_path):
-    datas = (data.loc['gen'], data.loc['det'])
-    labels = (
-        f"Generator: {len(data.loc['gen'])}",
-        f"Detector (after cuts): {len(data.loc['det'])}"
+    data_det = pre.preprocess(data, reconstruction_level="det")
+    data_gen = pre.preprocess(data, reconstruction_level="gen")
+        
+    plt.hist(
+        data_det["__event__"].value_counts().values, 
+        bins=[-0.5, 0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5], 
+        label=f"Detector (after cuts): {len(data.loc['det'])}", 
+        color="red", 
+        fill=False
     )
-    file_ids = ('gen', 'det')
+
+    plt.hist(
+        data_gen["__event__"].value_counts().values, 
+        bins=[-0.5, 0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5], 
+        label=f"Generator: {len(data.loc['gen'])}", 
+        color="blue", 
+        fill=False
+    )
     
-    for data, label, id  in zip(datas, labels, file_ids):
-        plt.hist(
-            data["__event__"].value_counts().values, 
-            bins=[-0.5, 0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5], 
-            label=label, 
-            color="red", 
-            fill=True
+    plt.title("Candidate Multiplicity")
+    plt.xlabel("Candidates per Event")
+    plt.xticks([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+    plt.legend()
+    plt.savefig(out_dir_path.joinpath(f"cand_mult.png"), bbox_inches="tight")
+    plt.clf()
+
+
+def generate_plot_info(
+    variables,
+    xlabels,
+    titles,
+    q_squared_regions,
+):
+
+    info = [ (variable, xlabel, title, q_squared_region) 
+        for (variable, xlabel, title), q_squared_region 
+        in itertools.product(
+            zip(variables, xlabels, titles), 
+            q_squared_regions
         )
-        plt.title("Candidate Multiplicity")
-        plt.xlabel("Candidates per Event")
-        plt.xticks([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-        plt.legend()
-        plt.savefig(out_dir_path.joinpath(f"cand_mult_{id}.png"), bbox_inches="tight")
-        plt.clf()
+    ]     
+    return info
+
+
+def plot(
+    plots, 
+    data,
+    out_dir_path
+):
+    """
+    Plot given plot types.
+    
+    Possible plot types include: efficiency, resolution, generics, candidate multiplicity.
+    
+    Note: Assumes data contains generator and detector events
+    as well as all regions of q squared.
+    """
+    if "efficiency" in plots:
+        info = generate_plot_info(
+            variables = ["costheta_K", "costheta_mu", "chi"],
+            xlabels = [r"$\cos\theta_K$", r"$\cos\theta_\mu$", r"$\chi$"],
+            titles = [r"Efficiency of $\cos\theta_K$", r"Efficiency of $\cos\theta_\mu$", r"Efficiency of $\chi$"],
+            q_squared_regions = ["all", "med"],
+        )
+        
+        [ 
+            plot_efficiency(
+                data=data,
+                variable=variable,
+                q_squared_region=q_squared_region,
+                num_points=20,
+                title=title,
+                xlabel=xlabel,
+                out_dir_path=out_dir_path,
+            )
+            for variable, xlabel, title, q_squared_region in info
+        ]
+    
+    if "resolution" in plots:
+        info = generate_plot_info(
+            variables = ["costheta_K", "costheta_mu", "chi"],
+            xlabels = [r"$\cos\theta_K - \cos\theta_K^{MC}$", r"$\cos\theta_\mu - \cos\theta_\mu^{MC}$", r"$\chi - \chi^{MC}$"],
+            titles = [r"Resolution of $\cos\theta_K$", r"Resolution of $\cos\theta_\mu$", r"Resolution of $\chi$"],
+            q_squared_regions = ["all", "med"],
+        )
+                
+        [ 
+            plot_resolution(
+                data=data,
+                variable=variable,
+                q_squared_region=q_squared_region,
+                title=title,
+                xlabel=xlabel,
+                out_dir_path=out_dir_path,
+            )
+            for variable, xlabel, title, q_squared_region in info
+        ]
+
+    if "candidate multiplicity" in plots:
+        plot_candidate_multiplicity(data, out_dir_path)
+    
+    if "generics" in plots:
+
+        info = generate_plot_info(
+            variables = ["costheta_K", "costheta_mu", "chi", "q_squared"],
+            xlabels = [r"", r"", r"", r"GeV$^2$"],
+            titles = [r"$\cos\theta_K$", r"$\cos\theta_\mu$", r"$\chi$", r"$q^2$"],
+            q_squared_regions = ["all", "med"],
+        )
+
+        for variable, xlabel, title, q_squared_region in info:
+            plot_gen_det_compare(
+                data,
+                variable=variable,
+                q_squared_region=q_squared_region, 
+                title=title,
+                xlabel=xlabel,
+                out_dir_path=out_dir_path
+            )    
+
 
