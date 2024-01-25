@@ -41,7 +41,7 @@ def find_bin_counts(data_series, bin_edges):
     return counts
 
 
-def calculate_efficiency(data, variable, num_bins, q_squared_region, error_bars=True):
+def calculate_efficiency(data, variable, num_bins, q_squared_region, error_bars=True, mc=False):
     """
     Calculate the efficiency per bin.
     
@@ -53,8 +53,11 @@ def calculate_efficiency(data, variable, num_bins, q_squared_region, error_bars=
     number of detector entries in i divided by the number of
     generator entries in i.
     """
-    data_det = pre.preprocess(data, variable=variable, q_squared_region=q_squared_region, reconstruction_level="det", signal_only=True)
-    data_gen = pre.preprocess(data, variable=variable, q_squared_region=q_squared_region, reconstruction_level="gen")
+    if mc:
+        data_det = pre.preprocess(data, variables=variable+"_mc", q_squared_region=q_squared_region, reconstruction_level="det", signal_only=True)
+    else:
+        data_det = pre.preprocess(data, variables=variable, q_squared_region=q_squared_region, reconstruction_level="det", signal_only=True)
+    data_gen = pre.preprocess(data, variables=variable, q_squared_region=q_squared_region, reconstruction_level="gen")
 
     data_min = min(data_det.min(), data_gen.min())
     data_max = max(data_det.max(), data_gen.max())

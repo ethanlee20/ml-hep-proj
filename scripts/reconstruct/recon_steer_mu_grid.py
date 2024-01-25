@@ -13,7 +13,7 @@ main = b2.Path()
 
 def input_to_the_path():
     ma.inputMdstList(
-        filelist=[''],
+        filelist=['/home/belle2/elee20/ml-hep-proj/data/2024-01-08_LargeMu/mc_1.root'],
         path=main,
         environmentType="default",
     )
@@ -67,6 +67,7 @@ def create_variable_lists():
         + vc.mc_truth
         + vc.kinematics
         + vc.mc_kinematics
+        + ['theta', 'thetaErr', 'mcTheta']
     )
 
     Kstar0_vars = vu.create_aliases_for_selected(

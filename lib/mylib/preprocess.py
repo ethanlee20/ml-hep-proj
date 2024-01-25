@@ -18,7 +18,7 @@ def apply_reconstruction_level_split(data, level):
     else: raise ValueError(f"Unrecognized level: {level}")
 
 
-def preprocess(data, variable=None,  q_squared_region=None, reconstruction_level=None, signal_only=False):
+def preprocess(data, variables=None,  q_squared_region=None, reconstruction_level=None, signal_only=False):
 
     if q_squared_region:
         data = apply_q_squared_split(data, q_squared_region)

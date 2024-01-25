@@ -11,9 +11,10 @@ def main():
     plots_dir_path.mkdir(exist_ok=True)
     
     mylib.plot(
-        plots=['efficiency', 'resolution', 'candidate multiplicity', 'generics'],
-        #data=mylib.open('/home/belle2/elee20/ml-hep-proj/data/2024-01-17_GridMu_backup/BtoKstMuMu/analyzed/mu_re_00030_job386260858_00_cut_an.pkl'),
-        data=mylib.open_dir('/home/belle2/elee20/ml-hep-proj/data/2024-01-17_GridMu_backup/BtoKstMuMu/analyzed/'),
+        plots=['helicity vs p theta'],
+#        plots=['efficiency', 'resolution', 'candidate multiplicity', 'generics'],
+        data=mylib.open('/home/belle2/elee20/ml-hep-proj/data/2024-01-17_GridMu_backup/BtoKstMuMu/analyzed/mu_re_00030_job386260858_00_cut_an.pkl'),
+#        data=mylib.open_dir('/home/belle2/elee20/ml-hep-proj/data/2024-01-17_GridMu_backup/BtoKstMuMu/analyzed/'),
         out_dir_path=plots_dir_path,
     )    
 
