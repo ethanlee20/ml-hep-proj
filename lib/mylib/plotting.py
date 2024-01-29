@@ -14,8 +14,10 @@ import util
 def setup_mpl_params_save():
     mpl.rcParams["figure.figsize"] = (8, 5)
     mpl.rcParams["figure.dpi"] = 200
-    mpl.rcParams["axes.titlesize"] = 32
-    mpl.rcParams["axes.labelsize"] = 28
+    mpl.rcParams["axes.titlesize"] = 28
+    mpl.rcParams["figure.titlesize"] = 32
+    mpl.rcParams["axes.labelsize"] = 26
+    mpl.rcParams["figure.labelsize"] = 30    
     mpl.rcParams["xtick.labelsize"] = 20
     mpl.rcParams["ytick.labelsize"] = 20
     mpl.rcParams["text.usetex"] = True
@@ -28,7 +30,7 @@ def setup_mpl_params_save():
 
 def save_fig_and_clear(out_dir_path, file_name):
     plt.savefig(out_dir_path.joinpath(file_name), bbox_inches="tight")
-    plt.clf()
+    plt.close()
 
 
 def approx_num_bins(data_series):
@@ -53,6 +55,47 @@ def x_axis_in_radians(kind):
                 r"$2\pi$",
             ],
         )
+
+    else: raise ValueError(f"Unrecognized kind: {type}")
+
+
+def y_axis_in_radians(kind):
+    if kind == "0 to 2pi":
+        plt.yticks(
+            [
+                0, 
+                np.pi / 2, 
+                np.pi, 
+                (3 / 2) * np.pi, 
+                2 * np.pi
+            ],
+            [
+                r"$0$",
+                r"$\frac{\pi}{2}$",
+                r"$\pi$",
+                r"$\frac{3\pi}{2}$",
+                r"$2\pi$",
+            ],
+        )
+    elif kind == "0 to pi":
+        plt.yticks(
+            [
+                0,
+                np.pi / 4, 
+                np.pi / 2,
+                3 * np.pi / 4, 
+                np.pi, 
+            ],
+            [
+                r"$0$",
+                r"$\frac{\pi}{4}$",
+                r"$\frac{\pi}{2}$",
+                r"$\frac{3\pi}{4}$",
+                r"$\pi$",
+            ],
+        )
+
+        
 
     else: raise ValueError(f"Unrecognized kind: {type}")
 
@@ -433,6 +476,206 @@ def plot_candidate_multiplicity(data, out_dir_path):
     )
 
 
+def max_over_multiple_arrays(ars):
+    big_ar = np.concatenate(ars, axis=None)
+    max = np.max(big_ar)
+    return max
+
+
+def min_over_multiple_arrays(ars):
+    big_ar = np.concatenate(ars, axis=None)
+    min = np.min(big_ar)
+    return min
+
+
+def double_hist_2d(
+    xs,
+    ys,
+    num_bins,
+):
+    assert (len(xs) == 2) and (len(ys) == 2)
+
+    xmax = max_over_multiple_arrays(xs)
+    xmin = min_over_multiple_arrays(xs)
+
+    ymax = max_over_multiple_arrays(ys)
+    ymin = min_over_multiple_arrays(ys)    
+
+    interval = ((xmin, xmax), (ymin, ymax))
+
+    hists = [np.histogram2d(x, y, bins=num_bins, range=interval) for x, y in zip(xs, ys)]
+
+    return hists
+
+
+
+def unzip(zipped_stuff):
+    return list(zip(*zipped_stuff))
+
+
+def multi_array_norm(ars):
+    max_counts = max_over_multiple_arrays(ars)
+    norm = plt.Normalize(0, max_counts)    
+    return norm
+
+
+def scalar_mappable(norm):
+    return mpl.cm.ScalarMappable(norm, cmap='hot')
+
+
+def subplots_side_by_side():
+    fig, axs = plt.subplots(
+        ncols=2,
+        layout="constrained",
+        sharey=True,
+    )
+    return fig, axs
+
+
+def plot_hist_2d(ax, hist_2d, norm):
+    h = hist_2d[0]
+    x_edges = hist_2d[1]
+    y_edges = hist_2d[2]
+    
+    ax.pcolormesh(x_edges, y_edges, h.T, norm=norm, cmap="hot")
+
+    
+def plot_hist_2d_side_by_side(
+    xs,
+    ys,
+    num_bins,
+    titles, 
+    suptitle, 
+    supxlabel, 
+    supylabel,
+):
+    
+    hists = double_hist_2d(xs, ys, num_bins)
+    
+    norm = multi_array_norm(unzip(hists)[0])
+
+    sm = scalar_mappable(norm)
+
+    fig, axs = subplots_side_by_side()
+    
+    for title, hist, ax in zip(titles, hists, axs):
+
+        plot_hist_2d(ax, hist, norm)
+        ax.set_title(title)
+
+    plt.colorbar(sm, ax=axs, aspect=30)
+
+    fig.supxlabel(supxlabel)
+    fig.supylabel(supylabel)
+    fig.suptitle(suptitle)
+
+    return fig, axs
+
+
+def split_by_q_squared(data):
+    split_data = {
+        'all': data, 
+        'med': data[(data['q_squared'] > 1) & (data['q_squared'] < 6)],
+    }
+    return split_data
+
+
+def generate_file_name(plot_name, q_squared_split):
+    return f"q2{q_squared_split}_{plot_name}.png"
+
+
+def find_num_events(data, q_squared_split):
+    split_data = split_by_q_squared(data)
+    
+    num_events = {
+        "gen": len(split_data[q_squared_split].loc["gen"]),
+        "det": len(split_data[q_squared_split].loc["det"])
+    }
+
+    return num_events
+
+
+def hist_2d_titles_with_count(data, q_squared_split):
+    num_events = find_num_events(data, q_squared_split)
+    titles = {
+        "gen": r"Generator \footnotesize{Count: " + f"{num_events['gen']}" +"}",
+        "det": r"Detector \footnotesize{Count: " + f"{num_events['det']}" + "}",
+    }
+    return titles
+
+    
+def hist_2d_costheta_k_p_k(data, q_squared_split, out_dir):
+
+    sig_data = data[data["isSignal"] == 1]
+
+    split_data = split_by_q_squared(sig_data)
+
+    titles = hist_2d_titles_with_count(sig_data, q_squared_split)
+    
+    plot_hist_2d_side_by_side(
+        xs=[
+            split_data[q_squared_split].loc["gen"]["costheta_K"],
+            split_data[q_squared_split].loc["det"]["costheta_K"],
+        ],
+        ys=[
+            split_data[q_squared_split].loc["gen"]["K_p_p"],
+            split_data[q_squared_split].loc["det"]["K_p_p"],
+        ],
+        num_bins=50,
+        titles=[titles["gen"], titles["det"]],
+        suptitle=r"Histogram of $\cos\theta_K$ and $p^\text{lab}_K$",
+        supxlabel=r"$\cos\theta_K$",
+        supylabel=r"$p^\text{lab}_K$",    
+    )
+
+    file_name = generate_file_name(
+        plot_name = "hist_2d_costheta_k_p_k",
+        q_squared_split=q_squared_split
+    )
+
+    save_fig_and_clear(
+        out_dir_path=out_dir,
+        file_name=file_name
+    )
+
+
+def hist_2d_costheta_k_theta_k(data, q_squared_split, out_dir):
+
+    sig_data = data[data["isSignal"] == 1]
+
+    split_data = split_by_q_squared(sig_data)
+
+    titles = hist_2d_titles_with_count(sig_data, q_squared_split)
+    
+    plot_hist_2d_side_by_side(
+        xs=[
+            split_data[q_squared_split].loc["gen"]["costheta_K"],
+            split_data[q_squared_split].loc["det"]["costheta_K"],
+        ],
+        ys=[
+            split_data[q_squared_split].loc["gen"]["K_p_theta"],
+            split_data[q_squared_split].loc["det"]["K_p_theta"],
+        ],
+        num_bins=50,
+        titles=[titles["gen"], titles["det"]],
+        suptitle=r"Histogram of $\cos\theta_K$ and $\theta^\text{lab}_K$",
+        supxlabel=r"$\cos\theta_K$",
+        supylabel=r"$\theta^\text{lab}_K$",    
+    )
+    
+    y_axis_in_radians("0 to pi")
+    
+    file_name = generate_file_name(
+        plot_name = "hist_2d_costheta_k_theta_k",
+        q_squared_split=q_squared_split
+    )
+
+    save_fig_and_clear(
+        out_dir_path=out_dir,
+        file_name=file_name
+    )
+
+        
 def generate_plot_info(
     variables,
     xlabels,
@@ -477,7 +720,7 @@ def plot(
                 data=data,
                 variable=variable,
                 q_squared_region=q_squared_region,
-                num_points=10,
+                num_points=100,
                 title=title,
                 xlabel=xlabel,
                 out_dir_path=out_dir_path,
@@ -530,62 +773,6 @@ def plot(
 
     if "helicity vs p theta" in plots:
         print("Plotting helicity angle vs. lab momentum and lab theta.")
-        def plot_2d_hist(
-            data,
-            variables,
-            q_squared_region,
-            reconstruction_level,
-            num_bins,
-            title,
-            xlabel,
-            ylabel,
-            out_dir_path,
-        ):
-            assert(len(variables) == 2)
-            
-            data_gen = pre.preprocess(
-                data=data, 
-                variables=variables 
-                q_squared_region=q_squared_region, 
-                reconstruction_level="gen"
-            )
-            data_det = pre.preprocess(
-                data=data, 
-                variables=variables 
-                q_squared_region=q_squared_region, 
-                reconstruction_level="det"
-            )
-            
-            fig, axs = plt.subplots(
-                ncols=2, 
-                layout="constrained", 
-                sharey=True,
-            )
-
-            _, _, _, im = ax[0].hist2d(
-                data_gen[variables[0]],
-                data_gen[variables[1]],
-                bins=num_bins,
-            )
-            ax[1].hist2d(
-                data_det[variables[0]],
-                data_det[variables[1]],
-                bins=num_bins,
-            )
-            
-            fig.colorbar(im, ax=axs) 
-            
-            ax[0].set_title("Generator")
-            ax[1].set_title("Detector")
-
-            fig.supxlabel(xlabel)
-            fig.supylabel(ylabel)
-            fig.suptitle(title)
-            
-            save_fig_and_clear(
-                out_dir_path=out_dir_path,
-                file_name="costheta_K_hel_2dhist"
-            )
 
         plot_hel_p_theta()
 

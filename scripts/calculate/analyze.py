@@ -142,8 +142,8 @@ def run_analysis(in_file_path, out_file_path):
 
 def main():
 
-    data_dir_path = pl.Path("/home/belle2/elee20/ml-hep-proj/data/2024-01-17_GridMu_backup/BtoKstMuMu/")
-    
+    data_dir_path = pl.Path("/home/belle2/elee20/ml-hep-proj/data/2024-01-24_GridMu/BtoKstMuMu_theta")
+
     cut_data_file_paths, analyzed_data_file_paths = configure_paths(data_dir_path)
 
     for cut_path, ana_path in zip(cut_data_file_paths, analyzed_data_file_paths):

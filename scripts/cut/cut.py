@@ -56,8 +56,8 @@ def save(df, out_file_path):
 
 def main():
 
-    data_dir_path = pl.Path("/home/belle2/elee20/ml-hep-proj/data/2024-01-17_GridMu_backup/BtoKstMuMu/")
- 
+    data_dir_path = pl.Path("/home/belle2/elee20/ml-hep-proj/data/2024-01-24_GridMu/BtoKstMuMu_theta/")
+    
     raw_data_file_paths, cut_data_file_paths = configure_data_paths(data_dir_path)
 
     plots_dir_path = configure_plot_path(data_dir_path)

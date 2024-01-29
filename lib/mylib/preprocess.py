@@ -26,6 +26,6 @@ def preprocess(data, variables=None,  q_squared_region=None, reconstruction_leve
         data = apply_reconstruction_level_split(data, reconstruction_level)
     if signal_only:
         data = data[data["isSignal"] == 1]
-    if variable:
-        data = data[variable]
+    if variables:
+        data = data[variables]
     return data

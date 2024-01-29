@@ -89,8 +89,8 @@ def calculate_resolution(data, variable, q_squared_region):
     The resolution of a variable is defined as the 
     reconstructed value minus the MC truth value.
     """
-    data_calc = pre.preprocess(data, variable=variable, q_squared_region=q_squared_region, reconstruction_level="det", signal_only=True)
-    data_mc = pre.preprocess(data, variable=variable+'_mc', q_squared_region=q_squared_region, reconstruction_level="det", signal_only=True)
+    data_calc = pre.preprocess(data, variables=variable, q_squared_region=q_squared_region, reconstruction_level="det", signal_only=True)
+    data_mc = pre.preprocess(data, variables=variable+'_mc', q_squared_region=q_squared_region, reconstruction_level="det", signal_only=True)
     
     resolution = data_calc - data_mc
 
