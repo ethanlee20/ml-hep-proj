@@ -3,15 +3,21 @@ import pathlib as pl
 from warnings import simplefilter
 
 import uproot
-
 import pandas as pd
-
 
 simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
 
 
-# Utilities
+def unzip(zipped_stuff):
+    return list(zip(*zipped_stuff))
 
+
+def unzip_dicts(a:list):
+    """Unzip a list of dictionaries with the same keys."""
+    keys = zipped_dicts[0].keys()
+    values = unzip([i.values() for i in zipped_dicts])
+    return dict(zip(keys, values))
+    
 
 def open_tree(file_path, tree_name):
     df = uproot.open(f"{file_path}:{tree_name}").arrays(library="pd")
@@ -52,3 +58,15 @@ def check_columns_root(path):
     df = open_tree(path)
     print("columns: ")
     print(df.columns.values.tolist())
+
+
+def min_max_over_multiple_arrays(ars):
+    big_ar = np.concatenate(ars, axis=None)
+    min = np.min(big_ar)
+    max = np.max(big_ar)
+    return min, max    
+
+
+
+
+
