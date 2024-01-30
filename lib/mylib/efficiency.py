@@ -1,12 +1,4 @@
 
-import itertools
-
-import pandas as pd
-import matplotlib.pyplot as plt
-import numpy as np
-
-import preprocess as pre
-
 
 def generate_bin_edges(start, stop, num_of_bins):
     """Generate histogram bin edges."""
@@ -41,7 +33,7 @@ def find_bin_counts(data_series, bin_edges):
     return counts
 
 
-def calculate_efficiency(data, variable, num_bins, q_squared_region, error_bars=True, mc=False):
+def calculate_efficiency(data, variable, num_bins, q_squared_split, error_bars=True, mc=False):
     """
     Calculate the efficiency per bin.
     
@@ -54,10 +46,10 @@ def calculate_efficiency(data, variable, num_bins, q_squared_region, error_bars=
     generator entries in i.
     """
     if mc:
-        data_det = pre.preprocess(data, variables=variable+"_mc", q_squared_region=q_squared_region, reconstruction_level="det", signal_only=True)
+        data_det = pre.preprocess(data, variables=variable+"_mc", q_squared_split=q_squared_split, reconstruction_level="det", signal_only=True)
     else:
-        data_det = pre.preprocess(data, variables=variable, q_squared_region=q_squared_region, reconstruction_level="det", signal_only=True)
-    data_gen = pre.preprocess(data, variables=variable, q_squared_region=q_squared_region, reconstruction_level="gen")
+        data_det = pre.preprocess(data, variables=variable, q_squared_split=q_squared_split, reconstruction_level="det", signal_only=True)
+    data_gen = pre.preprocess(data, variables=variable, q_squared_split=q_squared_split, reconstruction_level="gen")
 
     data_min = min(data_det.min(), data_gen.min())
     data_max = max(data_det.max(), data_gen.max())
@@ -81,34 +73,3 @@ def calculate_efficiency(data, variable, num_bins, q_squared_region, error_bars=
 
     return eff, bin_middles, errors
 
-
-def calculate_resolution(data, variable, q_squared_region):
-    """
-    Calculate the resolution.
-    
-    The resolution of a variable is defined as the 
-    reconstructed value minus the MC truth value.
-    """
-    data_calc = pre.preprocess(data, variables=variable, q_squared_region=q_squared_region, reconstruction_level="det", signal_only=True)
-    data_mc = pre.preprocess(data, variables=variable+'_mc', q_squared_region=q_squared_region, reconstruction_level="det", signal_only=True)
-    
-    resolution = data_calc - data_mc
-
-    if variable != "chi":
-        return resolution
-
-    def apply_periodicity(resolution):
-        resolution = resolution.where(
-                resolution < np.pi, resolution - 2 * np.pi
-        )
-        resolution = resolution.where(
-            resolution > -np.pi, resolution + 2 * np.pi
-        )
-        return resolution
-
-    return apply_periodicity(resolution)
-
-
-
-    
-    
