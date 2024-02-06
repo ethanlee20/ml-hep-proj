@@ -1,22 +1,36 @@
 
 import numpy as np
+import matplotlib as mpl
+import matplotlib.pyplot as plt
 
-import util
-import plot_core
+from mylib.utilities.util import min_max_over_multiple_arrays, unzip_dicts
+from mylib.plotting.core.subplots import subplots_side_by_side
+
+
+def multi_hist_norm(hs):
+    _, max_counts = min_max_over_multiple_arrays(hs)
+    norm = plt.Normalize(0, max_counts)    
+    return norm
+
+
+def scalar_mappable(norm):
+    return mpl.cm.ScalarMappable(norm, cmap='hot')
 
 
 def calc_hist_2d(x, y, bins, range):
     h, x_edges, y_edges = np.histogram2d(x, y, bins, range)    
-    return {h:h, x_edges:x_edges, y_edges:y_edges}
+    return {"h":h, "x_edges":x_edges, "y_edges":y_edges}
 
 
 def calc_multi_hist_2d(
     xs: list,
-    ys list,
+    ys: list,
     num_bins: int,
 ):
-    xmin, xmax = util.min_max_over_multiple_arrays(xs)
-    ymin, ymax = util.min_max_over_multiple_arrays(ys)
+    assert len(xs) == len(ys)
+  
+    xmin, xmax = min_max_over_multiple_arrays(xs)
+    ymin, ymax = min_max_over_multiple_arrays(ys)
     interval = ((xmin, xmax), (ymin, ymax))
 
     hists = [calc_hist_2d(x, y, bins=num_bins, range=interval) for x, y in zip(xs, ys)]
@@ -41,9 +55,9 @@ def plot_hist_2d_side_by_side(
     assert((len(xs) == 2) & (len(ys) == 2))
 
     hists = calc_multi_hist_2d(xs, ys, num_bins)
-    norm = plot_core.multi_hist_norm(util.unzip_dicts(hists)["h"])
+    norm = multi_hist_norm(unzip_dicts(hists)["h"])
 
-    fig, axs = plot_core.subplots_side_by_side()
+    fig, axs = subplots_side_by_side()
     for hist, ax in zip(hists, axs):
         plot_hist_2d(ax, hist, norm)
 
@@ -51,7 +65,7 @@ def plot_hist_2d_side_by_side(
 
 
 def add_color_bar(axs, norm):
-    sm = plot_core.scalar_mappable(norm)
+    sm = scalar_mappable(norm)
     plt.colorbar(sm, ax=axs, aspect=30)
     
 

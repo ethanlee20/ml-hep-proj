@@ -1,3 +1,4 @@
+
 import pathlib as pl
 import matplotlib as mpl
 
@@ -19,12 +20,9 @@ def setup_mpl_params_save():
     mpl.rcParams["font.serif"] = ["Computer Modern"]
 
 
-def setup_plotting(data_path, plots_dir_path)
-    my.setup_mpl_params_save()
-
-    data = mylib.open_dir(data_path)
-
-    plots_dir_path = pl.Path(plots_dir_path)
+def setup_plots_dir(data_dir_path):
+    data_dir_path = pl.Path(data_dir_path)
+    plots_dir_path = data_dir_path.joinpath("plots")
     plots_dir_path.mkdir(exist_ok=True)
+    return plots_dir_path    
 
-    return data, plots_dir_path
