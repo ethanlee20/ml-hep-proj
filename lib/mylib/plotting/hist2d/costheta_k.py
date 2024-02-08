@@ -3,9 +3,6 @@ from mylib.utilities.iterate import over_q_squared_splits
 
 from mylib.plotting.hist2d.base import plot_hist_2d
 
-from mylib.plotting.core.utils.save import plot_file_name, save_fig_and_clear
-
-
 
 def hist_2d_costheta_k_theta_k(data, q_squared_split):
 

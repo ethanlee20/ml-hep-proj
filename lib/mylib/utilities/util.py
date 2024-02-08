@@ -33,7 +33,7 @@ def open_root(file_path, tree_names):
 	return pd.concat(dfs, keys=tree_names)
 
 
-def open(file_path, tree_names=None):
+def open_data(file_path, tree_names=None):
     file_path = pl.Path(file_path)
     if file_path.suffix == ".root":
         return open_root(file_path, tree_names) 
@@ -41,10 +41,10 @@ def open(file_path, tree_names=None):
     return pd.read_pickle(file_path)
 
 
-def open_dir(path, tree_names=None):
+def open_data_dir(path, tree_names=None):
     path = pl.Path(path)
     file_paths = list(path.glob('*'))
-    dfs = [open(path, tree_names) for path in file_paths]
+    dfs = [open_data(path, tree_names) for path in file_paths]
     return pd.concat(dfs)
 
 

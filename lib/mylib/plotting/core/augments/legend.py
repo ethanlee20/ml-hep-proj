@@ -1,9 +1,11 @@
 import numpy as np
 
+from mylib.utilities.data import find_num_events
+
 
 def calculate_stats(ar):
     mean = np.mean(ar)
-    count = ar.count()
+    count = find_num_events(ar)
     rms = np.std(ar)
     stats = {
         "mean": mean,
@@ -13,7 +15,7 @@ def calculate_stats(ar):
     return stats
 
 
-def generate_stats_legend(
+def stats_legend(
     dat_ser,
     descrp="",
     show_mean=True,
