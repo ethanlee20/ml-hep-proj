@@ -14,9 +14,7 @@ out_dir = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-01-24_GridMu/BtoKst
 
 # @over_q_squared_splits
 # @save("hist_theta_lab_k", out_dir)
-hist_theta_lab_k(
-    data, q_squared_split
-)
+hist_theta_lab_k(data, q_squared_split)
 
 @over_q_squared_splits
 @save("hist2d_costheta_k_theta_k", out_dir)
