@@ -12,8 +12,8 @@ def hist_2d_costheta_k_theta_k(data, out_dir, q_squared_split):
         var_x="costheta_K",
         var_y="K_p_theta",
         q_squared_split=q_squared_split,
-        x_label=r"$\cos\theta_K$",
-        y_label=r"$\theta^\text{lab}_K$"
+        xlabel=r"$\cos\theta_K$",
+        ylabel=r"$\theta^\text{lab}_K$"
     )
     save("hist2d_costheta_k_theta_k", q_squared_split, out_dir)
 
