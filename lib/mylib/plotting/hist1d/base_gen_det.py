@@ -1,3 +1,5 @@
+import matplotlib.pyplot as plt
+
 from mylib.utilities.data import split_by_q_squared, only_signal
 
 from mylib.plotting.core.hist.hist import approx_num_bins
