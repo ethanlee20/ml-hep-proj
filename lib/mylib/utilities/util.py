@@ -15,8 +15,8 @@ def unzip(zipped_stuff):
 
 def unzip_dicts(a:list):
     """Unzip a list of dictionaries with the same keys."""
-    keys = zipped_dicts[0].keys()
-    values = unzip([i.values() for i in zipped_dicts])
+    keys = a[0].keys()
+    values = unzip([i.values() for i in a])
     return dict(zip(keys, values))
     
 
