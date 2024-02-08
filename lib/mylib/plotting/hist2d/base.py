@@ -32,16 +32,16 @@ def plot_hist_2d(
     ylabel,
 ):
     data = only_signal(data)
-    data = split_by_q_squared(data)
+    data = split_by_q_squared(data)[q_squared_split]
 
     fig, axs, norm = plot_hist_2d_side_by_side(
         xs=[
-            data[q_squared_split].loc["gen"][var_x],
-            data[q_squared_split].loc["det"][var_x],
+            data.loc["gen"][var_x],
+            data.loc["det"][var_x],
         ],
         ys=[
-            data[q_squared_split].loc["gen"][var_y],
-            data[q_squared_split].loc["det"][var_y],
+            data.loc["gen"][var_y],
+            data.loc["det"][var_y],
         ],
         num_bins=50,
     )
