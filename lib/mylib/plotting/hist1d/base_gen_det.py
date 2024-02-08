@@ -23,7 +23,7 @@ def plot_gen_det(
 
     legends = {
         "gen":stats_legend(
-            data.loc["gen"]
+            data.loc["gen"],
             "Generator"
         ),
         "det":stats_legend(
