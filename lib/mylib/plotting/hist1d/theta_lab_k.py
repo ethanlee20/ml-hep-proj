@@ -11,7 +11,7 @@ def hist_theta_lab_k(data, out_dir, q_squared_split):
         data,
         var="K_p_theta",
         q_squared_split=q_squared_split,
-        title=r"$\theta\text{lab}_K$",
+        title=r"$\theta^\text{lab}_K$",
         xlabel=None,
     )
     save("hist_theta_lab_k", q_squared_split, out_dir)
