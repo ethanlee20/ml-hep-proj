@@ -14,20 +14,20 @@ def plot_gen_det(
 ):
 
     data = split_by_q_squared(
-        only_signal(data)[var]
-    )
+        only_signal(data)
+    )[q_squared_split][var]
     
     num_bins = approx_num_bins(
-        data[q_squared_split].loc["det"]
+        data.loc["det"]
     )
 
     legends = {
         "gen":stats_legend(
-            data[q_squared_split].loc["gen"],
+            data.loc["gen"]
             "Generator"
         ),
         "det":stats_legend(
-            data[q_squared_split].loc["det"],
+            data.loc["det"],
             "Detector"
         )
     }
@@ -35,7 +35,7 @@ def plot_gen_det(
     fig, ax = plt.subplots()
 
     ax.hist(
-        data[q_squared_split].loc["gen"],
+        data.loc["gen"],
         label=legends["gen"],    
         bins=num_bins,
         color="purple",
@@ -44,7 +44,7 @@ def plot_gen_det(
     )
 
     ax.hist(
-        data[q_squared_split].loc["det"],
+        data.loc["det"],
         label=legends["det"],    
         bins=num_bins,
         color="blue",
