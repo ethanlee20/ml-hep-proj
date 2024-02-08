@@ -2,6 +2,7 @@ import sys
 import pathlib as pl
 from warnings import simplefilter
 
+import numpy as np
 import uproot
 import pandas as pd
 
