@@ -16,7 +16,7 @@ def set_ax_labels(ax, labels):
     ax.set_ylabel(labels.y)
 
 
-def set_fig_labels(fig, labels)
+def set_fig_labels(fig, labels):
     fig.suptitle(labels.title)
     fig.supxlabel(labels.x)
     fig.supylabel(labels.y)
