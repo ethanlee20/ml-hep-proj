@@ -1,6 +1,6 @@
 
 
-def find_num_events(dat_ser)
+def find_num_events(dat_ser):
     num_events = len(dat_ser)
     return num_events
 
