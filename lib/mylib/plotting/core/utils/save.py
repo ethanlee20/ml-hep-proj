@@ -12,11 +12,6 @@ def save_fig_and_clear(file_name, out_dir):
     plt.close()
 
 
-def save(plot_name, out_dir):
-    def save_fn(plot_fn):
-        def wrapper(*args, **kwargs):
-            fig, axs = plot_fn(*args, **kwargs)
-            file_name = plot_file_name(plot_name, kwargs['q_squared_split'])
-            save_fig_and_clear(file_name, out_dir)
-        return wrapper
-    return save_fn
+def save(plot_name, q_squared_split, out_dir):
+    file_name = plot_file_name(plot_name, q_squared_split)
+    save_fig_and_clear(file_name, out_dir)

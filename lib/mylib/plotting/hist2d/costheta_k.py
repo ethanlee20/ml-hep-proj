@@ -1,11 +1,12 @@
 
 from mylib.utilities.iterate import over_q_squared_splits
+from mylib.plotting.core.utils.save import save
 
 from mylib.plotting.hist2d.base import plot_hist_2d
 
 
-def hist_2d_costheta_k_theta_k(data, q_squared_split):
-
+@over_q_squared_splits
+def hist_2d_costheta_k_theta_k(data, out_dir, q_squared_split):
     fig, axs = plot_hist_2d(
         data,
         var_x="costheta_K",
@@ -14,11 +15,11 @@ def hist_2d_costheta_k_theta_k(data, q_squared_split):
         x_label=r"$\cos\theta_K$",
         y_label=r"$\theta^\text{lab}_K$"
     )
-    return fig, axs
+    save("hist2d_costheta_k_theta_k", q_squared_split, out_dir)
 
 
-def hist_2d_costheta_k_p_k(data, q_squared_split):
-
+@over_q_squared_splits
+def hist_2d_costheta_k_p_k(data, out_dir, q_squared_split):
     fig, axs = plot_hist_2d(
         data,
         var_x="costheta_K",
@@ -27,7 +28,7 @@ def hist_2d_costheta_k_p_k(data, q_squared_split):
         x_label=r"$\cos\theta_K$",
         y_label=r"$p^\text{lab}_K$"
     )
-    return fig, axs
+    save("hist2d_costheta_k_p_k", q_squared_split, out_dir)
 
 
 # def hist_2d_costheta_k_theta_k_save(data, q_squared_split, out_dir):
