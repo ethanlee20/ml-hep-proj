@@ -1,7 +1,10 @@
 
 from mylib.plotting.core.utils.save import save
 from mylib.utilities.iterate import over_q_squared_splits
-from mylib.plotting.efficiency.efficiency import plot_efficiency
+from mylib.plotting.efficiency.efficiency import (
+    plot_efficiency,
+    plot_efficiency_check_theta_k_accep,
+)
 
 
 @over_q_squared_splits
