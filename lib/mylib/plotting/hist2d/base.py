@@ -8,8 +8,8 @@ from mylib.plotting.core.augments.labels import Labels, set_plot_labels
 
 def make_titles(num_gen_events, num_det_events):
     titles = {
-        "gen": "Generator" + r"\footnotesize{Count: " + f"{num_gen_events}" + "}",
-        "det": "Detector" + r"\footnotesize{Count: " + f"{num_det_events}" + "}"    
+        "gen": "Generator" + r" \small{Count: " + f"{num_gen_events}" + "}",
+        "det": "Detector" + r" \small{Count: " + f"{num_det_events}" + "}"    
     }
     return titles
 
