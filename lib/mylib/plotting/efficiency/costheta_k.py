@@ -27,7 +27,7 @@ def eff_cos_theta_k_check_theta_k_accep(data, out_dir, q_squared_split):
         var="costheta_K",
         q_squared_split=q_squared_split,
         num_points=100,
-        title=r"Efficiency of $\cos\theta_K$ (cut in $\theta^\text{lab}_K$ acceptance)",
+        title=r"Efficiency Test (cut in $\theta^\text{lab}_K$ acceptance)",
         xlabel=r"$\cos\theta_K$",
     )
     save("eff_costheta_k_cut", q_squared_split, out_dir)

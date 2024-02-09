@@ -27,6 +27,9 @@ def make_legend(data, q_squared_split, var):
     return legend
 
 
+
+
+
 def set_x_lims(ax, data, q_squared_split, var):
     data = only_signal(data)
     data = split_by_q_squared(data)[q_squared_split]
@@ -100,6 +103,26 @@ def plot_efficiency(
     return fig, ax
 
 
+def make_legend_check_theta_k_accep(data, q_squared_split, var):
+    data = only_signal(data)
+    data = split_by_q_squared(data)[q_squared_split]
+    data_cut = data[(data["K_p_theta"] > 0.25) & (data["K_p_theta"] < 2.625)]
+    data = data[var]
+    data_cut = data_cut[var]
+
+    num_events = {
+        "gen":find_num_events(data.loc["gen"]),
+        "cut_gen":find_num_events(data_cut.loc["gen"])
+    }
+
+    legend = {
+        "calc": r"\textbf{Calculated}" + f"\nDetector (signal): {num_events['cut_gen']}\nGenerator: {num_events['gen']}",
+        "mc": r"\textbf{MC Truth}"
+    }
+
+    return legend
+
+
 def plot_efficiency_check_theta_k_accep(
     data,
     var,
@@ -115,12 +138,12 @@ def plot_efficiency_check_theta_k_accep(
 
     fig, ax = plt.subplots()
 
-    legend = make_legend(data, q_squared_split, var)
+    legend = make_legend_check_theta_k_accep(data, q_squared_split, var)
 
     ax.scatter(
         bin_middles, 
         efficiency,
-        label=r"\textbf{Calculated}",
+        label=legend["calc"],
         color="red",
         alpha=0.5,
         **kwargs,
@@ -139,7 +162,7 @@ def plot_efficiency_check_theta_k_accep(
     ax.scatter(
         bin_middles_mc,
         efficiency_mc,
-        label=r"\textbf{MC Truth}",
+        label=legend["mc"],
         color="blue",
         alpha=0.5,
         **kwargs,
