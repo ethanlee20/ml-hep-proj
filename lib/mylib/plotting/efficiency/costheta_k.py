@@ -19,7 +19,7 @@ def eff_cos_theta_k(data, out_dir, q_squared_split):
 
 @over_q_squared_splits
 def eff_cos_theta_k_check_theta_k_accep(data, out_dir, q_squared_split):
-    fig, ax = plot_efficiency(
+    fig, ax = plot_efficiency_check_theta_k_accep(
         data,
         var="costheta_K",
         q_squared_split=q_squared_split,
