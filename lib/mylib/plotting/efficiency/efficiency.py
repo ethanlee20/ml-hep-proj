@@ -24,7 +24,7 @@ def make_legend(data, q_squared_split, var):
     return legend
 
 
-def set_x_lims(ax, data, q_squared_split):
+def set_x_lims(ax, data, q_squared_split, var):
     data = only_signal(data)
     data = split_by_q_squared(data)[q_squared_split]
     data = data[var]
@@ -87,7 +87,7 @@ def plot_efficiency(
     )
 
     ax.legend()
-    set_x_lims(ax, data, q_squared_split)
+    set_x_lims(ax, data, q_squared_split, var)
     ax.set_ymargin(0.25)
     ax.set_ylim(bottom=0, top=0.5)
     ax.set_ylabel(r"$\varepsilon$", rotation=0, labelpad=20)
