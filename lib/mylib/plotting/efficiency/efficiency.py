@@ -116,7 +116,7 @@ def make_legend_check_theta_k_accep(data, q_squared_split, var):
     }
 
     legend = {
-        "calc": r"\textbf{Calculated}" + f"\nDetector (signal): {num_events['cut_gen']}\nGenerator: {num_events['gen']}",
+        "calc": r"\textbf{Calculated}" + f"\nCut Generator: {num_events['cut_gen']}\nGenerator: {num_events['gen']}",
         "mc": r"\textbf{MC Truth}"
     }
 
