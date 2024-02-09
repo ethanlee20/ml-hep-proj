@@ -33,7 +33,7 @@ def find_bin_counts(data_series, bin_edges):
     return counts
 
 
-def calculate_efficiency(data, variable, num_bins, q_squared_split, error_bars=True, mc=False):
+def calculate_efficiency(data, var, num_bins, q_squared_split, error_bars=True, mc=False):
     """
     Calculate the efficiency per bin.
     
@@ -45,31 +45,35 @@ def calculate_efficiency(data, variable, num_bins, q_squared_split, error_bars=T
     number of detector entries in i divided by the number of
     generator entries in i.
     """
+    # if mc:
+    #     data_det = pre.preprocess(data, variables=variable+"_mc", q_squared_split=q_squared_split, reconstruction_level="det", signal_only=True)
+    # else:
+    #     data_det = pre.preprocess(data, variables=variable, q_squared_split=q_squared_split, reconstruction_level="det", signal_only=True)
+    # data_gen = pre.preprocess(data, variables=variable, q_squared_split=q_squared_split, reconstruction_level="gen")
+
+    data = only_signal(data)
+    data = split_by_q_squared(data)[q_squared_split]
     if mc:
-        data_det = pre.preprocess(data, variables=variable+"_mc", q_squared_split=q_squared_split, reconstruction_level="det", signal_only=True)
+        data = data[var+'_mc']
     else:
-        data_det = pre.preprocess(data, variables=variable, q_squared_split=q_squared_split, reconstruction_level="det", signal_only=True)
-    data_gen = pre.preprocess(data, variables=variable, q_squared_split=q_squared_split, reconstruction_level="gen")
+        data = data[var]
+        
 
-    data_min = min(data_det.min(), data_gen.min())
-    data_max = max(data_det.max(), data_gen.max())
-    bin_edges = generate_bin_edges(start=data_min, stop=data_max, num_of_bins=num_bins)
+    bin_edges = generate_bin_edges(start=data.min(), stop=data.max(), num_of_bins=num_bins)
 
-    bin_counts_detector = find_bin_counts(
-        data_det, bin_edges
-    )
-    bin_counts_generator = find_bin_counts(
-        data_gen, bin_edges
-    )
+    bin_count = {
+        "gen": find_bin_counts(data.loc["gen"], bin_edges),
+        "det": find_bin_counts(data.loc["det"], bin_edges)
+    }
     
-    eff = (bin_counts_detector / bin_counts_generator).values
+    eff = (bin_count["det"] / bin_count["gen"]).values
     
     bin_middles = find_bin_middles(bin_edges)
     
     if not error_bars:
         return eff, bin_middles
     
-    errors = (np.sqrt(bin_counts_detector) / bin_counts_generator).values
+    errors = (np.sqrt(bin_count["det"]) / bin_count["gen"]).values
 
     return eff, bin_middles, errors
 

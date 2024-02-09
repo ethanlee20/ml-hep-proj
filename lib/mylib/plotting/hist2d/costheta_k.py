@@ -31,6 +31,22 @@ def hist_2d_costheta_k_p_k(data, out_dir, q_squared_split):
     save("hist2d_costheta_k_p_k", q_squared_split, out_dir)
 
 
+@over_q_squared_splits
+def hist_2d_costheta_k_p_k_cut_theta_accep(data, out_dir, q_squared_split):
+    data = data[(data["K_p_theta"] > 0.25) & (data["K_p_theta"] < 2.625)]
+
+    fig, axs = plot_hist_2d(
+        data,
+        var_x="costheta_K",
+        var_y="K_p_p",
+        q_squared_split=q_squared_split,
+        xlabel=r"$\cos\theta_K$",
+        ylabel=r"$p^\text{lab}_K$"
+    )
+    save("hist2d_costheta_k_p_k_cut_theta_accep", q_squared_split, out_dir)
+
+
+
 # def hist_2d_costheta_k_theta_k_save(data, q_squared_split, out_dir):
 #     fig, axs = hist_2d_costheta_k_theta_k(data, q_squared_split)
 
