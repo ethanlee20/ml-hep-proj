@@ -1,4 +1,6 @@
 
+import matplotlib.pyplot as plt
+
 from mylib.utilities.data import find_num_events
 
 from mylib.calculating.efficiency import calculate_efficiency
