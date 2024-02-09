@@ -50,11 +50,6 @@ def calculate_efficiency(data, var, num_bins, q_squared_split, error_bars=True, 
     number of detector entries in i divided by the number of
     generator entries in i.
     """
-    # if mc:
-    #     data_det = pre.preprocess(data, variables=variable+"_mc", q_squared_split=q_squared_split, reconstruction_level="det", signal_only=True)
-    # else:
-    #     data_det = pre.preprocess(data, variables=variable, q_squared_split=q_squared_split, reconstruction_level="det", signal_only=True)
-    # data_gen = pre.preprocess(data, variables=variable, q_squared_split=q_squared_split, reconstruction_level="gen")
 
     data = only_signal(data)
     data = split_by_q_squared(data)[q_squared_split]
@@ -79,6 +74,38 @@ def calculate_efficiency(data, var, num_bins, q_squared_split, error_bars=True, 
         return eff, bin_middles
     
     errors = (np.sqrt(bin_count["det"]) / bin_count["gen"]).values
+
+    return eff, bin_middles, errors
+
+
+def calculate_efficiency_check_theta_k_accep(data, var, num_bins, q_squared_split, error_bars=True, mc=False):
+
+    data = only_signal(data)
+    data = split_by_q_squared(data)[q_squared_split]
+    data_cut = data[(data["K_p_theta"] > 0.25) & (data["K_p_theta"] < 2.625)]
+
+    if mc:
+        data = data[var+'_mc']
+        data_cut = data_cut[var+'_mc']
+    else:
+        data = data[var]
+        data_cut = data_cut[var]
+        
+    bin_edges = generate_bin_edges(start=data.min(), stop=data.max(), num_of_bins=num_bins)
+
+    bin_count = {
+        "gen": find_bin_counts(data.loc["gen"], bin_edges),
+        "gen_cut": find_bin_counts(data_cut.loc["gen"], bin_edges)
+    }
+    
+    eff = (bin_count["gen_cut"] / bin_count["gen"]).values
+    
+    bin_middles = find_bin_middles(bin_edges)
+    
+    if not error_bars:
+        return eff, bin_middles
+    
+    errors = (np.sqrt(bin_count["gen_cut"]) / bin_count["gen"]).values
 
     return eff, bin_middles, errors
 

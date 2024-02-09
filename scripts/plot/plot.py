@@ -19,7 +19,7 @@ from mylib.plotting.hist2d.chi import (
 
 from mylib.plotting.efficiency.costheta_k import (
     eff_cos_theta_k, 
-    eff_cos_theta_k_cut_theta_k_accep,
+    eff_cos_theta_k_check_theta_k_accep,
 )
 
 
@@ -39,6 +39,6 @@ hist_2d_chi_p_k(data, out_dir)
 hist_2d_chi_theta_k(data, out_dir)
 
 eff_cos_theta_k(data, out_dir)
-eff_cos_theta_k_cut_theta_k_accep(data, out_dir)
+eff_cos_theta_k_check_theta_k_accep(data, out_dir)
 
 
