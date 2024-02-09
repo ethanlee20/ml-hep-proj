@@ -1,7 +1,7 @@
 
 import matplotlib.pyplot as plt
 
-from mylib.utilities.data import find_num_events
+from mylib.utilities.data import find_num_events, only_signal, split_by_q_squared
 
 from mylib.calculating.efficiency import calculate_efficiency
 
