@@ -158,7 +158,7 @@ def plot_efficiency_check_theta_k_accep(
     ax.legend()
     set_x_lims(ax, data, q_squared_split, var)
     ax.set_ymargin(0.25)
-    ax.set_ylim(bottom=0, top=0.5)
+    ax.set_ylim(bottom=0, top=1)
     ax.set_ylabel(r"$\varepsilon$", rotation=0, labelpad=20)
     ax.set_xlabel(xlabel)
     ax.set_title(title)
