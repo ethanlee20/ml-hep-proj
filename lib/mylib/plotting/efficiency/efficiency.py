@@ -15,7 +15,7 @@ def make_legend(data, q_squared_split, var):
     }
 
     legend = {
-        "calc": r"\textbf{Calculated}" + f"\nDetector (signal): {num_events["det"]}\nGenerator: {num_events["gen"]}",
+        "calc": r"\textbf{Calculated}" + f"\nDetector (signal): {num_events['det']}\nGenerator: {num_events['gen']}",
         "mc": r"\textbf{MC Truth}"
     }
 
