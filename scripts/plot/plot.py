@@ -30,13 +30,13 @@ data = open_data('/home/belle2/elee20/ml-hep-proj/data/2024-01-24_GridMu/BtoKstM
 out_dir = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-01-24_GridMu/BtoKstMuMu_theta/plots2/')
 
 
-hist_theta_lab_k(data, out_dir)
+# hist_theta_lab_k(data, out_dir)
 
-hist_2d_costheta_k_theta_k(data, out_dir)
-hist_2d_costheta_k_p_k(data, out_dir)
+# hist_2d_costheta_k_theta_k(data, out_dir)
+# hist_2d_costheta_k_p_k(data, out_dir)
 
-hist_2d_chi_p_k(data, out_dir)
-hist_2d_chi_theta_k(data, out_dir)
+# hist_2d_chi_p_k(data, out_dir)
+# hist_2d_chi_theta_k(data, out_dir)
 
 eff_cos_theta_k(data, out_dir)
 eff_cos_theta_k_check_theta_k_accep(data, out_dir)
