@@ -1,11 +1,15 @@
+
+"""Legend stuff."""
+
+
 import numpy as np
 
-from mylib.utilities.data import find_num_events
+from mylib.util.data import count_events
 
 
 def calculate_stats(ar):
     mean = np.mean(ar)
-    count = find_num_events(ar)
+    count = count_events(ar)
     rms = np.std(ar)
     stats = {
         "mean": mean,

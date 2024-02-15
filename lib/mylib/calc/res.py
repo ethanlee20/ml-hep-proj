@@ -1,4 +1,5 @@
 
+"""Resolution calculations."""
 
 def calculate_resolution(data, variable, q_squared_split):
     """

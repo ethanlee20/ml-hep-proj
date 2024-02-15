@@ -61,11 +61,7 @@ def check_columns_root(path):
     print(df.columns.values.tolist())
 
 
-def min_max_over_multiple_arrays(ars):
-    big_ar = np.concatenate(ars, axis=None)
-    min = np.min(big_ar)
-    max = np.max(big_ar)
-    return min, max    
+ 
 
 
 

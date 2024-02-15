@@ -1,8 +1,8 @@
 
-from mylib.utilities.iterate import over_q_squared_splits
-from mylib.plotting.core.utils.save import save
+from mylib.util.iter import over_q_squared_splits
+from mylib.plot.core.util.save import save
 
-from mylib.plotting.hist1d.base_gen_det import plot_gen_det
+from mylib.plot.hist_1d.gen_det.base import plot_gen_det
 
 
 @over_q_squared_splits

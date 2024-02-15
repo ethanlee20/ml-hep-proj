@@ -1,15 +1,19 @@
 
+"""Ticks in radians."""
+
+
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 zero_to_two_pi = {
-    nums=[0, np.pi/2, np.pi, (3/2)*np.pi, 2*np.pi],
-    syms=[r"$0$", r"$\frac{\pi}{2}$", r"$\pi$", r"$\frac{3\pi}{2}$", r"$2\pi$"]
+    'nums':[0, np.pi/2, np.pi, (3/2)*np.pi, 2*np.pi],
+    'syms':[r"$0$", r"$\frac{\pi}{2}$", r"$\pi$", r"$\frac{3\pi}{2}$", r"$2\pi$"]
 }         
 
 zero_to_pi = {
-    nums=[0, np.pi/4, np.pi/2, 3*np.pi/4, np.pi],
-    syms= [r"$0$", r"$\frac{\pi}{4}$", r"$\frac{\pi}{2}$", r"$\frac{3\pi}{4}$", r"$\pi$"]
+    'nums':[0, np.pi/4, np.pi/2, 3*np.pi/4, np.pi],
+    'syms': [r"$0$", r"$\frac{\pi}{4}$", r"$\frac{\pi}{2}$", r"$\frac{3\pi}{4}$", r"$\pi$"]
 }
 
 

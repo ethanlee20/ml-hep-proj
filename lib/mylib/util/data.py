@@ -1,6 +1,9 @@
 
 
-def find_num_events(dat_ser):
+import numpy as np
+
+
+def count_events(dat_ser):
     num_events = len(dat_ser)
     return num_events
 
@@ -15,6 +18,24 @@ def split_by_q_squared(data):
 
 def only_signal(data):
     return data[data["isSignal"] == 1] 
+
+
+def section(data, only_sig=True, var=None, q_squared_split=None):
+    if only_sig:
+        data = only_signal(data)
+    if q_squared_split:
+        data = split_by_q_squared(data)[q_squared_split]
+    if var:
+        data = data[var]
+    return data.loc["gen"], data.loc["det"]
+
+
+
+def min_max_over_arrays(ars:list):
+    big_ar = np.concatenate(ars, axis=None)
+    min = np.min(big_ar)
+    max = np.max(big_ar)
+    return min, max   
 
 
 # def split(data, only_signal=False):

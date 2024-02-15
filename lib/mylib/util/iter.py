@@ -1,6 +1,6 @@
 import functools
 
-from mylib.utilities.constants import q_squared_splits
+from mylib.util.const import q_squared_splits
 
 
 def over_q_squared_splits(f):
