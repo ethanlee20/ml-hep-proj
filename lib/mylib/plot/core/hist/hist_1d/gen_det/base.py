@@ -1,10 +1,8 @@
 import matplotlib.pyplot as plt
 
-from mylib.utilities.data import split_by_q_squared, only_signal
+from mylib.util.data import split_by_q_squared, only_signal, approx_num_bins
 
-from mylib.plotting.core.hist.hist import approx_num_bins
-
-from mylib.plotting.core.augments.legend import stats_legend
+from mylib.plot.core.looks.leg import stats_legend
 
 
 def plot_gen_det(

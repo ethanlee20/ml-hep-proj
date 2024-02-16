@@ -38,6 +38,11 @@ def min_max_over_arrays(ars:list):
     return min, max   
 
 
+def approx_num_bins(data):
+    """Approximate the number of bins for a histogram by the length of the data."""
+    return round(np.sqrt(len(data)))
+
+
 # def split(data, only_signal=False):
 #     if not only_signal:
 #         split_data = split_by_q_squared(data)

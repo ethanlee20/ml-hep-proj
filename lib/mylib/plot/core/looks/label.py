@@ -37,11 +37,7 @@ def set_plot_labels(
     set_fig_labels(fig, fig_labels)
 
 
-def plot_theta_accept():
-    plt.axhline(y=0, xmin=0, xmax=1, label="SVD")
-    plt.axhline(y=0, xmin=0, xmax=1, label="SVD")
-    plt.axhline(y=0, xmin=0, xmax=1, label="SVD")
-    plt.axhline(y=0, xmin=0, xmax=1, label="SVD")
+
 
     
 
