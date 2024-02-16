@@ -2,7 +2,7 @@
 from mylib.util.iter import over_q_squared_splits
 from mylib.plot.core.util.save import save
 
-from mylib.plot.core.hist.hist_1d.gen_det import plot_gen_det
+from mylib.plot.core.hist.hist_1d.gen_det.base import plot_gen_det
 from mylib.plot.core.looks.annotate import annotate_theta_accept
 
 
