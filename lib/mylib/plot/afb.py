@@ -14,8 +14,8 @@ def plot_afb(data, out_dir):
     gen = calc_afb_of_q_squared(d_cos_theta_mu.loc["gen"], d_q_squared.loc["gen"])
     det = calc_afb_of_q_squared(d_cos_theta_mu.loc["det"], d_q_squared.loc["det"])
     
-    plt.scatter(gen, color="red", label="Generator")
-    plt.scatter(det, colr="blue", label="Detector")
+    plt.scatter(*gen, color="red", label="Generator")
+    plt.scatter(*det, colr="blue", label="Detector")
     plt.title(r"$A_{fb}$ for $\ell = \mu$")
     plt.xlabel(r"$q^2$ [GeV$^2$]")
     plt.ylabel(r"$A_{fb}$")
