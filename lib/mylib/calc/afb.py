@@ -1,0 +1,45 @@
+
+from mylib.util.hist import (
+    make_bin_edges,
+    find_bin_middles,
+    assign_bins,
+    bin_data,
+)
+
+
+def make_q_squared_bins(d_q_squared, bin_edges):
+    bins = assign_bins(d_q_squared, bin_edges)
+    return bins
+
+
+def calc_afb(d_cos_theta_l):
+    f = d_cos_theta_l[(d_cos_theta_l > 0) & (d_cos_theta_l < 1)].count()
+    b = d_cos_theta_l[(d_cos_theta_l > -1) & (d_cos_theta_l < 0)].count()
+    
+    afb = (f - b) / (f + b)
+    return afb
+
+
+def calc_binned_afb(d_cos_theta_l, bins):
+    binned = bin_data(d_cos_theta_l, bins)
+    afbs = binned.apply(calc_afb)
+    return afbs
+
+
+def calc_afb_of_q_squared(d_cos_theta_l, d_q_squared):
+    bin_edges = make_bin_edges(start=0, stop=20, num_bins=10)
+    bins = make_q_squared_bins(d_q_squared, bin_edges)
+    afbs = calc_binned_afb(d_cos_theta_l, bins)
+    q_squareds = find_bin_middles(bin_edges)
+
+    return q_squareds, afbs
+
+
+
+
+
+
+
+
+
+

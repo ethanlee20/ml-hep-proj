@@ -27,7 +27,7 @@ def section(data, only_sig=True, var=None, q_squared_split=None):
         data = split_by_q_squared(data)[q_squared_split]
     if var:
         data = data[var]
-    return data.loc["gen"], data.loc["det"]
+    return data
 
 
 

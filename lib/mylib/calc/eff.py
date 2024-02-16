@@ -10,39 +10,11 @@ from mylib.util.data import (
     only_signal,
     min_max_over_arrays
 )
-
-
-def make_bin_edges(start, stop, num_bins):
-    """Make histogram bin edges."""
-    
-    bin_size = (stop - start) / num_bins
-    return np.arange(start, stop + bin_size, bin_size)
-
-
-def find_bin_middles(bin_edges):
-    """
-    Find the position of the middle of each bin.
-    
-    Note: Assumes uniform bin widths.
-    """
-    num_bins = len(bin_edges) - 1
-    bin_width = (
-        np.max(bin_edges) - np.min(bin_edges)
-    ) / num_bins
-    shifted_edges = bin_edges + 0.5 * bin_width
-    return shifted_edges[:-1]
-    
-
-def find_bin_counts(data, bin_edges):
-    """Find the number of entries of d in each bin."""
-    bin_series = pd.cut(
-        data,
-        bin_edges,
-        include_lowest=True,
-    )
-    data_by_bin = data.groupby(bin_series)
-    counts = data_by_bin.size()
-    return counts
+from mylib.util.hist import (
+    make_bin_edges,
+    find_bin_middles,
+    find_bin_counts
+)
 
 
 
