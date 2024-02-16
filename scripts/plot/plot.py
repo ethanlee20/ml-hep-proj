@@ -5,7 +5,7 @@ from mylib.util.util import open_data, open_data_dir
 
 from mylib.plot.core.util.setup import setup_mpl_params_save
 
-from mylib.plot.hist1d.theta_lab_k import hist_theta_lab_k
+from mylib.plot.hist_1d.theta_lab_k import hist_theta_lab_k
 
 # from mylib.plot.hist2d.costheta_k import (
 #     hist_2d_costheta_k_theta_k, 
