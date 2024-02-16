@@ -19,8 +19,8 @@ def plot_afb(data, out_dir):
     leg_gen = stats_legend(d_cos_theta_mu.loc["gen"], "Generator", show_mean=False, show_rms=False)
     leg_det = stats_legend(d_cos_theta_mu.loc["det"], "Detector", show_mean=False, show_rms=False)
 
-    plt.scatter(*gen, color="red", alpha=0.8, label=leg_gen, marker="X")
-    plt.scatter(*det, color="blue", alpha=0.8, label=leg_det, marker="d")
+    plt.scatter(*gen, color="red", alpha=0.6, label=leg_gen, marker="X")
+    plt.scatter(*det, color="blue", alpha=0.6, label=leg_det, marker="d")
     plt.title(r"$A_{fb}$ for $\ell = \mu$")
     plt.xlabel(r"$q^2$ [GeV$^2$]")
     plt.ylabel(r"$A_{fb}$")
