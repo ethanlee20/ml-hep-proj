@@ -16,7 +16,7 @@ def hist_theta_lab_k(data, out_dir, q_squared_split):
         xlabel=None,
     )
 
-    annotate_theta_accept(ax.get_xlim())
+    annotate_theta_accept(ax.get_xlim(), ax.get_ylim())
 
     save("hist_theta_lab_k", q_squared_split, out_dir)
 
