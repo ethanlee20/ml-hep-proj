@@ -4,11 +4,15 @@ from math import radians
 import matplotlib.pyplot as plt
 
 
-def one_scale(min, max, num):
-    return (num - min) / (max - min)
+def make_one_scaler(min, max):
+    def scale(num):
+        return (num - min) / (max - min)
+    return scale
 
 
 def annotate_theta_accept(xlim:tuple):
+
+    one_scale = make_one_scaler(*xlim)
     
     plt.axhline(y=100, xmin=one_scale(radians(17)), xmax=one_scale(radians(150)), label="PXD, SVD, CDC", color="red")
     plt.axhline(y=200, xmin=one_scale(radians(31)), xmax=one_scale(radians(128)), label="TOP", color="blue")
