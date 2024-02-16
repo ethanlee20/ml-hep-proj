@@ -26,8 +26,8 @@ def calc_binned_afb(d_cos_theta_l, bins):
     return afbs
 
 
-def calc_afb_of_q_squared(d_cos_theta_l, d_q_squared):
-    bin_edges = make_bin_edges(start=0, stop=20, num_bins=10)
+def calc_afb_of_q_squared(d_cos_theta_l, d_q_squared, num_points):
+    bin_edges = make_bin_edges(start=0, stop=20, num_bins=num_points)
     bins = make_q_squared_bins(d_q_squared, bin_edges)
     afbs = calc_binned_afb(d_cos_theta_l, bins)
     q_squareds = find_bin_middles(bin_edges)
