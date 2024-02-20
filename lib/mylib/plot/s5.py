@@ -10,7 +10,7 @@ from mylib.plot.core.looks.leg import stats_legend
 def plot_s5(df, out_dir):
     df = section(df, only_sig=True)
 
-    num_points = 150
+    num_points = 30
     gen_q_sq, gen_s5 = calc_s5_of_q_squared(df.loc["gen"], num_points)
     det_q_sq, det_s5 = calc_s5_of_q_squared(df.loc["det"], num_points)
     

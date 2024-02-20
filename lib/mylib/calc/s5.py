@@ -23,6 +23,7 @@ def calc_s5(d_chi, d_cos_theta_k):
         4/3 * (chi_f - chi_b) * (costheta_k_f - costheta_k_b) 
         / ((chi_f + chi_b) * (costheta_k_f + costheta_k_b)) 
     )
+    breakpoint()
     return s5
 
 
