@@ -23,9 +23,9 @@ def plot_afb(data, out_dir):
     plt.scatter(*det, s=4, color="blue", alpha=0.6, label=leg_det, marker="d")
     plt.ylim(-0.3, 0.5)
     plt.xlim(0, 19) 
-    plt.title(r"$A_{fb}$ for $\ell = \mu$")
+    plt.title(r"$A_{FB}$ for $\ell = \mu$")
     plt.xlabel(r"$q^2$ [GeV$^2$]")
-    plt.ylabel(r"$A_{fb}$")
+    plt.ylabel(r"$A_{FB}$")
 
     plt.legend()
 

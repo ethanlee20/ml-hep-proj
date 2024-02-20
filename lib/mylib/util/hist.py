@@ -44,3 +44,8 @@ def find_bin_counts(binned):
     return counts
 
 
+def make_q_squared_bins(d_q_squared, bin_edges):
+    bins = assign_bins(d_q_squared, bin_edges)
+    return bins
+
+
