@@ -11,13 +11,13 @@ from mylib.util.hist import (
 
 def calc_s5(d_chi, d_cos_theta_k):
     chi_f = d_chi[
-        ((d_chi > 3*pi/2) and (d_chi < 2*pi)) 
-        or ((d_chi > 0) and (d_chi < pi/2))
+        ((d_chi > 3*pi/2) & (d_chi < 2*pi)) 
+        | ((d_chi > 0) & (d_chi < pi/2))
     ]
-    chi_b = d_chi[(d_chi > pi/2) and (d_chi < 3*pi/2)]
+    chi_b = d_chi[(d_chi > pi/2) & (d_chi < 3*pi/2)]
     
-    costheta_k_f = d_cos_theta_k[(d_cos_theta_k > 0) and (d_cos_theta_k < 1)]
-    costheta_k_b = d_cos_theta_k[(d_cos_theta_k > -1) and (d_cos_theta_k < 0)]
+    costheta_k_f = d_cos_theta_k[(d_cos_theta_k > 0) & (d_cos_theta_k < 1)]
+    costheta_k_b = d_cos_theta_k[(d_cos_theta_k > -1) & (d_cos_theta_k < 0)]
     
     s5 = (
         4/3 * (chi_f - chi_b) * (costheta_k_f - costheta_k_b) 
