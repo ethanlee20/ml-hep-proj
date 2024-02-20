@@ -35,7 +35,6 @@ def calc_s5_df(df):
 
 def calc_binned_s5(df, bins):
     binned = bin_data(df, bins)
-    breakpoint()
     s5s = binned.apply(calc_s5_df)
     return s5s
 
