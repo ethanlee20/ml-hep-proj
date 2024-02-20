@@ -13,6 +13,8 @@ def plot_s5(df, out_dir):
     num_points = 150
     gen_q_sq, gen_s5 = calc_s5_of_q_squared(df.loc["gen"], num_points)
     det_q_sq, det_s5 = calc_s5_of_q_squared(df.loc["det"], num_points)
+
+    breakpoint()
     
     leg_gen = stats_legend(gen_s5, "Generator", show_mean=False, show_rms=False)
     leg_det = stats_legend(det_s5, "Detector", show_mean=False, show_rms=False)
