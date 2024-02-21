@@ -1,41 +1,38 @@
-# imports
+import sys
+
 import basf2 as b2
 import generators as ge
 import mdst
 import reconstruction as re
 import simulation as si
 
-# create path
+
 main = b2.Path()
 
 
-# define input and output file paths
-path_dec_file = "/home/belle2/elee20/ml-hep-proj/mc_creation/decay_e.dec"
+path_dec = "/home/belle2/elee20/ml-hep-proj/scripts/simulate/decay_e.dec"
 
-path_output = "/home/belle2/elee20/ml-hep-proj/mc_creation/mc_events_e.root"
+path_out = '/home/belle2/elee20/ml-hep-proj/data/2023-12-8_tryingStopDoubleCandidates/mc_events_e.root'
 
 
-# add simulation generation modules to path
 main.add_module(
-    "EventInfoSetter", evtNumList=[10_000], expList=[0]
+    "EventInfoSetter", evtNumList=[20], expList=[0]
 )
 
 ge.add_evtgen_generator(
     path=main,
     finalstate="signal",
-    signaldecfile=path_dec_file,
+    signaldecfile=path_dec,
 )
 
 si.add_simulation(path=main)
 
 re.add_reconstruction(path=main)
 
-mdst.add_mdst_output(path=main, filename=path_output)
+mdst.add_mdst_output(path=main, filename=path_out)
 
 
-# process
 b2.process(path=main)
 
 
-# print statistics
 print(b2.statistics)

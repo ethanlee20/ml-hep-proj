@@ -10,7 +10,7 @@ import simulation as si
 main = b2.Path()
 
 
-path_dec_file = "/home/belle2/elee20/ml-hep-proj/scripts/simulate/decay_mu.dec"
+path_dec_file = "/home/belle2/elee20/ml-hep-proj/scripts/simulate/decay_mu_test.dec"
 
 path_output = sys.argv[
     1
@@ -18,7 +18,7 @@ path_output = sys.argv[
 
 
 main.add_module(
-    "EventInfoSetter", evtNumList=[10_000], expList=[0]
+    "EventInfoSetter", evtNumList=[20], expList=[0]
 )
 
 ge.add_evtgen_generator(
