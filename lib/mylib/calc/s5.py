@@ -56,6 +56,7 @@ def calc_s5_df(df):
     try: 
         s5 = (f - b) / (f + b)
     except ZeroDivisionError:
+        print("division by 0, returning nan")
         s5 = np.nan
     
     return s5
