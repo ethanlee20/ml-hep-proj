@@ -50,6 +50,7 @@ def calc_s5_df(df):
     ].count()
 
     s5 = (f - b) / (f + b)
+    breakpoint()
     return s5
 
 
