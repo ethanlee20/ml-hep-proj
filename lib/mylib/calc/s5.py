@@ -8,6 +8,9 @@ from mylib.util.hist import (
     bin_data,
 )
 
+from mylib.util.data import count_events
+
+
 # def calc_s5(d_chi, d_cos_theta_k):
     # chi_f = d_chi[
     #     ((d_chi > 3*pi/2) & (d_chi < 2*pi)) 
@@ -37,20 +40,20 @@ def calc_s5_df(df):
     costheta_k = df["costheta_K"]
     chi = df["chi"]
     
-    f = df[
+    f = count_events(df[
         (((costheta_k > 0) & (costheta_k < 1)) & ((chi > 0) & (chi < pi/2)))
         | (((costheta_k > 0) & (costheta_k < 1)) & ((chi > 3*pi/2) & (chi < 2*pi)))
         | (((costheta_k > -1) & (costheta_k < 0)) & ((chi > pi/2) & (chi < 3*pi/2)))
-    ].count()
+    ])
 
-    b = df[
+    b = count_events(df[
         (((costheta_k > 0) & (costheta_k < 1)) & ((chi > pi/2) & (chi < 3*pi/2)))
         | (((costheta_k > -1) & (costheta_k < 0)) & ((chi > 0) & (chi < pi/2)))
         | (((costheta_k > -1) & (costheta_k < 0)) & ((chi > 3*pi/2) & (chi < 2*pi)))
-    ].count()
+    ])
 
     s5 = (f - b) / (f + b)
-    breakpoint()
+    
     return s5
 
 
