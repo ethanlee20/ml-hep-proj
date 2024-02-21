@@ -12,7 +12,7 @@ main = b2.Path()
 
 path_dec = "/home/belle2/elee20/ml-hep-proj/scripts/simulate/decay_e.dec"
 
-path_out = '/home/belle2/elee20/ml-hep-proj/data/2023-12-8_tryingStopDoubleCandidates/mc_events_e.root'
+path_out = '/home/belle2/elee20/ml-hep-proj/data/2024-02-21_e_test/mc_e.root'
 
 
 main.add_module(
