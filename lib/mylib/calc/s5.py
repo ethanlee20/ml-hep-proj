@@ -8,29 +8,48 @@ from mylib.util.hist import (
     bin_data,
 )
 
-
-def calc_s5(d_chi, d_cos_theta_k):
-    chi_f = d_chi[
-        ((d_chi > 3*pi/2) & (d_chi < 2*pi)) 
-        | ((d_chi > 0) & (d_chi < pi/2))
-    ].count()
-    chi_b = d_chi[(d_chi > pi/2) & (d_chi < 3*pi/2)].count()
+# def calc_s5(d_chi, d_cos_theta_k):
+    # chi_f = d_chi[
+    #     ((d_chi > 3*pi/2) & (d_chi < 2*pi)) 
+    #     | ((d_chi > 0) & (d_chi < pi/2))
+    # ].count()
+    # chi_b = d_chi[(d_chi > pi/2) & (d_chi < 3*pi/2)].count()
     
-    costheta_k_f = d_cos_theta_k[(d_cos_theta_k > 0) & (d_cos_theta_k < 1)].count()
-    costheta_k_b = d_cos_theta_k[(d_cos_theta_k > -1) & (d_cos_theta_k < 0)].count()
+    # costheta_k_f = d_cos_theta_k[(d_cos_theta_k > 0) & (d_cos_theta_k < 1)].count()
+    # costheta_k_b = d_cos_theta_k[(d_cos_theta_k > -1) & (d_cos_theta_k < 0)].count()
     
-    s5 = (
-        4/3 * (chi_f - chi_b) * (costheta_k_f - costheta_k_b) 
-        / ((chi_f + chi_b) * (costheta_k_f + costheta_k_b)) 
-    )
+    # s5 = (
+    #     4/3 * (chi_f - chi_b) * (costheta_k_f - costheta_k_b) 
+    #     / ((chi_f + chi_b) * (costheta_k_f + costheta_k_b)) 
+    # )
     # breakpoint()
-    return s5
 
+    # return s5
+
+
+# def calc_s5_df(df):
+#     d_chi = df["chi"]
+#     d_cos_theta_k = df["costheta_K"]
+#     s5 = calc_s5(d_chi, d_cos_theta_k)
+#     return s5
 
 def calc_s5_df(df):
-    d_chi = df["chi"]
-    d_cos_theta_k = df["costheta_K"]
-    s5 = calc_s5(d_chi, d_cos_theta_k)
+    costheta_k = df["costheta_K"]
+    chi = df["chi"]
+    
+    f = df[
+        (((costheta_k > 0) & (costheta_k < 1)) & ((chi > 0) & (chi < pi/2)))
+        | (((costheta_k > 0) & (costheta_k < 1)) & ((chi > 3*pi/2) & (chi < 2*pi)))
+        | (((costheta_k > -1) & (costheta_k < 0)) & ((chi > pi/2) & (chi < 3*pi/2)))
+    ].count()
+
+    b = df[
+        (((costheta_k > 0) & (costheta_k < 1)) & ((chi > pi/2) & (chi < 3*pi/2)))
+        | (((costheta_k > -1) & (costheta_k < 0)) & ((chi > 0) & (chi < pi/2)))
+        | (((costheta_k > -1) & (costheta_k < 0)) & ((chi > 3*pi/2) & (chi < 2*pi)))
+    ].count()
+
+    s5 = (f - b) / (f + b)
     return s5
 
 
