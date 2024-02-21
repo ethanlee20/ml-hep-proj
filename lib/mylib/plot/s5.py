@@ -9,7 +9,7 @@ from mylib.plot.core.looks.leg import stats_legend
 
 def plot_s5(df, out_dir):
     df = section(df, only_sig=True)
-    df = df[df["mcPDG"] == ]
+    df = df[df["mcPDG"] == 511]
 
     num_points = 30
     gen_q_sq, gen_s5 = calc_s5_of_q_squared(df.loc["gen"], num_points)
