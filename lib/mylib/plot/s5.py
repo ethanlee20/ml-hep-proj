@@ -21,8 +21,8 @@ def plot_s5(df, out_dir):
 
     plt.scatter(gen_q_sq, gen_s5, s=4, color="red", alpha=0.6, label=leg_gen, marker="X")
     plt.scatter(det_q_sq, det_s5, s=4, color="blue", alpha=0.6, label=leg_det, marker="d")
-    # plt.ylim(-0.3, 0.5)
-    # plt.xlim(0, 19) 
+    plt.ylim(-0.5, 0.35)
+    plt.xlim(0, 19) 
     plt.title(r"$S_5$ for $\ell = \mu$")
     plt.xlabel(r"$q^2$ [GeV$^2$]")
     plt.ylabel(r"$S_5$")
