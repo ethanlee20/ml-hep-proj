@@ -16,7 +16,7 @@ path_out = '/home/belle2/elee20/ml-hep-proj/data/2024-02-21_e_test/mc_e.root'
 
 
 main.add_module(
-    "EventInfoSetter", evtNumList=[20], expList=[0]
+    "EventInfoSetter", evtNumList=[10_000], expList=[0]
 )
 
 ge.add_evtgen_generator(
