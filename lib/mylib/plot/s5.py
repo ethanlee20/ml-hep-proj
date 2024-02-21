@@ -9,12 +9,12 @@ from mylib.plot.core.looks.leg import stats_legend
 
 def plot_s5(df, out_dir):
     df = section(df, only_sig=True)
-    df = df[df["mcPDG"] == 511]
+    # df = df[df["mcPDG"] == 511]
 
-    num_points = 30
+    num_points = 150
     gen_q_sq, gen_s5 = calc_s5_of_q_squared(df.loc["gen"], num_points)
     det_q_sq, det_s5 = calc_s5_of_q_squared(df.loc["det"], num_points)
-    breakpoint()
+    # breakpoint()
     
     leg_gen = stats_legend(df["chi"].loc["gen"], "Generator", show_mean=False, show_rms=False)
     leg_det = stats_legend(df["chi"].loc["det"], "Detector", show_mean=False, show_rms=False)
