@@ -1,5 +1,6 @@
 
 from math import pi
+import numpy as np
 
 from mylib.util.hist import (
     make_bin_edges,
@@ -52,7 +53,10 @@ def calc_s5_df(df):
         | (((costheta_k > -1) & (costheta_k < 0)) & ((chi > 3*pi/2) & (chi < 2*pi)))
     ])
 
-    s5 = (f - b) / (f + b)
+    try: 
+        s5 = (f - b) / (f + b)
+    except ZeroDivisionError:
+        s5 = np.nan
     
     return s5
 
