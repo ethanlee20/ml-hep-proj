@@ -1,12 +1,18 @@
+
 """Functions for special relavitiy and particle physics calculations."""
 
-import os
-import sys
 
 import numpy as np
 import pandas as pd
 
-import maths
+from mylib.calc.maths import (
+    cosine_angle, 
+    cross_product_3d, 
+    dot_product, 
+    square_matrix_transform, 
+    unit_normal, 
+    vector_magnitude,
+)
 
 
 def four_momemtum_dataframe(df_with_4_col):
@@ -67,7 +73,7 @@ def invariant_mass_squared_two_particles(
         df_sum_4mom[["px", "py", "pz"]]
     )
     df_sum_3mom_mag_sq = (
-        maths.vector_magnitude(df_sum_3mom) ** 2
+        vector_magnitude(df_sum_3mom) ** 2
     )
 
     df_invM_sq = df_sum_E**2 - df_sum_3mom_mag_sq
@@ -101,7 +107,7 @@ def compute_gamma(df_3vel):
     """
 
     df_3vel = three_velocity_dataframe(df_3vel)
-    df_vel_mag = maths.vector_magnitude(df_3vel)
+    df_vel_mag = vector_magnitude(df_3vel)
     df_gamma = 1 / np.sqrt(1 - df_vel_mag**2)
 
     return df_gamma
@@ -118,7 +124,7 @@ def compute_Lorentz_boost_matrix(df_vel3vec):
 
     df_vel3vec = df_vel3vec.copy()
     df_vel3vec.columns = ["vx", "vy", "vz"]
-    df_vel_mag = maths.vector_magnitude(df_vel3vec)
+    df_vel_mag = vector_magnitude(df_vel3vec)
     df_gamma = compute_gamma(df_vel3vec)
 
     df_boost_matrix = pd.DataFrame(
@@ -225,48 +231,48 @@ def boost(df_ref_4mom, df_4vec):
     df_boost_matrix = compute_Lorentz_boost_matrix(
         df_ref_vel
     )
-    df_4vec_transformed = maths.square_matrix_transform(
+    df_4vec_transformed = square_matrix_transform(
         df_boost_matrix, df_4vec
     )
 
     return df_4vec_transformed
 
 
-def find_costheta_mu(df_mu_p_4mom, df_mu_m_4mom, df_B_4mom):
+def find_costheta_ell(df_ell_p_4mom, df_ell_m_4mom, df_B_4mom):
     """
-    Find the cosine of the muon helicity angle for B -> K* mu+ mu-.
+    Find the cosine of the muon helicity angle for B -> K* ell+ ell-.
     """
 
-    df_mu_p_4mom = four_momemtum_dataframe(df_mu_p_4mom)
-    df_mu_m_4mom = four_momemtum_dataframe(df_mu_m_4mom)
+    df_ell_p_4mom = four_momemtum_dataframe(df_ell_p_4mom)
+    df_ell_m_4mom = four_momemtum_dataframe(df_ell_m_4mom)
     df_B_4mom = four_momemtum_dataframe(df_B_4mom)
 
-    df_mumu_4mom = df_mu_p_4mom + df_mu_m_4mom
+    df_ellell_4mom = df_ell_p_4mom + df_ell_m_4mom
 
-    df_mu_p_4mom_mumuframe = boost(
-        df_ref_4mom=df_mumu_4mom, df_4vec=df_mu_p_4mom
+    df_ell_p_4mom_ellellframe = boost(
+        df_ref_4mom=df_ellell_4mom, df_4vec=df_ell_p_4mom
     )
-    df_mu_p_3mom_mumuframe = three_momemtum_dataframe(
-        df_mu_p_4mom_mumuframe[["px", "py", "pz"]]
-    )
-
-    df_mumu_4mom_Bframe = boost(
-        df_ref_4mom=df_B_4mom, df_4vec=df_mumu_4mom
-    )
-    df_mumu_3mom_Bframe = three_momemtum_dataframe(
-        df_mumu_4mom_Bframe[["px", "py", "pz"]]
+    df_ell_p_3mom_ellellframe = three_momemtum_dataframe(
+        df_ell_p_4mom_ellellframe[["px", "py", "pz"]]
     )
 
-    df_costheta_mu = maths.cosine_angle(
-        df_mumu_3mom_Bframe, df_mu_p_3mom_mumuframe
+    df_ellell_4mom_Bframe = boost(
+        df_ref_4mom=df_B_4mom, df_4vec=df_ellell_4mom
+    )
+    df_ellell_3mom_Bframe = three_momemtum_dataframe(
+        df_ellell_4mom_Bframe[["px", "py", "pz"]]
     )
 
-    return df_costheta_mu
+    df_costheta_ell = cosine_angle(
+        df_ellell_3mom_Bframe, df_ell_p_3mom_ellellframe
+    )
+
+    return df_costheta_ell
 
 
 def find_costheta_K(df_K_4mom, df_KST_4mom, df_B_4mom):
     """
-    Find the cosine of the K* helicity angle for B -> K* mu+ mu-.
+    Find the cosine of the K* helicity angle for B -> K* ell+ ell-.
     """
 
     df_K_4mom = four_momemtum_dataframe(df_K_4mom)
@@ -287,7 +293,7 @@ def find_costheta_K(df_K_4mom, df_KST_4mom, df_B_4mom):
         df_KST_4mom_Bframe[["px", "py", "pz"]]
     )
 
-    df_costheta_K = maths.cosine_angle(
+    df_costheta_K = cosine_angle(
         df_KST_3mom_Bframe, df_K_3mom_KSTframe
     )
 
@@ -301,7 +307,7 @@ def find_unit_normal_KST_K_plane(
     Find the unit normal to the plane made by the
     direction vectors of the K* and K.
 
-    This is for B -> K* mu+ mu-.
+    This is for B -> K* ell+ ell-.
     """
 
     df_B_4mom = four_momemtum_dataframe(df_B_4mom)
@@ -321,61 +327,61 @@ def find_unit_normal_KST_K_plane(
         df_KST_4mom_Bframe[["px", "py", "pz"]]
     )
 
-    df_unit_normal_KST_K_plane = maths.unit_normal(
+    df_unit_normal_KST_K_plane = unit_normal(
         df_K_3mom_KSTframe, df_KST_3mom_Bframe
     )
     return df_unit_normal_KST_K_plane
 
 
-def find_unit_normal_mumu_muplus_plane(
-    df_B_4mom, df_mu_p_4mom, df_mu_m_4mom
+def find_unit_normal_ellell_ellplus_plane(
+    df_B_4mom, df_ell_p_4mom, df_ell_m_4mom
 ):
     """
     Find the unit normal to the plane made by
-    the direction vectors of the dimuon system and
-    the mu+.
+    the direction vectors of the dilepton system and
+    the positively charged lepton.
 
-    This is for B -> K* mu+ mu-.
+    This is for B -> K* ell+ ell-.
     """
 
     df_B_4mom = four_momemtum_dataframe(df_B_4mom)
-    df_mu_p_4mom = four_momemtum_dataframe(df_mu_p_4mom)
-    df_mu_m_4mom = four_momemtum_dataframe(df_mu_m_4mom)
+    df_ell_p_4mom = four_momemtum_dataframe(df_ell_p_4mom)
+    df_ell_m_4mom = four_momemtum_dataframe(df_ell_m_4mom)
 
-    df_mumu_4mom = df_mu_p_4mom + df_mu_m_4mom
+    df_ellell_4mom = df_ell_p_4mom + df_ell_m_4mom
 
-    df_mu_p_4mom_mumuframe = boost(
-        df_ref_4mom=df_mumu_4mom, df_4vec=df_mu_p_4mom
+    df_ell_p_4mom_ellellframe = boost(
+        df_ref_4mom=df_ellell_4mom, df_4vec=df_ell_p_4mom
     )
-    df_mu_p_3mom_mumuframe = three_momemtum_dataframe(
-        df_mu_p_4mom_mumuframe[["px", "py", "pz"]]
+    df_ell_p_3mom_ellellframe = three_momemtum_dataframe(
+        df_ell_p_4mom_ellellframe[["px", "py", "pz"]]
     )
-    df_mumu_4mom_Bframe = boost(
-        df_ref_4mom=df_B_4mom, df_4vec=df_mumu_4mom
+    df_ellell_4mom_Bframe = boost(
+        df_ref_4mom=df_B_4mom, df_4vec=df_ellell_4mom
     )
-    df_mumu_3mom_Bframe = three_momemtum_dataframe(
-        df_mumu_4mom_Bframe[["px", "py", "pz"]]
+    df_ellell_3mom_Bframe = three_momemtum_dataframe(
+        df_ellell_4mom_Bframe[["px", "py", "pz"]]
     )
 
-    df_unit_normal_mumu_muplus_plane = maths.unit_normal(
-        df_mu_p_3mom_mumuframe, df_mumu_3mom_Bframe
+    df_unit_normal_ellell_ellplus_plane = unit_normal(
+        df_ell_p_3mom_ellellframe, df_ellell_3mom_Bframe
     )
-    return df_unit_normal_mumu_muplus_plane
+    return df_unit_normal_ellell_ellplus_plane
 
 
 def find_coschi(
     df_B_4mom,
     df_K_4mom,
     df_KST_4mom,
-    df_mu_p_4mom,
-    df_mu_m_4mom,
+    df_ell_p_4mom,
+    df_ell_m_4mom,
 ):
     """
     Find the cosine of the decay angle chi.
 
-    Chi is the angle between the K* K decay plane and the dimuon mu+ decay plane.
+    Chi is the angle between the K* K decay plane and the dilepton ell+ decay plane.
 
-    This is for B -> K* mu+ mu-.
+    This is for B -> K* ell+ ell-.
     """
 
     df_unit_normal_KST_K_plane = (
@@ -383,15 +389,15 @@ def find_coschi(
             df_B_4mom, df_KST_4mom, df_K_4mom
         )
     )
-    df_unit_normal_mumu_muplus_plane = (
-        find_unit_normal_mumu_muplus_plane(
-            df_B_4mom, df_mu_p_4mom, df_mu_m_4mom
+    df_unit_normal_ellell_ellplus_plane = (
+        find_unit_normal_ellell_ellplus_plane(
+            df_B_4mom, df_ell_p_4mom, df_ell_m_4mom
         )
     )
 
-    coschi = maths.dot_product(
+    coschi = dot_product(
         df_unit_normal_KST_K_plane,
-        df_unit_normal_mumu_muplus_plane,
+        df_unit_normal_ellell_ellplus_plane,
     )
 
     return coschi
@@ -401,24 +407,24 @@ def find_chi(
     df_B_4mom,
     df_K_4mom,
     df_KST_4mom,
-    df_mu_p_4mom,
-    df_mu_m_4mom,
+    df_ell_p_4mom,
+    df_ell_m_4mom,
 ):
     """
     Find the decay angle chi.
 
-    Chi is the angle between the K* K decay plane and the dimuon mu+ decay plane.
+    Chi is the angle between the K* K decay plane and the dilepton ell+ decay plane.
     It can range from 0 to 2*pi.
 
-    This is for B -> K* mu+ mu-.
+    This is for B -> K* ell+ ell-.
     """
 
     coschi = find_coschi(
         df_B_4mom,
         df_K_4mom,
         df_KST_4mom,
-        df_mu_p_4mom,
-        df_mu_m_4mom,
+        df_ell_p_4mom,
+        df_ell_m_4mom,
     )
 
     df_unit_normal_KST_K_plane = (
@@ -426,14 +432,14 @@ def find_chi(
             df_B_4mom, df_KST_4mom, df_K_4mom
         )
     )
-    df_unit_normal_mumu_muplus_plane = (
-        find_unit_normal_mumu_muplus_plane(
-            df_B_4mom, df_mu_p_4mom, df_mu_m_4mom
+    df_unit_normal_ellell_ellplus_plane = (
+        find_unit_normal_ellell_ellplus_plane(
+            df_B_4mom, df_ell_p_4mom, df_ell_m_4mom
         )
     )
 
-    n_mu_cross_n_K = maths.cross_product_3d(
-        df_unit_normal_mumu_muplus_plane,
+    n_ell_cross_n_K = cross_product_3d(
+        df_unit_normal_ellell_ellplus_plane,
         df_unit_normal_KST_K_plane,
     )
 
@@ -446,10 +452,10 @@ def find_chi(
         df_KST_4mom_Bframe[["px", "py", "pz"]]
     )
 
-    n_mu_cross_n_K_dot_Kst = maths.dot_product(
-        n_mu_cross_n_K, df_KST_3mom_Bframe
+    n_ell_cross_n_K_dot_Kst = dot_product(
+        n_ell_cross_n_K, df_KST_3mom_Bframe
     )
-    chi = np.sign(n_mu_cross_n_K_dot_Kst) * np.arccos(
+    chi = np.sign(n_ell_cross_n_K_dot_Kst) * np.arccos(
         coschi
     )
 
