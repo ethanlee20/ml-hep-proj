@@ -3,72 +3,48 @@ import pathlib as pl
 
 import pandas as pd
 
-import mylib
-    
+from mylib.util.util import open_data
+from mylib.pre.cuts import apply_all_cuts    
 
-def configure_data_paths(data_dir_path):
 
-    raw_data_dir_name = "sub00/"
-    raw_data_dir_path = data_dir_path.joinpath(raw_data_dir_name)
-    raw_data_file_paths = list(raw_data_dir_path.glob("*.root"))
+def config_input_data_paths(input_dir):
+    input_dir = pl.Path(input_dir)
+    input_paths = list(input_dir.glob("*.root"))
+    return input_paths
 
-    cut_data_dir_name = "cut/"
-    cut_data_dir_path = data_dir_path.joinpath(cut_data_dir_name)
-    cut_data_dir_path.mkdir(parents=True, exist_ok=True)
-    
-    cut_data_file_paths = [
-        cut_data_dir_path.joinpath(f"{path.stem}_cut.pkl")
-        for path in raw_data_file_paths
+
+def config_output_data_paths(output_dir, input_paths):    
+    output_dir = pl.Path(output_dir)
+    output_paths = [
+        output_dir.joinpath(f"{path.stem}_cut.pkl")
+        for path in input_paths
     ]
-    
-    return raw_data_file_paths, cut_data_file_paths
+    return output_paths
 
 
-def configure_plot_path(data_dir_path):
-
-    plots_dir_name = "plots"
-
-    plots_dir_path = data_dir_path.joinpath(plots_dir_name)
-    plots_dir_path.mkdir(parents=True, exist_ok=True)
-
-    return plots_dir_path
+def config_paths(input_dir, output_dir):
+    input_paths = config_input_data_paths(input_dir)
+    output_paths = config_output_data_paths(output_dir, input_paths)
+    return input_paths, output_paths
 
 
-def load_data(file_path):
-    return mylib.open(file_path, ['gen', 'det'])
-    
-
-def apply_cuts(df, plots_dir_path):
-
+def apply_cuts(df):
     df_gen_uncut = df.loc['gen']
-
-    df_det_cut = mylib.apply_all_cuts(
+    df_det_cut = apply_all_cuts(
         df.loc['det'],
-        plots_dir_path
     )
-
-    return pd.concat([df_gen_uncut, df_det_cut], keys=['gen', 'det'])
-
-
-def save(df, out_file_path):
-    df.to_pickle(out_file_path)
+    cut_df = pd.concat([df_gen_uncut, df_det_cut], keys=['gen', 'det'])
+    return cut_df
 
 
-def main():
+input_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-02-21_e_test/recon'
+output_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-02-21_e_test/cut'
 
-    data_dir_path = pl.Path("/home/belle2/elee20/ml-hep-proj/data/2024-01-24_GridMu/BtoKstMuMu_theta/")
-    
-    raw_data_file_paths, cut_data_file_paths = configure_data_paths(data_dir_path)
+input_paths, output_paths = config_paths(input_dir, output_dir)
 
-    plots_dir_path = configure_plot_path(data_dir_path)
-
-    for raw_path, cut_path in zip(raw_data_file_paths, cut_data_file_paths):
-        df = load_data(raw_path)
-
-        df_cut = apply_cuts(df, plots_dir_path)
-
-        save(df_cut, cut_path)
+for in_path, out_path in zip(input_paths, output_paths):
+    df = open_data(in_path, tree_names=['gen', 'det'])
+    cut_df = apply_cuts(df)
+    cut_df.to_pickle(out_path)
 
 
-if __name__ == "__main__":
-    main()

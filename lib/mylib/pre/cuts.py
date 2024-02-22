@@ -1,165 +1,55 @@
-import os
-import sys
-
 import numpy as np
-import matplotlib.pyplot as plt
 
-sys.path.append(os.path.dirname(__file__))
-import physics
-import plotting
+from mylib.calc.phys import invariant_mass_squared_two_particles
 
 
-
-def kst_inv_mass_cut(df_data, plot_dir):
-    def calculate_inv_mass_k_pi():
-        df_k_4mom = df_data[
-            ["K_p_E", "K_p_px", "K_p_py", "K_p_pz"]
-        ]
-        df_pi_4mom = df_data[
-            ["pi_m_E", "pi_m_px", "pi_m_py", "pi_m_pz"]
-        ]
-        df_inv_mass_k_pi = np.sqrt(
-            physics.invariant_mass_squared_two_particles(
-                df_k_4mom, df_pi_4mom
-            )
+def calculate_inv_mass_k_pi(df):
+    df_k_4mom = df[
+        ["K_p_E", "K_p_px", "K_p_py", "K_p_pz"]
+    ]
+    df_pi_4mom = df[
+        ["pi_m_E", "pi_m_px", "pi_m_py", "pi_m_pz"]
+    ]
+    df_inv_mass_k_pi = np.sqrt(
+        invariant_mass_squared_two_particles(
+            df_k_4mom, df_pi_4mom
         )
-        return df_inv_mass_k_pi
-
-    def calculate_difference_inv_mass_k_pi_inv_mass_kst():
-        inv_mass_kst = 0.892
-        df_inv_mass_k_pi = calculate_inv_mass_k_pi()
-        df_data["inv_mass_k_pi - inv_mass_kst"] = (df_inv_mass_k_pi - inv_mass_kst)
-        return (df_inv_mass_k_pi - inv_mass_kst)
-
-    def cut_on_inv_mass_k_pi():
-        kst_full_width = 0.05
-        cut = (
-            calculate_difference_inv_mass_k_pi_inv_mass_kst().abs()
-            <= 1.5 * kst_full_width
-        )
-        return df_data[cut]
-
-    df_cut_data = cut_on_inv_mass_k_pi()
-
-    def plot_before_cut():
-        plotting.setup_mpl_params_save()
-        title = r"$M_{K^+\pi^-} - M_{K^*(892)}$, before cut on width"
-        xlabel = r"[GeV]"
-        plotting.plot_signal_and_misrecon(
-            df_data,
-            "inv_mass_k_pi - inv_mass_kst",
-            "isSignal",
-            title,
-            xlabel,
-        )
-        plt.savefig(
-            os.path.join(
-                plot_dir, "cut_inv_mass_before.png"
-            ),
-            bbox_inches="tight",
-        )
-        plt.clf()
-
-    #plot_before_cut()
-
-    def plot_after_cut():
-        title = r"$M_{K^+\pi^-} - M_{K^*(892)}$, after cut on width"
-        xlabel = r"[GeV]"
-        plotting.plot_signal_and_misrecon(
-            df_cut_data,
-            "inv_mass_k_pi - inv_mass_kst",
-            "isSignal",
-            title,
-            xlabel,
-        )
-        plt.savefig(
-            os.path.join(
-                plot_dir, "cut_inv_mass_after.png"
-            ),
-            bbox_inches="tight",
-        )
-        plt.clf()
-
-    #plot_after_cut()
-
-    return df_cut_data
+    )
+    return df_inv_mass_k_pi
 
 
-def mbc_cut(df_data, plot_dir):
+def calc_dif_inv_mass_k_pi_and_kst(df):
+    inv_mass_kst = 0.892
+    df_inv_mass_k_pi = calculate_inv_mass_k_pi(df)
+    dif = df_inv_mass_k_pi - inv_mass_kst
+    return dif
+
+
+def cut_on_kst_inv_mass(df):
+    kst_full_width = 0.05
+    in_cut = (
+        calc_dif_inv_mass_k_pi_and_kst(df).abs()
+        <= 1.5 * kst_full_width
+    )
+    cut_df = df[in_cut].copy() 
+    return cut_df
+
+
+def cut_on_mbc(df):
     mbc_low_bound = 5.27
-    cut = df_data["Mbc"] > mbc_low_bound
-    df_cut_data = df_data[cut]
-
-    def plot_before_cut():
-        plotting.setup_mpl_params_save()
-        title = r"$\Delta E$ before cut on $M_{bc}$"
-        xlabel = r"[GeV]"
-        plotting.plot_signal_and_misrecon(
-            df_data, "deltaE", "isSignal", title, xlabel
-        )
-        plt.savefig(
-            os.path.join(plot_dir, "cut_mbc_before.png"),
-            bbox_inches="tight",
-        )
-        plt.clf()
-
-    #plot_before_cut()
-
-    def plot_after_cut():
-        title = r"$\Delta E$ after cut on $M_{bc}$"
-        xlabel = r"[GeV]"
-        plotting.plot_signal_and_misrecon(
-            df_cut_data, "deltaE", "isSignal", title, xlabel
-        )
-        plt.savefig(
-            os.path.join(plot_dir, "cut_mbc_after.png"),
-            bbox_inches="tight",
-        )
-        plt.clf()
-
-    #plot_after_cut()
-
-    return df_cut_data
+    in_cut = df["Mbc"] > mbc_low_bound
+    cut_df = df[in_cut].copy()
+    return cut_df
 
 
-def deltaE_cut(df_data, plot_dir):
-    cut = abs(df_data["deltaE"]) <= 0.05
-    df_cut_data = df_data[cut]
-
-    def plot_before_cut():
-        plotting.setup_mpl_params_save()
-        title = r"$M_{bc}$ before cut on $\Delta E$"
-        xlabel = r"[GeV]"
-        plotting.plot_signal_and_misrecon(
-            df_data, "Mbc", "isSignal", title, xlabel
-        )
-        plt.savefig(
-            os.path.join(plot_dir, "cut_deltaE_before.png"),
-            bbox_inches="tight",
-        )
-        plt.clf()
-
-    #plot_before_cut()
-
-    def plot_after_cut():
-        title = r"$M_{bc}$ after cut on $\Delta E$"
-        xlabel = r"[GeV]"
-        plotting.plot_signal_and_misrecon(
-            "Mbc", df_cut_data, "all", "isSignal", title, xlabel
-        )
-        plt.savefig(
-            os.path.join(plot_dir, "cut_deltaE_after.png"),
-            bbox_inches="tight",
-        )
-        plt.clf()
-
-    #plot_after_cut()
-
-    return df_cut_data
+def cut_on_deltaE(df):
+    in_cut = abs(df["deltaE"]) <= 0.05
+    cut_df = df[in_cut].copy()
+    return cut_df
 
 
-def apply_all_cuts(df_data, plot_dir):
-    df_cut1_data = kst_inv_mass_cut(df_data, plot_dir)
-    df_cut2_data = mbc_cut(df_cut1_data, plot_dir)
-    df_cut3_data = deltaE_cut(df_cut2_data, plot_dir)
-    return df_cut3_data
+def apply_all_cuts(df):
+    cut_df1 = cut_on_kst_inv_mass(df)
+    cut_df2 = cut_on_mbc(cut_df1)
+    cut_df3 = cut_on_deltaE(cut_df2)
+    return cut_df3
