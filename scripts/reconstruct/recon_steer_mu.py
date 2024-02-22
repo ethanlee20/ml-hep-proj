@@ -1,6 +1,6 @@
 
-import sys
-import pathlib as pl
+"""Steering file for reconstructing B -> K* mu+ mu-."""
+
 
 import basf2 as b2
 import modularAnalysis as ma
@@ -11,27 +11,9 @@ from variables import utils as vu
 main = b2.Path()
 
 
-def get_user_input():
-    data_dir_path = pl.Path(sys.argv[1])
-    out_file_name = sys.argv[2]
-    in_file_names = sys.argv[3:]
-
-    return data_dir_path, out_file_name, in_file_names
-
-
-def configure_paths(data_dir_path, out_file_name, in_file_names):
-
-    out_file_path = data_dir_path.joinpath(out_file_name)
-
-    in_file_paths = [data_dir_path.joinpath(file_name) for file_name in in_file_names]
-
-    return out_file_path, in_file_paths
-
-
-
-def input_to_the_path(in_file_paths):
+def input_to_the_path():
     ma.inputMdstList(
-        filelist=[str(file_path) for file_path in in_file_paths],
+        filelist=['/home/belle2/elee20/ml-hep-proj/data/2024-01-08_LargeMu/mc_1.root'],
         path=main,
         environmentType="default",
     )
@@ -85,6 +67,7 @@ def create_variable_lists():
         + vc.mc_truth
         + vc.kinematics
         + vc.mc_kinematics
+        + ['theta', 'thetaErr', 'mcTheta']
     )
 
     Kstar0_vars = vu.create_aliases_for_selected(
@@ -106,11 +89,13 @@ def create_variable_lists():
     return B0_vars
 
 
-def save_output(B0_vars, out_file_path):
+def save_output(B0_vars):
+    out_file_name = "mu_re.root"
+
     ma.variablesToNtuple(
         decayString="B0:gen",
         variables=B0_vars['gen'],
-        filename=str(out_file_path),
+        filename=str(out_file_name),
         treename="gen",
         path=main,
     )
@@ -118,15 +103,13 @@ def save_output(B0_vars, out_file_path):
     ma.variablesToNtuple(
         decayString="B0",
         variables=B0_vars['det'],
-        filename=str(out_file_path),
+        filename=str(out_file_name),
         treename="det",
         path=main,
     )
 
 
-out_file_path, in_file_paths = configure_paths(*get_user_input())
-
-input_to_the_path(in_file_paths)
+input_to_the_path()
 
 reconstruct_generator_level()
 
@@ -134,7 +117,7 @@ reconstruct_detector_level()
 
 B0_vars = create_variable_lists()
 
-save_output(B0_vars, out_file_path)
+save_output(B0_vars)
 
 b2.process(main)
 
