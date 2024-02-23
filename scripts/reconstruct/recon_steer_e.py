@@ -14,7 +14,7 @@ main = b2.Path()
 
 def input_to_the_path():
     ma.inputMdstList(
-        filelist=['/home/belle2/elee20/ml-hep-proj/data/2024-02-21_e_test/mc_e.root'],
+        filelist=['/home/belle2/elee20/ml-hep-proj/data/2024-02-23_e_brems_test/mc/mc_e.root'],
         path=main,
         environmentType="default",
     )
@@ -78,7 +78,7 @@ def create_variable_lists():
 
 
 def save_output(B0_vars):
-    out_file_name = "/home/belle2/elee20/ml-hep-proj/data/2024-02-21_e_test/e_re.root"
+    out_file_name = "/home/belle2/elee20/ml-hep-proj/data/2024-02-23_e_brems_test/recon/e_re.root"
 
     ma.variablesToNtuple(
         decayString="B0:gen",
