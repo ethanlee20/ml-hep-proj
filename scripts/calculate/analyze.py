@@ -14,8 +14,8 @@ from mylib.calc.phys import (
 )
 
 
-input_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-02-21_e_test/cut'
-output_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-02-21_e_test/ana'
+input_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-02-23_e_brems_test/cut'
+output_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-02-23_e_brems_test/ana'
 ell = 'e'
 
 
