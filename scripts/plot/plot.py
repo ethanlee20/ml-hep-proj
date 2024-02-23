@@ -34,9 +34,9 @@ from mylib.plot.s5 import plot_s5
 
 setup_mpl_params_save()
 
-data = open_data_dir('/home/belle2/elee20/ml-hep-proj/data/2024-02-21_e_test/ana')
+data = open_data_dir('/home/belle2/elee20/ml-hep-proj/data/2024-02-23_e_brems_test/ana')
 # data = open_data('/home/belle2/elee20/ml-hep-proj/data/2024-01-24_GridMu/BtoKstMuMu_theta/analyzed/mu_re_00003_job388070872_00_cut_an.pkl')
-out_dir = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-02-21_e_test/plots')
+out_dir = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-02-23_e_brems_test/plots')
 
 hist_chi(data, out_dir)
 hist_costheta_e(data, out_dir)
