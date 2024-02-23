@@ -6,6 +6,7 @@ import basf2 as b2
 import modularAnalysis as ma
 from variables import collections as vc
 from variables import utils as vu
+from variables import variables as vm 
 
 
 main = b2.Path()
@@ -30,11 +31,20 @@ def reconstruct_generator_level():
 
 
 def reconstruct_detector_level():
-    ma.fillParticleList(decayString="e+", cut="electronID > 0.9", path=main)
+    ma.fillParticleList(decayString="e+:raw", cut="electronID > 0.9", path=main)
+
+    vm.addAlias("goodFWDGamma", "passesCut(clusterReg == 1 and clusterE > 0.075)")
+    vm.addAlias("goodBRLGamma", "passesCut(clusterReg == 2 and clusterE > 0.05)")
+    vm.addAlias("goodBWDGamma", "passesCut(clusterReg == 3 and clusterE > 0.1)")
+    vm.addAlias("goodGamma", "passesCut(goodFWDGamma or goodBRLGamma or goodBWDGamma)")
+    ma.fillParticleList(decayString="gamma:brems", cut="goodGamma", path=main)
+    
+    ma.correctBrems("e+:cor", "e+:raw", "gamma:brems", path=main)
+
     ma.fillParticleList(decayString="K+", cut="kaonID > 0.9", path=main)
     ma.fillParticleList(decayString="pi-", cut="", path=main)
     ma.reconstructDecay("K*0 -> K+ pi-", cut="", path=main)
-    ma.reconstructDecay("B0 -> K*0 e+ e-", cut="", path=main)
+    ma.reconstructDecay("B0 -> K*0 e+:cor e-:cor ?addbrems", cut="", path=main)
     ma.matchMCTruth("B0", path=main)
 
 
