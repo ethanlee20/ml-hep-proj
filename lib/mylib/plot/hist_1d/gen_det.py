@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-from mylib.util.data import split_by_q_squared, only_signal, approx_num_bins
+from mylib.util.data import approx_num_bins, section
 
 from mylib.plot.core.looks.leg import stats_legend
 
@@ -12,11 +12,13 @@ def plot_gen_det(
     title,
     xlabel,
 ):
+    data = section(
+        data, 
+        only_sig=True, 
+        var=var, 
+        q_squared_split=q_squared_split
+    )
 
-    data = split_by_q_squared(
-        only_signal(data)
-    )[q_squared_split][var]
-    
     num_bins = approx_num_bins(
         data.loc["det"]
     )
