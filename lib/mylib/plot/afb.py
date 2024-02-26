@@ -15,7 +15,7 @@ def plot_afb(data, out_dir):
     num_points = 150
     gen_x, gen_y = calc_afb_of_q_squared(d_cos_theta_mu.loc["gen"], d_q_squared.loc["gen"], num_points)
     det_x, det_y = calc_afb_of_q_squared(d_cos_theta_mu.loc["det"], d_q_squared.loc["det"], num_points)
-    
+    breakpoint()
     leg_gen = stats_legend(d_cos_theta_mu.loc["gen"], "Generator", show_mean=False, show_rms=False)
     leg_det = stats_legend(d_cos_theta_mu.loc["det"], "Detector", show_mean=False, show_rms=False)
 
