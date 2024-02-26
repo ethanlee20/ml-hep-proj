@@ -19,10 +19,10 @@ def plot_afb(data, out_dir):
     leg_gen = stats_legend(d_cos_theta_mu.loc["gen"], "Generator", show_mean=False, show_rms=False)
     leg_det = stats_legend(d_cos_theta_mu.loc["det"], "Detector", show_mean=False, show_rms=False)
 
-    plt.scatter(gen_x, gen_y, s=4, color="red", alpha=0.6, label=leg_gen, marker="X")
+    plt.scatter(gen_x, gen_y[0], s=4, color="red", alpha=0.6, label=leg_gen, marker="X")
     plt.errorbar(gen_x, gen_y[0], yerr=gen_y[1])
     plt.scatter(det_x, det_y[0], s=4, color="blue", alpha=0.6, label=leg_det, marker="d")
-    plt.errorbar(det_x, det_y, yerr=det_y[1])
+    plt.errorbar(det_x, det_y[0], yerr=det_y[1])
     plt.ylim(-0.3, 0.5)
     plt.xlim(0, 19) 
     plt.title(r"$A_{FB}$ for $\ell = \mu$")
