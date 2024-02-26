@@ -19,13 +19,13 @@ def calc_afb(d_cos_theta_l):
 
     afb_err = 2 * sqrt(2) * b * f / (f + b)**2
 
-    return pd.Series([afb, afb_err], index=['val','err'])
+    return (afb, afb_err)
 
 
 def calc_binned_afb(d_cos_theta_l, bins):
     binned = bin_data(d_cos_theta_l, bins)
     afbs = binned.apply(calc_afb)
-    # breakpoint()
+    breakpoint()
     return afbs
 
 
