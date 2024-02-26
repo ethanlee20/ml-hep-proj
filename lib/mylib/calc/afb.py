@@ -25,8 +25,10 @@ def calc_afb(d_cos_theta_l):
 def calc_afb_err(d_cos_theta_l):
     f = d_cos_theta_l[(d_cos_theta_l > 0) & (d_cos_theta_l < 1)].count()
     b = d_cos_theta_l[(d_cos_theta_l > -1) & (d_cos_theta_l < 0)].count()
+    n = f + b
 
-    afb_err = 2 * sqrt(2) * b * f / (f + b)**2
+    afb_stdev = 2 * sqrt(2) * b * f / (f + b)**2
+    afb_err = afb_stdev / sqrt(n)
 
     return afb_err
 
