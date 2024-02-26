@@ -24,7 +24,7 @@ def calc_afb(d_cos_theta_l):
 
 def calc_binned_afb(d_cos_theta_l, bins):
     binned = bin_data(d_cos_theta_l, bins)
-    afbs = binned.apply(calc_afb, result_type='expand')
+    afbs = binned.apply(calc_afb, axis=1, result_type='expand')
     breakpoint()
     return afbs
 
