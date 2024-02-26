@@ -1,4 +1,6 @@
 
+from math import sqrt
+
 from mylib.util.hist import (
     make_bin_edges,
     find_bin_middles,
@@ -12,13 +14,16 @@ def calc_afb(d_cos_theta_l):
     b = d_cos_theta_l[(d_cos_theta_l > -1) & (d_cos_theta_l < 0)].count()
     
     afb = (f - b) / (f + b)
-    return afb
+
+    afb_err = 2 * sqrt(2) * b * f / (f + b)**2
+
+    return afb, afb_err
 
 
 def calc_binned_afb(d_cos_theta_l, bins):
     binned = bin_data(d_cos_theta_l, bins)
-    afbs = binned.apply(calc_afb)
-    return afbs
+    afbs, afb_errs = binned.apply(calc_afb)
+    return afbs, afb_errs
 
 
 def calc_afb_of_q_squared(d_cos_theta_l, d_q_squared, num_points):
@@ -28,10 +33,10 @@ def calc_afb_of_q_squared(d_cos_theta_l, d_q_squared, num_points):
     	num_bins=num_points
 	)
     bins = make_q_squared_bins(d_q_squared, bin_edges)
-    afbs = calc_binned_afb(d_cos_theta_l, bins)
+    afbs, afb_errs = calc_binned_afb(d_cos_theta_l, bins)
     q_squareds = find_bin_middles(bin_edges)
 
-    return q_squareds, afbs
+    return q_squareds, afbs, afb_errs
 
 
 
