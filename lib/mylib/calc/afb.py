@@ -22,8 +22,9 @@ def calc_afb(d_cos_theta_l):
 
 def calc_binned_afb(d_cos_theta_l, bins):
     binned = bin_data(d_cos_theta_l, bins)
-    afbs, afb_errs = binned.apply(calc_afb)
-    return afbs, afb_errs
+    afbs = binned.apply(calc_afb)
+    breakpoint()
+    return afbs
 
 
 def calc_afb_of_q_squared(d_cos_theta_l, d_q_squared, num_points):
