@@ -1,6 +1,8 @@
 
 from math import sqrt
 
+import pandas as pd
+
 from mylib.util.hist import (
     make_bin_edges,
     find_bin_middles,
@@ -17,7 +19,7 @@ def calc_afb(d_cos_theta_l):
 
     afb_err = 2 * sqrt(2) * b * f / (f + b)**2
 
-    return afb, afb_err
+    return pd.Series([afb, afb_err], index=['val','err'])
 
 
 def calc_binned_afb(d_cos_theta_l, bins):
