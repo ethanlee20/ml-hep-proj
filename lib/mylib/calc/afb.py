@@ -19,7 +19,7 @@ def calc_afb(d_cos_theta_l):
 
     afb_err = 2 * sqrt(2) * b * f / (f + b)**2
 
-    return (afb, afb_err)
+    return pd.Series([afb, afb_err])
 
 
 def calc_binned_afb(d_cos_theta_l, bins):
