@@ -19,14 +19,24 @@ def calc_afb(d_cos_theta_l):
 
     afb_err = 2 * sqrt(2) * b * f / (f + b)**2
 
-    return pd.Series([afb, afb_err])
+    return afb
+
+
+def calc_afb_err(d_cos_theta_l):
+    f = d_cos_theta_l[(d_cos_theta_l > 0) & (d_cos_theta_l < 1)].count()
+    b = d_cos_theta_l[(d_cos_theta_l > -1) & (d_cos_theta_l < 0)].count()
+
+    afb_err = 2 * sqrt(2) * b * f / (f + b)**2
+
+    return afb_err
+
 
 
 def calc_binned_afb(d_cos_theta_l, bins):
     binned = bin_data(d_cos_theta_l, bins)
     afbs = binned.apply(calc_afb)
-    breakpoint()
-    return afbs
+    errs = binned.apply(calc_afb_err)
+    return afbs, errs
 
 
 def calc_afb_of_q_squared(d_cos_theta_l, d_q_squared, num_points):
@@ -36,10 +46,10 @@ def calc_afb_of_q_squared(d_cos_theta_l, d_q_squared, num_points):
     	num_bins=num_points
 	)
     bins = make_q_squared_bins(d_q_squared, bin_edges)
-    afbs = calc_binned_afb(d_cos_theta_l, bins)
+    afbs, errs = calc_binned_afb(d_cos_theta_l, bins)
     q_squareds = find_bin_middles(bin_edges)
 
-    return q_squareds, afbs
+    return q_squareds, afbs, errs
 
 
 
