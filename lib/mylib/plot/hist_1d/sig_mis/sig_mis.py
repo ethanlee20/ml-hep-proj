@@ -77,23 +77,21 @@ from mylib.util.data import approx_num_bins
 
 
 def plot_deltaE(data, out_dir):
-    data = data["deltaE"]
-    det = data.loc["det"]
-    det_sig = det[det["isSignal"]==1]
-    det_mis = det[det["isSignal"]==0]
-    gen = data.loc["gen"]
+    sig = data[data["isSignal"]==1].loc["det"]["deltaE"]
+    mis = data[data["isSignal"]==0].loc["det"]["deltaE"]
+    gen = data.loc["gen"]["deltaE"]
 
 
-    leg_sig = stats_legend(det_sig, "Detector: Signal")
-    leg_mis = stats_legend(det_mis, "Detector: Misrecon.", show_mean=False, show_rms=False)
+    leg_sig = stats_legend(sig, "Detector: Signal")
+    leg_mis = stats_legend(mis, "Detector: Misrecon.", show_mean=False, show_rms=False)
     leg_gen = stats_legend(gen, "Generator")
 
-    n_bins = approx_num_bins(det_sig)
+    n_bins = approx_num_bins(sig)
 
     fig, ax = plt.subplots()
 
     ax.hist(
-        det_sig,
+        sig,
         label=leg_sig,
         bins=n_bins,
         alpha=0.6,
@@ -102,7 +100,7 @@ def plot_deltaE(data, out_dir):
     )
 
     ax.hist(
-        det_mis,
+        mis,
         label=leg_mis,
         bins=n_bins,
         color="blue",
