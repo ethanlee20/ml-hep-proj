@@ -107,7 +107,8 @@ def plot_deltaE(data, out_dir):
         histtype="step",
         linewidth=1,
     )
-
+    
+    ax.legend()
     ax.set_title(r'$\Delta E$')
     ax.set_xlabel(r'[GeV]')
 
