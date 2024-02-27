@@ -3,12 +3,13 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
-from mylib.util.util import min_max_over_multiple_arrays, unzip_dicts
+from mylib.util.data import min_max_over_arrays
 from mylib.plot.core.subplots import subplots_side_by_side
+from mylib.util.util import unzip_dicts
 
 
 def multi_hist_norm(hs):
-    _, max_counts = min_max_over_multiple_arrays(hs)
+    _, max_counts = min_max_over_arrays(hs)
     norm = plt.Normalize(0, max_counts)    
     return norm
 
@@ -29,8 +30,8 @@ def calc_multi_hist_2d(
 ):
     assert len(xs) == len(ys)
   
-    xmin, xmax = min_max_over_multiple_arrays(xs)
-    ymin, ymax = min_max_over_multiple_arrays(ys)
+    xmin, xmax = min_max_over_arrays(xs)
+    ymin, ymax = min_max_over_arrays(ys)
     interval = ((xmin, xmax), (ymin, ymax))
 
     hists = [calc_hist_2d(x, y, bins=num_bins, range=interval) for x, y in zip(xs, ys)]
