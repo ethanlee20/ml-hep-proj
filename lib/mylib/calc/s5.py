@@ -60,7 +60,7 @@ def calc_s5_err(df):
 
     try: 
         stdev = 4/3 * 2*f*b / (f+b)**2 * sqrt((f_stdev/f)**2 + (b_stdev/b)**2)
-        err = stdev / sqrt(n)
+        err = stdev# / sqrt(n)
 
     except ZeroDivisionError:
         print("division by 0, returning nan")

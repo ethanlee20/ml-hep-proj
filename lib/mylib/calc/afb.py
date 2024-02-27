@@ -29,7 +29,7 @@ def calc_afb_err(d_cos_theta_l):
     b_stdev = sqrt(b)
 
     afb_stdev = 2*f*b / (f+b)**2 * sqrt((f_stdev/f)**2 + (b_stdev/b)**2)
-    afb_err = afb_stdev / sqrt(n)
+    afb_err = afb_stdev #/ sqrt(n)
 
     return afb_err
 
