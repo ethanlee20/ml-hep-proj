@@ -3,8 +3,8 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
-from mylib.utilities.util import min_max_over_multiple_arrays, unzip_dicts
-from mylib.plotting.core.subplots import subplots_side_by_side
+from mylib.util.util import min_max_over_multiple_arrays, unzip_dicts
+from mylib.plot.core.subplots import subplots_side_by_side
 
 
 def multi_hist_norm(hs):
