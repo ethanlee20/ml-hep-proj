@@ -107,6 +107,16 @@ def plot_deltaE(data, out_dir):
         histtype="step",
         linewidth=1,
     )
+
+    ax.hist(
+        gen,
+        label=leg_gen,
+        bins=n_bins,
+        color="orange",
+        histtype="step",
+        linewidth=1,
+        linestyle="--"
+    )
     
     ax.legend()
     ax.set_title(r'$\Delta E$')
