@@ -46,7 +46,7 @@ out_dir = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-02-23_e_brems_test/
 # hist_theta_lab_k(data, out_dir)
 
 plot_afb(data, out_dir)
-# plot_s5(data, out_dir)
+plot_s5(data, out_dir)
 # hist_2d_costheta_k_theta_k(data, out_dir)
 # hist_2d_costheta_k_p_k(data, out_dir)
 

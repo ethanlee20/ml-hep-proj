@@ -12,15 +12,18 @@ def plot_s5(df, out_dir):
     # df = df[df["mcPDG"] == 511]
 
     num_points = 150
-    gen_q_sq, gen_s5 = calc_s5_of_q_squared(df.loc["gen"], num_points)
-    det_q_sq, det_s5 = calc_s5_of_q_squared(df.loc["det"], num_points)
+    gen_x, gen_y, gen_err = calc_s5_of_q_squared(df.loc["gen"], num_points)
+    det_x, det_y, det_err = calc_s5_of_q_squared(df.loc["det"], num_points)
     # breakpoint()
     
     leg_gen = stats_legend(df["chi"].loc["gen"], "Generator", show_mean=False, show_rms=False)
     leg_det = stats_legend(df["chi"].loc["det"], "Detector", show_mean=False, show_rms=False)
 
-    plt.scatter(gen_q_sq, gen_s5, s=4, color="red", alpha=0.6, label=leg_gen, marker="X")
-    plt.scatter(det_q_sq, det_s5, s=4, color="blue", alpha=0.6, label=leg_det, marker="d")
+    plt.errorbar(gen_x, gen_y, yerr=gen_err, fmt='none', ecolor='red', elinewidth=0.5, capsize=1, alpha=0.7)
+    plt.scatter(gen_x, gen_y, s=4, color="red", alpha=0.7, label=leg_gen, marker="X")
+    plt.errorbar(det_x, det_y, yerr=det_err, fmt='none', ecolor='blue', elinewidth=0.5, capsize=1, alpha=0.7)
+    plt.scatter(det_x, det_y, s=4, color="blue", alpha=1, label=leg_det, marker="d", alpha=0.7)
+    
     plt.ylim(-0.5, 0.35)
     plt.xlim(0, 19) 
     plt.title(r"$S_5$ for $\ell = \mu$")
