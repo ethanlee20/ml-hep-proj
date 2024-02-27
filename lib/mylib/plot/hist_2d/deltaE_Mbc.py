@@ -1,7 +1,6 @@
 
 import matplotlib.pyplot as plt
 from mylib.plot.core.util.save import save
-from mylib.plot.hist_2d.base import make_ax_labels
 
 from mylib.plot.hist_2d.hist_2d import add_color_bar, plot_hist_2d_side_by_side
 

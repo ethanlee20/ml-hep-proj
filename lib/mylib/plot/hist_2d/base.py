@@ -1,7 +1,7 @@
 
-from mylib.utilities.data import find_num_events, split_by_q_squared, only_signal
+from mylib.util.data import find_num_events, split_by_q_squared, only_signal
 
-from mylib.plotting.core.hist.hist_2d import plot_hist_2d_side_by_side, add_color_bar
+from mylib.plot.core.hist.hist_2d import plot_hist_2d_side_by_side, add_color_bar
 
 from mylib.plotting.core.augments.labels import Labels, set_plot_labels
 
