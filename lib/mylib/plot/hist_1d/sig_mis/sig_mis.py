@@ -109,6 +109,8 @@ def plot_sig_mis(data, var, title, xlabel):
     ax.set_title(title)
     ax.set_xlabel(xlabel)
 
+    return fig, ax
+
 
 def plot_deltaE(data, out_dir):
     fig, ax = plot_sig_mis(
