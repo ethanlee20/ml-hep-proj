@@ -1,5 +1,6 @@
 
 import matplotlib.pyplot as plt
+from mylib.calc.phys import calc_dif_inv_mass_k_pi_and_kst
 
 from mylib.plot.core.util.save import save
 from mylib.plot.core.looks.leg import stats_legend
@@ -75,16 +76,12 @@ from mylib.util.data import approx_num_bins
 #         file_name=file_name,
 #     )
 
-
-def plot_deltaE(data, out_dir):
-    sig = data[data["isSignal"]==1].loc["det"]["deltaE"]
-    mis = data[data["isSignal"]==0].loc["det"]["deltaE"]
-    gen = data.loc["gen"]["deltaE"]
-
+def plot_sig_mis(data, var, title, xlabel):
+    sig = data[data["isSignal"]==1].loc["det"][var]
+    mis = data[data["isSignal"]==0].loc["det"][var]
 
     leg_sig = stats_legend(sig, "Detector: Signal")
     leg_mis = stats_legend(mis, "Detector: Misrecon.", show_mean=False, show_rms=False)
-    leg_gen = stats_legend(gen, "Generator")
 
     n_bins = approx_num_bins(sig)
 
@@ -107,21 +104,42 @@ def plot_deltaE(data, out_dir):
         histtype="step",
         linewidth=1,
     )
-
-    ax.hist(
-        gen,
-        label=leg_gen,
-        bins=n_bins,
-        color="orange",
-        histtype="step",
-        linewidth=1,
-        linestyle="--"
-    )
     
     ax.legend()
-    ax.set_title(r'$\Delta E$')
-    ax.set_xlabel(r'[GeV]')
+    ax.set_title(title)
+    ax.set_xlabel(xlabel)
 
+
+def plot_deltaE(data, out_dir):
+    fig, ax = plot_sig_mis(
+        data, 
+        var="deltaE", 
+        title=r'$\Delta E$', 
+        xlabel=r'[GeV]'
+    )
     save("deltaE", q_squared_split='all', out_dir=out_dir)
 
+
+def plot_mbc(data, out_dir):
+    fig, ax = plot_sig_mis(
+        data,
+        var="Mbc",
+        title=r"$M_{bc}$",
+        xlabel=r"[GeV]"
+    )
+    save("mbc", q_squared_split='all', out_dir=out_dir)
+
+
+def plot_invM(data, out_dir):
+    data = data.copy()
+
+    data["invM_K_pi - invM_Kst"] = calc_dif_inv_mass_k_pi_and_kst(data)
+
+    fig, ax = plot_sig_mis(
+        data,
+        var="invM_K_pi - invM_Kst",
+        title=r"$M_{K, \pi} - M_{K^*}$",
+        xlabel=r"[GeV]"
+    )
+    save("invM", q_squared_split='all', out_dir=out_dir)
 

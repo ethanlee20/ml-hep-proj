@@ -11,10 +11,10 @@ from mylib.plot.core.util.setup import setup_mpl_params_save
 # from mylib.plot.hist_1d.q_squared import hist_q_squared
 # from mylib.plot.hist_1d.theta_lab_k import hist_theta_lab_k
 
-from mylib.plot.hist_1d.sig_mis.sig_mis import plot_deltaE
+from mylib.plot.hist_1d.sig_mis.sig_mis import plot_deltaE, plot_invM, plot_mbc
 
-from mylib.plot.afb import plot_afb
-from mylib.plot.s5 import plot_s5
+# from mylib.plot.afb import plot_afb
+# from mylib.plot.s5 import plot_s5
 
 
 
@@ -43,6 +43,9 @@ out_dir = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-02-23_e_brems_test/
 
 
 plot_deltaE(data, out_dir)
+plot_mbc(data, out_dir)
+plot_invM(data, out_dir)
+
 # hist_chi(data, out_dir)
 # hist_costheta_e(data, out_dir)
 # hist_costheta_K(data, out_dir)
