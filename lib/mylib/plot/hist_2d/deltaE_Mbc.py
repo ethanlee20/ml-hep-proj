@@ -7,22 +7,26 @@ from mylib.util.data import count_events
 
 
 def hist2d_deltaE_mbc(data, out_dir):
+
+    sig = data[data["isSignal"]==1].loc["det"]
+    mis = data[data["isSignal"]==0].loc["det"]
+
     fig, axs, norm = plot_hist_2d_side_by_side(
         xs=[
-            data[data["isSignal"]==1].loc["det"]["Mbc"],
-            data[data["isSignal"]==0].loc["det"]["Mbc"],
+            sig["Mbc"],
+            mis["Mbc"],
         ],
         ys=[
-            data[data["isSignal"]==1].loc["det"]["deltaE"],
-            data[data["isSignal"]==0].loc["det"]["deltaE"],
+            sig["deltaE"],
+            mis["deltaE"],
         ],
         num_bins=50,
     )
 
     add_color_bar(axs, norm)
 
-    axs[0].set_title(r"Signal \small" + f"({count_events(data[data["isSignal"]==1].loc["det"])})")
-    axs[1].set_title(r"Misrecon. \small" + f"({count_events(data[data["isSignal"]==0].loc["det"])})")
+    axs[0].set_title(r"Signal \small" + f"({count_events(sig)})")
+    axs[1].set_title(r"Misrecon. \small" + f"({count_events(mis)})")
     axs[0].set_ylabel(r"$\Delta E$")
     fig.supxlabel(r"$M_{bc}$")
 
