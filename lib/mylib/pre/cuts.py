@@ -1,6 +1,7 @@
 import numpy as np
 
 from mylib.calc.phys import calc_dif_inv_mass_k_pi_and_kst
+from mylib.util.data import count_events
 
 
 
@@ -30,8 +31,15 @@ def cut_on_deltaE(df):
     return cut_df
 
 
-def apply_all_cuts(df):
+def apply_all_cuts_with_counts(df):
     cut_df1 = cut_on_kst_inv_mass(df)
     cut_df2 = cut_on_mbc(cut_df1)
     cut_df3 = cut_on_deltaE(cut_df2)
-    return cut_df3
+
+    n_uncut = count_events(df)
+    n_cut1 = count_events(cut_df1)
+    n_cut2 = count_events(cut_df2)
+    n_cut3 = count_events(cut_df3)
+
+    n = np.array([n_uncut, n_cut1, n_cut2, n_cut3])
+    return cut_df3, n

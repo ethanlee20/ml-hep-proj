@@ -1,10 +1,11 @@
 import sys
 import pathlib as pl
 
+import numpy as np
 import pandas as pd
 
 from mylib.util.util import open_data
-from mylib.pre.cuts import apply_all_cuts    
+from mylib.pre.cuts import apply_all_cuts_with_counts    
 
 
 def config_input_data_paths(input_dir):
@@ -30,11 +31,11 @@ def config_paths(input_dir, output_dir):
 
 def apply_cuts(df):
     df_gen_uncut = df.loc['gen']
-    df_det_cut = apply_all_cuts(
+    df_det_cut, counts = apply_all_cuts_with_counts(
         df.loc['det'],
     )
     cut_df = pd.concat([df_gen_uncut, df_det_cut], keys=['gen', 'det'])
-    return cut_df
+    return cut_df, counts
 
 
 input_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-02-23_e_brems_test/recon'
@@ -42,9 +43,14 @@ output_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-02-23_e_brems_test/cut'
 
 input_paths, output_paths = config_paths(input_dir, output_dir)
 
+tot_counts = np.zeros(4)
+
 for in_path, out_path in zip(input_paths, output_paths):
     df = open_data(in_path, tree_names=['gen', 'det'])
-    cut_df = apply_cuts(df)
+    cut_df, counts = apply_cuts(df)
     cut_df.to_pickle(out_path)
+    tot_counts += counts
+
+np.savetxt(f'{output_dir}/flow.txt', tot_counts)
 
 
