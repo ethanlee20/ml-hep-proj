@@ -49,7 +49,11 @@ def reconstruct_detector_level():
     ma.applyChargedPidMVA(['e+:cor'], path=main, trainingMode=1)
     ma.applyCuts("e+:cor", "pidChargedBDTScore(11, ALL) > 0.9", path=main)
 
-    ma.fillParticleList(decayString="K+", cut="kaonID > 0.9", path=main)
+    # ma.fillParticleList(decayString="K+", cut="kaonID > 0.9", path=main)
+    ma.fillParticleList(decayString="K+", cut="", path=main)
+    ma.applyChargedPidMVA(['K+'], path=main, trainingMode=1)
+    ma.applyCuts("K+", "pidChargedBDTScore(321, ALL) > 0.9", path=main)
+
     ma.fillParticleList(decayString="pi-", cut="", path=main)
     ma.reconstructDecay("K*0 -> K+ pi-", cut="", path=main)
     ma.reconstructDecay("B0 -> K*0 e+:cor e-:cor ?addbrems", cut="", path=main)
