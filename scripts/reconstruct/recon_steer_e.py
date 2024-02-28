@@ -79,7 +79,8 @@ def create_variable_lists():
     )
 
     e_vars = vu.create_aliases_for_selected(
-        list_of_variables=vc.pid + std_vars + e_id,
+        # list_of_variables=vc.pid + std_vars + e_id,
+        list_of_variables=vc.pid + std_vars,
         decay_string="B0 -> K*0 ^e+ ^e-",
         prefix=["e_p", "e_m"],
     )
