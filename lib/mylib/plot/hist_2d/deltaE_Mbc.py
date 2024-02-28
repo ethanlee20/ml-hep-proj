@@ -20,5 +20,10 @@ def hist2d_deltaE_mbc(data, out_dir):
 
     add_color_bar(axs, norm)
 
+    axs[0].set_title("Signal")
+    axs[1].set_title("Misrecon.")
+    axs[0].set_ylabel(r"$\Delta E$")
+    fig.supxlabel(r"$M_{bc}$")
+
     save("mbc_deltaE", q_squared_split="all", out_dir=out_dir)
 
