@@ -27,8 +27,8 @@ def hist2d_deltaE_mbc(data, out_dir):
 
     axs[0].set_title(r"Signal \small" + f"(count: {count_events(sig)})")
     axs[1].set_title(r"Misrecon. \small" + f"(count: {count_events(mis)})")
-    axs[0].set_ylabel(r"$\Delta E$")
-    fig.supxlabel(r"$M_{bc}$")
+    axs[0].set_ylabel(r"$\Delta E$ [GeV]")
+    fig.supxlabel(r"$M_{bc}$ [GeV]")
 
     save("mbc_deltaE", q_squared_split="all", out_dir=out_dir)
 
