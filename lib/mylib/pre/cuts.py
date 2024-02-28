@@ -38,18 +38,18 @@ def apply_all_cuts_with_counts(df):
     cut_df3 = cut_on_deltaE(cut_df2)
 
     n_uncut_sig = count_events(df[df["isSignal"]==1])
-    n_cut1_sig = count_events(cut_df1[df["isSignal"]==1])
-    n_cut2_sig = count_events(cut_df2[df["isSignal"]==1])
-    n_cut3_sig = count_events(cut_df3[df["isSignal"]==1])
+    n_cut1_sig = count_events(cut_df1[cut_df1["isSignal"]==1])
+    n_cut2_sig = count_events(cut_df2[cut_df2["isSignal"]==1])
+    n_cut3_sig = count_events(cut_df3[cut_df3["isSignal"]==1])
 
     n_uncut_mis = count_events(df[df["isSignal"]==0])
-    n_cut1_mis = count_events(cut_df1[df["isSignal"]==0])
-    n_cut2_mis = count_events(cut_df2[df["isSignal"]==0])
-    n_cut3_mis = count_events(cut_df3[df["isSignal"]==0])
+    n_cut1_mis = count_events(cut_df1[cut_df1["isSignal"]==0])
+    n_cut2_mis = count_events(cut_df2[cut_df2["isSignal"]==0])
+    n_cut3_mis = count_events(cut_df3[cut_df3["isSignal"]==0])
 
     n_sig = np.array([n_uncut_sig, n_cut1_sig, n_cut2_sig, n_cut3_sig])
     n_mis = np.array([n_uncut_mis, n_cut1_mis, n_cut2_mis, n_cut3_mis])
 
-    n = pd.DataFrame({"sig":n_sig, "mis":n_mis})
+    n = pd.DataFrame({"sig":n_sig, "mis":n_mis, "tot":n_sig+n_mis})
 
     return cut_df3, n
