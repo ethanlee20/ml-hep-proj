@@ -5,11 +5,11 @@ from mylib.util.util import open_data, open_data_dir
 
 from mylib.plot.core.util.setup import setup_mpl_params_save
 
-# from mylib.plot.hist_1d.chi import hist_chi
-# from mylib.plot.hist_1d.costheta_K import hist_costheta_K
-# from mylib.plot.hist_1d.costheta_e import hist_costheta_e
-# from mylib.plot.hist_1d.q_squared import hist_q_squared
-# from mylib.plot.hist_1d.theta_lab_k import hist_theta_lab_k
+from mylib.plot.hist_1d.gen_det.chi import hist_chi
+from mylib.plot.hist_1d.gen_det.costheta_K import hist_costheta_K
+from mylib.plot.hist_1d.gen_det.costheta_e import hist_costheta_e
+from mylib.plot.hist_1d.gen_det.q_squared import hist_q_squared
+from mylib.plot.hist_1d.gen_det.theta_lab_k import hist_theta_lab_k
 
 from mylib.plot.hist_1d.sig_mis.sig_mis import plot_deltaE, plot_invM, plot_mbc
 from mylib.plot.hist_2d.deltaE_Mbc import hist2d_deltaE_mbc
@@ -43,15 +43,15 @@ data = open_data_dir('/home/belle2/elee20/ml-hep-proj/data/2024-02-23_e_brems_te
 out_dir = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-02-23_e_brems_test/plots')
 
 
-# plot_deltaE(data, out_dir)
-# plot_mbc(data, out_dir)
-# plot_invM(data, out_dir)
+plot_deltaE(data, out_dir)
+plot_mbc(data, out_dir)
+plot_invM(data, out_dir)
 hist2d_deltaE_mbc(data, out_dir)
 
-# hist_chi(data, out_dir)
-# hist_costheta_e(data, out_dir)
-# hist_costheta_K(data, out_dir)
-# hist_q_squared(data, out_dir)
+hist_chi(data, out_dir)
+hist_costheta_e(data, out_dir)
+hist_costheta_K(data, out_dir)
+hist_q_squared(data, out_dir)
 
 # hist_theta_lab_k(data, out_dir)
 
