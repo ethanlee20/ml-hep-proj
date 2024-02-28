@@ -12,6 +12,11 @@ from variables import variables as vm
 main = b2.Path()
 
 
+def append_global_tag():
+    gt = ma.getAnalysisGlobaltag()
+    b2.conditions.append_globaltag(gt)
+
+
 def input_to_the_path():
     ma.inputMdstList(
         filelist=['/home/belle2/elee20/ml-hep-proj/data/2024-02-23_e_brems_test/mc/mc_e.root'],
@@ -31,7 +36,7 @@ def reconstruct_generator_level():
 
 
 def reconstruct_detector_level():
-    ma.fillParticleList(decayString="e+:raw", cut="electronID > 0.9", path=main)
+    ma.fillParticleList(decayString="e+:raw", cut='', path=main)
 
     vm.addAlias("goodFWDGamma", "passesCut(clusterReg == 1 and clusterE > 0.075)")
     vm.addAlias("goodBRLGamma", "passesCut(clusterReg == 2 and clusterE > 0.05)")
@@ -40,6 +45,8 @@ def reconstruct_detector_level():
     ma.fillParticleList(decayString="gamma:brems", cut="goodGamma", path=main)
     
     ma.correctBrems("e+:cor", "e+:raw", "gamma:brems", path=main)
+
+    ma.applyChargedPidMVA(['e+:cor'], path=main, trainingMode=1)
 
     ma.fillParticleList(decayString="K+", cut="kaonID > 0.9", path=main)
     ma.fillParticleList(decayString="pi-", cut="", path=main)
@@ -57,21 +64,29 @@ def create_variable_lists():
         + vc.mc_kinematics
         + ['theta', 'thetaErr', 'mcTheta']
     )
+    
+    e_id = ["pidChargedBDTScore(11, ALL)"]
 
     Kstar0_vars = vu.create_aliases_for_selected(
         list_of_variables=std_vars,
         decay_string="B0 -> ^K*0 e+ e-",
     )
 
-    finalstate_vars = vu.create_aliases_for_selected(
+    k_pi_vars = vu.create_aliases_for_selected(
         list_of_variables=vc.pid + std_vars,
-        decay_string="B0 -> [K*0 -> ^K+ ^pi-] ^e+ ^e-",
-        prefix=["K_p", "pi_m", "e_p", "e_m"],
+        decay_string="B0 -> [K*0 -> ^K+ ^pi-] e+ e-",
+        prefix=["K_p", "pi_m"],
+    )
+
+    e_vars = vu.create_aliases_for_selected(
+        list_of_variables=vc.pid + std_vars + e_id,
+        decay_string="B0 -> K*0 ^e+ ^e-",
+        prefix=["e_p", "e_m"],
     )
     
     B0_vars = dict(
-        gen=std_vars + Kstar0_vars + finalstate_vars, 
-        det=std_vars + Kstar0_vars + finalstate_vars + ["cosHelicityAngle(0,0)"]
+        gen=std_vars + Kstar0_vars + k_pi_vars + e_vars, 
+        det=std_vars + Kstar0_vars + k_pi_vars + e_vars
     )
 
     return B0_vars
@@ -96,6 +111,8 @@ def save_output(B0_vars):
         path=main,
     )
 
+
+append_global_tag()
 
 input_to_the_path()
 
