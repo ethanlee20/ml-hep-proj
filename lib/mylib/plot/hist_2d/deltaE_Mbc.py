@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from mylib.plot.core.util.save import save
 
 from mylib.plot.hist_2d.hist_2d import add_color_bar, plot_hist_2d_side_by_side
+from mylib.util.data import count_events
 
 
 def hist2d_deltaE_mbc(data, out_dir):
@@ -20,8 +21,8 @@ def hist2d_deltaE_mbc(data, out_dir):
 
     add_color_bar(axs, norm)
 
-    axs[0].set_title("Signal")
-    axs[1].set_title("Misrecon.")
+    axs[0].set_title(r"Signal \small" + f"({count_events(data[data["isSignal"]==1].loc["det"])})")
+    axs[1].set_title(r"Misrecon. \small" + f"({count_events(data[data["isSignal"]==0].loc["det"])})")
     axs[0].set_ylabel(r"$\Delta E$")
     fig.supxlabel(r"$M_{bc}$")
 
