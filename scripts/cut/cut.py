@@ -43,7 +43,7 @@ output_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-02-23_e_brems_test/cut'
 
 input_paths, output_paths = config_paths(input_dir, output_dir)
 
-tot_counts = np.zeros(4)
+tot_counts = pd.DataFrame({"sig":np.zeros(4), "mis":np.zeros(4)})
 
 for in_path, out_path in zip(input_paths, output_paths):
     df = open_data(in_path, tree_names=['gen', 'det'])
