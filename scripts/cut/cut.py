@@ -51,6 +51,6 @@ for in_path, out_path in zip(input_paths, output_paths):
     cut_df.to_pickle(out_path)
     tot_counts += counts
 
-tot_counts.to_csv(f'{output_dir}/flow.txt')
+np.savetxt(f'{output_dir}/flow.txt', tot_counts, fmt="%i")
 
 
