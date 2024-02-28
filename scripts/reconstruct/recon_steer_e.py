@@ -47,6 +47,7 @@ def reconstruct_detector_level():
     ma.correctBrems("e+:cor", "e+:raw", "gamma:brems", path=main)
 
     ma.applyChargedPidMVA(['e+:cor'], path=main, trainingMode=1)
+    ma.applyCuts("e+:cor", "pidChargedBDTScore(11, ALL) > 0.9", path=main)
 
     ma.fillParticleList(decayString="K+", cut="kaonID > 0.9", path=main)
     ma.fillParticleList(decayString="pi-", cut="", path=main)
@@ -79,8 +80,8 @@ def create_variable_lists():
     )
 
     e_vars = vu.create_aliases_for_selected(
-        # list_of_variables=vc.pid + std_vars + e_id,
-        list_of_variables=vc.pid + std_vars,
+        list_of_variables=vc.pid + std_vars + e_id,
+        # list_of_variables=vc.pid + std_vars,
         decay_string="B0 -> K*0 ^e+ ^e-",
         prefix=["e_p", "e_m"],
     )
