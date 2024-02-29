@@ -44,7 +44,7 @@ def open_data(file_path, tree_names=None):
 
 def open_data_dir(path, tree_names=None):
     path = pl.Path(path)
-    file_paths = list(path.glob('*'))
+    file_paths = list(path.glob('[!.]*'))
     dfs = [open_data(path, tree_names) for path in file_paths]
     return pd.concat(dfs)
 
