@@ -30,7 +30,7 @@ def plot_gen_det(
         ),
         "det":stats_legend(
             data.loc["det"],
-            "Detector"
+            "Detector (sig.)"
         )
     }
 
