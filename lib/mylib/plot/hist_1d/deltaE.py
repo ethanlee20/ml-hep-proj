@@ -16,7 +16,7 @@ def plot_deltaE(data, out_dir):
     fig, ax = plot_gen_det(
         data,
         var="deltaE",
-        q_squared_split='all',
+        q_squared_split=None,
         title=r'$\Delta E$',
         xlabel=r'[GeV]',
     )
