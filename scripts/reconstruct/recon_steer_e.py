@@ -99,7 +99,7 @@ def create_variable_lists():
 
 
 def save_output(B0_vars):
-    out_file_name = "/home/belle2/elee20/ml-hep-proj/data/2024-02-23_e_brems_test/recon/e_re.root"
+    out_file_name = "e_re.root"
 
     ma.variablesToNtuple(
         decayString="B0:gen",
