@@ -76,7 +76,7 @@ from mylib.util.data import approx_num_bins
 #         file_name=file_name,
 #     )
 
-def plot_sig_mis(data, var, title, xlabel):
+def plot_sig_mis(data, var, title, xlabel, **kwargs):
     sig = data[data["isSignal"]==1].loc["det"][var]
     mis = data[data["isSignal"]==0].loc["det"][var]
 
@@ -94,6 +94,7 @@ def plot_sig_mis(data, var, title, xlabel):
         alpha=0.6,
         color="red",
         histtype="stepfilled",
+        **kwargs
     )
 
     ax.hist(
@@ -103,6 +104,7 @@ def plot_sig_mis(data, var, title, xlabel):
         color="blue",
         histtype="step",
         linewidth=1,
+        **kwargs
     )
     
     ax.legend()
@@ -117,7 +119,8 @@ def plot_deltaE(data, out_dir):
         data, 
         var="deltaE", 
         title=r'$\Delta E$', 
-        xlabel=r'[GeV]'
+        xlabel=r'[GeV]',
+        xlim=[-0.1, 0.1]
     )
     save("deltaE", q_squared_split='all', out_dir=out_dir)
 
@@ -127,7 +130,8 @@ def plot_mbc(data, out_dir):
         data,
         var="Mbc",
         title=r"$M_{bc}$",
-        xlabel=r"[GeV]"
+        xlabel=r"[GeV]",
+        xlim=[5.26, 5.30]
     )
     save("mbc", q_squared_split='all', out_dir=out_dir)
 
@@ -141,7 +145,8 @@ def plot_invM(data, out_dir):
         data,
         var="invM_K_pi - invM_Kst",
         title=r"$M_{K, \pi} - M_{K^*}$",
-        xlabel=r"[GeV]"
+        xlabel=r"[GeV]",
+        xlim=[-0.2, 0.2]
     )
     save("invM", q_squared_split='all', out_dir=out_dir)
 
