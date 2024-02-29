@@ -38,7 +38,7 @@ from mylib.plot.hist_1d.basic import plot_deltaE, plot_mbc, plot_invM
 setup_mpl_params_save()
 
 # data = open_data_dir('/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/mc/BtoKstee2/sub00', tree_names=['gen', 'det'])
-data = open_data('/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/cut/e_re_00051_job394437823_00_cut.root', tree_names=['gen', 'det'])
+data = open_data('/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/cut/e_re_00051_job394437823_00_cut.pkl', tree_names=['gen', 'det'])
 # data = open_data_dir('/home/belle2/elee20/ml-hep-proj/data/2024-01-24_GridMu/BtoKstMuMu_theta/analyzed/')
 # data = open_data('/home/belle2/elee20/ml-hep-proj/data/2024-01-24_GridMu/BtoKstMuMu_theta/analyzed/mu_re_00003_job388070872_00_cut_an.pkl')
 out_dir = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/plots_cut')
