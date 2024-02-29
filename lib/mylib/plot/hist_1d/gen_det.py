@@ -11,6 +11,7 @@ def plot_gen_det(
     q_squared_split, 
     title,
     xlabel,
+    xlim=(None, None)
 ):
     data = section(
         data, 
@@ -19,9 +20,8 @@ def plot_gen_det(
         q_squared_split=q_squared_split
     )
 
-    num_bins = approx_num_bins(
-        data.loc["det"]
-    )
+    if xlim != (None, None):
+        data = data[(data > xlim[0]) & (data < xlim[1])]
 
     legends = {
         "gen":stats_legend(
@@ -39,7 +39,7 @@ def plot_gen_det(
     ax.hist(
         data.loc["gen"],
         label=legends["gen"],    
-        bins=num_bins,
+        bins=approx_num_bins(data.loc["gen"]),
         color="purple",
         histtype="step",
         linestyle="-",
@@ -48,7 +48,7 @@ def plot_gen_det(
     ax.hist(
         data.loc["det"],
         label=legends["det"],    
-        bins=num_bins,
+        bins=approx_num_bins(data.loc["det"]),
         color="blue",
         histtype="step",
     )

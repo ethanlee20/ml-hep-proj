@@ -19,5 +19,6 @@ def plot_deltaE(data, out_dir):
         q_squared_split=None,
         title=r'$\Delta E$',
         xlabel=r'[GeV]',
+        xlim=(-0.1, 0.1)
     )
     save("deltaE_gen_det", q_squared_split='all', out_dir=out_dir)
