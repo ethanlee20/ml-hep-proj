@@ -37,10 +37,10 @@ from mylib.plot.hist_2d.deltaE_Mbc import hist2d_deltaE_mbc
 
 setup_mpl_params_save()
 
-data = open_data_dir('/home/belle2/elee20/ml-hep-proj/data/2024-02-23_e_brems_test/ana')
+data = open_data_dir('/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/mc/BtoKstee2/sub00')
 # data = open_data_dir('/home/belle2/elee20/ml-hep-proj/data/2024-01-24_GridMu/BtoKstMuMu_theta/analyzed/')
 # data = open_data('/home/belle2/elee20/ml-hep-proj/data/2024-01-24_GridMu/BtoKstMuMu_theta/analyzed/mu_re_00003_job388070872_00_cut_an.pkl')
-out_dir = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-02-23_e_brems_test/plots')
+out_dir = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/plots_uncut')
 
 
 plot_deltaE(data, out_dir)
@@ -48,10 +48,10 @@ plot_mbc(data, out_dir)
 plot_invM(data, out_dir)
 hist2d_deltaE_mbc(data, out_dir)
 
-hist_chi(data, out_dir)
-hist_costheta_e(data, out_dir)
-hist_costheta_K(data, out_dir)
-hist_q_squared(data, out_dir)
+# hist_chi(data, out_dir)
+# hist_costheta_e(data, out_dir)
+# hist_costheta_K(data, out_dir)
+# hist_q_squared(data, out_dir)
 
 # hist_theta_lab_k(data, out_dir)
 
