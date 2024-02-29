@@ -45,9 +45,9 @@ out_dir = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/plots_u
 
 
 plot_deltaE(data, out_dir)
-plot_mbc(data, out_dir)
-plot_invM(data, out_dir)
-hist2d_deltaE_mbc(data, out_dir)
+# plot_mbc(data, out_dir)
+# plot_invM(data, out_dir)
+# hist2d_deltaE_mbc(data, out_dir)
 
 # hist_chi(data, out_dir)
 # hist_costheta_e(data, out_dir)
