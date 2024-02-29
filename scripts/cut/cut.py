@@ -38,8 +38,8 @@ def apply_cuts(df):
     return cut_df, counts
 
 
-input_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-02-23_e_brems_test/recon'
-output_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-02-23_e_brems_test/cut'
+input_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/mc/BtoKstee2/sub00'
+output_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/cut'
 
 input_paths, output_paths = config_paths(input_dir, output_dir)
 
