@@ -5,14 +5,14 @@ from mylib.util.util import open_data, open_data_dir
 
 from mylib.plot.core.util.setup import setup_mpl_params_save
 
-from mylib.plot.hist_1d.gen_det.chi import hist_chi
-from mylib.plot.hist_1d.gen_det.costheta_K import hist_costheta_K
-from mylib.plot.hist_1d.gen_det.costheta_e import hist_costheta_e
-from mylib.plot.hist_1d.gen_det.q_squared import hist_q_squared
-from mylib.plot.hist_1d.gen_det.theta_lab_k import hist_theta_lab_k
+# from mylib.plot.hist_1d.gen_det.chi import hist_chi
+# from mylib.plot.hist_1d.gen_det.costheta_K import hist_costheta_K
+# from mylib.plot.hist_1d.gen_det.costheta_e import hist_costheta_e
+# from mylib.plot.hist_1d.gen_det.q_squared import hist_q_squared
+# from mylib.plot.hist_1d.gen_det.theta_lab_k import hist_theta_lab_k
 
-from mylib.plot.hist_1d.sig_mis.sig_mis import plot_deltaE, plot_invM, plot_mbc
-from mylib.plot.hist_2d.deltaE_Mbc import hist2d_deltaE_mbc
+from mylib.plot.hist_1d.deltaE import plot_deltaE
+# from mylib.plot.hist_2d.deltaE_Mbc import hist2d_deltaE_mbc
 
 # from mylib.plot.afb import plot_afb
 # from mylib.plot.s5 import plot_s5
