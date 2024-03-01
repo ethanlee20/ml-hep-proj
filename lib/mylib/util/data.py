@@ -33,8 +33,8 @@ def section(data, only_sig=True, var=None, q_squared_split=None):
 
 def min_max_over_arrays(ars:list):
     big_ar = np.concatenate(ars, axis=None)
-    min = np.min(big_ar)
-    max = np.max(big_ar)
+    min = np.nanmin(big_ar)
+    max = np.nanmax(big_ar)
     breakpoint()
     return min, max   
 
