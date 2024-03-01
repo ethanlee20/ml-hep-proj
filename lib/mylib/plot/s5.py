@@ -17,14 +17,14 @@ def plot_s5(df, out_dir, ell):
     # breakpoint()
     
     leg_gen = stats_legend(df["chi"].loc["gen"], "Generator", show_mean=False, show_rms=False)
-    leg_det = stats_legend(df["chi"].loc["det"], "Detector", show_mean=False, show_rms=False)
+    leg_det = stats_legend(df["chi"].loc["det"], "Detector (sig.)", show_mean=False, show_rms=False)
 
     plt.errorbar(gen_x, gen_y, yerr=gen_err, fmt='none', ecolor='red', elinewidth=0.5, capsize=1, alpha=0.7)
     plt.scatter(gen_x, gen_y, s=4, color="red", alpha=0.7, label=leg_gen, marker="X")
     plt.errorbar(det_x, det_y, yerr=det_err, fmt='none', ecolor='blue', elinewidth=0.5, capsize=1, alpha=0.7)
     plt.scatter(det_x, det_y, s=4, color="blue", alpha=0.7, label=leg_det, marker="d")
 
-    plt.ylim(-0.5, 0.35)
+    plt.ylim(-0.65, 0.45)
     plt.xlim(0, 19) 
     if ell == 'e':
         plt.title(r"$S_5$ for $\ell = e$")
@@ -34,5 +34,5 @@ def plot_s5(df, out_dir, ell):
     plt.ylabel(r"$S_5$")
 
     plt.legend()
-
+    
     save("s5", "all", out_dir)
