@@ -35,7 +35,6 @@ def min_max_over_arrays(ars:list):
     big_ar = np.concatenate(ars, axis=None)
     min = np.nanmin(big_ar)
     max = np.nanmax(big_ar)
-    breakpoint()
     return min, max   
 
 
