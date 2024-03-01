@@ -130,7 +130,7 @@ def plot_gen_eff(
 
 @over_q_squared_splits
 def eff_cos_theta_k(data, out_dir, q_squared_split):
-
+    breakpoint()
     data_gen, data_det = section(data, only_sig=True, var="costheta_K", q_squared_split=q_squared_split)
 
     fig, ax = plot_eff(
