@@ -3,9 +3,7 @@ from math import pi, sqrt
 import numpy as np
 
 from mylib.util.hist import (
-    make_bin_edges,
     find_bin_middles,
-    make_q_squared_bins,
     bin_data,
 )
 
@@ -56,8 +54,6 @@ def calc_s5_err(df):
     f_stdev = sqrt(f)
     b_stdev = sqrt(b)
 
-    n = f + b
-
     try: 
         stdev = 4/3 * 2*f*b / (f+b)**2 * sqrt((f_stdev/f)**2 + (b_stdev/b)**2)
         err = stdev# / sqrt(n)
@@ -69,24 +65,12 @@ def calc_s5_err(df):
     return err
 
 
-def calc_binned_s5(df, bins):
-    binned = bin_data(df, bins)
+def calc_s5_of_q_squared(df, num_points):
+
+    binned, edges = bin_data(df, 'q_squared', num_points, ret_edges=True)
     s5s = binned.apply(calc_s5)
     errs = binned.apply(calc_s5_err)
-    return s5s, errs
-
-
-def calc_s5_of_q_squared(df, num_points):
-    d_q_squared = df["q_squared"]
-
-    bin_edges = make_bin_edges(
-        start=d_q_squared.min(), 
-        stop=d_q_squared.max(), 
-        num_bins=num_points
-    )
-    bins = make_q_squared_bins(d_q_squared, bin_edges)
-    s5s, errs = calc_binned_s5(df, bins)
-    q_squareds = find_bin_middles(bin_edges)
+    q_squareds = find_bin_middles(edges)
 
     return q_squareds, s5s, errs
 

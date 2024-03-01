@@ -25,20 +25,25 @@ def find_bin_middles(bin_edges):
     return shifted_edges[:-1]
     
     
-def bin_data(data, bin_edges):
-    bins = pd.cut(data, bin_edges, include_lowest=True)
-    binned = data.groupby(bins)
-    return binned
+def bin_data(df, var, num_bins, ret_edges=False):
+    """Bin data in specified variable (equal size bins)."""
+
+    bin_edges = make_bin_edges(
+        start=df[var].nanmin(), 
+        stop=df[var].nanmax(), 
+        num_bins=num_bins
+    )
+    bins = pd.cut(df[var], bin_edges, include_lowest=True)
+    binned = df.groupby(bins)
+
+    if ret_edges == False:
+        return binned
+    return binned, bin_edges
 
 
 def find_bin_counts(binned):
     """Find the number of entries in each bin."""
     counts = binned.size()
     return counts
-
-
-def make_q_squared_bins(d_q_squared, bin_edges):
-    bins = assign_bins(d_q_squared, bin_edges)
-    return bins
 
 
