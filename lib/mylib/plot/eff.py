@@ -174,6 +174,6 @@ def eff_chi(data, out_dir, q_squared_split):
         data_det,
         num_points=100,
         title=r"Efficiency of $\chi$",
-        xlabel=r"$\chi",
+        xlabel=r"$\chi$",
     )
     save("eff_chi", q_squared_split, out_dir)
