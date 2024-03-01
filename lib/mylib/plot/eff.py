@@ -25,7 +25,7 @@ def plot_eff(
     num_points,
     title,
     xlabel,
-    ylim=(None, None),
+    ylim=(0, 0.5),
     **kwargs,
 ):
     """Plot the efficiency."""
