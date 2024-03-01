@@ -36,12 +36,12 @@ def calc_eff(data_gen, data_det, num_points):
     binned_gen = bin_data(data_gen, bin_edges)
     binned_det = bin_data(data_det, bin_edges)
 
-    bin_count_det = find_bin_counts(binned_gen)
-    bin_count_gen = find_bin_counts(binned_det)
+    bin_count_gen = find_bin_counts(binned_gen)
+    bin_count_det = find_bin_counts(binned_det)
     
     eff = (bin_count_det / bin_count_gen).values
     err = (np.sqrt(bin_count_det) / bin_count_gen).values
-    breakpoint()
+    # breakpoint()
     return eff, bin_mids, err
 
 
