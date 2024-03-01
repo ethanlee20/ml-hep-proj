@@ -17,8 +17,8 @@ from mylib.plot.eff import eff_chi, eff_cos_theta_e, eff_cos_theta_k
 
 # from mylib.plot.hist_2d.deltaE_Mbc import hist2d_deltaE_mbc
 
-# from mylib.plot.afb import plot_afb
-# from mylib.plot.s5 import plot_s5
+from mylib.plot.afb import plot_afb
+from mylib.plot.s5 import plot_s5
 
 
 
@@ -50,9 +50,9 @@ out_dir = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/plots_c
 # plot_deltaE(data, out_dir)
 # plot_mbc(data, out_dir)
 # plot_invM(data, out_dir)
-eff_cos_theta_k(data, out_dir)
-eff_cos_theta_e(data, out_dir)
-eff_chi(data, out_dir)
+# eff_cos_theta_k(data, out_dir)
+# eff_cos_theta_e(data, out_dir)
+# eff_chi(data, out_dir)
 
 # hist2d_deltaE_mbc(data, out_dir)
 
@@ -63,8 +63,8 @@ eff_chi(data, out_dir)
 
 # hist_theta_lab_k(data, out_dir)
 
-# plot_afb(data, out_dir)
-# plot_s5(data, out_dir)
+plot_afb(data, out_dir)
+plot_s5(data, out_dir)
 # hist_2d_costheta_k_theta_k(data, out_dir)
 # hist_2d_costheta_k_p_k(data, out_dir)
 
