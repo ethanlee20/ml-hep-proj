@@ -8,7 +8,6 @@ def make_bin_edges(start, stop, num_bins):
     
     bin_size = (stop - start) / num_bins
 
-    breakpoint()
     return np.arange(start, stop + bin_size, bin_size)
 
 
