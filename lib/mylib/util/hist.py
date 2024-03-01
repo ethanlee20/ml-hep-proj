@@ -23,17 +23,9 @@ def find_bin_middles(bin_edges):
     shifted_edges = bin_edges + 0.5 * bin_width
     return shifted_edges[:-1]
     
-
-def assign_bins(data, bin_edges):
-    bins = pd.cut(
-        data, 
-        bin_edges,
-        include_lowest=True
-    )
-    return bins
-
-
-def bin_data(data, bins):
+    
+def bin_data(data, bin_edges):
+    bins = pd.cut(data, bin_edges, include_lowest=True)
     binned = data.groupby(bins)
     return binned
 

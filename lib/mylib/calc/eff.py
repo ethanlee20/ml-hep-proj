@@ -6,14 +6,13 @@ import numpy as np
 import pandas as pd
 
 from mylib.util.data import (
-    split_by_q_squared, 
-    only_signal,
     min_max_over_arrays
 )
 from mylib.util.hist import (
+    bin_data,
     make_bin_edges,
     find_bin_middles,
-    find_bin_counts
+    find_bin_counts,
 )
 
 
@@ -34,8 +33,11 @@ def calc_eff(data_gen, data_det, num_points):
     bin_edges = make_bin_edges(start=min, stop=max, num_bins=num_points)
     bin_mids = find_bin_middles(bin_edges)
 
-    bin_count_det = find_bin_counts(data_gen, bin_edges)
-    bin_count_gen = find_bin_counts(data_det, bin_edges)
+    binned_gen = bin_data(data_gen, bin_edges)
+    binned_det = bin_data(data_det, bin_edges)
+
+    bin_count_det = find_bin_counts(binned_gen)
+    bin_count_gen = find_bin_counts(binned_det)
     
     eff = (bin_count_det / bin_count_gen).values
     err = (np.sqrt(bin_count_det) / bin_count_gen).values
