@@ -25,7 +25,7 @@ def plot_eff(
     num_points,
     title,
     xlabel,
-    ylim=(0, 0.5),
+    ylim=(None, None),
     **kwargs,
 ):
     """Plot the efficiency."""
@@ -66,7 +66,7 @@ def plot_eff(
     ax.legend()
     set_x_lims(ax, data_gen, data_det)
     ax.set_ymargin(0.25)
-    ax.set_ylim(*ylim)
+    ax.set_ylim(ylim)
     ax.set_ylabel(r"$\varepsilon$", rotation=0, labelpad=20)
     ax.set_xlabel(xlabel)
     ax.set_title(title)
