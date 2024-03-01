@@ -24,7 +24,10 @@ def plot_afb(data, out_dir, ell):
     plt.scatter(det_x, det_y, s=4, color="blue", alpha=0.7, label=leg_det, marker="d")
     plt.ylim(-0.3, 0.5)
     plt.xlim(0, 19) 
-    plt.title(r"$A_{FB}$ for $\ell = \mu$")
+    if ell == 'e':
+        plt.title(r"$A_{FB}$ for $\ell = e$")
+    elif ell == 'mu':
+        plt.title(r"$A_{FB}$ for $\ell = \mu$")
     plt.xlabel(r"$q^2$ [GeV$^2$]")
     plt.ylabel(r"$A_{FB}$")
 

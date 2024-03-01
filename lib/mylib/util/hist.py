@@ -29,8 +29,8 @@ def bin_data(df, var, num_bins, ret_edges=False):
     """Bin data in specified variable (equal size bins)."""
 
     bin_edges = make_bin_edges(
-        start=df[var].nanmin(), 
-        stop=df[var].nanmax(), 
+        start=df[var].min(), 
+        stop=df[var].max(), 
         num_bins=num_bins
     )
     bins = pd.cut(df[var], bin_edges, include_lowest=True)

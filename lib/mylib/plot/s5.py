@@ -7,7 +7,7 @@ from mylib.plot.core.util.save import save
 from mylib.plot.core.looks.leg import stats_legend
 
 
-def plot_s5(df, out_dir):
+def plot_s5(df, out_dir, ell):
     df = section(df, only_sig=True)
     # df = df[df["mcPDG"] == 511]
 
@@ -26,7 +26,10 @@ def plot_s5(df, out_dir):
 
     plt.ylim(-0.5, 0.35)
     plt.xlim(0, 19) 
-    plt.title(r"$S_5$ for $\ell = \mu$")
+    if ell == 'e':
+        plt.title(r"$S_5$ for $\ell = e$")
+    elif ell == 'mu':
+        plt.title(r"$S_5$ for $\ell = \mu$")
     plt.xlabel(r"$q^2$ [GeV$^2$]")
     plt.ylabel(r"$S_5$")
 
