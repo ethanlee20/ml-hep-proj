@@ -148,7 +148,7 @@ def eff_cos_theta_k(data, out_dir, q_squared_split):
 @over_q_squared_splits
 def eff_cos_theta_e(data, out_dir, q_squared_split):
 
-    data = section(data, only_sig=True, var="costheta_K", q_squared_split=q_squared_split)
+    data = section(data, only_sig=True, var="costheta_e", q_squared_split=q_squared_split)
     data_gen = data.loc["gen"]
     data_det = data.loc["det"]
 
@@ -165,7 +165,7 @@ def eff_cos_theta_e(data, out_dir, q_squared_split):
 @over_q_squared_splits
 def eff_chi(data, out_dir, q_squared_split):
 
-    data = section(data, only_sig=True, var="costheta_K", q_squared_split=q_squared_split)
+    data = section(data, only_sig=True, var="chi", q_squared_split=q_squared_split)
     data_gen = data.loc["gen"]
     data_det = data.loc["det"]
     
