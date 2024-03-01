@@ -41,7 +41,7 @@ def calc_eff(data_gen, data_det, num_points):
     
     eff = (bin_count_det / bin_count_gen).values
     err = (np.sqrt(bin_count_det) / bin_count_gen).values
-    # breakpoint()
+    
     return eff, bin_mids, err
 
 
