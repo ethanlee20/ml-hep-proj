@@ -13,6 +13,8 @@ from mylib.plot.core.util.setup import setup_mpl_params_save
 
 from mylib.plot.hist_1d.basic import plot_deltaE, plot_mbc, plot_invM
 from mylib.plot.hist_1d.ang import hist_chi, hist_costheta_e, hist_costheta_K, hist_q_squared
+from mylib.plot.eff import eff_chi, eff_cos_theta_e, eff_cos_theta_k
+
 # from mylib.plot.hist_2d.deltaE_Mbc import hist2d_deltaE_mbc
 
 # from mylib.plot.afb import plot_afb
@@ -47,14 +49,16 @@ out_dir = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/plots_c
 # plot_deltaE(data, out_dir)
 # plot_mbc(data, out_dir)
 # plot_invM(data, out_dir)
-
+eff_cos_theta_k(data, out_dir)
+eff_cos_theta_e(data, out_dir)
+eff_chi(data, out_dir)
 
 # hist2d_deltaE_mbc(data, out_dir)
 
-hist_chi(data, out_dir)
-hist_costheta_e(data, out_dir)
-hist_costheta_K(data, out_dir)
-hist_q_squared(data, out_dir)
+# hist_chi(data, out_dir)
+# hist_costheta_e(data, out_dir)
+# hist_costheta_K(data, out_dir)
+# hist_q_squared(data, out_dir)
 
 # hist_theta_lab_k(data, out_dir)
 
