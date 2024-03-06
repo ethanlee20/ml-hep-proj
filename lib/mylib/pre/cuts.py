@@ -1,12 +1,11 @@
+
+import pathlib as pl
+
 import numpy as np
 import pandas as pd
 
 from mylib.calc.phys import calc_dif_inv_mass_k_pi_and_kst
 from mylib.util.data import count_events
-
-
-
-
 
 
 def cut_on_kst_inv_mass(df):
@@ -32,7 +31,7 @@ def cut_on_deltaE(df):
     return cut_df
 
 
-def apply_all_cuts_with_counts(df):
+def apply_all_cuts_with_summary(df):
     cut_df1 = cut_on_kst_inv_mass(df)
     cut_df2 = cut_on_mbc(cut_df1)
     cut_df3 = cut_on_deltaE(cut_df2)
@@ -50,6 +49,14 @@ def apply_all_cuts_with_counts(df):
     n_sig = np.array([n_uncut_sig, n_cut1_sig, n_cut2_sig, n_cut3_sig])
     n_mis = np.array([n_uncut_mis, n_cut1_mis, n_cut2_mis, n_cut3_mis])
 
-    n = pd.DataFrame({"sig":n_sig, "mis":n_mis, "tot":n_sig+n_mis})
+    summ = pd.DataFrame({"sig":n_sig, "mis":n_mis, "tot":n_sig+n_mis})
 
-    return cut_df3, n
+    return cut_df3, summ
+
+
+def make_total_count_summary(dir):
+    dir = pl.Path(dir)
+    paths = dir.glob('*summ.csv')
+    summs = [pd.read_csv(path) for path in paths]
+    total = sum(summs)
+    return total

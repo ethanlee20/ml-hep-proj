@@ -5,56 +5,45 @@ import numpy as np
 import pandas as pd
 
 from mylib.util.util import open_data
-from mylib.pre.cuts import apply_all_cuts_with_counts    
+from mylib.pre.cuts import apply_all_cuts_with_summary    
 
 
-def config_input_data_paths(input_dir):
-    input_dir = pl.Path(input_dir)
-    input_paths = list(input_dir.glob("*.root"))
-    return input_paths
+def config_paths(in_dir, out_dir):
+    in_dir = pl.Path(in_dir)
+    out_dir = pl.Path(out_dir)
 
+    in_data_paths = in_dir.glob('*.root')
+    out_data_paths = [out_dir.joinpath(f'{in_path.stem}_cut.pkl') 
+                      for in_path in in_data_paths]
+    out_summ_paths = [out_dir.joinpath(f'{in_path.stem}_cut_summ.csv')
+                      for in_path in in_data_paths]
 
-def config_output_data_paths(output_dir, input_paths):    
-    output_dir = pl.Path(output_dir)
-    output_paths = [
-        output_dir.joinpath(f"{path.stem}_cut.pkl")
-        for path in input_paths
-    ]
-    return output_paths
-
-
-def config_paths(input_dir, output_dir):
-    input_paths = config_input_data_paths(input_dir)
-    output_paths = config_output_data_paths(output_dir, input_paths)
-    return input_paths, output_paths
+    return in_data_paths, out_data_paths, out_summ_paths
 
 
 def apply_cuts(df):
     df_gen_uncut = df.loc['gen']
-    df_det_cut, counts = apply_all_cuts_with_counts(
+    df_det_cut, summ = apply_all_cuts_with_summary(
         df.loc['det'],
     )
     cut_df = pd.concat([df_gen_uncut, df_det_cut], keys=['gen', 'det'])
-    return cut_df, counts
+    return cut_df, summ
 
 
 def main():
 
-    input_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/mc/BtoKstee2/sub00'
-    output_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/cut'
+    input_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-01-24_GridMu/BtoKstMuMu_theta/subset/mc'
+    output_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-01-24_GridMu/BtoKstMuMu_theta/subset/cut'
     
-    input_paths, output_paths = config_paths(input_dir, output_dir)
+    input_paths, output_paths, summ_paths = config_paths(input_dir, output_dir)
 
-    tot_counts = pd.DataFrame({"sig":np.zeros(4), "mis":np.zeros(4), "tot":np.zeros(4)})
+    for in_path, out_path, summ_path in zip(input_paths, output_paths, summ_paths):
+        data = open_data(in_path, tree_names=['gen', 'det'])
+        cut_data, summ = apply_cuts(data)
+        cut_data.to_pickle(out_path)
+        summ.to_csv(summ_path)
 
-    for in_path, out_path in zip(input_paths, output_paths):
-        df = open_data(in_path, tree_names=['gen', 'det'])
-        cut_df, counts = apply_cuts(df)
-        cut_df.to_pickle(out_path)
-        tot_counts += counts
-
-    np.savetxt(f'{output_dir}/flow.txt', tot_counts, fmt="%i")
-
+    # np.savetxt(f'{output_dir}/flow.txt', tot_counts, fmt="%i")
 
 if __name__ == "__main__":
     main()
