@@ -36,7 +36,7 @@ def main():
     output_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-01-24_GridMu/BtoKstMuMu_theta/subset/cut'
     
     input_paths, output_paths, summ_paths = config_paths(input_dir, output_dir)
-    breakpoint()
+    # breakpoint()
     for in_path, out_path, summ_path in zip(input_paths, output_paths, summ_paths):
         data = open_data(in_path, tree_names=['gen', 'det'])
         cut_data, summ = apply_cuts(data)
