@@ -43,7 +43,7 @@ def main():
         cut_data.to_pickle(out_path)
         summ.to_csv(summ_path)
 
-    tot_summ = make_total_count_summary(dir)
+    tot_summ = make_total_count_summary(output_dir)
     np.savetxt(f'{output_dir}/tot_cut_summ.txt', tot_summ, fmt="%i")
 
 if __name__ == "__main__":
