@@ -38,19 +38,23 @@ def apply_cuts(df):
     return cut_df, counts
 
 
-input_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/mc/BtoKstee2/sub00'
-output_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/cut'
+def main():
 
-input_paths, output_paths = config_paths(input_dir, output_dir)
+    input_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/mc/BtoKstee2/sub00'
+    output_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/cut'
+    
+    input_paths, output_paths = config_paths(input_dir, output_dir)
 
-tot_counts = pd.DataFrame({"sig":np.zeros(4), "mis":np.zeros(4), "tot":np.zeros(4)})
+    tot_counts = pd.DataFrame({"sig":np.zeros(4), "mis":np.zeros(4), "tot":np.zeros(4)})
 
-for in_path, out_path in zip(input_paths, output_paths):
-    df = open_data(in_path, tree_names=['gen', 'det'])
-    cut_df, counts = apply_cuts(df)
-    cut_df.to_pickle(out_path)
-    tot_counts += counts
+    for in_path, out_path in zip(input_paths, output_paths):
+        df = open_data(in_path, tree_names=['gen', 'det'])
+        cut_df, counts = apply_cuts(df)
+        cut_df.to_pickle(out_path)
+        tot_counts += counts
 
-np.savetxt(f'{output_dir}/flow.txt', tot_counts, fmt="%i")
+    np.savetxt(f'{output_dir}/flow.txt', tot_counts, fmt="%i")
 
 
+if __name__ == "__main__":
+    main()
