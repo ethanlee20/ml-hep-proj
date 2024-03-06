@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 
 from mylib.util.util import open_data
-from mylib.pre.cuts import apply_all_cuts_with_summary    
+from mylib.pre.cuts import apply_all_cuts_with_summary, make_total_count_summary    
 
 
 def config_paths(in_dir, out_dir):
@@ -43,7 +43,8 @@ def main():
         cut_data.to_pickle(out_path)
         summ.to_csv(summ_path)
 
-    # np.savetxt(f'{output_dir}/flow.txt', tot_counts, fmt="%i")
+    tot_summ = make_total_count_summary(dir)
+    np.savetxt(f'{output_dir}/tot_cut_summ.txt', tot_summ, fmt="%i")
 
 if __name__ == "__main__":
     main()
