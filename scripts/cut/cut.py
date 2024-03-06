@@ -12,7 +12,7 @@ def config_paths(in_dir, out_dir):
     in_dir = pl.Path(in_dir)
     out_dir = pl.Path(out_dir)
 
-    in_data_paths = in_dir.glob('*.root')
+    in_data_paths = list(in_dir.glob('*.root'))
     out_data_paths = [out_dir.joinpath(f'{in_path.stem}_cut.pkl') 
                       for in_path in in_data_paths]
     out_summ_paths = [out_dir.joinpath(f'{in_path.stem}_cut_summ.csv')
