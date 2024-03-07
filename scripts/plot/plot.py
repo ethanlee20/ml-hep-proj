@@ -56,7 +56,7 @@ data = open_data_dir('/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/subs
 out_dir = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/subset/plots/')
 
 
-hist2d_deltaE_mbc(data, out_dir)
+hist2d_deltaE_mbc(data, out_dir, sig_only=True)
 
 # plot_candidate_multiplicity(data, out_dir, ell='e')
 
