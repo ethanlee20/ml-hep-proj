@@ -2,7 +2,7 @@
 import matplotlib.pyplot as plt
 from mylib.plot.core.util.save import save
 
-from mylib.plot.hist_2d.hist_2d import add_color_bar, plot_hist_2d_side_by_side
+from mylib.plot.core.hist_2d.hist_2d import add_color_bar, plot_hist_2d_side_by_side
 from mylib.util.data import count_events
 
 
