@@ -14,6 +14,7 @@ def plot_candidate_multiplicity(data, out_dir_path):
         bins=[-0.5, 0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5], 
         label=stats_legend(sig["__event__"], descrp="Signal (after cuts)", show_mean=False, show_rms=False),
         color="red", 
+        alpha=0.6,
         histtype="stepfilled"
     )
     
