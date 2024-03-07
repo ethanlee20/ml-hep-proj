@@ -7,9 +7,9 @@ from mylib.util.data import count_events
 
 
 def hist2d_deltaE_mbc(data, out_dir, sig_only=False):
-    if sig_only:
-        sig = 
-        fig, axs = 
+    # if sig_only:
+    #     sig = 
+    #     fig, axs = 
     sig = data[data["isSignal"]==1].loc["det"]
     mis = data[data["isSignal"]==0].loc["det"]
 
