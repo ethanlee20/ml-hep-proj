@@ -36,20 +36,26 @@ def apply_all_cuts_with_summary(df):
     cut_df2 = cut_on_mbc(cut_df1)
     cut_df3 = cut_on_deltaE(cut_df2)
 
-    n_uncut_sig = count_events(df[df["isSignal"]==1])
+    n_cut0_sig = count_events(df[df["isSignal"]==1])
     n_cut1_sig = count_events(cut_df1[cut_df1["isSignal"]==1])
     n_cut2_sig = count_events(cut_df2[cut_df2["isSignal"]==1])
     n_cut3_sig = count_events(cut_df3[cut_df3["isSignal"]==1])
 
-    n_uncut_mis = count_events(df[df["isSignal"]==0])
+    n_cut0_mis = count_events(df[df["isSignal"]==0])
     n_cut1_mis = count_events(cut_df1[cut_df1["isSignal"]==0])
     n_cut2_mis = count_events(cut_df2[cut_df2["isSignal"]==0])
     n_cut3_mis = count_events(cut_df3[cut_df3["isSignal"]==0])
 
-    n_sig = np.array([n_uncut_sig, n_cut1_sig, n_cut2_sig, n_cut3_sig])
-    n_mis = np.array([n_uncut_mis, n_cut1_mis, n_cut2_mis, n_cut3_mis])
+    n_cut0_tot = count_events(df)
+    n_cut1_tot = count_events(cut_df1)
+    n_cut2_tot = count_events(cut_df2)
+    n_cut3_tot = count_events(cut_df3)
 
-    summ = pd.DataFrame({"sig":n_sig, "mis":n_mis, "tot":n_sig+n_mis})
+    n_sig = np.array([n_cut0_sig, n_cut1_sig, n_cut2_sig, n_cut3_sig])
+    n_mis = np.array([n_cut0_mis, n_cut1_mis, n_cut2_mis, n_cut3_mis])
+    n_tot = np.array([n_cut0_tot, n_cut1_tot, n_cut2_tot, n_cut3_tot])
+
+    summ = pd.DataFrame({"sig":n_sig, "mis":n_mis, "tot":n_tot})
 
     return cut_df3, summ
 
