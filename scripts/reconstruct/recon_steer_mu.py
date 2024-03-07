@@ -31,7 +31,7 @@ def reconstruct_generator_level():
     ma.fillParticleListFromMC(decayString="mu-:gen", cut="", path=main)
 
     ma.reconstructMCDecay("K*0:gen -> K+:gen pi-:gen", cut="", path=main)
-    ma.reconstructMCDecay("B0:gen -> K*0:gen mu+:gen mu-:gen",cut="",path=main,)
+    ma.reconstructMCDecay("B0:gen -> K*0:gen mu+:gen mu-:gen", cut="", path=main)
 
 
 def reconstruct_detector_level():
@@ -94,6 +94,8 @@ def save_output(B0_vars):
         path=main,
     )
 
+
+append_global_tag()
 
 input_to_the_path()
 
