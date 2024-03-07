@@ -56,7 +56,7 @@ data = open_data_dir('/home/belle2/elee20/ml-hep-proj/data/2024-03-07_gridbdtmu/
 out_dir = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-03-07_gridbdtmu/subset/plots/')
 
 
-plot_candidate_multiplicity(data, out_dir)
+plot_candidate_multiplicity(data, out_dir, ell='mu')
 
 
 

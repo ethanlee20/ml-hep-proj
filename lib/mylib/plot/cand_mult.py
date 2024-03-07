@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from mylib.plot.core.looks.leg import stats_legend
 from mylib.plot.core.util.save import save
 
-def plot_candidate_multiplicity(data, out_dir_path):
+def plot_candidate_multiplicity(data, out_dir_path, ell):
 
     sig = data[data["isSignal"]==1].loc["det"]
     mis = data[data["isSignal"]==0].loc["det"]
@@ -25,8 +25,11 @@ def plot_candidate_multiplicity(data, out_dir_path):
         color="blue", 
         histtype="step"
     )
-    
-    plt.title("Candidate Multiplicity")
+    if ell == "mu":
+        plt.title(r"Candidate Multiplicity ($\ell = \mu$)")
+    elif ell == "e":
+        plt.title(r"Candidate Multiplicity ($\ell = e$)")
+    else: raise Exception()
     plt.xlabel("Candidates per Event")
     plt.xticks([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
     plt.legend()
