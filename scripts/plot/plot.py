@@ -20,6 +20,8 @@ from mylib.plot.eff import eff_chi, eff_cos_theta_e, eff_cos_theta_k
 from mylib.plot.afb import plot_afb
 from mylib.plot.s5 import plot_s5
 
+from mylib.plot.cand_mult import plot_candidate_multiplicity
+
 
 
 # from mylib.plot.hist2d.costheta_k import (
@@ -44,9 +46,18 @@ setup_mpl_params_save()
 # data = open_data('/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/cut/e_re_00051_job394437823_00_cut.pkl', tree_names=['gen', 'det'])
 # data = open_data_dir('/home/belle2/elee20/ml-hep-proj/data/2024-01-24_GridMu/BtoKstMuMu_theta/analyzed/')
 # data = open_data('/home/belle2/elee20/ml-hep-proj/data/2024-01-24_GridMu/BtoKstMuMu_theta/analyzed/mu_re_00003_job388070872_00_cut_an.pkl')
-data = open_data_dir('/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/ana', tree_names=['gen', 'det'])
+# data = open_data_dir('/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/ana', tree_names=['gen', 'det'])
+data = open_data_dir('/home/belle2/elee20/ml-hep-proj/data/2024-01-24_GridMu/BtoKstMuMu_theta/subset/cut/', tree_names=['gen', 'det'])
 # data = open_data('/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/ana/e_re_00051_job394437823_00_cut_an.pkl', tree_names=['gen', 'det'])
+
+
 out_dir = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/plots_cut')
+
+
+plot_candidate_multiplicity(data, out_dir)
+
+
+
 # plot_deltaE(data, out_dir)
 # plot_mbc(data, out_dir)
 # plot_invM(data, out_dir)
@@ -63,8 +74,8 @@ out_dir = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/plots_c
 
 # hist_theta_lab_k(data, out_dir)
 
-plot_afb(data, out_dir, ell='e')
-plot_s5(data, out_dir, ell='e')
+# plot_afb(data, out_dir, ell='e')
+# plot_s5(data, out_dir, ell='e')
 # hist_2d_costheta_k_theta_k(data, out_dir)
 # hist_2d_costheta_k_p_k(data, out_dir)
 
