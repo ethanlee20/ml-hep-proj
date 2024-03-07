@@ -39,6 +39,7 @@ def add_hist_2d(ax, hist_2d, norm):
     x_edges = hist_2d[0]
     y_edges = hist_2d[1]
     h = hist_2d[2]
+    breakpoint()
     ax.pcolormesh(
         x_edges, 
         y_edges, 
