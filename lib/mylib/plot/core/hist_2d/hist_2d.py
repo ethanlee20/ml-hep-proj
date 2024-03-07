@@ -36,10 +36,11 @@ def calc_multi_hist_2d(
 
     
 def add_hist_2d(ax, hist_2d, norm):
-    x_edges = hist_2d[0]
-    y_edges = hist_2d[1]
-    h = hist_2d[2]
-    breakpoint()
+    h = hist_2d[0]
+    x_edges = hist_2d[1]
+    y_edges = hist_2d[2]
+
+    # breakpoint()
     ax.pcolormesh(
         x_edges, 
         y_edges, 
@@ -57,7 +58,7 @@ def plot_hist_2d_side_by_side(
     assert((len(xs) == 2) & (len(ys) == 2))
 
     hists = calc_multi_hist_2d(xs, ys, num_bins)
-    hs = [hist[2] for hist in hists]
+    hs = [hist[0] for hist in hists]
     norm = multi_hist_norm(hs)
 
     fig, axs = subplots_side_by_side()
