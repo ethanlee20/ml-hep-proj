@@ -11,6 +11,11 @@ from variables import utils as vu
 main = b2.Path()
 
 
+def append_global_tag():
+    gt = ma.getAnalysisGlobaltag()
+    b2.conditions.append_globaltag(gt)
+
+
 def input_to_the_path():
     ma.inputMdstList(
         filelist=['/home/belle2/elee20/ml-hep-proj/data/2024-01-08_LargeMu/mc_1.root'],
@@ -20,43 +25,24 @@ def input_to_the_path():
 
 
 def reconstruct_generator_level():
-    ma.fillParticleListFromMC(
-        decayString="K+:gen", cut="", path=main
-    )
-    ma.fillParticleListFromMC(
-        decayString="pi-:gen", cut="", path=main
-    )
-    ma.fillParticleListFromMC(
-        decayString="mu+:gen", cut="", path=main
-    )
-    ma.fillParticleListFromMC(
-        decayString="mu-:gen", cut="", path=main
-    )
+    ma.fillParticleListFromMC(decayString="K+:gen", cut="", path=main)
+    ma.fillParticleListFromMC(decayString="pi-:gen", cut="", path=main)
+    ma.fillParticleListFromMC(decayString="mu+:gen", cut="", path=main)
+    ma.fillParticleListFromMC(decayString="mu-:gen", cut="", path=main)
 
-    ma.reconstructMCDecay(
-        "K*0:gen -> K+:gen pi-:gen", cut="", path=main
-    )
-    ma.reconstructMCDecay(
-        "B0:gen -> K*0:gen mu+:gen mu-:gen",
-        cut="",
-        path=main,
-    )
+    ma.reconstructMCDecay("K*0:gen -> K+:gen pi-:gen", cut="", path=main)
+    ma.reconstructMCDecay("B0:gen -> K*0:gen mu+:gen mu-:gen",cut="",path=main,)
 
 
 def reconstruct_detector_level():
-    ma.fillParticleList(
-        decayString="mu+", cut="muonID > 0.9", path=main
-    )
-    ma.fillParticleList(
-        decayString="K+", cut="kaonID > 0.9", path=main
-    )
-    ma.fillParticleList(
-        decayString="pi-", cut="", path=main
-    )
+    ma.fillParticleList(decayString="mu+", cut="muonID > 0.9", path=main)
+    ma.applyChargedPidMVA(['mu+'], path=main, trainingMode=1)
+    ma.applyCuts("mu+", "pidChargedBDTScore(13, ALL) > 0.9", path=main)
+
+    ma.fillParticleList(decayString="K+", cut="kaonID > 0.9", path=main)
+    ma.fillParticleList(decayString="pi-", cut="", path=main)
     ma.reconstructDecay("K*0 -> K+ pi-", cut="", path=main)
-    ma.reconstructDecay(
-        "B0 -> K*0 mu+ mu-", cut="", path=main
-    )
+    ma.reconstructDecay("B0 -> K*0 mu+ mu-", cut="", path=main)
     ma.matchMCTruth("B0", path=main)
 
 
