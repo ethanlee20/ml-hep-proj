@@ -35,7 +35,7 @@ def reconstruct_generator_level():
 
 
 def reconstruct_detector_level():
-    ma.fillParticleList(decayString="mu+", cut="muonID > 0.9", path=main)
+    ma.fillParticleList(decayString="mu+", cut="", path=main)
     ma.applyChargedPidMVA(['mu+'], path=main, trainingMode=1)
     ma.applyCuts("mu+", "pidChargedBDTScore(13, ALL) > 0.9", path=main)
 
