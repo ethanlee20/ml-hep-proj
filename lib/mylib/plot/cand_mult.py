@@ -9,7 +9,7 @@ def plot_candidate_multiplicity(data, out_dir_path):
     plt.hist(
         data.loc["gen"]["__event__"].value_counts().values, 
         bins=[-0.5, 0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5], 
-        label=stats_legend(data.loc["gen"], descrp="Generator", show_mean=False, show_rms=False), 
+        label=stats_legend(data.loc["gen"]["__event__"], descrp="Generator", show_mean=False, show_rms=False), 
         color="blue", 
         histtype="step" 
     )
@@ -17,7 +17,7 @@ def plot_candidate_multiplicity(data, out_dir_path):
     plt.hist(
         data.loc["det"]["__event__"].value_counts().values, 
         bins=[-0.5, 0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5], 
-        label=stats_legend(data.loc["det"], descrp="Detector (after cuts)", show_mean=False, show_rms=False),
+        label=stats_legend(data.loc["det"]["__event__"], descrp="Detector (after cuts)", show_mean=False, show_rms=False),
         color="red", 
         histtype="step"
     )
