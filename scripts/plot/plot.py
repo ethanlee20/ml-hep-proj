@@ -11,14 +11,14 @@ from mylib.plot.core.util.setup import setup_mpl_params_save
 # from mylib.plot.hist_1d.gen_det.q_squared import hist_q_squared
 # from mylib.plot.hist_1d.gen_det.theta_lab_k import hist_theta_lab_k
 
-from mylib.plot.hist_1d.basic import plot_deltaE, plot_mbc, plot_invM
-from mylib.plot.hist_1d.ang import hist_chi, hist_costheta_e, hist_costheta_K, hist_q_squared
-from mylib.plot.eff import eff_chi, eff_cos_theta_e, eff_cos_theta_k
+# from mylib.plot.hist_1d.basic import plot_deltaE, plot_mbc, plot_invM
+# from mylib.plot.hist_1d.ang import hist_chi, hist_costheta_e, hist_costheta_K, hist_q_squared
+# from mylib.plot.eff import eff_chi, eff_cos_theta_e, eff_cos_theta_k
 
 # from mylib.plot.hist_2d.deltaE_Mbc import hist2d_deltaE_mbc
 
-from mylib.plot.afb import plot_afb
-from mylib.plot.s5 import plot_s5
+# from mylib.plot.afb import plot_afb
+# from mylib.plot.s5 import plot_s5
 
 from mylib.plot.cand_mult import plot_candidate_multiplicity
 
