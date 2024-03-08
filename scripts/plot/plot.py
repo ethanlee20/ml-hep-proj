@@ -47,8 +47,8 @@ setup_mpl_params_save()
 # data = open_data_dir('/home/belle2/elee20/ml-hep-proj/data/2024-01-24_GridMu/BtoKstMuMu_theta/analyzed/')
 # data = open_data('/home/belle2/elee20/ml-hep-proj/data/2024-01-24_GridMu/BtoKstMuMu_theta/analyzed/mu_re_00003_job388070872_00_cut_an.pkl')
 # data = open_data_dir('/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/ana', tree_names=['gen', 'det'])
-data = open_data_dir('/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/subset/mc', tree_names=['gen', 'det'])
-# data = open_data_dir('/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/subset/cut', tree_names=['gen', 'det'])
+# data = open_data_dir('/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/subset/mc', tree_names=['gen', 'det'])
+data = open_data_dir('/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/subset/cut', tree_names=['gen', 'det'])
 
 # data = open_data('/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/ana/e_re_00051_job394437823_00_cut_an.pkl', tree_names=['gen', 'det'])
 
@@ -56,7 +56,7 @@ data = open_data_dir('/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/subs
 out_dir = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/subset/plots/')
 
 
-hist2d_deltaE_mbc(data, out_dir, sig_only=True)
+hist2d_deltaE_mbc(data, out_dir, sig_only=False)
 
 # plot_candidate_multiplicity(data, out_dir, ell='e')
 
