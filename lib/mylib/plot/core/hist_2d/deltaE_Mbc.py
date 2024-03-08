@@ -12,7 +12,7 @@ def hist2d_deltaE_mbc(data, out_dir, sig_only=False):
 
     if sig_only:
         sig = data[data["isSignal"]==1].loc["det"]
-        plt.hist2d(sig["Mbc"], sig["deltaE"], bins=n_bins, cmap='magma', range=((5.27,5.29), (-0.10,0.05)))
+        plt.hist2d(sig["Mbc"], sig["deltaE"], bins=n_bins, cmap='magma', range=((5.27,5.29), (-0.10,0.05)), norm="log")
         plt.colorbar()
         plt.title(r"Signal \small" + f"(count: {count_events(sig)})")
         plt.ylabel(r"$\Delta E$ [GeV]")
