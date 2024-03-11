@@ -38,7 +38,7 @@ def main():
 
     input_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-03-11_genericMu2/genericMu2/sub00'
     # input_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-03-07_gridbdtmu/subset/mc'
-    output_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-03-11_genericMu/genericMu2/cut'
+    output_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-03-11_genericMu2/genericMu2/cut'
     # output_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-03-07_gridbdtmu/subset/cut'
     
     input_paths, output_paths, summ_paths = config_paths(input_dir, output_dir)
