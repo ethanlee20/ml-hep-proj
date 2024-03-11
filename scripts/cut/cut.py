@@ -22,12 +22,16 @@ def config_paths(in_dir, out_dir):
 
 
 def apply_cuts(df):
-    df_gen_uncut = df.loc['gen']
     df_det_cut, summ = apply_all_cuts_with_summary(
         df.loc['det'],
     )
-    cut_df = pd.concat([df_gen_uncut, df_det_cut], keys=['gen', 'det'])
-    return cut_df, summ
+    try:
+        df_gen_uncut = df.loc['gen']
+        cut_df = pd.concat([df_gen_uncut, df_det_cut], keys=['gen', 'det'])
+        return cut_df, summ
+    except KeyError:
+        print("Probably no matching generator level events.")
+        return df_det_cut, summ
 
 
 def main():
