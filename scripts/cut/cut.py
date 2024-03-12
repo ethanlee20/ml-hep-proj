@@ -25,6 +25,7 @@ def apply_cuts(df):
     df_det_cut, summ = apply_all_cuts_with_summary(
         df.loc['det'],
     )
+    breakpoint()
     try:
         df_gen_uncut = df.loc['gen']
         cut_df = pd.concat([df_gen_uncut, df_det_cut], keys=['gen', 'det'])
