@@ -51,7 +51,11 @@ def reconstruct_detector_level():
 
     ma.fillParticleList(decayString="K+", cut="kaonID > 0.9", path=main)
     ma.fillParticleList(decayString="pi-", cut="", path=main)
-    ma.reconstructDecay("K*0 -> K+ pi-", cut="", path=main)
+
+    invM_Kst = 0.892
+    fullwidth_Kst = 0.05
+    ma.reconstructDecay("K*0 -> K+ pi-", cut=f"abs(daughterInvM(0, 1) - {invM_Kst}) <= 1.5 * {fullwidth_Kst}", path=main)
+
     ma.reconstructDecay("B0 -> K*0 e+:cor e-:cor ?addbrems", cut="[abs(deltaE) <= 0.05] and [Mbc > 5.27]", path=main)
     ma.matchMCTruth("B0", path=main)
 
@@ -61,6 +65,7 @@ def create_variable_lists():
         vc.deltae_mbc
         + vc.inv_mass
         + vc.mc_truth
+        + vc.pid
         + vc.kinematics
         + vc.mc_kinematics
         + ['theta', 'thetaErr', 'mcTheta']
@@ -74,13 +79,13 @@ def create_variable_lists():
     )
 
     k_pi_vars = vu.create_aliases_for_selected(
-        list_of_variables=vc.pid + std_vars,
+        list_of_variables=std_vars,
         decay_string="B0 -> [K*0 -> ^K+ ^pi-] e+ e-",
         prefix=["K_p", "pi_m"],
     )
 
     e_vars = vu.create_aliases_for_selected(
-        list_of_variables=vc.pid + std_vars + e_id,
+        list_of_variables=std_vars + e_id,
         # list_of_variables=vc.pid + std_vars,
         decay_string="B0 -> K*0 ^e+ ^e-",
         prefix=["e_p", "e_m"],
