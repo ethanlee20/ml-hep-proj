@@ -21,7 +21,7 @@ ell = 'e'
 
 def config_input_data_paths(input_dir):
     input_dir = pl.Path(input_dir)
-    input_paths = list(input_dir.glob("*.pkl"))
+    input_paths = list(input_dir.glob("*.pkl")) + list(input_dir.glob("*.root"))
     return input_paths
 
 
