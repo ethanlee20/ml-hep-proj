@@ -6,6 +6,7 @@ import basf2 as b2
 import modularAnalysis as ma
 from variables import collections as vc
 from variables import utils as vu
+from variables import variables as vm
 
 
 main = b2.Path()
@@ -35,14 +36,14 @@ def reconstruct_generator_level():
 
 
 def reconstruct_detector_level():
-    ma.fillParticleList(decayString="mu+", cut="", path=main)
-    ma.applyChargedPidMVA(['mu+'], path=main, trainingMode=1)
-    ma.applyCuts("mu+", "pidChargedBDTScore(13, ALL) > 0.9", path=main)
+    ma.fillParticleList(decayString="mu+", cut="muonID > 0.9", path=main)
+    # ma.applyChargedPidMVA(['mu+'], path=main, trainingMode=1)
+    # ma.applyCuts("mu+", "pidChargedBDTScore(13, ALL) > 0.9", path=main)
 
     ma.fillParticleList(decayString="K+", cut="kaonID > 0.9", path=main)
     ma.fillParticleList(decayString="pi-", cut="", path=main)
     ma.reconstructDecay("K*0 -> K+ pi-", cut="", path=main)
-    ma.reconstructDecay("B0 -> K*0 mu+ mu-", cut="", path=main)
+    ma.reconstructDecay("B0 -> K*0 mu+ mu-", cut="[abs(deltaE) <= 0.05] and [Mbc > 5.27]", path=main)
     ma.matchMCTruth("B0", path=main)
 
 

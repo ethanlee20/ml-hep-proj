@@ -52,7 +52,7 @@ def reconstruct_detector_level():
     ma.fillParticleList(decayString="K+", cut="kaonID > 0.9", path=main)
     ma.fillParticleList(decayString="pi-", cut="", path=main)
     ma.reconstructDecay("K*0 -> K+ pi-", cut="", path=main)
-    ma.reconstructDecay("B0 -> K*0 e+:cor e-:cor ?addbrems", cut="", path=main)
+    ma.reconstructDecay("B0 -> K*0 e+:cor e-:cor ?addbrems", cut="[abs(deltaE) <= 0.05] and [Mbc > 5.27]", path=main)
     ma.matchMCTruth("B0", path=main)
 
 
