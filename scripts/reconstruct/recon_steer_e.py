@@ -54,7 +54,7 @@ def reconstruct_detector_level():
 
     vm.addAlias("invM_Kst", "0.892")
     vm.addAlias("fullwidth_Kst", "0.05")
-    ma.reconstructDecay("K*0 -> K+ pi-", cut=f"abs(formula(daughterInvM(0, 1) - invM_Kst)) <= formula(1.5 * fullwidth_Kst)", path=main)
+    ma.reconstructDecay("K*0 -> K+ pi-", cut=f"abs(daughterInvM(0, 1) - invM_Kst) <= (1.5 * fullwidth_Kst)", path=main)
 
     ma.reconstructDecay("B0 -> K*0 e+:cor e-:cor ?addbrems", cut="[abs(deltaE) <= 0.05] and [Mbc > 5.27]", path=main)
     ma.matchMCTruth("B0", path=main)
