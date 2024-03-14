@@ -7,6 +7,8 @@ import modularAnalysis as ma
 from variables import collections as vc
 from variables import utils as vu
 from variables import variables as vm 
+import vertex as vx
+
 
 
 main = b2.Path()
@@ -57,6 +59,12 @@ def reconstruct_detector_level():
     ma.reconstructDecay("K*0 -> K+ pi-", cut=f"abs(formula(daughterInvM(0, 1) - invM_Kst)) <= formula(1.5 * fullwidth_Kst)", path=main)
 
     ma.reconstructDecay("B0 -> K*0 e+:cor e-:cor ?addbrems", cut="[abs(deltaE) <= 0.05] and [Mbc > 5.27]", path=main)
+    
+    vx.treeFit('B0', conf_level=0.00, updateAllDaughters=True, ipConstraint=True, path=main)
+    vm.addAlias('tfChiSq', 'extraInfo(chiSquared)')
+    vm.addAlias('tfNdf', 'extraInfo(ndf)')
+    vm.addAlias('tfRedChiSq', 'formula(tfChiSq / tfNdf)')
+    
     ma.matchMCTruth("B0", path=main)
 
 
@@ -69,6 +77,7 @@ def create_variable_lists():
         + vc.kinematics
         + vc.mc_kinematics
         + ['theta', 'thetaErr', 'mcTheta']
+        + ['tfChiSq', 'tfNdf', 'tfRedChiSq']
     )
     
     e_id = ["pidChargedBDTScore(11, ALL)"]
