@@ -12,6 +12,8 @@ from mylib.util.util import open_data, open_data_dir
 # data = open_data('/home/belle2/elee20/ml-hep-proj/data/2024-01-24_GridMu/BtoKstMuMu_theta/analyzed/mu_re_00003_job388070872_00_cut_an.pkl')
 data = open_data_dir('/home/belle2/elee20/ml-hep-proj/data/2024-03-14_gen_mix_e_tf_test/gen_mix_e_tf_test/sub00', tree_names=["gen", "det"])
 print(data.head())
+print(data.loc["det"].head())
+
 # data_gen = data.loc["gen"]
 data_det = data.loc["det"]
 
