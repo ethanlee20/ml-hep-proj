@@ -16,6 +16,7 @@ print(data.head())
 data_det = data.loc["det"]
 
 # print("num gen", len(data_gen))
+print("num gen", len(data.loc["gen"]))
 print("num det sig", len(data_det[data_det["isSignal"]==1]))
 print("num det bkg", len(data_det[data_det["isSignal"]==0]))
 print("num det tot", len(data_det))
