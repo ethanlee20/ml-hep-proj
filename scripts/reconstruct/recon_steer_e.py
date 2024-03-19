@@ -67,7 +67,7 @@ def reconstruct_detector_level():
 
     ma.matchMCTruth("B0", path=main)
 
-    ma.printMCParticles(onlyPrimaries=True, suppressPrint=True, path=main)
+    ma.printMCParticles(onlyPrimaries=True, path=main)
 
 
 def create_variable_lists():
