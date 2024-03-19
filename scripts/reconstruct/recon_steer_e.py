@@ -64,9 +64,11 @@ def reconstruct_detector_level():
     vm.addAlias('tfChiSq', 'extraInfo(chiSquared)')
     vm.addAlias('tfNdf', 'extraInfo(ndf)')
     vm.addAlias('tfRedChiSq', 'formula(tfChiSq / tfNdf)')
-    
+
     ma.matchMCTruth("B0", path=main)
 
+    ma.printMCParticles(path=main)
+    
 
 def create_variable_lists():
     std_vars = (
