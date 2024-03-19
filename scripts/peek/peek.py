@@ -16,7 +16,7 @@ data = open_data_dir('/home/belle2/elee20/ml-hep-proj/data/2024-03-19_gen_mix_e_
 print(data.head())
 print(data.loc["det"].head())
 
-# data_gen = data.loc["gen"]
+data_gen = data.loc["gen"]
 data_det = data.loc["det"]
 
 print("num gen", len(data_gen))
