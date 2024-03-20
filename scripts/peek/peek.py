@@ -25,14 +25,22 @@ def print_column_names(data):
     print(data.columns.values)
 
 
-def print_mc_particles():
+def print_mc_particles(data):
     for cand in range(len(data)):
         print(data["__MCDecayString__"].iloc[cand])
 
 
+def print_counts(data):
+    print("num gen", len(data.loc["gen"]))
+    print("num det sig", len(data.loc["det"][data.loc["det"]["isSignal"]==1]))
+    print("num det bkg", len(data.loc["det"][data.loc["det"]["isSignal"]==0]))
+    print("num det tot", len(data.loc["det"]))
+
+
+
 data = open_data("/home/belle2/elee20/ml-hep-proj/data/2024-03-19_gen_mix_e_print_test/gen_mix_e_print5/sub00")
 print_column_names(data)
-
+print_counts(data)
 
 # data.index = pd.MultiIndex.from_tuples(data.index)
 
