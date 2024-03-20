@@ -26,7 +26,7 @@ def convert(input_path, output_path):
     
 
 
-dir_path = '/home/belle2/elee20/ml-hep-proj/data/2024-01-17_GridMu/BtoKstMuMu/sub00/'
+dir_path = '/home/belle2/elee20/ml-hep-proj/data/2024-03-20_gen_mix_e_new_cuts_test/gen_mix_e_new_cuts_test/sub00'
 
 input_paths, output_paths = config_paths(dir_path)
 
