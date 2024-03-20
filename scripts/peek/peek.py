@@ -52,9 +52,9 @@ def print_counts(data):
 data = open_data_file("/home/belle2/elee20/ml-hep-proj/data/2024-03-20_gen_mix_e_new_cuts_test/gen_mix_e_new_cuts_test/sub00")
 # print(data.head())
 # print_column_names(data)
-# print_counts(data)
+print_counts(data)
 # print_mc_particles(sig(data).loc["det"])
-print_mc_particles(bkg(data).loc["det"])
+# print_mc_particles(bkg(data).loc["det"])
 
 
 # data.index = pd.MultiIndex.from_tuples(data.index)
