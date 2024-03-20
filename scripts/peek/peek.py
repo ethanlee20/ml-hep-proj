@@ -16,7 +16,7 @@ data_gen = data.loc["gen"]
 data_det = data.loc["det"]
 
 
-print(data_det["__MCDecayString__"].value_counts().values)
+print(data_det["__event__"].value_counts().values)
 
 
 # data.index = pd.MultiIndex.from_tuples(data.index)
