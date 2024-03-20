@@ -33,7 +33,7 @@ data_det = data.loc["det"]
 # for i in range(len(data_det[data_det['isSignal']!=1])):
 #     print(data_det[data_det['isSignal']!=1]["__MCDecayString__"].iloc[i])
 
-for i in range(len(data_gen)):
-    print(data_gen["__MCDecayString__"].iloc[i])
+for i in range(len(data_gen[data_gen["isSignal"]==1])):
+    print(data_gen[data_gen["isSignal"]==1]["__MCDecayString__"].iloc[i])
 
 # print(data["mcPDG"])
