@@ -22,7 +22,7 @@ def open_data(path):
 
 
 def print_column_names(data):
-    print(data.columns.values.values)
+    print(data.columns.values)
 
 
 def print_mc_particles():
