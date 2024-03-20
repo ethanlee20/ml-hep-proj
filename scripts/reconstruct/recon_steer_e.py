@@ -49,16 +49,16 @@ def reconstruct_detector_level():
     ma.correctBrems("e+:cor", "e+:raw", "gamma:brems", path=main)
 
     ma.applyChargedPidMVA(['e+:cor'], path=main, trainingMode=1)
-    ma.applyCuts("e+:cor", "pidChargedBDTScore(11, ALL) > 0.9", path=main)
+    ma.applyCuts("e+:cor", "pidChargedBDTScore(11, ALL) > 0.85", path=main)
 
-    ma.fillParticleList(decayString="K+", cut="kaonID > 0.9", path=main)
+    ma.fillParticleList(decayString="K+", cut="kaonID > 0.85", path=main)
     ma.fillParticleList(decayString="pi-", cut="", path=main)
 
     vm.addAlias("invM_Kst", "0.892")
     vm.addAlias("fullwidth_Kst", "0.05")
-    ma.reconstructDecay("K*0 -> K+ pi-", cut=f"abs(formula(daughterInvM(0, 1) - invM_Kst)) <= formula(1.5 * fullwidth_Kst)", path=main)
+    ma.reconstructDecay("K*0 -> K+ pi-", cut=f"abs(formula(daughterInvM(0, 1) - invM_Kst)) <= formula(2 * fullwidth_Kst)", path=main)
 
-    ma.reconstructDecay("B0 -> K*0 e+:cor e-:cor ?addbrems", cut="[abs(deltaE) <= 0.05] and [Mbc > 5.27]", path=main)
+    ma.reconstructDecay("B0 -> K*0 e+:cor e-:cor ?addbrems", cut="[-0.075 <= deltaE <= 0.05] and [Mbc > 5.27]", path=main)
     
     vx.treeFit('B0', conf_level=0.00, updateAllDaughters=True, ipConstraint=True, path=main)
     vm.addAlias('tfChiSq', 'extraInfo(chiSquared)')
@@ -67,6 +67,8 @@ def reconstruct_detector_level():
 
     ma.matchMCTruth("B0", path=main)
 
+
+def printMCParticles():
     ma.printMCParticles(onlyPrimaries=True, suppressPrint=True, path=main)
 
 
@@ -80,6 +82,7 @@ def create_variable_lists():
         + vc.mc_kinematics
         + ['theta', 'thetaErr', 'mcTheta']
         + ['tfChiSq', 'tfNdf', 'tfRedChiSq']
+        + ['vertexDistance', 'vertexDistanceErr']
     )
     
     e_id = ["pidChargedBDTScore(11, ALL)"]
@@ -137,6 +140,8 @@ input_to_the_path()
 reconstruct_generator_level()
 
 reconstruct_detector_level()
+
+printMCParticles()
 
 B0_vars = create_variable_lists()
 
