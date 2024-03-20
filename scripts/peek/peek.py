@@ -31,13 +31,20 @@ def print_mc_particles(data):
         print(data["__MCDecayString__"].iloc[cand])
 
 
-def print_counts(data):
+def sig(data):
     isSignal = (data["isSignal"]==1) & (data["KST0_isSignal"]==1) & (data["K_p_isSignal"]==1) & (data["pi_m_isSignal"]==1) & (data["e_p_isSignal"]==1) & (data["e_m_isSignal"]==1)
-    isBkg = (data["isSignal"]==0) | (data["KST0_isSignal"]==0) | (data["K_p_isSignal"]==0) | (data["pi_m_isSignal"]==0) | (data["e_p_isSignal"]==0) | (data["e_m_isSignal"]==0)
+    return data[isSignal]
 
+
+def bkg(data):
+    isBkg = (data["isSignal"]==0) | (data["KST0_isSignal"]==0) | (data["K_p_isSignal"]==0) | (data["pi_m_isSignal"]==0) | (data["e_p_isSignal"]==0) | (data["e_m_isSignal"]==0)
+    return data[isBkg]
+ 
+
+def print_counts(data):
     print("num gen", len(data.loc["gen"]))
-    print("num det sig", len(data[isSignal].loc["det"]))
-    print("num det bkg", len(data[isBkg].loc["det"]))
+    print("num det sig", len(sig(data).loc["det"]))
+    print("num det bkg", len(bkg(data).loc["det"]))
     print("num det tot", len(data.loc["det"]))
 
 
@@ -45,6 +52,7 @@ def print_counts(data):
 data = open_data("/home/belle2/elee20/ml-hep-proj/data/2024-03-19_gen_mix_e_print_test/gen_mix_e_print5/sub00")
 print_column_names(data)
 print_counts(data)
+print_mc_particles(sig(data).loc["det"])
 
 # data.index = pd.MultiIndex.from_tuples(data.index)
 
