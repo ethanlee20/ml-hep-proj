@@ -12,10 +12,11 @@ def config_paths(input_dir):
     input_dir = pl.Path(input_dir)
     input_paths = list(input_dir.glob("*.pkl")) + list(input_dir.glob("*.root"))
 
-    output_paths = input_paths.copy()
-    for output_path in output_paths:
-        output_path.suffix = ".pkl"
-
+    output_paths = [
+        input_dir.joinpath(path.stem + '.pkl')
+        for path in input_paths
+    ]
+    
     return input_paths, output_paths
 
 
