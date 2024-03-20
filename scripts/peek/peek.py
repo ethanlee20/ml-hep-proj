@@ -28,6 +28,6 @@ data_det = data.loc["det"]
 # print("num det tot", len(data_det))
 
 for i in range(5):
-    print(data_det["__MCDecayString__"].iloc[i])
+    print(data_det[data_det['isSignal']==0]["__MCDecayString__"].iloc[i])
 # print(data.columns.values.tolist())
 # print(data["mcPDG"])
