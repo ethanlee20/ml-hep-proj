@@ -3,14 +3,14 @@
 
 import pathlib as pl
 
-from mylib.util.util import open_data
+from mylib.util.util import open_data_file
 from mylib.calc.phys import (
     find_chi,
     find_coschi,
     find_costheta_K,
     find_costheta_ell,
     four_momemtum_dataframe,
-    invariant_mass_squared_two_particles,
+    inv_mass_sq_two_particles,
 )
 
 
@@ -119,10 +119,10 @@ def run_calc(data):
     )
 
 
-    data["q_squared"] = invariant_mass_squared_two_particles(
+    data["q_squared"] = inv_mass_sq_two_particles(
         df_ell_p_4mom, df_ell_m_4mom
     )
-    data["q_squared_mc"] = invariant_mass_squared_two_particles(
+    data["q_squared_mc"] = inv_mass_sq_two_particles(
         df_ell_p_4mom_mc, df_ell_m_4mom_mc
     )
     data[costheta_ell] = find_costheta_ell(
@@ -172,7 +172,7 @@ def run_calc(data):
 input_paths, output_paths = config_paths(input_dir, output_dir)
 
 for in_path, out_path in zip(input_paths, output_paths):
-    data = open_data(in_path)
+    data = open_data_file(in_path)
     analyzed_data = run_calc(data)
     analyzed_data.to_pickle(out_path)
 

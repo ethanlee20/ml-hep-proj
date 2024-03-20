@@ -4,7 +4,7 @@ import pathlib as pl
 import numpy as np
 import pandas as pd
 
-from mylib.util.util import open_data
+from mylib.util.util import open_data_file
 from mylib.pre.cuts import apply_all_cuts_with_summary, make_total_count_summary    
 
 
@@ -45,7 +45,7 @@ def main():
     input_paths, output_paths, summ_paths = config_paths(input_dir, output_dir)
 
     for in_path, out_path, summ_path in zip(input_paths, output_paths, summ_paths):
-        data = open_data(in_path, tree_names=['gen', 'det'])
+        data = open_data_file(in_path, tree_names=['gen', 'det'])
         cut_data, summ = apply_cuts(data)
         cut_data.to_pickle(out_path)
         summ.to_csv(summ_path)

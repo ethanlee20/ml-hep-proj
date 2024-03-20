@@ -34,7 +34,7 @@ def open_root(file_path, tree_names):
 	return pd.concat(dfs, keys=tree_names)
 
 
-def open_data(file_path, tree_names=None):
+def open_data_file(file_path, tree_names=None):
     file_path = pl.Path(file_path)
     if file_path.suffix == ".root":
         return open_root(file_path, tree_names) 
@@ -45,8 +45,16 @@ def open_data(file_path, tree_names=None):
 def open_data_dir(path, tree_names=None):
     path = pl.Path(path)
     file_paths = list(path.glob('*.root')) + list(path.glob('*.pkl'))
-    dfs = [open_data(path, tree_names) for path in file_paths]
+    dfs = [open_data_file(path, tree_names) for path in file_paths]
     return pd.concat(dfs)
+
+
+def open_data(path, tree_names=["gen", "det"]):
+    path = pl.Path(path)
+    if path.suffix in {".root", ".pkl"}:
+        data = open_data_file(path, tree_names=tree_names)
+    else: data = open_data_dir(path, tree_names=tree_names)
+    return data
 
 
 def check_root(file_path, tree_names):

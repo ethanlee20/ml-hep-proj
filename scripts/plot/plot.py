@@ -1,7 +1,7 @@
 
 import pathlib as pl
 
-from mylib.util.util import open_data, open_data_dir
+from mylib.util.util import open_data_file, open_data_dir
 
 from mylib.plot.core.util.setup import setup_mpl_params_save
 

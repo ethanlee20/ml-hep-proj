@@ -5,7 +5,7 @@ import pandas as pd
 pd.options.display.max_columns = None
 pd.options.display.max_colwidth = None
 
-from mylib.util.util import open_data, open_data_dir
+from mylib.util.util import open_data_file, open_data_dir
 
 #file_path = '/home/belle2/elee20/ml-hep-proj/data/2024-01-17_GridMu/BtoKstMuMu/sub00/mu_re.pkl'
 #file_path = '/home/belle2/elee20/ml-hep-proj/data/2024-01-17_GridMu_backup/BtoKstMuMu/analyzed/mu_re_00030_job386260858_00_cut_an.pkl'
@@ -14,10 +14,10 @@ from mylib.util.util import open_data, open_data_dir
 # data = open_data('/home/belle2/elee20/ml-hep-proj/data/2024-01-24_GridMu/BtoKstMuMu_theta/analyzed/mu_re_00003_job388070872_00_cut_an.pkl')
 
 
-def open_data(path):
+def open_data_file(path):
     path = pl.Path(path)
     if path.suffix in {".root", ".pkl"}:
-        data = open_data(path, tree_names=["gen", "det"])
+        data = open_data_file(path, tree_names=["gen", "det"])
     else: data = open_data_dir(path, tree_names=["gen", "det"])
     return data
 
@@ -49,7 +49,7 @@ def print_counts(data):
 
 
 
-data = open_data("/home/belle2/elee20/ml-hep-proj/data/2024-03-20_gen_mix_e_new_cuts_test/gen_mix_e_new_cuts_test/sub00")
+data = open_data_file("/home/belle2/elee20/ml-hep-proj/data/2024-03-20_gen_mix_e_new_cuts_test/gen_mix_e_new_cuts_test/sub00")
 # print(data.head())
 # print_column_names(data)
 # print_counts(data)

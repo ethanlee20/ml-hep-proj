@@ -54,14 +54,14 @@ def three_velocity_dataframe(df_with_3_col):
     return df_3vel
 
 
-def invariant_mass_squared_two_particles(
+def inv_mass_sq_two_particles(
     df_p1_4mom, df_p2_4mom
 ):
     """
     Compute the squares of the invariant masses for two particles systems.
 
     Given the four-momentum dataframes of particle 1 and particle 2,
-    return a series of the invariant masses squared (computed row-wise).
+    return a series of the invariant masses squared.
     """
 
     df_p1_4mom = four_momemtum_dataframe(df_p1_4mom)
@@ -78,28 +78,6 @@ def invariant_mass_squared_two_particles(
 
     df_invM_sq = df_sum_E**2 - df_sum_3mom_mag_sq
     return df_invM_sq
-
-
-def calculate_inv_mass_k_pi(df):
-    df_k_4mom = df[
-        ["K_p_E", "K_p_px", "K_p_py", "K_p_pz"]
-    ]
-    df_pi_4mom = df[
-        ["pi_m_E", "pi_m_px", "pi_m_py", "pi_m_pz"]
-    ]
-    df_inv_mass_k_pi = np.sqrt(
-        invariant_mass_squared_two_particles(
-            df_k_4mom, df_pi_4mom
-        )
-    )
-    return df_inv_mass_k_pi
-
-
-def calc_dif_inv_mass_k_pi_and_kst(df):
-    inv_mass_kst = 0.892
-    df_inv_mass_k_pi = calculate_inv_mass_k_pi(df)
-    dif = df_inv_mass_k_pi - inv_mass_kst
-    return dif
 
 
 def three_velocity_from_four_momentum_dataframe(df_4mom):
@@ -489,3 +467,18 @@ def find_chi(
     return chi
 
 
+def calc_dif_inv_mass_k_pi_and_kst(df):
+    inv_mass_kst = 0.892
+
+    df_k_4mom = df[
+        ["K_p_E", "K_p_px", "K_p_py", "K_p_pz"]
+    ]
+    df_pi_4mom = df[
+        ["pi_m_E", "pi_m_px", "pi_m_py", "pi_m_pz"]
+    ]
+    df_inv_mass_k_pi = np.sqrt(
+        inv_mass_sq_two_particles(df_k_4mom, df_pi_4mom)
+    )
+
+    dif = df_inv_mass_k_pi - inv_mass_kst
+    return dif
