@@ -27,6 +27,7 @@ data_det = data.loc["det"]
 # print("num det bkg", len(data_det[data_det["isSignal"]==0]))
 # print("num det tot", len(data_det))
 
-print(data_det["__MCDecayString__"].iloc[0])
+for i in range(5):
+    print(data_det["__MCDecayString__"].iloc[i])
 # print(data.columns.values.tolist())
 # print(data["mcPDG"])
