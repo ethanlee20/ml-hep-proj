@@ -16,7 +16,7 @@ data_gen = data.loc["gen"]
 data_det = data.loc["det"]
 
 
-print(data_det["__MCDecayString__"].astype(str).value_counts())
+print(data_det[data_det['isSignal']==0]["__MCDecayString__"].astype(str).value_counts())
 
 
 # data.index = pd.MultiIndex.from_tuples(data.index)
@@ -30,7 +30,7 @@ print(data_det["__MCDecayString__"].astype(str).value_counts())
 # print("num det bkg", len(data_det[data_det["isSignal"]==0]))
 # print("num det tot", len(data_det))
 
-# for i in range(5):
+# for i in range(len(data_det)):
 #     print(data_det[data_det['isSignal']==0]["__MCDecayString__"].iloc[i])
-# print(data.columns.values.tolist())
+
 # print(data["mcPDG"])
