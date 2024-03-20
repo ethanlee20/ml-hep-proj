@@ -50,9 +50,9 @@ def print_counts(data):
 
 
 data = open_data("/home/belle2/elee20/ml-hep-proj/data/2024-03-20_gen_mix_e_new_cuts_test/gen_mix_e_new_cuts_test/sub00")
-print(data.head())
-print_column_names(data)
-print_counts(data)
+# print(data.head())
+# print_column_names(data)
+# print_counts(data)
 print_mc_particles(sig(data).loc["det"])
 
 
