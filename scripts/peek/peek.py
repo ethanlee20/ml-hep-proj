@@ -16,7 +16,7 @@ data_gen = data.loc["gen"]
 data_det = data.loc["det"]
 
 
-print(data_det["__MCDecayString__"].astype(str).value_counts().values)
+print(data_det["__MCDecayString__"].astype(str).value_counts())
 
 
 # data.index = pd.MultiIndex.from_tuples(data.index)
