@@ -1,6 +1,6 @@
 
 gbasf2 \
-    -p gen_mix_e_print5 \
+    -p gen_mix_e_new_cuts_test \
     -s light-2401-ocicat \
     -i /belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00025056/s00/e1003/4S/r00000/mixed/mdst \
     /home/belle2/elee20/ml-hep-proj/scripts/reconstruct/recon_steer_e.py

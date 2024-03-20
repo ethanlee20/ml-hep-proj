@@ -37,7 +37,7 @@ def sig(data):
 
 
 def bkg(data):
-    isBkg = (data["isSignal"]==0) | (data["KST0_isSignal"]==0) | (data["K_p_isSignal"]==0) | (data["pi_m_isSignal"]==0) | (data["e_p_isSignal"]==0) | (data["e_m_isSignal"]==0)
+    isBkg = (data["isSignal"]!=1) | (data["KST0_isSignal"]!=1) | (data["K_p_isSignal"]!=1) | (data["pi_m_isSignal"]!=1) | (data["e_p_isSignal"]!=1) | (data["e_m_isSignal"]!=1)
     return data[isBkg]
  
 
@@ -49,7 +49,8 @@ def print_counts(data):
 
 
 
-data = open_data("/home/belle2/elee20/ml-hep-proj/data/2024-03-19_gen_mix_e_print_test/gen_mix_e_print5/sub00")
+data = open_data("/home/belle2/elee20/ml-hep-proj/data/2024-03-20_gen_mix_e_new_cuts_test/gen_mix_e_new_cuts_test/sub00")
+print(data.head())
 print_column_names(data)
 print_counts(data)
 print_mc_particles(sig(data).loc["det"])
