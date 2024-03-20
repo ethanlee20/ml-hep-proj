@@ -53,7 +53,8 @@ data = open_data("/home/belle2/elee20/ml-hep-proj/data/2024-03-20_gen_mix_e_new_
 # print(data.head())
 # print_column_names(data)
 # print_counts(data)
-print_mc_particles(sig(data).loc["det"])
+# print_mc_particles(sig(data).loc["det"])
+print_mc_particles(bkg(data).loc["det"])
 
 
 # data.index = pd.MultiIndex.from_tuples(data.index)
