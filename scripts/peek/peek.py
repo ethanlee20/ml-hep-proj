@@ -31,6 +31,6 @@ data_det = data.loc["det"]
 # print("num det tot", len(data_det))
 
 for i in range(len(data_det[data_det['isSignal']==0])):
-    print(data_det[data_det['isSignal']==0]["__MCDecayString__"].iloc[i])
+    print(data_det[data_det['isSignal']==1]["__MCDecayString__"].iloc[i])
 
 # print(data["mcPDG"])
