@@ -47,13 +47,10 @@ def plot_mbc(data, out_dir):
 
 
 def plot_invM(data, out_dir):
-    data = data.copy()
-
-    data["invM_K_pi - invM_Kst"] = calc_dif_inv_mass_k_pi_and_kst(data)
 
     fig, ax = plot_sig_mis(
         data,
-        var="invM_K_pi - invM_Kst",
+        var="invM_K_pi_shifted",
         title=r"$M_{K, \pi} - M_{K^*}$",
         xlabel=r"[GeV]",
         xlim=(-0.2, 0.2)
