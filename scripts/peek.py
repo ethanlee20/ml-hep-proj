@@ -61,7 +61,7 @@ def print_counts(data):
 
 
 
-data = open_data_file("/home/belle2/elee20/ml-hep-proj/data/2024-03-20_gen_mix_e_new_cuts_test/gen_mix_e_vdis_test2/sub00")
+data = open_data_file("/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/mixed/gen_mix_e_bdt2/sub00")
 print(data.head())
 # print_column_names(data)
 # print_counts(data)
