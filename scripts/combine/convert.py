@@ -16,7 +16,7 @@ def config_paths(input_dir):
         input_dir.joinpath(path.stem + '.pkl')
         for path in input_paths
     ]
-    
+
     return input_paths, output_paths
 
 
@@ -27,7 +27,7 @@ def convert(input_path, output_path):
     
 
 
-dir_path = '/home/belle2/elee20/ml-hep-proj/data/2024-03-20_gen_mix_e_new_cuts_test/gen_mix_e_new_cuts_test/sub00'
+dir_path = '/home/belle2/elee20/ml-hep-proj/data/2024-03-20_gen_charg_e_test/gen_charg_e_test/sub00'
 
 input_paths, output_paths = config_paths(dir_path)
 
