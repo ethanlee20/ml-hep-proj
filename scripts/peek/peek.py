@@ -44,9 +44,12 @@ def bkg(data):
 def print_counts(data):
     try:
         print("num gen", len(data.loc["gen"]))
-        print("num gen sig", len(sig(data).loc["gen"]))
     except KeyError: print("no gen events?")
-    
+
+    try:
+        print("num gen sig", len(sig(data).loc["gen"]))
+    except KeyError: print("no gen sig events?")
+
     try:
         print("num det sig", len(sig(data).loc["det"]))
     except KeyError: print("no detector signal events?")
