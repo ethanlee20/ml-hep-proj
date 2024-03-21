@@ -5,6 +5,7 @@ import pathlib as pl
 
 from mylib.util.util import open_data_file
 from mylib.calc.phys import (
+    calc_dif_inv_mass_k_pi_and_kst,
     find_chi,
     find_coschi,
     find_costheta_K,
@@ -111,6 +112,12 @@ def run_calc(data):
     df_K_4mom_mc = four_momemtum_dataframe(
         data[["K_p_mcE", "K_p_mcPX", "K_p_mcPY", "K_p_mcPZ"]]
     )
+    df_pi_4mom = four_momemtum_dataframe(
+        data[["pi_m_E", "pi_m_px", "pi_m_py", "pi_m_pz"]]
+    )
+    df_pi_4mom_mc = four_momemtum_dataframe(
+        data[["pi_m_mcE", "pi_m_mcPX", "pi_m_mcPY", "pi_m_mcPZ"]]
+    )
     df_KST_4mom = four_momemtum_dataframe(
         data[["KST0_E", "KST0_px", "KST0_py", "KST0_pz"]]
     )
@@ -164,6 +171,14 @@ def run_calc(data):
         df_KST_4mom_mc,
         df_ell_p_4mom_mc,
         df_ell_m_4mom_mc,
+    )
+    data["invM_K_pi_shifted"] = calc_dif_inv_mass_k_pi_and_kst(
+        df_K_4mom,
+        df_pi_4mom
+    )
+    data["invM_K_pi_shifted_mc"] = calc_dif_inv_mass_k_pi_and_kst(
+        df_K_4mom_mc,
+        df_pi_4mom_mc
     )
     
     return data
