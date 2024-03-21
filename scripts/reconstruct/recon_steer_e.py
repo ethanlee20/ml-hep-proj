@@ -33,8 +33,8 @@ def reconstruct_generator_level():
     ma.fillParticleListFromMC(decayString="e+:gen", cut="", path=main)
     ma.fillParticleListFromMC(decayString="e-:gen", cut="", path=main)
 
-    ma.reconstructMCDecay("K*0:gen -> K+:gen pi-:gen", cut="", path=main)
-    ma.reconstructMCDecay("B0:gen -> K*0:gen e+:gen e-:gen", cut="", path=main)
+    ma.reconstructMCDecay("K*0:gen =direct=> K+:gen pi-:gen", cut="", path=main)
+    ma.reconstructMCDecay("B0:gen =direct=> K*0:gen e+:gen e-:gen", cut="", path=main)
 
 
 def reconstruct_detector_level():
@@ -56,16 +56,14 @@ def reconstruct_detector_level():
 
     vm.addAlias("invM_Kst", "0.892")
     vm.addAlias("fullwidth_Kst", "0.05")
-    ma.reconstructDecay("K*0 -> K+ pi-", cut=f"abs(formula(daughterInvM(0, 1) - invM_Kst)) <= formula(2 * fullwidth_Kst)", path=main)
+    ma.reconstructDecay("K*0 =direct=> K+ pi-", cut=f"abs(formula(daughterInvM(0, 1) - invM_Kst)) <= formula(2 * fullwidth_Kst)", path=main)
 
-    ma.reconstructDecay("B0 -> K*0 e+:cor e-:cor ?addbrems", cut="[-0.075 <= deltaE <= 0.05] and [Mbc > 5.27]", path=main)
+    ma.reconstructDecay("B0 =direct=> K*0 e+:cor e-:cor ?addbrems", cut="[-0.075 <= deltaE <= 0.05] and [Mbc > 5.27]", path=main)
     
     vx.treeFit('B0', conf_level=0.00, updateAllDaughters=True, ipConstraint=True, path=main)
     vm.addAlias('tfChiSq', 'extraInfo(chiSquared)')
     vm.addAlias('tfNdf', 'extraInfo(ndf)')
     vm.addAlias('tfRedChiSq', 'formula(tfChiSq / tfNdf)')
-    vm.addAlias('tfvertexDistance', 'extraInfo(vertexDistance)')
-    vm.addAlias('tfvertexDistanceErr', 'extraInfo(vertexDistanceErr)')
 
     ma.matchMCTruth("B0", path=main)
 
@@ -84,8 +82,6 @@ def create_variable_lists():
         + vc.mc_kinematics
         + ['theta', 'thetaErr', 'mcTheta']
         + ['tfChiSq', 'tfNdf', 'tfRedChiSq']
-        + ['tfvertexDistance', 'tfvertexDistanceErr']
-        + ['ndf']
     )
     
     e_id = ["pidChargedBDTScore(11, ALL)"]
