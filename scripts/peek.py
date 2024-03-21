@@ -27,7 +27,8 @@ def print_column_names(data):
 
 
 def print_mc_particles(data):
-    for cand in range(len(data)):
+    max_prints = min(len(data), 20)
+    for cand in range(max_prints):
         print(data["__MCDecayString__"].iloc[cand])
 
 
@@ -64,8 +65,8 @@ def print_counts(data):
 data = open_data_file(sys.argv[1])
 # print(data.head())
 # print_column_names(data)
-print_counts(data)
-# print_mc_particles(sig(data).loc["det"])
+# print_counts(data)
+print_mc_particles(sig(data).loc["det"])
 # print_mc_particles(bkg(data).loc["det"])
 # print_mc_particles(sig(data).loc["gen"])
 
