@@ -21,8 +21,8 @@ def plot_sig_bkg(data, var, title, xlabel, xlim=(None, None)):
     Plot the signal distribution and the background distribution
     on the same plot.
     """
-    sig = _sig(data).loc["det"][var]
-    bkg = _bkg(data).loc["det"][var]
+    sig = _sig(data)[var]
+    bkg = _bkg(data)[var]
     
     if xlim != (None, None):
         sig = sig[(sig > xlim[0]) & (sig < xlim[1])]
