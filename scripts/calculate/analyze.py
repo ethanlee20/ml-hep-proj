@@ -16,10 +16,10 @@ from mylib.calc.phys import (
 
 
 input_dirs = [
-    '/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/mixed/gen_mix_e_bdt1/s00',
-    '/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/mixed/gen_mix_e_bdt2/s00',
-    '/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/mixed/gen_mix_e_bdt4/s00',
-    '/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/mixed/gen_mix_e_bdt5/s00',
+    '/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/mixed/gen_mix_e_bdt1/sub00',
+    '/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/mixed/gen_mix_e_bdt2/sub00',
+    '/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/mixed/gen_mix_e_bdt4/sub00',
+    '/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/mixed/gen_mix_e_bdt5/sub00',
 ]
 output_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/mixed/an'
 ell = 'e'
@@ -32,11 +32,11 @@ def config_input_data_paths(input_dirs):
         return input_file_paths
 
     input_dirs = [pl.Path(in_dir) for in_dir in input_dirs]
-    breakpoint()
+    # breakpoint()
     input_file_paths = []
     for in_dir in input_dirs:
         dir_files = list(in_dir.glob("*.pkl")) + list(in_dir.glob("*.root"))
-        breakpoint()
+        # breakpoint()
         input_file_paths.extend(dir_files)
     
     return input_file_paths
