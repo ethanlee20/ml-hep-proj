@@ -64,6 +64,8 @@ def reconstruct_detector_level():
     vm.addAlias('tfChiSq', 'extraInfo(chiSquared)')
     vm.addAlias('tfNdf', 'extraInfo(ndf)')
     vm.addAlias('tfRedChiSq', 'formula(tfChiSq / tfNdf)')
+    vm.addAlias('vertexDistance', 'extraInfo(vertexDistance)')
+    vm.addAlias('vertexDistanceErr', 'extraInfo(vertexDistanceErr)')
 
     ma.matchMCTruth("B0", path=main)
 
