@@ -49,24 +49,21 @@ def open_data_dir(path, tree_names=None):
     return pd.concat(dfs)
 
 
-def open_data(path, tree_names=["gen", "det"]):
-    path = pl.Path(path)
-    if path.suffix in {".root", ".pkl"}:
-        data = open_data_file(path, tree_names=tree_names)
-    else: data = open_data_dir(path, tree_names=tree_names)
+def open_data(paths, tree_names=["gen", "det"]):
+    def _open(path):
+        path = pl.Path(path)
+        if path.suffix in {".root", ".pkl"}:
+            data = open_data_file(path, tree_names=tree_names) 
+        else: data = open_data_dir(path, tree_names=tree_names) 
+        return data
+    
+    if type(paths) is list:
+        datas = [_open(path) for path in paths]
+        data = pd.concat(datas)
+        return data
+    
+    data = _open(paths)
     return data
-
-
-def check_root(file_path, tree_names):
-    df = open_root(file_path, tree_names)
-    print(df.head(6))
-    print("length: ", len(df))
-
-
-def check_columns_root(path):
-    df = open_tree(path)
-    print("columns: ")
-    print(df.columns.values.tolist())
 
 
  
