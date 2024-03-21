@@ -16,9 +16,9 @@ from mylib.calc.phys import (
 
 
 input_dirs = [
-    '/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/mixed/gen_mix_e_bdt3/sub00',
+    '/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/sig/sig_e_bdt/sub00',
 ]
-output_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/mixed/an'
+output_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/sig/an'
 ell = 'e'
 
 
