@@ -197,7 +197,7 @@ def run_calc(data):
 
 
 input_file_paths, output_file_paths = config_paths(input_dirs, output_dir)
-
+breakpoint()
 for in_path, out_path in zip(input_file_paths, output_file_paths):
     data = open_data_file(in_path)
     analyzed_data = run_calc(data)
