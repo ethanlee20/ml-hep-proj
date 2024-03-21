@@ -32,7 +32,7 @@ def config_input_data_paths(input_dirs):
         return input_file_paths
 
     input_dirs = [pl.Path(in_dir) for in_dir in input_dirs]
-    
+    breakpoint()
     input_file_paths = []
     for in_dir in input_dirs:
         input_file_paths.extend(list(in_dir.glob("*.pkl")) + list(in_dir.glob("*.root")))
