@@ -70,7 +70,7 @@ def plot_deltaE(data, out_dir):
     save("deltaE_sig_bkg", q_squared_split='all', out_dir=out_dir)
 
 
-def plot_mbc(data, out_dir):
+def plot_Mbc(data, out_dir):
     fig, ax = plot_sig_bkg(
         data,
         var="Mbc",
