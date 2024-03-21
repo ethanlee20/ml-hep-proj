@@ -15,32 +15,39 @@ from mylib.calc.phys import (
 )
 
 
-input_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/cut'
+input_dirs = '/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/cut'
 output_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/ana'
 ell = 'e'
 
 
-def config_input_data_paths(input_dir):
-    input_dir = pl.Path(input_dir)
-    input_paths = list(input_dir.glob("*.pkl")) + list(input_dir.glob("*.root"))
-    return input_paths
+def config_input_data_paths(input_dirs):
+    if type(input_dirs) is not list:
+        in_dir = pl.Path(input_dirs)
+        input_file_paths = list(in_dir.glob("*.pkl")) + list(in_dir.glob("*.root"))
+        return input_file_paths
+
+    input_dirs = [pl.Path(in_dir) for in_dir in input_dirs]
+    
+    input_file_paths = []
+    for in_dir in input_dirs:
+        input_file_paths.extend(list(in_dir.glob("*.pkl")) + list(in_dir.glob("*.root")))
+    
+    return input_file_paths
 
 
-def config_output_data_paths(output_dir, input_paths):    
+def config_output_data_paths(output_dir, input_file_paths):    
     output_dir = pl.Path(output_dir)
-    output_paths = [
+    output_file_paths = [
         output_dir.joinpath(f"{path.stem}_an.pkl")
-        for path in input_paths
+        for path in input_file_paths
     ]
-    return output_paths
+    return output_file_paths
 
 
-def config_paths(input_dir, output_dir):
-    input_paths = config_input_data_paths(input_dir)
-    output_paths = config_output_data_paths(output_dir, input_paths)
-    return input_paths, output_paths
-
-
+def config_paths(input_dirs, output_dir):
+    input_file_paths = config_input_data_paths(input_dirs)
+    output_file_paths = config_output_data_paths(output_dir, input_file_paths)
+    return input_file_paths, output_file_paths
 
 
 if ell == 'mu':
@@ -184,9 +191,9 @@ def run_calc(data):
     return data
 
 
-input_paths, output_paths = config_paths(input_dir, output_dir)
+input_file_paths, output_file_paths = config_paths(input_dirs, output_dir)
 
-for in_path, out_path in zip(input_paths, output_paths):
+for in_path, out_path in zip(input_file_paths, output_file_paths):
     data = open_data_file(in_path)
     analyzed_data = run_calc(data)
     analyzed_data.to_pickle(out_path)
