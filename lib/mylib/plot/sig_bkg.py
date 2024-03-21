@@ -92,7 +92,7 @@ def plot_invM(data, out_dir):
     save("invM_sig_bkg", q_squared_split='all', out_dir=out_dir)
 
 
-def hist_q_squared(data, out_dir, q_squared_split):
+def plot_q_squared(data, out_dir):
     fig, ax = plot_sig_bkg(
         data,
         var="q_squared",

@@ -65,10 +65,10 @@ def print_counts(data):
 data = open_data_file(sys.argv[1])
 # print(data.head())
 # print_column_names(data)
-# print_counts(data)
+print_counts(data)
 # print_mc_particles(sig(data).loc["det"])
 # print_mc_particles(bkg(data).loc["det"])
-print_mc_particles(sig(data).loc["gen"])
+# print_mc_particles(sig(data).loc["gen"])
 
 
 
