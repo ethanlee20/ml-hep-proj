@@ -62,7 +62,8 @@ def open_data(paths, tree_names=["gen", "det"]):
         data = pd.concat(datas)
         return data
     
-    data = _open(paths)
+    path = pl.Path(paths)
+    data = _open(path)
     return data
 
 

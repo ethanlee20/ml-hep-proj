@@ -15,8 +15,13 @@ from mylib.calc.phys import (
 )
 
 
-input_dirs = '/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/cut'
-output_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-02-29_eGrid/ana'
+input_dirs = [
+    '/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/mixed/gen_mix_e_bdt1',
+    '/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/mixed/gen_mix_e_bdt2',
+    '/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/mixed/gen_mix_e_bdt4',
+    '/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/mixed/gen_mix_e_bdt5',
+]
+output_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/mixed/an'
 ell = 'e'
 
 
