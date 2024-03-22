@@ -10,7 +10,8 @@ from mylib.plot.sig_bkg import (
     plot_deltaE,
     plot_Mbc,
     plot_invM,
-    plot_q_squared
+    plot_q_squared,
+    plot_tf_red_chi_squared
 )
 
 
