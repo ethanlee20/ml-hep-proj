@@ -109,7 +109,7 @@ def plot_tf_red_chi_squared(data, out_dir):
         var="tfRedChiSq",
         title=r"$\chi^2_\textrm{red}$",
         xlabel="",
-        xlim=(0,20)
+        xlim=(0,10)
     )
     save("tf_red_chi_squared", q_squared_split='all', out_dir=out_dir)
 
