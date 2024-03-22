@@ -111,7 +111,7 @@ def plot_tf_red_chi_squared(data, out_dir):
         xlabel="",
         xlim=(0,20)
     )
-    save("hist_q_squared", q_squared_split='all', out_dir=out_dir)
+    save("tf_red_chi_squared", q_squared_split='all', out_dir=out_dir)
 
 
 

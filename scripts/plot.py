@@ -39,5 +39,6 @@ plot_deltaE(data, out_dir)
 plot_invM(data, out_dir)
 plot_Mbc(data, out_dir)
 plot_q_squared(data, out_dir)
+plot_tf_red_chi_squared(data, out_dir)
 
 
