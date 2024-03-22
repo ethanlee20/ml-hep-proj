@@ -1,6 +1,6 @@
 
 gbasf2 \
-    -p sig_e_bdt \
+    -p sig_e_bdt_tight_cuts \
     -s light-2401-ocicat \
     -i /belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00025630/s00/e1003/4S/r00000/1120240010/mdst \
     /home/belle2/elee20/ml-hep-proj/scripts/reconstruct/recon_steer_e.py
