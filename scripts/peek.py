@@ -5,21 +5,13 @@ import pandas as pd
 pd.options.display.max_columns = None
 pd.options.display.max_colwidth = None
 
-from mylib.util.util import open_data_file, open_data_dir
+from mylib.util.util import open_data
 
 #file_path = '/home/belle2/elee20/ml-hep-proj/data/2024-01-17_GridMu/BtoKstMuMu/sub00/mu_re.pkl'
 #file_path = '/home/belle2/elee20/ml-hep-proj/data/2024-01-17_GridMu_backup/BtoKstMuMu/analyzed/mu_re_00030_job386260858_00_cut_an.pkl'
 #file_path = '/home/belle2/elee20/ml-hep-proj/data/2024-01-17_GridMu/BtoKstMuMu/sub00/mu_re_00000_job386260828_00.root'
 #file_path = '/home/belle2/elee20/ml-hep-proj/data/2024-01-17_GridMu/BtoKstMuMu/sub00/mu_re_00001_job386260829_00.root'
 # data = open_data('/home/belle2/elee20/ml-hep-proj/data/2024-01-24_GridMu/BtoKstMuMu_theta/analyzed/mu_re_00003_job388070872_00_cut_an.pkl')
-
-
-def open_data_file(path):
-    path = pl.Path(path)
-    if path.suffix in {".root", ".pkl"}:
-        data = open_data_file(path, tree_names=["gen", "det"])
-    else: data = open_data_dir(path, tree_names=["gen", "det"])
-    return data
 
 
 def print_column_names(data):
@@ -62,7 +54,13 @@ def print_counts(data):
 
 
 
-data = open_data_file(sys.argv[1])
+data = open_data([
+    "/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/mixed/gen_mix_e_bdt1/sub00",
+    "/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/mixed/gen_mix_e_bdt2/sub00",
+    "/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/mixed/gen_mix_e_bdt3/sub00",
+    "/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/mixed/gen_mix_e_bdt4/sub00",
+    "/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/mixed/gen_mix_e_bdt5/sub00",
+])
 # print(data.head())
 # print_column_names(data)
 print_counts(data)
