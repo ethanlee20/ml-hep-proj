@@ -65,7 +65,7 @@ def plot_deltaE(data, out_dir):
         var="deltaE", 
         title=r'$\Delta E$', 
         xlabel=r'[GeV]',
-        # xlim=(-0.1, 0.1)
+        xlim=(-0.1, 0.1)
     )
     save("deltaE_sig_bkg", q_squared_split='all', out_dir=out_dir)
 
@@ -76,7 +76,7 @@ def plot_Mbc(data, out_dir):
         var="Mbc",
         title=r"$M_{bc}$",
         xlabel=r"[GeV]",
-        # xlim=(5.26, 5.30)
+        xlim=(5.26, 5.30)
     )
     save("Mbc_sig_bkg", q_squared_split='all', out_dir=out_dir)
 
@@ -87,7 +87,7 @@ def plot_invM(data, out_dir):
         var="invM_K_pi_shifted",
         title=r"$M_{K, \pi} - M_{K^*}$",
         xlabel=r"[GeV]",
-        # xlim=(-0.2, 0.2)
+        xlim=(-0.2, 0.2)
     )
     save("invM_sig_bkg", q_squared_split='all', out_dir=out_dir)
 
@@ -98,6 +98,7 @@ def plot_q_squared(data, out_dir):
         var="q_squared",
         title=r"$q^2$",
         xlabel="[GeV$^2$]",
+        xlim=(0,20)
     )
     save("hist_q_squared", q_squared_split='all', out_dir=out_dir)
 
