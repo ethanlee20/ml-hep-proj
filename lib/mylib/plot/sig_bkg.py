@@ -103,4 +103,15 @@ def plot_q_squared(data, out_dir):
     save("hist_q_squared", q_squared_split='all', out_dir=out_dir)
 
 
+def plot_tf_red_chi_squared(data, out_dir):
+    fig, ax = plot_sig_bkg(
+        data,
+        var="tfRedChiSq",
+        title=r"$\chi^2_\textrm{red}$",
+        xlabel="",
+        xlim=(0,20)
+    )
+    save("hist_q_squared", q_squared_split='all', out_dir=out_dir)
+
+
 
