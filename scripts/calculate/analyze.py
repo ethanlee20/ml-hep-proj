@@ -195,10 +195,18 @@ def run_calc(data):
     return data
 
 
+def veto_q_squared(data):
+    veto_j_psi = ~((data['q_squared'] > 9) & (data['q_squared'] < 10)) 
+    veto_psi_2s = ~((data['q_squared'] > 12.75) & (data['q_squared'] < 14))
+    veto = veto_psi_2s | veto_j_psi
+    return data[veto]
+
+
 input_file_paths, output_file_paths = config_paths(input_dirs, output_dir)
 # breakpoint()
 for in_path, out_path in zip(input_file_paths, output_file_paths):
     data = open_data_file(in_path)
-    analyzed_data = run_calc(data)
-    analyzed_data.to_pickle(out_path)
+    data = run_calc(data)
+    data = veto_q_squared(data)
+    data.to_pickle(out_path)
 
