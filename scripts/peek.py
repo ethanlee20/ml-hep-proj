@@ -6,6 +6,7 @@ pd.options.display.max_columns = None
 pd.options.display.max_colwidth = None
 
 from mylib.util.util import open_data
+from mylib.util.data import veto_q_squared
 
 
 def print_column_names(data):
@@ -66,6 +67,7 @@ def print_counts(data):
 # ])
 # data = open_data('/home/belle2/elee20/ml-hep-proj/data/2024-03-25_pdgTest/sig_e_bdt_checkPDG_brems/sub00')
 data = open_data('/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/mixed/an')
+data = veto_q_squared(data)
 
 # print(data.head())
 # print_column_names(data)
