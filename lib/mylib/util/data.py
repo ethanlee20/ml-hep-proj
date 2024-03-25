@@ -43,6 +43,23 @@ def approx_num_bins(data):
     return round(np.sqrt(len(data)))
 
 
+def veto_q_squared(data):
+    veto_j_psi = ~((data['q_squared'] > 9) & (data['q_squared'] < 10)) 
+    data = data[veto_j_psi]
+    veto_psi_2s = ~((data['q_squared'] > 12.75) & (data['q_squared'] < 14))
+    data = data[veto_psi_2s]
+    return data
+
+
+def _sig(data):
+    isSignal = data["isSignal"]==1
+    return data[isSignal]
+
+def _bkg(data):
+    isBkg = data["isSignal"]!=1
+    return data[isBkg]
+
+
 # def split(data, only_signal=False):
 #     if not only_signal:
 #         split_data = split_by_q_squared(data)

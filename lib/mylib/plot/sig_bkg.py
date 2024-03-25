@@ -92,15 +92,15 @@ def plot_invM(data, out_dir):
     save("invM_sig_bkg", q_squared_split='all', out_dir=out_dir)
 
 
-def plot_q_squared(data, out_dir):
+def plot_q_squared(data, out_dir, xlim=(0,20), name="q_squared"):
     fig, ax = plot_sig_bkg(
         data,
         var="q_squared",
         title=r"$q^2$",
         xlabel="[GeV$^2$]",
-        xlim=(0,20)
+        xlim=xlim
     )
-    save("hist_q_squared", q_squared_split='all', out_dir=out_dir)
+    save(name, q_squared_split='all', out_dir=out_dir)
 
 
 def plot_tf_red_chi_squared(data, out_dir):
