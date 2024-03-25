@@ -44,7 +44,7 @@ def approx_num_bins(data):
 
 
 def veto_q_squared(data):
-    veto_j_psi = ~((data['q_squared'] > 9) & (data['q_squared'] < 10)) 
+    veto_j_psi = ~((data['q_squared'] > 8) & (data['q_squared'] < 11)) 
     data = data[veto_j_psi]
     veto_psi_2s = ~((data['q_squared'] > 12.75) & (data['q_squared'] < 14))
     data = data[veto_psi_2s]
