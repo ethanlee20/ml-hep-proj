@@ -103,15 +103,15 @@ def plot_q_squared(data, out_dir, xlim=(0,20), name="q_squared"):
     save(name, q_squared_split='all', out_dir=out_dir)
 
 
-def plot_tf_red_chi_squared(data, out_dir):
+def plot_tf_red_chi_squared(data, out_dir, xlim=(0,10), name='tf_red_chi_sq'):
     fig, ax = plot_sig_bkg(
         data,
         var="tfRedChiSq",
         title=r"$\chi^2_\textrm{red}$",
         xlabel="",
-        xlim=(0,10)
+        xlim=xlim
     )
-    save("tf_red_chi_squared", q_squared_split='all', out_dir=out_dir)
+    save(name, q_squared_split='all', out_dir=out_dir)
 
 
 
