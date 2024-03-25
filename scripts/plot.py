@@ -32,7 +32,7 @@ out_dir = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/p
 # plot_Mbc(data, out_dir)
 # plot_q_squared(data, out_dir, xlim=(0,20), name="q_sq_all")
 plot_q_squared(data, out_dir, xlim=(8,11), name="q_sq_jpsi")
-# plot_q_squared(data, out_dir, xlim=(12,15), name="q_sq_psi2s")
+plot_q_squared(data, out_dir, xlim=(11,18), name="q_sq_psi2s")
 # plot_tf_red_chi_squared(data, out_dir)
 
 
