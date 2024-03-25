@@ -98,7 +98,7 @@ def plot_q_squared(data, out_dir):
         var="q_squared",
         title=r"$q^2$",
         xlabel="[GeV$^2$]",
-        xlim=(12.5,15)
+        xlim=(0,20)
     )
     save("hist_q_squared", q_squared_split='all', out_dir=out_dir)
 
