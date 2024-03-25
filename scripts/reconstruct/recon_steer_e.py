@@ -83,6 +83,7 @@ def create_variable_lists():
         + ['theta', 'thetaErr', 'mcTheta']
         + ['tfChiSq', 'tfNdf', 'tfRedChiSq']
         + ['PDG']
+        + ['isSignalAcceptBremsPhotons']
     )
     
     e_id = ["pidChargedBDTScore(11, ALL)"]
