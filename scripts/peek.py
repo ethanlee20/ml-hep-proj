@@ -32,7 +32,12 @@ def sig(data):
 def bkg(data):
     isBkg = (data["isSignal"]!=1) | (data["KST0_isSignal"]!=1) | (data["K_p_isSignal"]!=1) | (data["pi_m_isSignal"]!=1) | (data["e_p_isSignal"]!=1) | (data["e_m_isSignal"]!=1)
     return data[isBkg]
- 
+
+
+def check_strange(data):
+    isStrange = (data["isSignal"]==1) & ((data["KST0_isSignal"]!=1) | (data["K_p_isSignal"]!=1) | (data["pi_m_isSignal"]!=1) | (data["e_p_isSignal"]!=1) | (data["e_m_isSignal"]!=1))
+    return data[isStrange]
+
 
 def print_counts(data):
     try:
@@ -50,6 +55,9 @@ def print_counts(data):
     print("num det bkg", len(bkg(data).loc["det"]))
 
     print("num det tot", len(data.loc["det"]))
+    
+    print("Num strange:", len(check_strange(data)))
+    
 
 
 
