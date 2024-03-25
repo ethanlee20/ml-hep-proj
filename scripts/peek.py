@@ -73,7 +73,7 @@ data = veto_q_squared(data)
 # print_column_names(data)
 print_counts(data)
 # print_mc_particles(sig(data).loc["det"])
-# print_mc_particles(bkg(data).loc["det"])
+print_mc_particles(bkg(data).loc["det"])
 # print_mc_particles(sig(data).loc["gen"])
 
 
