@@ -82,6 +82,7 @@ def create_variable_lists():
         + vc.mc_kinematics
         + ['theta', 'thetaErr', 'mcTheta']
         + ['tfChiSq', 'tfNdf', 'tfRedChiSq']
+        + ['PDG']
     )
     
     e_id = ["pidChargedBDTScore(11, ALL)"]
