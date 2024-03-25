@@ -35,7 +35,7 @@ def bkg(data):
 
 
 def check_strange(data):
-    isStrange = (data["isSignal"]==1) & ((data["KST0_isSignal"]!=1) | (data["K_p_isSignal"]!=1) | (data["pi_m_isSignal"]!=1) | (data["e_p_isSignal"]!=1) | (data["e_m_isSignal"]!=1))
+    isStrange = (data["isSignal"]==1) & ((data["isSignalAcceptBremsPhotons"]!=1) | (data["KST0_isSignalAcceptBremsPhotons"]!=1) | (data["K_p_isSignalAcceptBremsPhotons"]!=1) | (data["pi_m_isSignalAcceptBremsPhotons"]!=1) | (data["e_p_isSignalAcceptBremsPhotons"]!=1) | (data["e_m_isSignalAcceptBremsPhotons"]!=1))
     print(data[isStrange].head())
     return data[isStrange]
 
