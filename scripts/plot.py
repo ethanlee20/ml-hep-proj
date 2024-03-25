@@ -34,6 +34,14 @@ data_sig = _sig(open_data('/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_d
 
 data = pd.concat([data_bkg_mix, data_sig])
 
+def veto_q_squared(data):
+    veto_j_psi = ~((data['q_squared'] > 9) & (data['q_squared'] < 10)) 
+    veto_psi_2s = ~((data['q_squared'] > 12.75) & (data['q_squared'] < 14))
+    veto = veto_psi_2s | veto_j_psi
+    return data[veto]
+
+data = veto_q_squared(data)
+
 out_dir = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/plots/')
 
 # plot_deltaE(data, out_dir)
