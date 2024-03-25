@@ -7,12 +7,12 @@ from mylib.util.data import approx_num_bins
 
 
 def _sig(data):
-    isSignal = (data["isSignal"]==1) & (data["KST0_isSignal"]==1) & (data["K_p_isSignal"]==1) & (data["pi_m_isSignal"]==1) & (data["e_p_isSignal"]==1) & (data["e_m_isSignal"]==1)
+    isSignal = data["isSignal"]==1
     return data[isSignal]
 
 
 def _bkg(data):
-    isBkg = (data["isSignal"]!=1) | (data["KST0_isSignal"]!=1) | (data["K_p_isSignal"]!=1) | (data["pi_m_isSignal"]!=1) | (data["e_p_isSignal"]!=1) | (data["e_m_isSignal"]!=1)
+    isBkg = data["isSignal"]!=1
     return data[isBkg]
 
 

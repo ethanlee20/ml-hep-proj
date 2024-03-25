@@ -21,11 +21,11 @@ setup_mpl_params_save()
 
 
 def _sig(data):
-    isSignal = (data["isSignal"]==1) & (data["KST0_isSignal"]==1) & (data["K_p_isSignal"]==1) & (data["pi_m_isSignal"]==1) & (data["e_p_isSignal"]==1) & (data["e_m_isSignal"]==1)
+    isSignal = data["isSignal"]==1
     return data[isSignal]
 
 def _bkg(data):
-    isBkg = (data["isSignal"]!=1) | (data["KST0_isSignal"]!=1) | (data["K_p_isSignal"]!=1) | (data["pi_m_isSignal"]!=1) | (data["e_p_isSignal"]!=1) | (data["e_m_isSignal"]!=1)
+    isBkg = data["isSignal"]!=1
     return data[isBkg]
 
 
@@ -39,7 +39,7 @@ out_dir = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/p
 # plot_deltaE(data, out_dir)
 # plot_invM(data, out_dir)
 # plot_Mbc(data, out_dir)
-# plot_q_squared(data, out_dir)
-plot_tf_red_chi_squared(data, out_dir)
+plot_q_squared(data, out_dir)
+# plot_tf_red_chi_squared(data, out_dir)
 
 
