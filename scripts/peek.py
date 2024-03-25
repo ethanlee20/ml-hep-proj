@@ -25,19 +25,19 @@ def print_mc_particles(data):
 
 
 def sig(data):
-    isSignal = (data["isSignal"]==1) & (data["KST0_isSignal"]==1) & (data["K_p_isSignal"]==1) & (data["pi_m_isSignal"]==1) & (data["e_p_isSignal"]==1) & (data["e_m_isSignal"]==1)
+    isSignal = (data["isSignal"]==1)
     return data[isSignal]
 
 
 def bkg(data):
-    isBkg = (data["isSignal"]!=1) | (data["KST0_isSignal"]!=1) | (data["K_p_isSignal"]!=1) | (data["pi_m_isSignal"]!=1) | (data["e_p_isSignal"]!=1) | (data["e_m_isSignal"]!=1)
+    isBkg = (data["isSignal"]!=1)
     return data[isBkg]
 
 
-def check_strange(data):
-    isStrange = (data["isSignal"]!=1) & ((data["isSignalAcceptBremsPhotons"]==1) & (data["KST0_isSignalAcceptBremsPhotons"]==1) & (data["K_p_isSignalAcceptBremsPhotons"]==1) & (data["pi_m_isSignalAcceptBremsPhotons"]==1) & (data["e_p_isSignalAcceptBremsPhotons"]==1) & (data["e_m_isSignalAcceptBremsPhotons"]==1))
-    print(data[isStrange].head())
-    return data[isStrange]
+# def check_strange(data):
+#     isStrange = (data["isSignal"]!=1) & ((data["isSignalAcceptBremsPhotons"]==1) & (data["KST0_isSignalAcceptBremsPhotons"]==1) & (data["K_p_isSignalAcceptBremsPhotons"]==1) & (data["pi_m_isSignalAcceptBremsPhotons"]==1) & (data["e_p_isSignalAcceptBremsPhotons"]==1) & (data["e_m_isSignalAcceptBremsPhotons"]==1))
+#     print(data[isStrange].head())
+#     return data[isStrange]
 
 
 def print_counts(data):
@@ -57,7 +57,7 @@ def print_counts(data):
 
     print("num det tot", len(data.loc["det"]))
 
-    print("Num strange:", len(check_strange(data)))
+    # print("Num strange:", len(check_strange(data)))
     
 
 
