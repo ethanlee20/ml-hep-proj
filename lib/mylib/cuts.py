@@ -5,30 +5,29 @@ import numpy as np
 import pandas as pd
 
 from mylib.phys import calc_dif_inv_mass_k_pi_and_kst
-from mylib.util.data import count_events
+from mylib.util import count_events
 
 
 def cut_on_kst_inv_mass(df):
     kst_full_width = 0.05
-    in_cut = (
+    cut = (
         calc_dif_inv_mass_k_pi_and_kst(df).abs()
         <= 1.5 * kst_full_width
     )
-    cut_df = df[in_cut].copy() 
+    cut_df = df[cut].copy() 
     return cut_df
 
 
-# def cut_on_mbc(df):
-#     mbc_low_bound = 5.27
-#     in_cut = df["Mbc"] > mbc_low_bound
-#     cut_df = df[in_cut].copy()
-#     return cut_df
+def cut_on_mbc(df):
+    mbc_low_bound = 5.27
+    cut_df = df[df["Mbc"] > mbc_low_bound].copy()
+    return cut_df
 
 
-# def cut_on_deltaE(df):
-#     in_cut = abs(df["deltaE"]) <= 0.05
-#     cut_df = df[in_cut].copy()
-#     return cut_df
+def cut_on_deltaE(df):
+    deltaE_max_magn = 0.05
+    cut_df = df[abs(df["deltaE"]) <= deltaE_max_magn].copy()
+    return cut_df
 
 
 def apply_all_cuts_with_summary(df):

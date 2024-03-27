@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from mylib.phys import calc_afb_of_q_squared, calc_s5_of_q_squared
 from mylib.util import section
 from mylib.util import save_plot
-from mylib.plot.core.looks.leg import stats_legend
+from mylib.plot.lib import stats_legend
 
 
 def plot_afb(data, out_dir, ell):

@@ -7,7 +7,7 @@ from mylib.util import open_data
 from mylib.util.data import _sig, _bkg, veto_q_squared
 from mylib.plot.core.util.setup import setup_mpl_params_save
 
-from mylib.plot.sig_noise import (
+from mylib.plot.plots_to_organize1 import (
     plot_deltaE,
     plot_Mbc,
     plot_invM,

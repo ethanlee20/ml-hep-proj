@@ -6,48 +6,7 @@ from mylib.util import approx_num_bins, save_plot, section, over_q_squared_split
 from mylib.plot.core.looks.leg import stats_legend
 
 
-def _plot_gen_det(
-    data,
-    var,
-    q_squared_split, 
-    title,
-    xlabel,
-    xlim=(None, None)
-):
-    data = section(data, only_sig=True, var=var, q_squared_split=q_squared_split)
 
-    if xlim not in {(None, None), None}:
-        data = data[(data > xlim[0]) & (data < xlim[1])]
-
-    legends = {
-        "gen":stats_legend(data.loc["gen"], "Generator"), 
-        "det":stats_legend(data.loc["det"], "Detector (signal)")
-    }
-
-    fig, ax = plt.subplots()
-
-    ax.hist(
-        data.loc["gen"],
-        label=legends["gen"],    
-        bins=approx_num_bins(data.loc["gen"]),
-        color="purple",
-        histtype="step",
-        linestyle="-",
-    )
-
-    ax.hist(
-        data.loc["det"],
-        label=legends["det"],    
-        bins=approx_num_bins(data.loc["det"]),
-        color="blue",
-        histtype="step",
-    )
-
-    ax.legend()
-    ax.set_title(title)
-    ax.set_xlabel(xlabel)
-
-    return fig, ax
 
 
 def plot_deltaE(data, out_dir, name="deltaE_gen_det", xlim=(-0.1, 0.1)):
