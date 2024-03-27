@@ -2,10 +2,11 @@
 """Functions for special relavitiy and particle physics calculations."""
 
 
+from math import pi, sqrt
 import numpy as np
 import pandas as pd
 
-from mylib.calc.maths import (
+from mylib.maths import (
     cosine_angle, 
     cross_product_3d, 
     dot_product, 
@@ -13,6 +14,7 @@ from mylib.calc.maths import (
     unit_normal, 
     vector_magnitude,
 )
+from mylib.util import bin_data, count_events, find_bin_middles
 
 
 def four_momemtum_dataframe(df_with_4_col):
@@ -476,3 +478,114 @@ def calc_dif_inv_mass_k_pi_and_kst(df_K_4mom, df_pi_4mom):
 
     dif = df_inv_mass_k_pi - inv_mass_kst
     return dif
+
+
+def calc_afb_of_q_squared(df, ell, num_points):
+
+    def _calc_afb(ell):
+        def calc(df):
+            if ell == 'mu':
+                d_cos_theta_l = df['costheta_mu']
+            elif ell == 'e':
+                d_cos_theta_l = df['costheta_e']
+
+            f = d_cos_theta_l[(d_cos_theta_l > 0) & (d_cos_theta_l < 1)].count()
+            b = d_cos_theta_l[(d_cos_theta_l > -1) & (d_cos_theta_l < 0)].count()
+            
+            afb = (f - b) / (f + b)
+
+            return afb
+        return calc
+
+    def _calc_afb_err(ell):
+        def calc(df):
+            if ell == 'mu':
+                d_cos_theta_l = df['costheta_mu']
+            elif ell == 'e':
+                d_cos_theta_l = df['costheta_e']
+
+
+            f = d_cos_theta_l[(d_cos_theta_l > 0) & (d_cos_theta_l < 1)].count()
+            b = d_cos_theta_l[(d_cos_theta_l > -1) & (d_cos_theta_l < 0)].count()
+            
+            f_stdev = sqrt(f)
+            b_stdev = sqrt(b)
+
+            afb_stdev = 2*f*b / (f+b)**2 * sqrt((f_stdev/f)**2 + (b_stdev/b)**2)
+            afb_err = afb_stdev
+
+            return afb_err
+        return calc
+
+
+    binned, edges = bin_data(df, 'q_squared', num_points, ret_edges=True)
+    
+    afbs = binned.apply(_calc_afb(ell))
+    errs = binned.apply(_calc_afb_err(ell))
+    q_squareds = find_bin_middles(edges)
+
+    return q_squareds, afbs, errs
+
+
+def calc_s5_of_q_squared(df, num_points):
+
+    def _calc_s5(df):
+        costheta_k = df["costheta_K"]
+        chi = df["chi"]
+        
+        f = count_events(df[
+            (((costheta_k > 0) & (costheta_k < 1)) & ((chi > 0) & (chi < pi/2)))
+            | (((costheta_k > 0) & (costheta_k < 1)) & ((chi > 3*pi/2) & (chi < 2*pi)))
+            | (((costheta_k > -1) & (costheta_k < 0)) & ((chi > pi/2) & (chi < 3*pi/2)))
+        ])
+
+        b = count_events(df[
+            (((costheta_k > 0) & (costheta_k < 1)) & ((chi > pi/2) & (chi < 3*pi/2)))
+            | (((costheta_k > -1) & (costheta_k < 0)) & ((chi > 0) & (chi < pi/2)))
+            | (((costheta_k > -1) & (costheta_k < 0)) & ((chi > 3*pi/2) & (chi < 2*pi)))
+        ])
+
+        try: 
+            s5 = 4/3 * (f - b) / (f + b)
+        except ZeroDivisionError:
+            print("division by 0, returning nan")
+            s5 = np.nan
+        
+        return s5
+
+
+    def _calc_s5_err(df):
+        costheta_k = df["costheta_K"]
+        chi = df["chi"]
+        
+        f = count_events(df[
+            (((costheta_k > 0) & (costheta_k < 1)) & ((chi > 0) & (chi < pi/2)))
+            | (((costheta_k > 0) & (costheta_k < 1)) & ((chi > 3*pi/2) & (chi < 2*pi)))
+            | (((costheta_k > -1) & (costheta_k < 0)) & ((chi > pi/2) & (chi < 3*pi/2)))
+        ])
+
+        b = count_events(df[
+            (((costheta_k > 0) & (costheta_k < 1)) & ((chi > pi/2) & (chi < 3*pi/2)))
+            | (((costheta_k > -1) & (costheta_k < 0)) & ((chi > 0) & (chi < pi/2)))
+            | (((costheta_k > -1) & (costheta_k < 0)) & ((chi > 3*pi/2) & (chi < 2*pi)))
+        ])
+
+        f_stdev = sqrt(f)
+        b_stdev = sqrt(b)
+
+        try: 
+            stdev = 4/3 * 2*f*b / (f+b)**2 * sqrt((f_stdev/f)**2 + (b_stdev/b)**2)
+            err = stdev
+
+        except ZeroDivisionError:
+            print("division by 0, returning nan")
+            err = np.nan
+        
+        return err
+
+    binned, edges = bin_data(df, 'q_squared', num_points, ret_edges=True)
+    s5s = binned.apply(_calc_s5)
+    errs = binned.apply(_calc_s5_err)
+    q_squareds = find_bin_middles(edges)
+
+    return q_squareds, s5s, errs

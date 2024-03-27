@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 from mylib.util.data import min_max_over_arrays
 from mylib.plot.core.subplots import subplots_side_by_side
-from mylib.util.util import unzip_dicts
+from mylib.util import unzip_dicts
 
 cmap = 'magma'
 

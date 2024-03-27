@@ -8,12 +8,12 @@ sys.path.append(
     os.path.join(os.path.dirname(__file__), "../")
 )
 
-import eff_and_res
+import mylib.eff_res as eff_res
 import test_df
 
 
 def test_generate_bin_edges():
-    bin_edges = eff_and_res.generate_bin_edges(
+    bin_edges = eff_res.generate_bin_edges(
         start=1.2,
         stop=2.4,
         num_of_bins=4,
@@ -22,25 +22,25 @@ def test_generate_bin_edges():
 
 
 def test_find_bin_middles():
-    bin_edges = eff_and_res.generate_bin_edges(
+    bin_edges = eff_res.generate_bin_edges(
         start=1.2,
         stop=2.4,
         num_of_bins=4,
     )
 
-    bin_middles = eff_and_res.find_bin_middles(bin_edges)
+    bin_middles = eff_res.find_bin_middles(bin_edges)
 
     np.testing.assert_allclose(bin_middles, np.array([1.35, 1.65, 1.95, 2.25]))
 
 
 def test_find_bin_counts():
 
-    bin_edges = eff_and_res.generate_bin_edges(
+    bin_edges = eff_res.generate_bin_edges(
         start=0,
         stop=10,
         num_of_bins=4
     )
-    bin_counts = eff_and_res.find_bin_counts(
+    bin_counts = eff_res.find_bin_counts(
         data=test_df.test_df_c,
         binning_variable="d",
         bin_edges=bin_edges
@@ -64,12 +64,12 @@ def test_find_bin_counts():
 
 
 def test_calculate_efficiency():
-    bin_edges = eff_and_res.generate_bin_edges(
+    bin_edges = eff_res.generate_bin_edges(
         start=0,
         stop=10,
         num_of_bins=4
     )
 
-    eff = eff_and_res.calculate_efficiency(test_df.test_df_c, test_df.test_df_d, "d", bin_edges)
+    eff = eff_res.calculate_efficiency(test_df.test_df_c, test_df.test_df_d, "d", bin_edges)
 
     np.testing.assert_allclose(eff, np.array([1, 0.75, np.inf, 0]))

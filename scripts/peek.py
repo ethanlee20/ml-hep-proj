@@ -5,7 +5,7 @@ import pandas as pd
 pd.options.display.max_columns = None
 pd.options.display.max_colwidth = None
 
-from mylib.util.util import open_data
+from mylib.util import open_data
 from mylib.util.data import veto_q_squared
 
 

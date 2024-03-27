@@ -4,7 +4,7 @@ import pathlib as pl
 import numpy as np
 import pandas as pd
 
-from mylib.calc.phys import calc_dif_inv_mass_k_pi_and_kst
+from mylib.phys import calc_dif_inv_mass_k_pi_and_kst
 from mylib.util.data import count_events
 
 

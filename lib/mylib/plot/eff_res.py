@@ -1,6 +1,4 @@
 
-"""Efficiency plotting."""
-
 
 import matplotlib.pyplot as plt
 
@@ -18,6 +16,7 @@ from mylib.util.iter import over_q_squared_splits
 
 
 
+"""Efficiency plotting."""
 
 def plot_eff(
     data_gen,
@@ -83,7 +82,7 @@ def plot_gen_eff(
     ylim=(0, 1),
     **kwargs,
 ):
-    """Plot recreated efficiency using cuts on generator level data."""
+    """Attempt to recreate efficiency plot using cuts on generator level data."""
   
     def make_legend(num_gen, num_gen_cut):
         """Make the plot's legend."""
@@ -177,3 +176,43 @@ def eff_chi(data, out_dir, q_squared_split):
         xlabel=r"$\chi$",
     )
     save("eff_chi", q_squared_split, out_dir)
+
+
+
+"""Resolution Plotting"""
+
+def plot_resolution(
+    data,
+    variable,
+    q_squared_split,
+    title,
+    xlabel, 
+    out_dir_path,
+):
+
+    resolution = eff_and_res.calculate_resolution(
+        data,
+        variable,
+        q_squared_split,
+    )
+
+    fig, ax = plt.subplots()
+    
+    ax.hist(
+        resolution,
+        label=generate_stats_label(resolution, "Signal Events"),
+        bins=approx_num_bins(resolution),
+        color="red",
+        histtype="step",
+    )
+
+    ax.legend()
+    ax.set_title(title)
+    ax.set_xlabel(xlabel)
+
+    file_name = f"q2{q_squared_split}_res_{variable}.png"
+
+    save_fig_and_clear(
+        out_dir_path=out_dir_path,
+        file_name=file_name,
+    )

@@ -3,8 +3,8 @@
 
 import pathlib as pl
 
-from mylib.util.util import open_data_file
-from mylib.calc.phys import (
+from mylib.util import open_data_file
+from mylib.phys import (
     calc_dif_inv_mass_k_pi_and_kst,
     find_chi,
     find_coschi,

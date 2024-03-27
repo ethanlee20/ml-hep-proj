@@ -4,8 +4,8 @@ import pathlib as pl
 import numpy as np
 import pandas as pd
 
-from mylib.util.util import open_data_file
-from mylib.pre.cuts import apply_all_cuts_with_summary, make_total_count_summary    
+from mylib.util import open_data_file
+from mylib.cuts import apply_all_cuts_with_summary, make_total_count_summary    
 
 
 def config_paths(in_dir, out_dir):

@@ -5,7 +5,7 @@ import sys
 import os
 import pathlib as pl
 
-from  mylib.util.util import open_data
+from  mylib.util import open_data
 
 
 def config_paths(input_dir):
