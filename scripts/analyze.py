@@ -34,13 +34,10 @@ def config_input_data_paths(input_dirs):
         in_dir = pl.Path(input_dirs)
         input_file_paths = list(in_dir.glob("*.pkl")) + list(in_dir.glob("*.root"))
         return input_file_paths
-
     input_dirs = [pl.Path(in_dir) for in_dir in input_dirs]
-    # breakpoint()
     input_file_paths = []
     for in_dir in input_dirs:
         dir_files = list(in_dir.glob("*.pkl")) + list(in_dir.glob("*.root"))
-        # breakpoint()
         input_file_paths.extend(dir_files)
     
     return input_file_paths
@@ -210,10 +207,9 @@ def veto_q_squared(data):
 
 
 input_file_paths, output_file_paths = config_paths(input_dirs, output_dir)
-# breakpoint()
+
 for in_path, out_path in zip(input_file_paths, output_file_paths):
     data = open_data_file(in_path)
     data = run_calc(data)
-    data = veto_q_squared(data)
     data.to_pickle(out_path)
 
