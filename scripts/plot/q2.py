@@ -27,6 +27,6 @@ plot_resolution(
     q_squared_split='all',
     title=r"Resolution of $q^2$, $\ell = e$",
     xlabel=r"[GeV$^2$]",
-    xlim=(-2,2),
+    xlim=(-1,1),
     out_dir_path=out_dir
 )
