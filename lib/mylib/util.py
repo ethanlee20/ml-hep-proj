@@ -104,13 +104,18 @@ def noise_(data):
     return data[isNoise]
 
 
-def section(data, only_sig=True, var=None, q_squared_split=None):
-    if only_sig:
+def section(data, sig_noise=None, var=None, q_squared_split=None):
+    if sig_noise == "sig":
         data = sig_(data)
+    elif sig_noise == "noise":
+        data = noise_(data)
+
     if q_squared_split:
         data = split_by_q_squared(data)[q_squared_split]
+
     if var:
         data = data[var]
+        
     return data
 
     

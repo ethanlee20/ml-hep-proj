@@ -166,8 +166,8 @@ def plot_sig_noise(data, var, q_squared_split, noise_type, title, xlabel, out_di
     on the same plot.
     """
 
-    sig = section(data, only_sig=True, var=var, q_squared_split=q_squared_split).loc["det"]
-    noise = noise_(section(data, only_sig=False, var=var, q_squared_split=q_squared_split)).loc["det"]
+    sig = section(data, sig_noise='sig', var=var, q_squared_split=q_squared_split).loc["det"]
+    noise = section(data, sig_noise='noise', var=var, q_squared_split=q_squared_split).loc["det"]
     
     if xlim not in {(None, None), None}:
         sig = sig[(sig > xlim[0]) & (sig < xlim[1])]
@@ -401,8 +401,8 @@ def calculate_resolution(data, variable, q_squared_split):
     The resolution of a variable is defined as the 
     reconstructed value minus the MC truth value.
     """
-    data_calc = section(data, only_sig=True, var=variable, q_squared_split=q_squared_split).loc["det"]
-    data_mc = section(data, only_sig=True, var=variable+'_mc', q_squared_split=q_squared_split).loc["det"]
+    data_calc = section(data, sig_noise='sig', var=variable, q_squared_split=q_squared_split).loc["det"]
+    data_mc = section(data, sig_noise='sig', var=variable+'_mc', q_squared_split=q_squared_split).loc["det"]
     
     resolution = data_calc - data_mc
 
