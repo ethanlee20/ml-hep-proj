@@ -4,7 +4,7 @@ from mylib.plot.lib import plot_resolution, plot_sig_noise
 from mylib.util import open_data, sig_
 
 
-data = sig_(open_data('/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/sig/an'))
+data = open_data('/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/sig/an')
 out_dir = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/plots/')
 
 
