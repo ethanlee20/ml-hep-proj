@@ -438,6 +438,9 @@ def plot_resolution(
         q_squared_split,
     )
 
+    if xlim not in {(None, None), None}:
+        resolution = resolution[(resolution > xlim[0]) & (resolution < xlim[1])]
+
     fig, ax = plt.subplots()
     
     ax.hist(
@@ -451,7 +454,6 @@ def plot_resolution(
     ax.legend()
     ax.set_title(title)
     ax.set_xlabel(xlabel)
-    plt.xlim(xlim)
 
     file_name = f"q2{q_squared_split}_res_{variable}.png"
 
