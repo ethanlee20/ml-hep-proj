@@ -1,8 +1,10 @@
 import pathlib as pl
 
-from mylib.plot.lib import plot_resolution, plot_sig_noise
-from mylib.util import open_data, sig_
+from mylib.plot.lib import setup_mpl_params_save, plot_resolution, plot_sig_noise
+from mylib.util import open_data
 
+
+setup_mpl_params_save()
 
 data = open_data('/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/sig/an')
 out_dir = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/plots/')
