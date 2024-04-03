@@ -1,6 +1,6 @@
 
 gbasf2 \
-    -p all_15i_gen_mix_e \
+    -p all_15i_gen_charg_e \
     -s light-2401-ocicat \
     --input_dslist /home/belle2/elee20/ml-hep-proj/scripts/reconstruct/lpns_results_gen_charged.txt \
     /home/belle2/elee20/ml-hep-proj/scripts/reconstruct/recon_steer_e.py

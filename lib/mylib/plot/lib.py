@@ -160,13 +160,14 @@ def plot_gen_det(
     return fig, ax
 
 
-def plot_sig_noise(data, var, noise_type, title, xlabel, xlim=(None, None)):
+def plot_sig_noise(data, var, q_squared_split, noise_type, title, xlabel, out_dir, xlim=(None, None)):
     """
     Plot the signal distribution and the noise distribution
     on the same plot.
     """
-    sig = sig_(data)[var]
-    noise = noise_(data)[var]
+
+    sig = section(data, only_sig=True, var=var, q_squared_split=q_squared_split).loc["det"]
+    noise = noise_(section(data, only_sig=False, var=var, q_squared_split=q_squared_split)).loc["det"]
     
     if xlim not in {(None, None), None}:
         sig = sig[(sig > xlim[0]) & (sig < xlim[1])]
@@ -205,8 +206,11 @@ def plot_sig_noise(data, var, noise_type, title, xlabel, xlim=(None, None)):
     ax.set_title(title)
     ax.set_xlabel(xlabel)
 
-    return fig, ax
-
+    save_plot(
+        plot_name=f"sig_noise_{var}",
+        q_squared_split=q_squared_split,
+        out_dir=out_dir
+    )
 
 def plot_image(
     path_image_pickle_file,
@@ -450,8 +454,9 @@ def plot_resolution(
     file_name = f"q2{q_squared_split}_res_{variable}.png"
 
     save_plot(
-        out_dir_path=out_dir_path,
-        file_name=file_name,
+        plot_name=f'res_{variable}',
+        q_squared_split=q_squared_split,
+        out_dir=out_dir_path
     )
 
 
