@@ -165,10 +165,10 @@ def plot_sig_noise(data, var, q_squared_split, noise_type, title, xlabel, out_di
     Plot the signal distribution and the noise distribution
     on the same plot.
     """
-    breakpoint()
+    
     sig = section(data.loc["det"], sig_noise='sig', var=var, q_squared_split=q_squared_split)
     noise = section(data.loc["det"], sig_noise='noise', var=var, q_squared_split=q_squared_split)
-    breakpoint()
+    
     if xlim not in {(None, None), None}:
         sig = sig[(sig > xlim[0]) & (sig < xlim[1])]
         noise = noise[(noise > xlim[0]) & (noise < xlim[1])]
