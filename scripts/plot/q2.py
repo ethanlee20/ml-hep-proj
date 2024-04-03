@@ -17,6 +17,7 @@ plot_sig_noise(
     noise_type='mis',
     title=r"$q^2$",
     xlabel="[GeV$^2$]",
+    xlim=(0,20),
     out_dir=out_dir
 )
 
@@ -26,5 +27,6 @@ plot_resolution(
     q_squared_split='all',
     title=r"Resolution of $q^2$",
     xlabel=r"[GeV$^2$]",
+    xlim=(-10,10),
     out_dir_path=out_dir
 )
