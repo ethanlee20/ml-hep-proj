@@ -18,8 +18,8 @@ plot_resolution(
     data,
     variable='q_squared',
     q_squared_split='all',
-    title=r'Resolution of $q^2$ \small (all $q^2$)',
-    xlabel=r'$q^2_\text{recon} - q^2_\text{mc truth}$',
+    title=r'Resolution of $q^2$ \large (all $q^2$)',
+    xlabel=r'$q^2_\text{recon} - q^2_\text{mc truth}$ [GeV$^2$]',
     xlim=(-1,1),
     extra_name='',
     out_dir_path=out_dir
@@ -29,8 +29,8 @@ plot_resolution(
     data,
     variable='q_squared',
     q_squared_split='JPsi',
-    title=r'Resolution of $q^2$ \small ($8 < q^2 < 11$ GeV$^2$)',
-    xlabel=r'$q^2_\text{recon} - q^2_\text{mc truth}$',
+    title=r'Resolution of $q^2$ \large ($8 < q^2 < 11$ GeV$^2$)',
+    xlabel=r'$q^2_\text{recon} - q^2_\text{mc truth}$ [GeV$^2$]',
     xlim=(-1,1),
     extra_name='',
     out_dir_path=out_dir
