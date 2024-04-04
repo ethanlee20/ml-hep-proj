@@ -456,6 +456,7 @@ def plot_resolution(
     )
 
     ax.legend()
+    ax.set_xlim(xlim)
     ax.set_title(title)
     ax.set_xlabel(xlabel)
 
