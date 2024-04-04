@@ -66,6 +66,12 @@ def config_paths(input_dirs, output_dir):
     return input_file_paths, output_file_paths
 
 
+def list_finished(output_dir):
+    finished = list(output_dir.glob("*.pkl"))
+    return finished
+
+
+
 if ell == 'mu':
     ell_p_E = 'mu_p_E'
     ell_p_px = 'mu_p_px'
@@ -211,7 +217,11 @@ output_dir.mkdir(parents=True, exist_ok=True)
 
 input_file_paths, output_file_paths = config_paths(input_dirs, output_dir)
 
+finished = list_finished(output_dir)
+
 for in_path, out_path in zip(input_file_paths, output_file_paths):
+    if out_path in finished:
+        continue
     data = open_data(in_path)
     data = run_calc(data)
     data.to_pickle(out_path)
