@@ -1,6 +1,7 @@
 
 """Calculate required quantities from the reconstructed MC data."""
 
+import sys
 import pathlib as pl
 
 from mylib.util import open_data
@@ -17,37 +18,14 @@ from mylib.phys import (
 
 ell = 'e'
 
-input_dirs = [
-    '/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/charge/all_15i_gen_charg_e/sub00',
-    '/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/charge/all_15i_gen_charg_e/sub01',
-    '/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/charge/all_15i_gen_charg_e/sub02',
-    '/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/charge/all_15i_gen_charg_e/sub03',
-    '/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/charge/all_15i_gen_charg_e/sub04',
-    '/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/charge/all_15i_gen_charg_e/sub05',
-    '/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/charge/all_15i_gen_charg_e/sub06',
-    '/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/charge/all_15i_gen_charg_e/sub07',
-    '/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/charge/all_15i_gen_charg_e/sub08',
-    '/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/charge/all_15i_gen_charg_e/sub09',
-    '/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/charge/all_15i_gen_charg_e/sub10',
-    '/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/charge/all_15i_gen_charg_e/sub11',
-]
+input_dir = sys.argv[1]
 
-output_dir = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/charge/an')
+output_dir = sys.argv[2]
 
 
-
-
-def config_input_data_paths(input_dirs):
-    if type(input_dirs) is not list:
-        in_dir = pl.Path(input_dirs)
-        input_file_paths = list(in_dir.glob("*.pkl")) + list(in_dir.glob("*.root"))
-        return input_file_paths
-    input_dirs = [pl.Path(in_dir) for in_dir in input_dirs]
-    input_file_paths = []
-    for in_dir in input_dirs:
-        dir_files = list(in_dir.glob("*.pkl")) + list(in_dir.glob("*.root"))
-        input_file_paths.extend(dir_files)
-    
+def config_input_data_paths(input_dir):
+    input_dir = pl.Path(input_dir)
+    input_file_paths = list(input_dir.glob("**/*.pkl")) + list(input_dir.glob("**/*.root"))
     return input_file_paths
 
 
@@ -215,7 +193,7 @@ def run_calc(data):
 
 output_dir.mkdir(parents=True, exist_ok=True)
 
-input_file_paths, output_file_paths = config_paths(input_dirs, output_dir)
+input_file_paths, output_file_paths = config_paths(input_dir, output_dir)
 
 finished = list_finished(output_dir)
 
