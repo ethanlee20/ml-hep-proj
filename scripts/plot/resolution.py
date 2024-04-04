@@ -28,7 +28,7 @@ plot_resolution(
 plot_resolution(
     data,
     variable='q_squared',
-    q_squared_split='J/psi',
+    q_squared_split='JPsi',
     title=r'Resolution of $q^2$ ($8 < q^2 < 11$ GeV$^2$)',
     xlabel=r'$q^2_\text{recon} - q^2_\text{mc truth}$',
     xlim=(-1,1),
