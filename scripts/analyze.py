@@ -3,7 +3,7 @@
 
 import pathlib as pl
 
-from mylib.util import open_data_file
+from mylib.util import open_data
 from mylib.phys import (
     calc_dif_inv_mass_k_pi_and_kst,
     find_chi,
@@ -206,7 +206,7 @@ def veto_q_squared(data):
 input_file_paths, output_file_paths = config_paths(input_dirs, output_dir)
 
 for in_path, out_path in zip(input_file_paths, output_file_paths):
-    data = open_data_file(in_path)
+    data = open_data(in_path)
     data = run_calc(data)
     data.to_pickle(out_path)
 
