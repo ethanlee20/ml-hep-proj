@@ -5,7 +5,6 @@ import pandas as pd
 
 from mylib.util import open_data
 from mylib.util.data import _sig, _bkg, veto_q_squared
-from mylib.plot.core.util.setup import setup_mpl_params_save
 
 from mylib.plot.plots_to_organize1 import (
     plot_deltaE,
@@ -18,8 +17,8 @@ from mylib.plot.plots_to_organize1 import (
 setup_mpl_params_save()
 
 
-data_bkg_mix = _bkg(open_data('/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/mixed/an')).loc["det"][:20_000]
-data_sig = _sig(open_data('/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/sig/an')).loc["det"][:20_000]
+data_bkg_mix = _bkg_(open_data('/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/mixed/an')).loc["det"][:20_000]
+data_sig = sig_(open_data('/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/sig/an')).loc["det"][:20_000]
 
 data = pd.concat([data_bkg_mix, data_sig])
 
