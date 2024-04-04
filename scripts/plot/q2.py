@@ -15,7 +15,7 @@ data_sig_mc = open_data('/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dat
 data_bkg = section(data_gen_mix_mc, sig_noise='noise').loc["det"][:20_000]
 data_sig = section(data_sig_mc, sig_noise='sig').loc["det"][:20_000]
 
-data = pd.concat([data_bkg, data_sig])
+data = pd.concat([data_bkg, data_sig], keys=["det", "det"])
 
 data = veto_q_squared_mix_bkg(data)
 
