@@ -15,15 +15,26 @@ from mylib.phys import (
 )
 
 
-# input_dirs = [
-#     '/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/sig/sig_e_bdt/sub00',
-# ]
+ell = 'e'
+
 input_dirs = [
-    '/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/mu/signal/sig_mu/sub00'
+    '/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/charge/all_15i_gen_charg_e/sub00',
+    '/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/charge/all_15i_gen_charg_e/sub01',
+    '/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/charge/all_15i_gen_charg_e/sub02',
+    '/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/charge/all_15i_gen_charg_e/sub03',
+    '/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/charge/all_15i_gen_charg_e/sub04',
+    '/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/charge/all_15i_gen_charg_e/sub05',
+    '/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/charge/all_15i_gen_charg_e/sub06',
+    '/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/charge/all_15i_gen_charg_e/sub07',
+    '/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/charge/all_15i_gen_charg_e/sub08',
+    '/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/charge/all_15i_gen_charg_e/sub09',
+    '/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/charge/all_15i_gen_charg_e/sub10',
+    '/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/charge/all_15i_gen_charg_e/sub11',
 ]
-output_dir = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/mu/signal/an')
-output_dir.mkdir(parents=True, exist_ok=True)
-ell = 'mu'
+
+output_dir = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/charge/an')
+
+
 
 
 def config_input_data_paths(input_dirs):
@@ -196,12 +207,7 @@ def run_calc(data):
     return data
 
 
-def veto_q_squared(data):
-    veto_j_psi = ~((data['q_squared'] > 9) & (data['q_squared'] < 10)) 
-    veto_psi_2s = ~((data['q_squared'] > 12.75) & (data['q_squared'] < 14))
-    veto = veto_psi_2s | veto_j_psi
-    return data[veto]
-
+output_dir.mkdir(parents=True, exist_ok=True)
 
 input_file_paths, output_file_paths = config_paths(input_dirs, output_dir)
 
