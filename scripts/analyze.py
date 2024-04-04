@@ -19,14 +19,11 @@ from mylib.phys import (
 #     '/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/sig/sig_e_bdt/sub00',
 # ]
 input_dirs = [
-    '/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/mixed/gen_mix_e_bdt1/sub00',
-    '/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/mixed/gen_mix_e_bdt2/sub00',
-    '/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/mixed/gen_mix_e_bdt3/sub00',
-    '/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/mixed/gen_mix_e_bdt4/sub00',
-    '/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/mixed/gen_mix_e_bdt5/sub00',
+    '/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/mu/signal/sig_mu/sub00'
 ]
-output_dir = '/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/mixed/an'
-ell = 'e'
+output_dir = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/mu/signal/an')
+output_dir.mkdir(parents=True, exist_ok=True)
+ell = 'mu'
 
 
 def config_input_data_paths(input_dirs):
