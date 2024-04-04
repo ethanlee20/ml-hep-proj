@@ -18,9 +18,9 @@ from mylib.phys import (
 
 ell = 'e'
 
-input_dir = sys.argv[1]
+input_dir = pl.Path(sys.argv[1])
 
-output_dir = sys.argv[2]
+output_dir = pl.Path(sys.argv[2])
 
 
 def config_input_data_paths(input_dir):
