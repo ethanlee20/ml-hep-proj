@@ -17,9 +17,19 @@ out_dir.mkdir(parents=True, exist_ok=True)
 plot_resolution(
     data,
     variable='q_squared',
+    q_squared_split='all',
+    title=r'Resolution of $q^2$ (all $q^2$)',
+    xlabel=r'q^2_\text{recon} - q^2_\text{mc truth}',
+    xlim=(-1,1),
+    extra_name=''
+)
+
+plot_resolution(
+    data,
+    variable='q_squared',
     q_squared_split='J/psi',
     title=r'Resolution of $q^2$ ($8 < q^2 < 11$ GeV$^2$)',
     xlabel=r'q^2_\text{recon} - q^2_\text{mc truth}',
     xlim=(-1,1),
-    extra_name='jpsi'
+    extra_name=''
 )
