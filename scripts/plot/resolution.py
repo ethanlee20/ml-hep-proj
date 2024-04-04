@@ -8,9 +8,10 @@ import pandas as pd
 
 setup_mpl_params_save()
 
-data = open_data('/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/sig/an')
+# data = open_data('/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/sig/an')
+data = open_data("/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/mu/signal/sig_mu/sub00")
 
-out_dir = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/plots/res')
+out_dir = pl.Path("/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/mu/plots/res")
 out_dir.mkdir(parents=True, exist_ok=True)
 
 
