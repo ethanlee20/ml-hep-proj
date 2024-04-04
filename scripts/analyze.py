@@ -222,7 +222,9 @@ finished = list_finished(output_dir)
 for in_path, out_path in zip(input_file_paths, output_file_paths):
     if out_path in finished:
         continue
-    data = open_data(in_path)
-    data = run_calc(data)
-    data.to_pickle(out_path)
-
+    try:
+        data = open_data(in_path)
+        data = run_calc(data)
+        data.to_pickle(out_path)
+    except ValueError as err:
+        print("Empty file? ", err)
