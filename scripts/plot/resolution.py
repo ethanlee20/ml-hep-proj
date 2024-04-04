@@ -21,7 +21,7 @@ plot_resolution(
     title=r'Resolution of $q^2$ (all $q^2$)',
     xlabel=r'q^2_\text{recon} - q^2_\text{mc truth}',
     xlim=(-1,1),
-    extra_name=''
+    extra_name='',
     out_dir_path=out_dir
 )
 
