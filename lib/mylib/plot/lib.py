@@ -201,7 +201,7 @@ def plot_sig_noise(data, var, q_squared_split, noise_type, title, xlabel, out_di
         linewidth=1,
     )
 
-    ax.yscale(scale)
+    ax.set_yscale(scale)
     # ax.set_xlim(xlim)
     ax.legend()
     ax.set_title(title)
