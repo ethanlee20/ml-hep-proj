@@ -14,6 +14,19 @@ data = open_data("/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/mu/sig
 out_dir = pl.Path("/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/mu/plots/res")
 out_dir.mkdir(parents=True, exist_ok=True)
 
+plot_sig_noise(
+    data=data,
+    var='q_squared',
+    q_squared_split='all',
+    noise_type='mis',
+    title=r"$q^2$",
+    xlabel="[GeV$^2$]",
+    xlim=(0,20),
+    ymax=None,
+    scale='linear',
+    extra_name='',
+    out_dir=out_dir
+)
 
 plot_resolution(
     data,
