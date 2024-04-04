@@ -30,6 +30,7 @@ plot_sig_noise(
     title=r"$q^2$",
     xlabel="[GeV$^2$]",
     xlim=(0,20),
+    ymax=90_000,
     scale='linear',
     extra_name='lin',
     out_dir=out_dir
@@ -43,6 +44,7 @@ plot_sig_noise(
     title=r"$q^2$",
     xlabel="[GeV$^2$]",
     xlim=(0,20),
+    ymax=90_000,
     scale='log',
     extra_name='log',
     out_dir=out_dir
@@ -56,6 +58,7 @@ plot_sig_noise(
     title=r"$q^2$",
     xlabel="[GeV$^2$]",
     xlim=(0,20),
+    ymax=90_000,
     scale='linear',
     extra_name='lin_veto',
     out_dir=out_dir
@@ -69,6 +72,7 @@ plot_sig_noise(
     title=r"$q^2$",
     xlabel="[GeV$^2$]",
     xlim=(0,20),
+    ymax=90_000,
     scale='log',
     extra_name='log_veto',
     out_dir=out_dir

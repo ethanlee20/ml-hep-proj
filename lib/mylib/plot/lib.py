@@ -160,7 +160,7 @@ def plot_gen_det(
     return fig, ax
 
 
-def plot_sig_noise(data, var, q_squared_split, noise_type, title, xlabel, out_dir, xlim=(None, None), scale='linear', extra_name=""):
+def plot_sig_noise(data, var, q_squared_split, noise_type, title, xlabel, out_dir, xlim=(None, None), ymax=None, scale='linear', extra_name=""):
     """
     Plot the signal distribution and the noise distribution
     on the same plot.
@@ -202,6 +202,7 @@ def plot_sig_noise(data, var, q_squared_split, noise_type, title, xlabel, out_di
     )
 
     ax.set_yscale(scale)
+    ax.set_ylim(top=ymax)
     # ax.set_xlim(xlim)
     ax.legend()
     ax.set_title(title)
