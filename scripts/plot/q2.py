@@ -57,7 +57,7 @@ plot_sig_noise(
     xlabel="[GeV$^2$]",
     xlim=(0,20),
     scale='linear',
-    extra_name='lin',
+    extra_name='lin_veto',
     out_dir=out_dir
 )
 
@@ -70,6 +70,6 @@ plot_sig_noise(
     xlabel="[GeV$^2$]",
     xlim=(0,20),
     scale='log',
-    extra_name='log',
+    extra_name='log_veto',
     out_dir=out_dir
 )
