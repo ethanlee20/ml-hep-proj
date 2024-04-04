@@ -432,6 +432,7 @@ def plot_resolution(
     xlabel, 
     out_dir_path,
     xlim=(None, None),
+    extra_name=""
 ):
     """Plot the resolution."""
 
@@ -458,10 +459,8 @@ def plot_resolution(
     ax.set_title(title)
     ax.set_xlabel(xlabel)
 
-    file_name = f"q2{q_squared_split}_res_{variable}.png"
-
     save_plot(
-        plot_name=f'res_{variable}',
+        plot_name=f'res_{variable}_{extra_name}',
         q_squared_split=q_squared_split,
         out_dir=out_dir_path
     )

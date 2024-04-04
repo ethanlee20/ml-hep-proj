@@ -103,6 +103,17 @@ def noise_(data):
     isNoise = data["isSignal"]!=1
     return data[isNoise]
 
+    
+def split_by_q_squared(data, split):
+    if split == 'all':
+        return data
+    elif split == 'med':
+        return data[(data['q_squared'] > 1) & (data['q_squared'] < 6)]
+    elif split == 'J/psi':
+        return  data[(data['q_squared'] > 8) & (data['q_squared'] < 11)]
+    else:
+        raise ValueError()
+
 
 def section(data, sig_noise=None, var=None, q_squared_split=None):
     if sig_noise == "sig":
@@ -111,20 +122,12 @@ def section(data, sig_noise=None, var=None, q_squared_split=None):
         data = noise_(data)
 
     if q_squared_split:
-        data = split_by_q_squared(data)[q_squared_split]
+        data = split_by_q_squared(data, q_squared_split)
 
     if var:
         data = data[var]
         
     return data
-
-    
-def split_by_q_squared(data):
-    split_data = {
-        'all': data, 
-        'med': data[(data['q_squared'] > 1) & (data['q_squared'] < 6)],
-    }
-    return split_data
 
 
 def veto_q_squared_mix_bkg(data):
