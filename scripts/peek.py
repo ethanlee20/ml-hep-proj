@@ -20,15 +20,15 @@ def print_mc_particles(data):
 def print_counts(data):
     try:
         print("num gen", len(section(data, gen_det='gen')))
-    except KeyError: print("no gen events?")
+    except KeyError as err: print("no gen events?", err)
 
     try:
         print("num gen sig", len(section(data, gen_det='gen', sig_noise='sig')))
-    except KeyError: print("no gen sig events?")
+    except KeyError as err: print("no gen sig events?", err)
 
     try:
         print("num det sig", len(section(data, sig_noise='sig', gen_det='det')))
-    except KeyError: print("no detector signal events?")
+    except KeyError as err: print("no detector signal events?", err)
 
     print("num det noise", len(section(data, gen_det='det', sig_noise='noise')))
 
