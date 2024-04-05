@@ -31,7 +31,7 @@ plot_sig_noise(
     title=r"$q^2$",
     xlabel="[GeV$^2$]",
     xlim=(0,20),
-    ymax=5_500,
+    ymax=4_000,
     scale='linear',
     extra_name='charge_lin',
     out_dir=out_dir
@@ -45,7 +45,7 @@ plot_sig_noise(
     title=r"$q^2$",
     xlabel="[GeV$^2$]",
     xlim=(0,20),
-    ymax=5_500,
+    ymax=4_000,
     scale='log',
     extra_name='charge_log',
     out_dir=out_dir
@@ -60,7 +60,7 @@ plot_sig_noise(
     title=r"$q^2$",
     xlabel="[GeV$^2$]",
     xlim=(0,20),
-    ymax=5_500,
+    ymax=4_000,
     scale='linear',
     extra_name='charge_lin_veto',
     out_dir=out_dir
@@ -74,7 +74,7 @@ plot_sig_noise(
     title=r"$q^2$",
     xlabel="[GeV$^2$]",
     xlim=(0,20),
-    ymax=5_500,
+    ymax=4_000,
     scale='log',
     extra_name='charge_log_veto',
     out_dir=out_dir
