@@ -115,7 +115,7 @@ def split_by_q_squared(data, split):
         raise ValueError()
 
 
-def section(data, sig_noise=None, var=None, q_squared_split=None):
+def section(data, sig_noise=None, var=None, q_squared_split=None, gen_det=None):
     if sig_noise == "sig":
         data = sig_(data)
     elif sig_noise == "noise":
@@ -126,7 +126,12 @@ def section(data, sig_noise=None, var=None, q_squared_split=None):
 
     if var:
         data = data[var]
-        
+
+    if gen_det == "gen":
+        data = data.loc[["gen"]]
+    elif gen_det == "det":
+        data = data.loc[["det"]]
+    
     return data
 
 
