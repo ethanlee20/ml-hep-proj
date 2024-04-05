@@ -42,41 +42,46 @@ def open_root(file_path, tree_names):
 		open_tree(file_path, tree_name) 
 		for tree_name in tree_names
 	]
-	print(f"opened {file_path}")
 	return pd.concat(dfs, keys=tree_names)
 
 
-def open_data_file(file_path, tree_names=None):
-    file_path = pl.Path(file_path)
-    if file_path.suffix == ".root":
-        return open_root(file_path, tree_names) 
-    print(f"opening {file_path}")
-    return pd.read_pickle(file_path)
+def open_data_file(path, tree_names=None):
+    path = pl.Path(path)
+    assert path.is_file()
+    if path.suffix == ".root":
+        print(f"opening {path}")
+        return open_root(path, tree_names) 
+    elif path.suffix == ".pkl":
+        print(f"opening {path}")
+        return pd.read_pickle(path)
+    else: raise ValueError("Unknown file type.")
 
 
 def open_data_dir(path, tree_names=None):
     path = pl.Path(path)
-    file_paths = list(path.glob('*.root')) + list(path.glob('*.pkl'))
+    assert path.is_dir()
+    file_paths = list(path.glob('**/*.root')) + list(path.glob('**/*.pkl'))
     dfs = [open_data_file(path, tree_names) for path in file_paths]
-    return pd.concat(dfs)
-
-
-def open_data(paths, tree_names=["gen", "det"]):
-    def _open(path):
-        path = pl.Path(path)
-        if path.suffix in {".root", ".pkl"}:
-            data = open_data_file(path, tree_names=tree_names) 
-        else: data = open_data_dir(path, tree_names=tree_names) 
-        return data
-    
-    if type(paths) is list:
-        datas = [_open(path) for path in paths]
-        data = pd.concat(datas)
-        return data
-    
-    path = pl.Path(paths)
-    data = _open(path)
+    if dfs == []:
+        raise ValueError("Empty dir.")
+    data = pd.concat(dfs)
     return data
+
+
+def open_data(path, tree_names=["gen", "det"]):
+    path = pl.Path(path)
+    if path.is_file():
+        try:
+            data = open_data_file(path, tree_names=tree_names) 
+            return data
+        except ValueError as err:
+            print(err)
+    elif path.is_dir(): 
+        try:
+            data = open_data_dir(path, tree_names=tree_names) 
+            return data
+        except ValueError as err:
+            print(err)
 
 
 
