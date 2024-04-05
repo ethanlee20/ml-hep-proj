@@ -10,10 +10,10 @@ setup_mpl_params_save()
 
 
 data_gen_mix_mc = open_data('/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/charge/an')#.loc["det"][:20_000]
-data_sig_mc = open_data('/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e')#.loc["det"][:20_000]
+data_sig_mc = open_data('/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/signal/an')#.loc["det"][:20_000]
 
-data_bkg_mix = section(data_gen_mix_mc, sig_noise='noise', gen_det='det')[:20_000]
-data_sig = section(data_sig_mc, sig_noise='sig', gen_det='det')[:20_000]
+data_bkg_mix = section(data_gen_mix_mc, sig_noise='noise', gen_det='det')
+data_sig = section(data_sig_mc, sig_noise='sig', gen_det='det')[:2_000]
 
 data = pd.concat([data_bkg_mix, data_sig])
 
