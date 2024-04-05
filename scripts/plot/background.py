@@ -1,25 +1,50 @@
 
+import pathlib as pl
 
-from mylib.plot.lib import setup_mpl_params_save
-from mylib.util import open_data
+import pandas as pd
+from mylib.plot.lib import plot_sig_noise, setup_mpl_params_save
+from mylib.util import open_data, section
 
 
 setup_mpl_params_save()
 
 
-data_gen_mix_mc = (open_data('/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/mixed/an')).loc["det"][:20_000]
-data_sig_mc = (open_data('/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/sig/an')).loc["det"][:20_000]
+data_gen_mix_mc = open_data('/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/charge/an')#.loc["det"][:20_000]
+data_sig_mc = open_data('/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/charge/an')#.loc["det"][:20_000]
+
+data_bkg_mix = section(data_gen_mix_mc, sig_noise='noise', gen_det='det')[:20_000]
+data_sig = section(data_sig_mc, sig_noise='sig', gen_det='det')[:20_000]
 
 data = pd.concat([data_bkg_mix, data_sig])
 
-data = veto_q_squared(data)
+out_dir = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/plots/bkg_charged')
+out_dir.mkdir(parents=True, exist_ok=True)
 
-out_dir = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/plots/')
 
-# plot_deltaE(data, out_dir)
-# plot_invM(data, out_dir)
-# plot_Mbc(data, out_dir)
-# plot_q_squared(data, out_dir, xlim=(0,20), name="q_sq_all")
-# plot_q_squared(data, out_dir, xlim=(7,12), name="q_sq_jpsi")
-# plot_q_squared(data, out_dir, xlim=(11,18), name="q_sq_psi2s")
-plot_tf_red_chi_squared(data, out_dir, xlim=(0,50))
+plot_sig_noise(
+    data=data,
+    var='q_squared',
+    q_squared_split='all',
+    noise_type='both',
+    title=r"$q^2$",
+    xlabel="[GeV$^2$]",
+    xlim=(0,20),
+    ymax=9_000,
+    scale='linear',
+    extra_name='charge_lin',
+    out_dir=out_dir
+)
+
+plot_sig_noise(
+    data=data,
+    var='q_squared',
+    q_squared_split='all',
+    noise_type='both',
+    title=r"$q^2$",
+    xlabel="[GeV$^2$]",
+    xlim=(0,20),
+    ymax=9_000,
+    scale='log',
+    extra_name='charge_log',
+    out_dir=out_dir
+)
