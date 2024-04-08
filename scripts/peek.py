@@ -35,7 +35,7 @@ def print_counts(data):
     print("num det tot", len(section(data, gen_det='det')))
 
     
-data = open_data('/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/mix/an')
+data = open_data('/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/charge/an')
 data_vetod = veto_q_squared_mix_bkg(data)
 
 data_bkg = section(data, sig_noise='noise')
