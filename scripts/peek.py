@@ -39,5 +39,7 @@ data = open_data('/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/mix/
 data_vetod = veto_q_squared_mix_bkg(data)
 
 print_counts(data)
+print_mc_particles(data)
 print("vetod below")
 print_counts(data_vetod)
+print_mc_particles(data_vetod)
