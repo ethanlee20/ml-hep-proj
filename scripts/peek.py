@@ -12,7 +12,7 @@ def print_column_names(data):
 
 
 def print_mc_particles(data):
-    max_prints = min(len(data), 20)
+    max_prints = min(len(data), 10)
     for cand in range(max_prints):
         print(data["__MCDecayString__"].iloc[cand])
 
@@ -38,8 +38,9 @@ def print_counts(data):
 data = open_data('/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/mix/an')
 data_vetod = veto_q_squared_mix_bkg(data)
 
-print_counts(data)
-print_mc_particles(data)
-print("vetod below")
-print_counts(data_vetod)
-print_mc_particles(data_vetod)
+data_bkg = section(data, sig_noise='noise')
+data_vetod_bkg = section(data_vetod, sig_noise='noise')
+
+print_mc_particles(data_bkg)
+print("data after veto below")
+print_mc_particles(data_vetod_bkg)
