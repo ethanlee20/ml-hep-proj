@@ -36,11 +36,14 @@ def print_counts(data):
 
     
 data = open_data('/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/charge/an')
-data_vetod = veto_q_squared_mix_bkg(data)
+data_bkg_all = section(data, sig_noise='noise')
+data_bkg_jpsi = section(data, sig_noise='noise', q_squared_split='JPsi')
+data_bkg_psi2s = section(data, sig_noise='noise', q_squared_split='Psi2S')
 
-data_bkg = section(data, sig_noise='noise')
-data_vetod_bkg = section(data_vetod, sig_noise='noise')
+# data_vetod = veto_q_squared_mix_bkg(data)
+# data_vetod_bkg = section(data_vetod, sig_noise='noise')
 
-print_mc_particles(data_bkg)
-print("data after veto below")
-print_mc_particles(data_vetod_bkg)
+print("bkg in j/psi region below")
+print_mc_particles(data_bkg_jpsi)
+print("bkg in psi(2s) region below")
+print_mc_particles(data_bkg_psi2s)

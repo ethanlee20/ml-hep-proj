@@ -116,6 +116,8 @@ def split_by_q_squared(data, split):
         return data[(data['q_squared'] > 1) & (data['q_squared'] < 6)]
     elif split == 'JPsi':
         return  data[(data['q_squared'] > 8) & (data['q_squared'] < 11)]
+    elif split == 'Psi2S':
+        return  data[(data['q_squared'] > 12.75) & (data['q_squared'] < 14)]
     else:
         raise ValueError()
 
