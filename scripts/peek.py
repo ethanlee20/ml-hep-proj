@@ -40,10 +40,12 @@ data_bkg_all = section(data, sig_noise='noise')
 data_bkg_jpsi = section(data, sig_noise='noise', q_squared_split='JPsi')
 data_bkg_psi2s = section(data, sig_noise='noise', q_squared_split='Psi2S')
 
+
+print(data.head())
 # data_vetod = veto_q_squared_mix_bkg(data)
 # data_vetod_bkg = section(data_vetod, sig_noise='noise')
 
-print("bkg in j/psi region below")
-print_mc_particles(data_bkg_jpsi)
-print("bkg in psi(2s) region below")
-print_mc_particles(data_bkg_psi2s)
+# print("bkg in j/psi region below")
+# print_mc_particles(data_bkg_jpsi)
+# print("bkg in psi(2s) region below")
+# print_mc_particles(data_bkg_psi2s)
