@@ -21,7 +21,7 @@ def append_global_tag():
 
 def input_to_the_path():
     ma.inputMdstList(
-        filelist=['/home/belle2/elee20/ml-hep-proj/data/2024-01-08_LargeMu/mc_1.root'],
+        filelist=['/home/belle2/elee20/ml-hep-proj/data/2024-04-12_mdst_test/sub00/mdst_000001_prod00025631_task10020000001.root'],
         path=main,
         environmentType="default",
     )
