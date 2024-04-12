@@ -9,6 +9,7 @@ from variables import utils as vu
 from variables import variables as vm
 import vertex as vx
 import mdst
+import udst
 
 
 main = b2.Path()
@@ -39,23 +40,23 @@ def reconstruct_generator_level():
 
 
 def reconstruct_detector_level():
-    ma.fillParticleList(decayString="mu+", cut="muonID > 0.85", path=main)
+    ma.fillParticleList(decayString="mu+:det", cut="muonID > 0.85", path=main)
     
-    ma.fillParticleList(decayString="K+", cut="kaonID > 0.85", path=main)
-    ma.fillParticleList(decayString="pi-", cut="", path=main)
+    ma.fillParticleList(decayString="K+:det", cut="kaonID > 0.85", path=main)
+    ma.fillParticleList(decayString="pi-:det", cut="", path=main)
 
     vm.addAlias("invM_Kst", "0.892")
     vm.addAlias("fullwidth_Kst", "0.05")
-    ma.reconstructDecay("K*0 =direct=> K+ pi-", cut=f"abs(formula(daughterInvM(0, 1) - invM_Kst)) <= formula(2 * fullwidth_Kst)", path=main)
+    ma.reconstructDecay("K*0:det =direct=> K+:det pi-:det", cut=f"abs(formula(daughterInvM(0, 1) - invM_Kst)) <= formula(2 * fullwidth_Kst)", path=main)
     
-    ma.reconstructDecay("B0 =direct=> K*0 mu+ mu-", cut="[abs(deltaE) <= 0.05] and [Mbc > 5.27]", path=main)
+    ma.reconstructDecay("B0:det =direct=> K*0:det mu+:det mu-:det", cut="[abs(deltaE) <= 0.05] and [Mbc > 5.27]", path=main)
     
-    vx.treeFit('B0', conf_level=0.00, updateAllDaughters=True, ipConstraint=True, path=main)
+    vx.treeFit('B0:det', conf_level=0.00, updateAllDaughters=True, ipConstraint=True, path=main)
     vm.addAlias('tfChiSq', 'extraInfo(chiSquared)')
     vm.addAlias('tfNdf', 'extraInfo(ndf)')
     vm.addAlias('tfRedChiSq', 'formula(tfChiSq / tfNdf)')
 
-    ma.matchMCTruth("B0", path=main)
+    ma.matchMCTruth("B0:det", path=main)
 
 
 def printMCParticles():
@@ -109,18 +110,19 @@ def save_output(B0_vars):
     )
 
     ma.variablesToNtuple(
-        decayString="B0",
+        decayString="B0:det",
         variables=B0_vars['det'],
         filename=out_file_name + root_ext,
         treename="det",
         path=main,
     )
 
-    # ma.outputUdst(
-    #     filename=out_file_name + udst_ext + root_ext,
-    #     particleLists=['B0','B0:gen'],
-    #     path=main,
-    # )
+    udst.add_udst_output(
+        filename=out_file_name + udst_ext + root_ext,
+        particleLists=['B0:det','B0:gen'],
+        path=main,
+        mc=True,
+    )
     
     mdst.add_mdst_output(
         path=main,
