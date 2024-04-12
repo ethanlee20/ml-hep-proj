@@ -8,6 +8,7 @@ from variables import collections as vc
 from variables import utils as vu
 from variables import variables as vm
 import vertex as vx
+import mdst
 
 
 main = b2.Path()
@@ -93,12 +94,15 @@ def create_variable_lists():
 
 
 def save_output(B0_vars):
-    out_file_name = "mu_re.root"
+    out_file_name = "mu_re"
+    root_ext = ".root"
+    udst_ext = ".udst"
+    mdst_ext = ".mdst"
 
     ma.variablesToNtuple(
         decayString="B0:gen",
         variables=B0_vars['gen'],
-        filename=str(out_file_name),
+        filename=out_file_name + root_ext,
         treename="gen",
         path=main,
     )
@@ -106,9 +110,21 @@ def save_output(B0_vars):
     ma.variablesToNtuple(
         decayString="B0",
         variables=B0_vars['det'],
-        filename=str(out_file_name),
+        filename=out_file_name + root_ext,
         treename="det",
         path=main,
+    )
+
+    ma.outputUdst(
+        filename=out_file_name + udst_ext + root_ext,
+        particleLists=['B0','B0:gen'],
+        path=main,
+    )
+    
+    mdst.add_mdst_output(
+        path='main',
+        mc='True',
+        filename=out_file_name + mdst_ext + root_ext,
     )
 
 
