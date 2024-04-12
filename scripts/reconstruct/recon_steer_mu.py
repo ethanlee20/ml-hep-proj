@@ -115,11 +115,11 @@ def save_output(B0_vars):
         path=main,
     )
 
-    ma.outputUdst(
-        filename=out_file_name + udst_ext + root_ext,
-        particleLists=['B0','B0:gen'],
-        path=main,
-    )
+    # ma.outputUdst(
+    #     filename=out_file_name + udst_ext + root_ext,
+    #     particleLists=['B0','B0:gen'],
+    #     path=main,
+    # )
     
     mdst.add_mdst_output(
         path='main',
