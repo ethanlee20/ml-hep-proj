@@ -20,7 +20,7 @@ def append_global_tag():
 
 def input_to_the_path():
     ma.inputMdstList(
-        filelist=['/home/belle2/elee20/ml-hep-proj/scripts/reconstruct/mu_re_save.mdst.root']
+        filelist=['/home/belle2/elee20/ml-hep-proj/scripts/reconstruct/mu_re_save.mdst.root'],
         # filelist=['/home/belle2/elee20/ml-hep-proj/data/2024-02-23_e_brems_test/mc/mc_e.root'],
         path=main,
         environmentType="default",
