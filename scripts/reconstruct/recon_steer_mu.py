@@ -122,7 +122,7 @@ def save_output(B0_vars):
     # )
     
     mdst.add_mdst_output(
-        path='main',
+        path=main,
         mc='True',
         filename=out_file_name + mdst_ext + root_ext,
     )
