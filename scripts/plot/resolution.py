@@ -1,7 +1,7 @@
 import pathlib as pl
 
 from mylib.plot.lib import setup_mpl_params_save, plot_resolution, plot_sig_noise
-from mylib.util import open_data, section, veto_q_squared_mix_bkg
+from mylib.util import open_data, section, veto_q_squared
 
 import pandas as pd
 

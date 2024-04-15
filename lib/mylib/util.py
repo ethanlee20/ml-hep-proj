@@ -143,7 +143,7 @@ def section(data, sig_noise=None, var=None, q_squared_split=None, gen_det=None):
     return data
 
 
-def veto_q_squared_mix_bkg(data):
+def veto_q_squared(data):
     veto_j_psi = ~((data['q_squared'] > 8) & (data['q_squared'] < 11)) 
     data = data[veto_j_psi]
     veto_psi_2s = ~((data['q_squared'] > 12.75) & (data['q_squared'] < 14))

@@ -5,7 +5,7 @@ import pandas as pd
 pd.options.display.max_columns = None
 pd.options.display.max_colwidth = None
 
-from mylib.util import open_data, section, veto_q_squared_mix_bkg
+from mylib.util import open_data, section, veto_q_squared
 
 def print_column_names(data):
     print(data.columns.values)
@@ -35,17 +35,19 @@ def print_counts(data):
     print("num det tot", len(section(data, gen_det='det')))
 
     
-data = open_data('/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/mix/an')
-data_bkg_all = section(data, sig_noise='noise')
-data_bkg_jpsi = section(data, sig_noise='noise', q_squared_split='JPsi')
-data_bkg_psi2s = section(data, sig_noise='noise', q_squared_split='Psi2S')
+data = open_data('/home/belle2/elee20/ml-hep-proj/data/2024-04-15_bkg_mu/mu_charged_mini/sub00')
+data_vetod = veto_q_squared(data)
+data_vetod_bkg = section(data_vetod, sig_noise='noise')
+
+# data_bkg_all = section(data, sig_noise='noise')
+# data_bkg_jpsi = section(data, sig_noise='noise', q_squared_split='JPsi')
+# data_bkg_psi2s = section(data, sig_noise='noise', q_squared_split='Psi2S')
 
 
-print(data.head())
-# data_vetod = veto_q_squared_mix_bkg(data)
-# data_vetod_bkg = section(data_vetod, sig_noise='noise')
 
 # print("bkg in j/psi region below")
 # print_mc_particles(data_bkg_jpsi)
 # print("bkg in psi(2s) region below")
 # print_mc_particles(data_bkg_psi2s)
+
+print_counts(data_vetod)

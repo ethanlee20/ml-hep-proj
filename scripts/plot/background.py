@@ -3,7 +3,7 @@ import pathlib as pl
 
 import pandas as pd
 from mylib.plot.lib import plot_sig_noise, setup_mpl_params_save
-from mylib.util import open_data, section, veto_q_squared_mix_bkg
+from mylib.util import open_data, section, veto_q_squared
 
 
 setup_mpl_params_save()
@@ -16,7 +16,7 @@ data_bkg_mix = section(data_gen_mix_mc, sig_noise='noise', gen_det='det')[:12_00
 data_sig = section(data_sig_mc, sig_noise='sig', gen_det='det')[:12_000]
 
 data = pd.concat([data_bkg_mix, data_sig])
-data_vetoed = veto_q_squared_mix_bkg(data)
+data_vetoed = veto_q_squared(data)
 
 
 out_dir = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-03-30_bdt_15i/e/plots/bkg_charged')

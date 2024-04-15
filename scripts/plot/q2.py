@@ -1,7 +1,7 @@
 import pathlib as pl
 
 from mylib.plot.lib import setup_mpl_params_save, plot_resolution, plot_sig_noise
-from mylib.util import open_data, section, veto_q_squared_mix_bkg
+from mylib.util import open_data, section, veto_q_squared
 
 import pandas as pd
 
@@ -17,7 +17,7 @@ data_sig = section(data_sig_mc, sig_noise='sig').loc[["det"]][:20_000]
 
 data = pd.concat([data_bkg, data_sig])
 
-data_vetoed = veto_q_squared_mix_bkg(data)
+data_vetoed = veto_q_squared(data)
 
 out_dir = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-03-20_bdt_dataset/plots/')
 
