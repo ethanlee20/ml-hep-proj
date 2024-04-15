@@ -117,18 +117,18 @@ def save_output(B0_vars):
         path=main,
     )
 
-    udst.add_udst_output(
-        filename=out_file_name + udst_ext + root_ext,
-        particleLists=['B0:det','B0:gen'],
-        path=main,
-        mc=True,
-    )
+    # udst.add_udst_output(
+    #     filename=out_file_name + udst_ext + root_ext,
+    #     particleLists=['B0:det','B0:gen'],
+    #     path=main,
+    #     mc=True,
+    # )
     
-    mdst.add_mdst_output(
-        path=main,
-        mc=True,
-        filename=out_file_name + mdst_ext + root_ext,
-    )
+    # mdst.add_mdst_output(
+    #     path=main,
+    #     mc=True,
+    #     filename=out_file_name + mdst_ext + root_ext,
+    # )
 
 
 append_global_tag()
