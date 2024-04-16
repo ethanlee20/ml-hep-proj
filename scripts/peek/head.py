@@ -10,11 +10,11 @@ from mylib.util import open_data, section, veto_q_squared
 
 parser = argparse.ArgumentParser()
 parser.add_argument("data_dir")
-parser.add_argument("--veto", action='store_true')
-parser.add_argument("--bg_only", action='store_true')
-parser.add_argument("--sig_only", action='store_true')
-parser.add_argument('--gen', action='store_true')
-parser.add_argument('--det', action='store_true')
+parser.add_argument("--veto", action='store_true', help="veto out J/Psi and Psi(2S) regions of q squared")
+parser.add_argument("--bg_only", action='store_true', help="only include background events")
+parser.add_argument("--sig_only", action='store_true', help="only include signal events")
+parser.add_argument('--gen', action='store_true', help="show generator level data")
+parser.add_argument('--det', action='store_true', help="show detector level data")
 args = parser.parse_args()
 
 
