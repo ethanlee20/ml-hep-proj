@@ -1,5 +1,5 @@
 
-import sys
+import argparse
 
 import pandas as pd
 pd.options.display.max_columns = None
@@ -8,8 +8,10 @@ pd.options.display.max_colwidth = None
 from mylib.util import open_data, section, veto_q_squared
 
 
-data_dir = sys.argv[1]
-veto = sys.argv[2]
+parser = argparse.ArgumentParser()
+parser.add_argument("data_dir")
+parser.add_argument("--veto", action='store_true', help="veto out J/Psi and Psi(2S) regions of q squared")
+args = parser.parse_args()
 
 
 def print_counts(data):
@@ -30,9 +32,9 @@ def print_counts(data):
     print("num det tot", len(section(data, gen_det='det')))
 
 
-data = open_data(data_dir)
+data = open_data(args.data_dir)
 
-if veto == "yes":
+if args.veto:
     data = veto_q_squared(data)
 
 print_counts(data)
