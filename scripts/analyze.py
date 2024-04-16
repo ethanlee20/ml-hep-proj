@@ -1,7 +1,7 @@
 
 """Calculate required quantities from the reconstructed MC data."""
 
-import sys
+import argparse
 import pathlib as pl
 
 from mylib.util import open_data
@@ -15,12 +15,16 @@ from mylib.phys import (
     inv_mass_sq_two_particles,
 )
 
+parser = argparse.ArgumentParser()
+parser.add_argument("ell")
+parser.add_argument("input_dir")
+parser.add_argument("output_dir")
+args = parser.parse_args()
 
-ell = sys.argv[1]
 
-input_dir = pl.Path(sys.argv[2])
-
-output_dir = pl.Path(sys.argv[3])
+ell = args.ell
+input_dir = pl.Path(args.input_dir)
+output_dir = pl.Path(args.output_dir)
 
 
 def config_input_data_paths(input_dir):
