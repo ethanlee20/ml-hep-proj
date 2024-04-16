@@ -142,7 +142,7 @@ input_to_the_path()
 
 reconstruct_generator_level()
 
-reconstruct_detector_level()
+reconstruct_detector_level(sideband=True)
 
 printMCParticles()
 
