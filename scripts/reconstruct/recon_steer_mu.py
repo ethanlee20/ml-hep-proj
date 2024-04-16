@@ -39,7 +39,7 @@ def reconstruct_generator_level():
     ma.reconstructMCDecay("B0:gen =direct=> K*0:gen mu+:gen mu-:gen", cut="", path=main)
 
 
-def reconstruct_detector_level():
+def reconstruct_detector_level(sideband=False):
     ma.fillParticleList(decayString="mu+:det", cut="muonID > 0.85", path=main)
     
     ma.fillParticleList(decayString="K+:det", cut="kaonID > 0.85", path=main)
@@ -49,12 +49,12 @@ def reconstruct_detector_level():
     vm.addAlias("fullwidth_Kst", "0.05")
     ma.reconstructDecay("K*0:det =direct=> K+:det pi-:det", cut=f"abs(formula(daughterInvM(0, 1) - invM_Kst)) <= formula(2 * fullwidth_Kst)", path=main)
     
-    ma.reconstructDecay("B0:det =direct=> K*0:det mu+:det mu-:det", cut="[abs(deltaE) <= 0.05] and [Mbc > 5.27]", path=main)
+    if sideband:
+        ma.reconstructDecay("B0:det =direct=> K*0:det mu+:det mu-:det", cut="[abs(deltaE) <= 0.05] and [5.2 < Mbc < 5.26]", path=main)
+    else:
+        ma.reconstructDecay("B0:det =direct=> K*0:det mu+:det mu-:det", cut="[abs(deltaE) <= 0.05] and [Mbc > 5.27]", path=main)
     
     vx.treeFit('B0:det', conf_level=0.00, updateAllDaughters=True, ipConstraint=True, path=main)
-    vm.addAlias('tfChiSq', 'extraInfo(chiSquared)')
-    vm.addAlias('tfNdf', 'extraInfo(ndf)')
-    vm.addAlias('tfRedChiSq', 'formula(tfChiSq / tfNdf)')
 
     ma.matchMCTruth("B0:det", path=main)
 
@@ -64,6 +64,10 @@ def printMCParticles():
 
 
 def create_variable_lists():
+    vm.addAlias('tfChiSq', 'extraInfo(chiSquared)')
+    vm.addAlias('tfNdf', 'extraInfo(ndf)')
+    vm.addAlias('tfRedChiSq', 'formula(tfChiSq / tfNdf)')
+    
     std_vars = (
         vc.deltae_mbc
         + vc.inv_mass
@@ -74,6 +78,7 @@ def create_variable_lists():
         + ['theta', 'thetaErr', 'mcTheta']
         + ['tfChiSq', 'tfNdf', 'tfRedChiSq']
         + ['PDG']
+        + ['mcMother(mcPDG)']
     )
 
     Kstar0_vars = vu.create_aliases_for_selected(
@@ -117,12 +122,12 @@ def save_output(B0_vars):
         path=main,
     )
 
-    # udst.add_udst_output(
-    #     filename=out_file_name + udst_ext + root_ext,
-    #     particleLists=['B0:det','B0:gen'],
-    #     path=main,
-    #     mc=True,
-    # )
+    udst.add_udst_output(
+        filename=out_file_name + udst_ext + root_ext,
+        particleLists=['B0:det','B0:gen'],
+        path=main,
+        mc=True,
+    )
     
     # mdst.add_mdst_output(
     #     path=main,
