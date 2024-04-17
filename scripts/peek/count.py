@@ -11,7 +11,29 @@ from mylib.util import open_data, section, veto_q_squared
 parser = argparse.ArgumentParser()
 parser.add_argument("data_dir")
 parser.add_argument("--veto", action='store_true', help="veto out J/Psi and Psi(2S) regions of q squared")
+parser.add_argument("--cut_var", help="variable to cut on")
+parser.add_argument("--lower_bound", help="lower bound to cut on (in terms of specified variable)")
+parser.add_argument("--upper_bound", help="upper bound to cut on (in terms of specified variable)")
+parser.add_argument("--equal_to", help="equality to cut on (in terms of specified variable)")
 args = parser.parse_args()
+
+
+
+data = open_data(args.data_dir)
+
+if args.veto:
+    data = veto_q_squared(data)
+
+if args.cut_var:
+    assert (args.lower_bound is not None) | (args.upper_bound is not None) | (args.equal_to is not None), "must specify cut details"
+    if (args.lower_bound is not None) & (args.upper_bound is not None):
+        data = data[(data[args.cut_var] >= args.lower_bound) & (data[args.cut_var] <= args.upperbound)]
+    elif args.lower_bound is not None:
+        data = data[data[args.cut_var] >= args.lower_bound]
+    elif args.upper_bound is not None:
+        data = data[data[args.cut_var] <= args.upper_bound]
+    elif args.equal_to is not None:
+        data = data[data[args.cut_var] == args.equal_to]
 
 
 def print_counts(data):
@@ -31,11 +53,6 @@ def print_counts(data):
 
     print("num det tot", len(section(data, gen_det='det')))
 
-
-data = open_data(args.data_dir)
-
-if args.veto:
-    data = veto_q_squared(data)
 
 print_counts(data)
 
