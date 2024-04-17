@@ -39,15 +39,25 @@ def reconstruct_generator_level():
     ma.reconstructMCDecay("B0:gen =direct=> K*0:gen mu+:gen mu-:gen", cut="", path=main)
 
 
-def reconstruct_detector_level(sideband=False):
-    ma.fillParticleList(decayString="mu+:det", cut="muonID > 0.85", path=main)
-    
-    ma.fillParticleList(decayString="K+:det", cut="kaonID > 0.85", path=main)
+def reconstruct_detector_level(sideband=False, cut_strength='tight'):
+
+    if cut_strength == 'tight':
+        muonID_min = "0.9"
+        kaonID_min = "0.9"
+        invMKst_width_scale = "1.5"
+    elif cut_strength == 'loose':
+        muonID_min = "0.85"
+        kaonID_min = "0.85"
+        invMKst_width_scale = "2"
+    else: raise ValueError("Unknown pid cut strength option")
+
+    ma.fillParticleList(decayString="mu+:det", cut=f"muonID > {muonID_min}", path=main)
+    ma.fillParticleList(decayString="K+:det", cut=f"kaonID > {kaonID_min}", path=main)
     ma.fillParticleList(decayString="pi-:det", cut="", path=main)
 
     vm.addAlias("invM_Kst", "0.892")
     vm.addAlias("fullwidth_Kst", "0.05")
-    ma.reconstructDecay("K*0:det =direct=> K+:det pi-:det", cut=f"abs(formula(daughterInvM(0, 1) - invM_Kst)) <= formula(2 * fullwidth_Kst)", path=main)
+    ma.reconstructDecay("K*0:det =direct=> K+:det pi-:det", cut=f"abs(formula(daughterInvM(0, 1) - invM_Kst)) <= formula({invMKst_width_scale} * fullwidth_Kst)", path=main)
     
     if sideband:
         ma.reconstructDecay("B0:det =direct=> K*0:det mu+:det mu-:det", cut="[abs(deltaE) <= 0.05] and [5.2 < Mbc < 5.26]", path=main)
@@ -122,12 +132,12 @@ def save_output(B0_vars):
         path=main,
     )
 
-    udst.add_udst_output(
-        filename=out_file_name + udst_ext + root_ext,
-        particleLists=['B0:det','B0:gen'],
-        path=main,
-        mc=True,
-    )
+    # udst.add_udst_output(
+    #     filename=out_file_name + udst_ext + root_ext,
+    #     particleLists=['B0:det','B0:gen'],
+    #     path=main,
+    #     mc=True,
+    # )
     
     # mdst.add_mdst_output(
     #     path=main,
@@ -142,7 +152,7 @@ input_to_the_path()
 
 reconstruct_generator_level()
 
-reconstruct_detector_level(sideband=True)
+reconstruct_detector_level(sideband=False, cut_strength='tight')
 
 printMCParticles()
 
