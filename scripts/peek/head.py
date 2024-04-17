@@ -15,6 +15,7 @@ parser.add_argument("--bg_only", action='store_true', help="only include backgro
 parser.add_argument("--sig_only", action='store_true', help="only include signal events")
 parser.add_argument('--gen', action='store_true', help="show generator level data")
 parser.add_argument('--det', action='store_true', help="show detector level data")
+parser.add_argument('--num_ex', type=int, default=5, help="number of examples to show")
 args = parser.parse_args()
 
 
@@ -34,4 +35,4 @@ elif args.det:
     data = section(data, gen_det='det')
 
 
-print(data.head())
+print(data.head(args.num_ex))
