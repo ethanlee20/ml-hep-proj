@@ -1,8 +1,18 @@
-gb2_setuprel = "light-2401-ocicat"
-gb2_project = "mu_mixed_mini_tightcuts"
-gb2_input_ds = "/belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00024821/s00/e1003/4S/r00000/mixed/mdst"
 
 """Steering file for reconstructing B -> K* ell+ ell-."""
+
+
+
+"""
+Submit like this:
+
+gbasf2 \
+    -p mu_mixed_mini_tightcuts \
+    -s light-2401-ocicat \
+    -i /belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00024821/s00/e1003/4S/r00000/mixed/mdst \
+    /home/belle2/elee20/ml-hep-proj/scripts/reconstruct/recon_steer.py
+
+"""
 
 
 import basf2 as b2
@@ -18,8 +28,6 @@ import udst
 ell = 'e'
 sideband = False
 cut_strength = 'tight'
-
-
 
 
 main = b2.Path()
