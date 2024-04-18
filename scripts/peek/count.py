@@ -12,9 +12,9 @@ parser = argparse.ArgumentParser()
 parser.add_argument("data_dir")
 parser.add_argument("--veto", action='store_true', help="veto out J/Psi and Psi(2S) regions of q squared")
 parser.add_argument("--cut_var", help="variable to cut on")
-parser.add_argument("--lower_bound", help="lower bound to cut on (in terms of specified variable)")
-parser.add_argument("--upper_bound", help="upper bound to cut on (in terms of specified variable)")
-parser.add_argument("--equal_to", help="equality to cut on (in terms of specified variable)")
+parser.add_argument("--lower_bound", help="lower bound to cut on (in terms of specified variable)", type=float)
+parser.add_argument("--upper_bound", help="upper bound to cut on (in terms of specified variable)", type=float)
+parser.add_argument("--equal_to", help="equality to cut on (in terms of specified variable)", type=float)
 args = parser.parse_args()
 
 
