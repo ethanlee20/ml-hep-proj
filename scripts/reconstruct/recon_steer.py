@@ -21,9 +21,9 @@ cut_strength = 'tight'
 
 main = b2.Path()
 
-gb2_setuprel = 'light-2401-ocicat'
-gb2_project = 'mu_mixed_mini_tightcuts'
-gb2_input_ds = '/belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00024821/s00/e1003/4S/r00000/mixed/mdst'
+gb2_setuprel = "light-2401-ocicat"
+gb2_project = "mu_mixed_mini_tightcuts"
+gb2_input_ds = "/belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00024821/s00/e1003/4S/r00000/mixed/mdst"
 
 
 def append_global_tag():
