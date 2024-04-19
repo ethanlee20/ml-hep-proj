@@ -44,7 +44,7 @@ class Data_Handler:
         print("num det tot", len(section(self.mutable_data, gen_det='det')))
 
     def cut_data(self, var, lower_bound=None, upper_bound=None, equality=None, inequality=None):
-        assert (lower_bound | upper_bound) ^ (equality | inequality)
+        assert (bool(lower_bound) | bool(upper_bound)) ^ (bool(equality) | bool(inequality))
         assert equality ^ inequality
 
         if lower_bound:
