@@ -95,7 +95,7 @@ class Parser:
         if "head" in tokens:
             self.print_head = True
             if "num_ex" in tokens:
-                num_ex_idx = tokens.index("num_ex_idx") + 1 
+                num_ex_idx = tokens.index("num_ex") + 1 
                 self.num_ex = int(tokens[num_ex_idx])
 
         if "count" in tokens:
@@ -210,18 +210,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-if args.veto_q2:
-    data = veto_q_squared(data)
-
-if args.noise_only:
-    data = section(data, sig_noise='noise')
-elif args.sig_only:
-    data = section(data, sig_noise='sig')
-
-if args.gen_only:
-    data = section(data, gen_det='gen')
-elif args.det_only:
-    data = section(data, gen_det='det')
 
