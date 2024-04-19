@@ -175,10 +175,9 @@ def main():
         if parser.load:
             dh.load(parser.path)
 
-        if parser.print_count:
-            dh.count()
-        if parser.print_head:
-            dh.head(parser.num_ex)
+        if parser.refresh_data:
+            dh.refresh_data()
+        
         if parser.cut:
             dh.cut_data(
                 parser.cut_var, 
@@ -187,8 +186,6 @@ def main():
                 equality=parser.cut_equality,
                 inequality=parser.cut_inequality
             )
-        if parser.refresh_data:
-            dh.refresh_data()
         if parser.veto_q2:
             dh.mutable_data = veto_q_squared(
                 dh.mutable_data
@@ -202,6 +199,11 @@ def main():
         if parser.det_only:
             dh.mutable_data = section(dh.mutable_data, gen_det='det')
 
+        if parser.print_count:
+            dh.count()
+        if parser.print_head:
+            dh.head(parser.num_ex)
+        
         if parser.quit:
             print("all systems shutting down. Bye bye!")
         
