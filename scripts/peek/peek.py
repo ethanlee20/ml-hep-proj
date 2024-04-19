@@ -206,6 +206,7 @@ def main():
         
         if parser.quit:
             print("all systems shutting down. Bye bye!")
+            quit()
         
         parser.set_defaults()
 
