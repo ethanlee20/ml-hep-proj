@@ -69,6 +69,7 @@ class Parser:
         self.set_defaults()
 
     def set_defaults(self):
+        self.load = False
         self.path = None
         self.num_ex = 5
         self.veto_q2 = False
@@ -88,6 +89,7 @@ class Parser:
 
         if "load" in tokens:
             path_idx = tokens.index("load") + 1
+            self.load = True
             self.path = tokens[path_idx]
 
         if "head" in tokens:
@@ -170,7 +172,7 @@ def main():
         prompt.get_cmd()
         parser.parse_cmd(prompt.cmd)
 
-        if parser.path:
+        if parser.load:
             dh.load(parser.path)
 
         if parser.print_count:
