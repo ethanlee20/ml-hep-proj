@@ -45,7 +45,7 @@ class Data_Handler:
 
     def cut_data(self, var, lower_bound=None, upper_bound=None, equality=None, inequality=None):
         assert (bool(lower_bound) | bool(upper_bound)) ^ (bool(equality) | bool(inequality))
-        assert bool(equality) ^ bool(inequality)
+        assert ~(bool(equality) & bool(inequality))
 
         if lower_bound:
             self.mutable_data = self.mutable_data[self.mutable_data[var] > lower_bound]
