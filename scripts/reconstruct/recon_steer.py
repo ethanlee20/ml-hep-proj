@@ -7,11 +7,12 @@
 Submit like this:
 
 gbasf2 \
-    -p e_mixed_mini_tightcuts \
+    -p e_mixed_morecuts \
     -s light-2401-ocicat \
-    -i /belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00024821/s00/e1003/4S/r00000/mixed/mdst \
+    --input_dslist /home/belle2/elee20/ml-hep-proj/scripts/reconstruct/lpns_results_gen_mixed_mini.txt
     /home/belle2/elee20/ml-hep-proj/scripts/reconstruct/recon_steer.py
 
+    first: -i /belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00024821/s00/e1003/4S/r00000/mixed/mdst \
 """
 
 
@@ -21,8 +22,6 @@ from variables import collections as vc
 from variables import utils as vu
 from variables import variables as vm
 import vertex as vx
-import mdst
-import udst
 
 
 ell = 'e'
@@ -79,6 +78,8 @@ def reconstruct_detector_level(ell, sideband=False, cut_strength='tight'):
     elif ell == 'mu':
         marker = ''
 
+    dz_cut = "abs(dz) < 4"
+    dr_cut = "dr < 2"
     if cut_strength == 'tight':
         muonID_min = 0.9
         electronID_min = 0.9
@@ -90,11 +91,15 @@ def reconstruct_detector_level(ell, sideband=False, cut_strength='tight'):
         kaonID_min = 0.85
         invMKst_width_scale = 2
 
+    muon_cut = f"[muonID > {muonID_min}] and [p > 0.6] and [{dr_cut}] and [{dz_cut}]  and thetaInCDCAcceptance"
+    electron_cut = f"[pidChargedBDTScore(11, ALL) > {electronID_min}] and [p > 0.2] and [{dr_cut}] and [{dz_cut}] and thetaInCDCAcceptance"
+    kaon_cut = f"[kaonID > {kaonID_min}] and [{dr_cut}] and [{dz_cut}] and thetaInCDCAcceptance"
+    pion_cut = f"[{dr_cut}] and [{dz_cut}] and thetaInCDCAcceptance"
+    
     if sideband:
         Mbc_cut = "5.2 < Mbc < 5.26"
     else: 
         Mbc_cut = "Mbc > 5.27"
-
 
     if ell == 'e':
         ma.fillParticleList(decayString="e+:raw", cut='', path=main)
@@ -106,13 +111,13 @@ def reconstruct_detector_level(ell, sideband=False, cut_strength='tight'):
         ma.correctBrems("e+:det", "e+:raw", "gamma:brems", path=main)
 
         ma.applyChargedPidMVA(['e+:det'], path=main, trainingMode=1)
-        ma.applyCuts("e+:det", f"pidChargedBDTScore(11, ALL) > {electronID_min}", path=main)
+        ma.applyCuts("e+:det", electron_cut, path=main)
 
     elif ell == 'mu':
-        ma.fillParticleList(decayString="mu+:det", cut=f"muonID > {muonID_min}", path=main)
+        ma.fillParticleList(decayString="mu+:det", cut=muon_cut, path=main)
 
-    ma.fillParticleList(decayString="K+:det", cut=f"kaonID > {kaonID_min}", path=main)
-    ma.fillParticleList(decayString="pi-:det", cut="", path=main)
+    ma.fillParticleList(decayString="K+:det", cut=kaon_cut, path=main)
+    ma.fillParticleList(decayString="pi-:det", cut=pion_cut, path=main)
 
     vm.addAlias("invM_Kst", "0.892")
     vm.addAlias("fullwidth_Kst", "0.05")

@@ -60,7 +60,69 @@ class Data_Handler:
         self.mutable_data = self.original_data.copy()
 
 
+def find_enums(p, l, inv=False):
+    """Find the enumeration (element, index) of each element of list l (not) included in list p."""
+    enums = []
+    for i in range(len(l)):
+        if inv:
+            cond = l[i] not in p
+        cond = l[i] in p
+        if cond:
+            enums.append((i, l[i]))
+    if enums == []:
+        raise ValueError(f"No (all) elements of list p found in list l.")
+    return enums
 
+
+def is_between(low, high, l):
+    """
+    Find the indicies of elements of list l greater than low and less than high.
+    Note: Assumes that l is sorted from low to high.
+    """
+    l_check = l.copy()
+    l_check.sort()
+    assert l_check == l, Exception("Unsorted list.") 
+
+    low_i = l.index(low)
+    high_i = l.index(high)
+    i = list(range(low_i+1, high_i))
+    return i
+
+def is_greater_than(low, l):
+    """
+    Find the indicies of elements of list l greater than low.
+    Note: Assumes that l is sorted from low to high.
+    """
+    l_check = l.copy()
+    l_check.sort()
+    assert l_check == l, Exception("Unsorted list.") 
+
+    low_i = l.index(low)
+    i = list(range(low_i+1, len(l)))
+    return i
+
+
+def group_enum_between(p, l):
+    """
+    Group enumerations in p with the nearest lower enumeration in l.
+    Example p: [(1, 'a'), (3, 'b')], l: [(0, 'c'), (2, 'd')] -> [((0, 'c'), [(1, 'a')]), ((2, 'd'), [(3, 'b')])] 
+    """
+    l_n, l_v = zip(*l)
+
+    groups = []
+    last_i = len(l) - 1
+    for i in range(len(l)):
+        if i != last_i:
+            up_n = l_n[i+1]
+            low_n = l_n[i]
+            p_group_i = is_between(low_n, up_n, p)
+        else:
+            low_n = l_n[i]
+            p_group_i = is_greater_than(low_n, p)
+        p_group = [p[i] for i in p_group_i]
+        groups.append((l[i], p_group))
+    
+    return groups
 
 
 class Parser:
@@ -69,11 +131,25 @@ class Parser:
         self.set_defaults()
 
     def set_defaults(self):
+        self.tokens = None
+        self.commands = []
+        self.known_commands = [
+            'cut',
+            'head',
+            'count',
+            'quit',
+            'load',
+            'veto_q2',
+            'refresh_data',
+            'noise_only',
+            'signal_only',
+            'gen_only',
+            'det_only',
+        ]
         self.load = False
         self.path = None
         self.num_ex = 5
         self.veto_q2 = False
-        self.reset_cuts = False
         self.noise_only = False
         self.signal_only = False
         self.gen_only = False
@@ -84,16 +160,45 @@ class Parser:
         self.refresh_data = False
         self.quit = False
 
-    def parse_cmd(self, cmd):
-        tokens = cmd.split()
 
-        if "load" in tokens:
-            path_idx = tokens.index("load") + 1
-            self.load = True
-            self.path = tokens[path_idx]
+    
 
-        if "head" in tokens:
-            self.print_head = True
+    def get_user_input(self, user_input):
+        self.tokens = user_input.split()
+
+    def get_commands(self):
+        self.commands = find_enums(self.known_commands, self.tokens)
+
+    def get_args(self):
+        self.args = find_enums(self.known_commands, self.tokens, inv=True)
+    
+    def link_commands_args(self):
+
+        grouped = group_enum_between(self.args, self.commands)
+        cmd_idxs, cmds = zip(*self.commands)
+        arg_idxs, args = zip(*self.args)
+        for cmd_idx in cmd_idxs:
+
+
+        for i in range(len(self.commands)):
+            cmd_idx = self.commands[i][0]
+            next_cmd_idx = self.commands[i+1][0]
+
+
+        for cmd, cmd_idx in self.commands:
+            
+
+    def get_opt_args(self, cmd_idx):
+
+    def parse_user_input(self):
+
+        for cmd, cmd_idx in self.commands:
+            if cmd == "load":
+                self.load = True
+                self.path = self.get_pos_arg(cmd_idx, 1)
+            if cmd == "head":
+                self.print_head = True
+
             if "num_ex" in tokens:
                 num_ex_idx = tokens.index("num_ex") + 1 
                 self.num_ex = int(tokens[num_ex_idx])
@@ -170,7 +275,7 @@ def main():
 
     while run:
         prompt.get_cmd()
-        parser.parse_cmd(prompt.cmd)
+        parser.parse_user_input(prompt.cmd)
 
         if parser.load:
             dh.load(parser.path)

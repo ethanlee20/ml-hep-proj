@@ -1,0 +1,3 @@
+/belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00024821/s00/e1003/4S/r00000/mixed/mdst
+/belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00024822/s00/e1003/4S/r00000/mixed/mdst
+/belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00024823/s00/e1003/4S/r00000/mixed/mdst
