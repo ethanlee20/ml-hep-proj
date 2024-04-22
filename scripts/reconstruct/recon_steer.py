@@ -7,9 +7,9 @@
 Submit like this:
 
 gbasf2 \
-    -p e_mixed_morecuts \
+    -p mu_mixed_morecuts \
     -s light-2401-ocicat \
-    --input_dslist /home/belle2/elee20/ml-hep-proj/scripts/reconstruct/lpns_results_gen_mixed_mini.txt
+    --input_dslist /home/belle2/elee20/ml-hep-proj/scripts/reconstruct/lpns_results_gen_mixed_mini.txt \
     /home/belle2/elee20/ml-hep-proj/scripts/reconstruct/recon_steer.py
 
     first: -i /belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00024821/s00/e1003/4S/r00000/mixed/mdst \
@@ -24,7 +24,7 @@ from variables import variables as vm
 import vertex as vx
 
 
-ell = 'e'
+ell = 'mu'
 sideband = False
 cut_strength = 'tight'
 
