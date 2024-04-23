@@ -114,6 +114,7 @@ class Data_Handler:
     def load(self, path):
         self.original_data = open_data(path)
         self.mutable_data = self.original_data.copy()
+        self.mutable_data.drop(columns=["__MCDecayString__"])
     
     def refresh_data(self):
         self.cut_hist = []
