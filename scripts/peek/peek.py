@@ -143,7 +143,7 @@ class Data_Handler:
         
     def print_cuts(self):
         for cut in self.cut_hist:
-            print(cut.cut_str)
+            print(cut.string)
         
 
 
