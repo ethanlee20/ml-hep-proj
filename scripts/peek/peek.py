@@ -1,3 +1,4 @@
+import sys
 
 import pandas as pd
 pd.options.display.max_columns = None
@@ -192,7 +193,7 @@ def main():
 
     prompt = Prompt()
     parser = Parser()
-    dh = Data_Handler()
+    dh = Data_Handler(sys.argv[1])
 
     while True:
         prompt.get_cmd()
