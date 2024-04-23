@@ -99,6 +99,8 @@ class Cut:
             code += f"(data[data['{simple_cut.var}'] {simple_cut.kind} {simple_cut.val}])"
             if index  < len(self.connectors):
                 code += self.connectors[index]
+
+        print("DEBUG:", code)
         data = eval(code)
         return data
 
