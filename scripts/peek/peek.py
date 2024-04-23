@@ -97,6 +97,7 @@ class Cut:
         code = ""
         for index, simple_cut in enumerate(self.simple_cuts):
             code = code.join(f"(data[data['{simple_cut.var}'] {simple_cut.kind} {simple_cut.val}])")
+            breakpoint()
             if index  < len(self.connectors):
                 code = code.join(self.connectors[index])
         data = eval(code)
