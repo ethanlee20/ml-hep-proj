@@ -163,6 +163,7 @@ class Parser:
             'signal_only',
             'gen_only',
             'det_only',
+            'print_cuts'
         ]
 
     def set_defaults(self):
@@ -266,6 +267,12 @@ def main():
 
         if parser.command == "head":
             try:dh.head(int(parser.arg))
+            except:
+                print("something went wrong...")
+                traceback.print_exc()
+
+        if parser.command == "print_cuts":
+            try:dh.print_cuts()
             except:
                 print("something went wrong...")
                 traceback.print_exc()
