@@ -94,9 +94,9 @@ class Cut:
         return simple_cuts, connectors
     
     def apply(self, data):
-        code = ""
+        code = "data["
         for index, simple_cut in enumerate(self.simple_cuts):
-            code += f"data[(data['{simple_cut.var}'] {simple_cut.kind} {simple_cut.val})"
+            code += f"(data['{simple_cut.var}'] {simple_cut.kind} {simple_cut.val})"
             if index  < len(self.connectors):
                 code += self.connectors[index]
         code += ']'
