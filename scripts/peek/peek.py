@@ -224,9 +224,9 @@ def main():
         if parser.command == "det_only":
             dh.mutable_data = section(dh.mutable_data, gen_det='det')
 
-        if parser.command == "print_count":
+        if parser.command == "count":
             dh.count()
-        if parser.command == "print_head":
+        if parser.command == "head":
             dh.head(parser.arg)
         
         if parser.command == "quit":
