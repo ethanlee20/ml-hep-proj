@@ -204,30 +204,64 @@ def main():
             traceback.print_exc()
 
         if parser.command == "load":
-            dh.load(parser.arg)
+            try:dh.load(parser.arg)
+            except:
+                print("something went wrong...")
+                traceback.print_exc()
 
         if parser.command == "refresh_data":
-            dh.refresh_data()
+            try:dh.refresh_data()
+            except:
+                print("something went wrong...")
+                traceback.print_exc()
         
         if parser.command == "cut":
-            dh.cut_data(parser.arg)
+            try:dh.cut_data(parser.arg)
+            except:
+                print("something went wrong...")
+                traceback.print_exc()
+
         if parser.command == "veto_q2":
-            dh.mutable_data = veto_q_squared(
-                dh.mutable_data
-            )
+            try:dh.mutable_data = veto_q_squared(dh.mutable_data)
+            except:
+                print("something went wrong...")
+                traceback.print_exc()
+
         if parser.command == "noise_only":
-            dh.mutable_data = section(dh.mutable_data, sig_noise='noise')
+            try:dh.mutable_data = section(dh.mutable_data, sig_noise='noise')
+            except:
+                print("something went wrong...")
+                traceback.print_exc()
+
         if parser.command == "signal_only":
-            dh.mutable_data = section(dh.mutable_data, sig_noise='sig')
+            try:dh.mutable_data = section(dh.mutable_data, sig_noise='sig')
+            except:
+                print("something went wrong...")
+                traceback.print_exc()
+
         if parser.command == "gen_only":
-            dh.mutable_data = section(dh.mutable_data, gen_det='gen')
+            try:dh.mutable_data = section(dh.mutable_data, gen_det='gen')
+            except:
+                print("something went wrong...")
+                traceback.print_exc()
+
         if parser.command == "det_only":
-            dh.mutable_data = section(dh.mutable_data, gen_det='det')
+            try:dh.mutable_data = section(dh.mutable_data, gen_det='det')
+            except:
+                print("something went wrong...")
+                traceback.print_exc()
 
         if parser.command == "count":
-            dh.count()
+            try:dh.count()
+            except:
+                print("something went wrong...")
+                traceback.print_exc()
+
         if parser.command == "head":
-            dh.head(int(parser.arg))
+            try:dh.head(int(parser.arg))
+            except:
+                print("something went wrong...")
+                traceback.print_exc()
         
         if parser.command == "quit":
             print("all systems shutting down. Bye bye!")
