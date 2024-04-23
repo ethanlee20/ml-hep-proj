@@ -5,6 +5,7 @@ pd.options.display.max_colwidth = None
 
 from mylib.util import open_data, section, veto_q_squared
 
+
 def remove_all(a, l):
     """Remove all occurances of a from list l."""
     while True:
@@ -40,11 +41,80 @@ def odd(a:int):
     return (a % 2) == 1
 
 
+class SimpleCut:
+    def __init__(self, string):
+        self.string = string
+        self.var, self.val, self.kind = self.parse()
+    def parse(self):
+        known_syms = [
+            '<=',
+            '>=',
+            '==',
+            '!=',
+            '>',
+            '<',
+        ]
+        for sym in known_syms:
+            if sym in self.string:
+                s = split_and_strip(self.string, sep=sym)
+                assert len(s) == 2
+                var=s[0]
+                val=s[1]
+                kind=sym
+                return var, val, kind
+        raise ValueError(f"Cut not recognized: {self.string}")
+
+
+class Cut: 
+    def __init__(self, string):
+        self.string = string
+        self.simple_cuts, self.connectors = self.parse()
+    def parse(self):
+        delims = [
+            '[',
+            ']'
+        ]
+        known_connectors = [
+            '|~',
+            '&~',
+            '&',
+            '|',
+        ]
+        s = split_and_strip(self.string, sep=delims)
+        simple_cuts = [SimpleCut(i) for i in s[0::2]]
+        
+        assert odd(len(s)), ValueError
+        try: connectors = s[1::2]
+        except: connectors = []
+        for c in connectors: 
+            assert c in known_connectors, ValueError(f"Cut not recognized: {self.string}")
+
+        return simple_cuts, connectors
+    
+    def apply(self, data):
+        code = ""
+        for simple_cut, index in enumerate(self.simple_cuts):
+            code = code.join(f"(data[data[{simple_cut.var}] {simple_cut.kind} {simple_cut.val}])")
+            if index  < len(self.connectors):
+                code = code.join(self.connectors[index])
+        data = eval(code)
+        return data
+
+
 class Data_Handler:
+
+    def __init__(self, data_path):
+        self.load(data_path)
+        self.cut_hist = []
+
     def load(self, path):
         self.original_data = open_data(path)
         self.mutable_data = self.original_data.copy()
     
+    def refresh_data(self):
+        self.cut_hist = []
+        self.mutable_data = self.original_data.copy()
+
     def head(self, num_ex):
         print(self.mutable_data.head(num_ex))
 
@@ -62,183 +132,19 @@ class Data_Handler:
         print("num det tot", len(section(self.mutable_data, gen_det='det')))
 
     def cut_data(self, cut):
-
-        if type(cut) == SimpleCut:
-        elif type(cut) == CompoundCut:
-
-
-        if lower_bound:
-            self.mutable_data = self.mutable_data[self.mutable_data[var] > lower_bound]
-        if upper_bound:
-            self.mutable_data = self.mutable_data[self.mutable_data[var] < upper_bound]
-        if equality:
-            self.mutable_data = self.mutable_data[self.mutable_data[var] == equality]
-        if inequality:
-            self.mutable_data = self.mutable_data[self.mutable_data[var] != inequality]
-            
-    def refresh_data(self):
-        self.mutable_data = self.original_data.copy()
-
-
-# def find_all(a, l, start=0):
-#     """
-#     Find all occurances of substring a in string l.
-#     Return a list of the indicies.
-#     """
-#     i_s = []
-#     while True:
-#         try:
-#             i = l.index(a, start)
-#             i_s.append(i)
-#             start = i + len(a)
-#         except ValueError:
-#             return i_s
-
-
-# def find_enums(p, l, inv=False):
-#     """
-#     Search through l for items in p.
-#     Return the (index, item) of each found item in terms of its location in l.
-#     """
-#     enums = []
-#     for i in range(len(l)):
-#         if inv:
-#             cond = l[i] not in p
-#         else:
-#             cond = l[i] in p
-#         if cond:
-#             enums.append((i, l[i]))
-#     if enums == []:
-#         raise ValueError(f"No (all) elements of list p found in list l.")
-#     return enums
-
-
-# def is_between(low, high, l):
-#     """
-#     Find the indicies of elements of list l greater than low and less than high.
-#     Note: Assumes that l is sorted from low to high.
-#     """
-#     l_check = l.copy()
-#     l_check.sort()
-#     assert l_check == l, Exception("Unsorted list.") 
-
-#     low_i = l.index(low)
-#     high_i = l.index(high)
-#     i = list(range(low_i+1, high_i))
-#     return i
-
-# def is_greater_than(low, l):
-#     """
-#     Find the indicies of elements of list l greater than low.
-#     Note: Assumes that l is sorted from low to high.
-#     """
-#     l_check = l.copy()
-#     l_check.sort()
-#     assert l_check == l, Exception("Unsorted list.") 
-
-#     low_i = l.index(low)
-#     i = list(range(low_i+1, len(l)))
-#     return i
-
-
-# def group_enum_between(p, l):
-#     """
-#     Group enumerations in p with the nearest lower enumeration in l.
-#     Example p: [(1, 'a'), (3, 'b')], l: [(0, 'c'), (2, 'd')] -> [((0, 'c'), [(1, 'a')]), ((2, 'd'), [(3, 'b')])] 
-#     """
-#     l_n, l_v = zip(*l)
-
-#     groups = []
-#     last_i = len(l) - 1
-#     for i in range(len(l)):
-#         if i != last_i:
-#             up_n = l_n[i+1]
-#             low_n = l_n[i]
-#             p_group_i = is_between(low_n, up_n, p)
-#         else:
-#             low_n = l_n[i]
-#             p_group_i = is_greater_than(low_n, p)
-#         p_group = [p[i] for i in p_group_i]
-#         groups.append((l[i], p_group))
-    
-#     return groups
-
-
-
-
-
-class SimpleCut:
-    def __init__(self, var, val, kind):
-        self.var = var
-        self.val = val
-        self.kind = kind
-
-class CompoundCut: 
-    def __init__(self, simple_cuts, connectors):
-        self.simple_cuts = simple_cuts
-        self.connectors = connectors
-
-
-def parse_simple_cut(cut_string):
-    known_syms = [
-        '>',
-        '<',
-        '>=',
-        '<=',
-        '==',
-        '!=',
-    ]
-    for sym in known_syms:
-        if sym in cut_string:
-            s = split_and_strip(cut_string, sep=sym)
-            assert len(s) == 2
-            cut = SimpleCut(var=s[0], val=s[1], kind=sym)
-            return cut
-
-
-def parse_compound_cut(cut_string):
-    delims = [
-        '[',
-        ']'
-    ]
-
-    connect = [
-        '&',
-        '|',
-        '&~',
-        '|~',
-    ]
-
-    cut_string = split_and_strip(cut_string, sep=delims)
-    
-    assert odd(len(cut_string)), ValueError
-    assert len(cut_string) > 1, ValueError
-
-    connectors = cut_string[1::2]
-    simple_cuts = [parse_simple_cut(i) for i in cut_string[0::2]]
-
-    cut = CompoundCut(simple_cuts=simple_cuts, connectors=connectors)
-    return cut
-
-
-def parse_cut_string(cut_string):
-    try: cut = parse_compound_cut(cut_string)
-    except ValueError: cut = parse_simple_cut(cut_string)
-    return cut
+        self.cut_hist.append(cut)
+        self.mutable_data = self.cut.apply(self.mutable_data)
         
-
-
-
+    def print_cuts(self):
+        for cut in self.cut_hist:
+            print(cut.cut_str)
+        
 
 
 class Parser:
 
     def __init__(self):
         self.set_defaults()
-
-    def set_defaults(self):
-        self.command = None
-        self.arg = None
         self.known_commands = [
             'cut',
             'head',
@@ -252,6 +158,10 @@ class Parser:
             'gen_only',
             'det_only',
         ]
+
+    def set_defaults(self):
+        self.command = None
+        self.arg = None
 
     def get_command(self, user_input):
         command = user_input.split()[0]
@@ -270,9 +180,10 @@ class Parser:
 
 
 class Prompt:
-    
-    sym = '|>__<| '
-    
+    def __init__(self):
+        self.sym = '|>__<| '
+        self.cmd = None
+
     def get_cmd(self):
         self.cmd = input(self.sym)
 
@@ -283,9 +194,7 @@ def main():
     parser = Parser()
     dh = Data_Handler()
 
-    run = True
-
-    while run:
+    while True:
         prompt.get_cmd()
         try: parser.parse_user_input(prompt.cmd)
         except Exception as err: print(f"Something went wrong... {err}")
@@ -297,30 +206,24 @@ def main():
             dh.refresh_data()
         
         if parser.command == "cut":
-            dh.cut_data(
-                parser.cut_var, 
-                lower_bound=parser.cut_low_bound,
-                upper_bound=parser.cut_up_bound,
-                equality=parser.cut_equality,
-                inequality=parser.cut_inequality
-            )
-        if parser.veto_q2:
+            dh.cut_data(parser.arg)
+        if parser.command == "veto_q2":
             dh.mutable_data = veto_q_squared(
                 dh.mutable_data
             )
-        if parser.noise_only:
+        if parser.command == "noise_only":
             dh.mutable_data = section(dh.mutable_data, sig_noise='noise')
-        if parser.signal_only:
+        if parser.command == "signal_only":
             dh.mutable_data = section(dh.mutable_data, sig_noise='sig')
-        if parser.gen_only:
+        if parser.command == "gen_only":
             dh.mutable_data = section(dh.mutable_data, gen_det='gen')
-        if parser.det_only:
+        if parser.command == "det_only":
             dh.mutable_data = section(dh.mutable_data, gen_det='det')
 
-        if parser.print_count:
+        if parser.command == "print_count":
             dh.count()
-        if parser.print_head:
-            dh.head(parser.num_ex)
+        if parser.command == "print_head":
+            dh.head(parser.arg)
         
         if parser.quit:
             print("all systems shutting down. Bye bye!")
