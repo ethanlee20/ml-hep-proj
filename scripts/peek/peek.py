@@ -172,7 +172,7 @@ class Parser:
         
     def get_arg(self, user_input):
         arg = ""
-        arg.join(user_input.split()[1:])
+        arg = arg.join(user_input.split()[1:])
         arg = arg.strip()
         self.arg = arg
 
