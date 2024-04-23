@@ -96,7 +96,7 @@ class Cut:
     def apply(self, data):
         code = ""
         for index, simple_cut in enumerate(self.simple_cuts):
-            code = code.join(f"(data[data[{simple_cut.var}] {simple_cut.kind} {simple_cut.val}])")
+            code = code.join(f"(data[data['{simple_cut.var}'] {simple_cut.kind} {simple_cut.val}])")
             if index  < len(self.connectors):
                 code = code.join(self.connectors[index])
         data = eval(code)
