@@ -1,4 +1,5 @@
 import sys
+import traceback
 
 import pandas as pd
 pd.options.display.max_columns = None
@@ -198,7 +199,7 @@ def main():
     while True:
         prompt.get_cmd()
         try: parser.parse_user_input(prompt.cmd)
-        except Exception as err: print(f"Something went wrong... {err}")
+        except Exception: traceback.print_exc()
 
         if parser.command == "load":
             dh.load(parser.arg)
