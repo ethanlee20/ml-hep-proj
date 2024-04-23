@@ -26,9 +26,9 @@ def flatten2d(l):
 
 def split_and_strip(s, sep):
     """Split string s on the given separators and clean result."""
-    if type(s) != list:
+    if type(sep) != list:
         s = s.split(sep)
-    elif type(s) == list:
+    elif type(sep) == list:
         s = s.split(sep[0])
         if len(sep) > 1:
             for p in sep[1:]:
