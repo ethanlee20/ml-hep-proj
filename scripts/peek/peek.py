@@ -5,21 +5,39 @@ pd.options.display.max_colwidth = None
 
 from mylib.util import open_data, section, veto_q_squared
 
-
-# parser.add_argument("--veto_q2", action='store_true', help="veto out J/Psi and Psi(2S) regions of q squared")
-
-# parser.add_argument("-n", "--noise_only", action='store_true', help="only include noise events")
-# parser.add_argument("-s", "--sig_only", action='store_true', help="only include signal events")
-# parser.add_argument("-g", '--gen_only', action='store_true', help="only include generator level data")
-# parser.add_argument("-d",'--det_only', action='store_true', help="only include detector level data")
+def remove_all(a, l):
+    """Remove all occurances of a from list l."""
+    while True:
+        try: l.remove(a)
+        except ValueError: return l
 
 
-# parser.add_argument("--cut_var", help="variable to cut on")
-# parser.add_argument("--lower_bound", help="lower bound for cut", type=float)
-# parser.add_argument("--upper_bound", help="upper bound for cut", type=float)
-# parser.add_argument("--equal_to", help="equality to cut on", type=float)
-# parser.add_argument("--not_equal_to", help="inequality to cut on", type=float)
+def flatten2d(l):
+    """Flatten a 2d array to 1d."""
+    i = []
+    for a in l:
+        for b in a:
+            i.append(b)
+    return i
 
+
+def split_and_strip(s, sep):
+    """Split string s on the given separators and clean result."""
+    if type(s) != list:
+        s = s.split(sep)
+    elif type(s) == list:
+        s = s.split(sep[0])
+        if len(sep) > 1:
+            for p in sep[1:]:
+                s = [i.split(p) for i in s]
+                s = flatten2d(s)
+    s = [i.strip() for i in s]
+    s = remove_all('', s)
+    return s
+
+
+def odd(a:int):
+    return (a % 2) == 1
 
 
 class Data_Handler:
@@ -43,9 +61,11 @@ class Data_Handler:
         print("num det noise", len(section(self.mutable_data, gen_det='det', sig_noise='noise')))
         print("num det tot", len(section(self.mutable_data, gen_det='det')))
 
-    def cut_data(self, var, lower_bound=None, upper_bound=None, equality=None, inequality=None):
-        assert (bool(lower_bound) | bool(upper_bound)) ^ (bool(equality) | bool(inequality))
-        assert ~(bool(equality) & bool(inequality))
+    def cut_data(self, cut):
+
+        if type(cut) == SimpleCut:
+        elif type(cut) == CompoundCut:
+
 
         if lower_bound:
             self.mutable_data = self.mutable_data[self.mutable_data[var] > lower_bound]
@@ -60,69 +80,155 @@ class Data_Handler:
         self.mutable_data = self.original_data.copy()
 
 
-def find_enums(p, l, inv=False):
-    """Find the enumeration (element, index) of each element of list l (not) included in list p."""
-    enums = []
-    for i in range(len(l)):
-        if inv:
-            cond = l[i] not in p
-        cond = l[i] in p
-        if cond:
-            enums.append((i, l[i]))
-    if enums == []:
-        raise ValueError(f"No (all) elements of list p found in list l.")
-    return enums
+# def find_all(a, l, start=0):
+#     """
+#     Find all occurances of substring a in string l.
+#     Return a list of the indicies.
+#     """
+#     i_s = []
+#     while True:
+#         try:
+#             i = l.index(a, start)
+#             i_s.append(i)
+#             start = i + len(a)
+#         except ValueError:
+#             return i_s
 
 
-def is_between(low, high, l):
-    """
-    Find the indicies of elements of list l greater than low and less than high.
-    Note: Assumes that l is sorted from low to high.
-    """
-    l_check = l.copy()
-    l_check.sort()
-    assert l_check == l, Exception("Unsorted list.") 
-
-    low_i = l.index(low)
-    high_i = l.index(high)
-    i = list(range(low_i+1, high_i))
-    return i
-
-def is_greater_than(low, l):
-    """
-    Find the indicies of elements of list l greater than low.
-    Note: Assumes that l is sorted from low to high.
-    """
-    l_check = l.copy()
-    l_check.sort()
-    assert l_check == l, Exception("Unsorted list.") 
-
-    low_i = l.index(low)
-    i = list(range(low_i+1, len(l)))
-    return i
+# def find_enums(p, l, inv=False):
+#     """
+#     Search through l for items in p.
+#     Return the (index, item) of each found item in terms of its location in l.
+#     """
+#     enums = []
+#     for i in range(len(l)):
+#         if inv:
+#             cond = l[i] not in p
+#         else:
+#             cond = l[i] in p
+#         if cond:
+#             enums.append((i, l[i]))
+#     if enums == []:
+#         raise ValueError(f"No (all) elements of list p found in list l.")
+#     return enums
 
 
-def group_enum_between(p, l):
-    """
-    Group enumerations in p with the nearest lower enumeration in l.
-    Example p: [(1, 'a'), (3, 'b')], l: [(0, 'c'), (2, 'd')] -> [((0, 'c'), [(1, 'a')]), ((2, 'd'), [(3, 'b')])] 
-    """
-    l_n, l_v = zip(*l)
+# def is_between(low, high, l):
+#     """
+#     Find the indicies of elements of list l greater than low and less than high.
+#     Note: Assumes that l is sorted from low to high.
+#     """
+#     l_check = l.copy()
+#     l_check.sort()
+#     assert l_check == l, Exception("Unsorted list.") 
 
-    groups = []
-    last_i = len(l) - 1
-    for i in range(len(l)):
-        if i != last_i:
-            up_n = l_n[i+1]
-            low_n = l_n[i]
-            p_group_i = is_between(low_n, up_n, p)
-        else:
-            low_n = l_n[i]
-            p_group_i = is_greater_than(low_n, p)
-        p_group = [p[i] for i in p_group_i]
-        groups.append((l[i], p_group))
+#     low_i = l.index(low)
+#     high_i = l.index(high)
+#     i = list(range(low_i+1, high_i))
+#     return i
+
+# def is_greater_than(low, l):
+#     """
+#     Find the indicies of elements of list l greater than low.
+#     Note: Assumes that l is sorted from low to high.
+#     """
+#     l_check = l.copy()
+#     l_check.sort()
+#     assert l_check == l, Exception("Unsorted list.") 
+
+#     low_i = l.index(low)
+#     i = list(range(low_i+1, len(l)))
+#     return i
+
+
+# def group_enum_between(p, l):
+#     """
+#     Group enumerations in p with the nearest lower enumeration in l.
+#     Example p: [(1, 'a'), (3, 'b')], l: [(0, 'c'), (2, 'd')] -> [((0, 'c'), [(1, 'a')]), ((2, 'd'), [(3, 'b')])] 
+#     """
+#     l_n, l_v = zip(*l)
+
+#     groups = []
+#     last_i = len(l) - 1
+#     for i in range(len(l)):
+#         if i != last_i:
+#             up_n = l_n[i+1]
+#             low_n = l_n[i]
+#             p_group_i = is_between(low_n, up_n, p)
+#         else:
+#             low_n = l_n[i]
+#             p_group_i = is_greater_than(low_n, p)
+#         p_group = [p[i] for i in p_group_i]
+#         groups.append((l[i], p_group))
     
-    return groups
+#     return groups
+
+
+
+
+
+class SimpleCut:
+    def __init__(self, var, val, kind):
+        self.var = var
+        self.val = val
+        self.kind = kind
+
+class CompoundCut: 
+    def __init__(self, simple_cuts, connectors):
+        self.simple_cuts = simple_cuts
+        self.connectors = connectors
+
+
+def parse_simple_cut(cut_string):
+    known_syms = [
+        '>',
+        '<',
+        '>=',
+        '<=',
+        '==',
+        '!=',
+    ]
+    for sym in known_syms:
+        if sym in cut_string:
+            s = split_and_strip(cut_string, sep=sym)
+            assert len(s) == 2
+            cut = SimpleCut(var=s[0], val=s[1], kind=sym)
+            return cut
+
+
+def parse_compound_cut(cut_string):
+    delims = [
+        '[',
+        ']'
+    ]
+
+    connect = [
+        '&',
+        '|',
+        '&~',
+        '|~',
+    ]
+
+    cut_string = split_and_strip(cut_string, sep=delims)
+    
+    assert odd(len(cut_string)), ValueError
+    assert len(cut_string) > 1, ValueError
+
+    connectors = cut_string[1::2]
+    simple_cuts = [parse_simple_cut(i) for i in cut_string[0::2]]
+
+    cut = CompoundCut(simple_cuts=simple_cuts, connectors=connectors)
+    return cut
+
+
+def parse_cut_string(cut_string):
+    try: cut = parse_compound_cut(cut_string)
+    except ValueError: cut = parse_simple_cut(cut_string)
+    return cut
+        
+
+
+
 
 
 class Parser:
@@ -131,8 +237,8 @@ class Parser:
         self.set_defaults()
 
     def set_defaults(self):
-        self.tokens = None
-        self.commands = []
+        self.command = None
+        self.arg = None
         self.known_commands = [
             'cut',
             'head',
@@ -146,115 +252,21 @@ class Parser:
             'gen_only',
             'det_only',
         ]
-        self.load = False
-        self.path = None
-        self.num_ex = 5
-        self.veto_q2 = False
-        self.noise_only = False
-        self.signal_only = False
-        self.gen_only = False
-        self.det_only = False
-        self.cut = False
-        self.print_head = False
-        self.print_count = False
-        self.refresh_data = False
-        self.quit = False
 
-
-    
-
-    def get_user_input(self, user_input):
-        self.tokens = user_input.split()
-
-    def get_commands(self):
-        self.commands = find_enums(self.known_commands, self.tokens)
-
-    def get_args(self):
-        self.args = find_enums(self.known_commands, self.tokens, inv=True)
-    
-    def link_commands_args(self):
-
-        grouped = group_enum_between(self.args, self.commands)
-        cmd_idxs, cmds = zip(*self.commands)
-        arg_idxs, args = zip(*self.args)
-        for cmd_idx in cmd_idxs:
-
-
-        for i in range(len(self.commands)):
-            cmd_idx = self.commands[i][0]
-            next_cmd_idx = self.commands[i+1][0]
-
-
-        for cmd, cmd_idx in self.commands:
-            
-
-    def get_opt_args(self, cmd_idx):
-
-    def parse_user_input(self):
-
-        for cmd, cmd_idx in self.commands:
-            if cmd == "load":
-                self.load = True
-                self.path = self.get_pos_arg(cmd_idx, 1)
-            if cmd == "head":
-                self.print_head = True
-
-            if "num_ex" in tokens:
-                num_ex_idx = tokens.index("num_ex") + 1 
-                self.num_ex = int(tokens[num_ex_idx])
-
-        if "count" in tokens:
-            self.print_count = True
+    def get_command(self, user_input):
+        command = user_input.split()[0]
+        assert command in self.known_commands
+        self.command = command
         
-        if "cut" in tokens:
-            assert "var" in tokens
-            self.cut = True
-            
-            cut_var_idx = tokens.index("var") + 1
-            self.cut_var = tokens[cut_var_idx]
+    def get_arg(self, user_input):
+        arg = ""
+        arg.join(user_input.split()[1:])
+        arg = arg.strip()
+        self.arg = arg
 
-            try: 
-                cut_low_bound_idx = tokens.index("lower_bound") + 1
-                self.cut_low_bound = float(tokens[cut_low_bound_idx])
-            except ValueError: self.cut_low_bound = None            
-            
-            try: 
-                cut_up_bound_idx = tokens.index("upper_bound") + 1
-                self.cut_up_bound = float(tokens[cut_up_bound_idx])
-            except ValueError: self.cut_up_bound = None
-            
-            try: 
-                cut_equality_idx = tokens.index("equal_to") + 1
-                self.cut_equality = float(tokens[cut_equality_idx])
-            except ValueError: self.cut_equality = None
-            
-            try: 
-                cut_inequality_idx = tokens.index("not_equal_to") + 1
-                self.cut_inequality = float(tokens[cut_inequality_idx])
-            except ValueError: self.cut_inequality = None
-            
-
-        if "refresh_data" in tokens:
-            self.refresh_data = True
-
-        if "veto_q2" in tokens:
-            self.veto_q2 = True
-
-        if "noise_only" in tokens:
-            self.noise_only = True
-        
-        if "signal_only" in tokens:
-            self.signal_only = True
-        
-        if "gen_only" in tokens:
-            self.gen_only = True
-        
-        if "det_only" in tokens:
-            self.det_only = True     
-
-        if "quit" in tokens:
-            self.quit = True
-
+    def parse_user_input(self, user_input:str):
+        self.get_command(user_input)
+        self.get_arg(user_input)
 
 
 class Prompt:
@@ -275,15 +287,16 @@ def main():
 
     while run:
         prompt.get_cmd()
-        parser.parse_user_input(prompt.cmd)
+        try: parser.parse_user_input(prompt.cmd)
+        except Exception as err: print(f"Something went wrong... {err}")
 
-        if parser.load:
-            dh.load(parser.path)
+        if parser.command == "load":
+            dh.load(parser.arg)
 
-        if parser.refresh_data:
+        if parser.command == "refresh_data":
             dh.refresh_data()
         
-        if parser.cut:
+        if parser.command == "cut":
             dh.cut_data(
                 parser.cut_var, 
                 lower_bound=parser.cut_low_bound,
