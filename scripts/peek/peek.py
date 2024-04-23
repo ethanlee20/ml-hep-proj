@@ -199,7 +199,9 @@ def main():
     while True:
         prompt.get_cmd()
         try: parser.parse_user_input(prompt.cmd)
-        except Exception: traceback.print_exc()
+        except Exception: 
+            print("something went wrong...")
+            traceback.print_exc()
 
         if parser.command == "load":
             dh.load(parser.arg)
