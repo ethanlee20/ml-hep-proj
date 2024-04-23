@@ -227,7 +227,7 @@ def main():
         if parser.command == "count":
             dh.count()
         if parser.command == "head":
-            dh.head(parser.arg)
+            dh.head(int(parser.arg))
         
         if parser.command == "quit":
             print("all systems shutting down. Bye bye!")
