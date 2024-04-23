@@ -135,7 +135,7 @@ class Data_Handler:
 
     def cut_data(self, cut):
         self.cut_hist.append(cut)
-        self.mutable_data = self.cut.apply(self.mutable_data)
+        self.mutable_data = cut.apply(self.mutable_data)
         
     def print_cuts(self):
         for cut in self.cut_hist:
@@ -216,7 +216,10 @@ def main():
                 traceback.print_exc()
         
         if parser.command == "cut":
-            try:dh.cut_data(parser.arg)
+            try:
+                cut = Cut(parser.arg)
+                dh.cut_data(cut)
+
             except:
                 print("something went wrong...")
                 traceback.print_exc()
