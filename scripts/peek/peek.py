@@ -223,14 +223,20 @@ class Peek:
         self.parser = Parser()
         self.dh = Data_Handler(sys.argv[1])
         self.cm = Command_Manager()
+        self.init_cm()
+
+    def init_cm(self):
         self.cm.add_command(name='head', action=self.dh.head)
         self.cm.add_command(name='load', action=self.dh.load)
         self.cm.add_command(name='refresh_data', action=self.dh.refresh_data)
         self.cm.add_command(name='count', action=self.dh.count)
         self.cm.add_command(name='quit', action=self.quit)
+        self.cm.add_command(name='cut', action=lambda c: self.dh.cut_data(Cut(c)))
+        
     def quit(self):
         print("Shutting down all systems. Bye bye!")
         self.on = False
+
     def run(self):
         while self.on:
             self.prompt.get_input()
