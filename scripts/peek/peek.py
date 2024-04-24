@@ -227,6 +227,7 @@ def main():
     cm.add_command(name='load', action=dh.load)
     cm.add_command(name='refresh_data', action=dh.refresh_data)
     cm.add_command(name='count', action=dh.count)
+    cm.add_command(name='quit', action=quit)
 
 
     while True:
