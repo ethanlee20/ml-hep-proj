@@ -229,6 +229,7 @@ class Peek:
         self.cm.add_command(name='count', action=self.dh.count)
         self.cm.add_command(name='quit', action=self.quit)
     def quit(self):
+        print("Shutting down all systems. Bye bye!")
         self.on = False
     def run(self):
         while self.on:
