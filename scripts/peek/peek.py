@@ -218,7 +218,7 @@ class Prompt:
 
 class Peek:
     def __init__(self):
-        self.run = True
+        self.on = True
         self.prompt = Prompt()
         self.parser = Parser()
         self.dh = Data_Handler(sys.argv[1])
@@ -229,9 +229,9 @@ class Peek:
         self.cm.add_command(name='count', action=self.dh.count)
         self.cm.add_command(name='quit', action=self.quit)
     def quit(self):
-        self.run = False
+        self.on = False
     def run(self):
-        while self.run:
+        while self.on:
             self.prompt.get_input()
             self.parser.parse_user_input(self.prompt.input)
             self.cm.run_command(self.parser.command, self.parser.arg)
