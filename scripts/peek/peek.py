@@ -42,6 +42,10 @@ def split_and_strip(s, sep):
 def odd(a:int):
     return (a % 2) == 1
 
+def is_int(s:str):
+    try: int(s)
+    except ValueError: return False
+    return True
 
 class SimpleCut:
     def __init__(self, string):
@@ -191,6 +195,7 @@ class Parser:
         arg = arg.join(user_input.split()[1:])
         arg = arg.strip()
         if arg == "": arg = None
+        if is_int(arg): arg = int(arg)
         self.arg = arg
 
     def parse_user_input(self, user_input:str):
@@ -218,12 +223,8 @@ def main():
     dh = Data_Handler(sys.argv[1])
     cm = Command_Manager()
 
-    def head(arg):
-        dh.head(int(arg))
-    cm.add_command(name='head', action=head)
-    def load(arg):
-        dh.load(arg)
-    cm.add_command(name='load', action=load)
+    cm.add_command(name='head', action=dh.head)
+    cm.add_command(name='load', action=dh.load)
     cm.add_command(name='refresh_data', action=dh.refresh_data)
     cm.add_command(name='count', action=dh.count)
 
