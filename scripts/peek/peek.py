@@ -216,25 +216,32 @@ class Prompt:
         self.input = input(self.sym)
 
 
+class Peek:
+    def __init__(self):
+        self.run = True
+        self.prompt = Prompt()
+        self.parser = Parser()
+        self.dh = Data_Handler(sys.argv[1])
+        self.cm = Command_Manager()
+        self.cm.add_command(name='head', action=self.dh.head)
+        self.cm.add_command(name='load', action=self.dh.load)
+        self.cm.add_command(name='refresh_data', action=self.dh.refresh_data)
+        self.cm.add_command(name='count', action=self.dh.count)
+        self.cm.add_command(name='quit', action=self.quit)
+    def quit(self):
+        self.run = False
+    def run(self):
+        while self.run:
+            self.prompt.get_input()
+            self.parser.parse_user_input(self.prompt.input)
+            self.cm.run_command(self.parser.command, self.parser.arg)
+            self.parser.set_defaults()
+
 def main():
 
-    prompt = Prompt()
-    parser = Parser()
-    dh = Data_Handler(sys.argv[1])
-    cm = Command_Manager()
+    peek = Peek()
+    peek.run()
 
-    cm.add_command(name='head', action=dh.head)
-    cm.add_command(name='load', action=dh.load)
-    cm.add_command(name='refresh_data', action=dh.refresh_data)
-    cm.add_command(name='count', action=dh.count)
-    cm.add_command(name='quit', action=quit)
-
-
-    while True:
-        prompt.get_input()
-        parser.parse_user_input(prompt.input)
-        
-        cm.run_command(parser.command, parser.arg)
 
 
 
@@ -311,7 +318,7 @@ def main():
         #     print("all systems shutting down. Bye bye!")
         #     quit()
         
-        parser.set_defaults()
+
 
 
 if __name__ == "__main__":
