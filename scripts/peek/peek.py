@@ -115,7 +115,6 @@ class Data_Handler:
     def load(self, path):
         self.original_data = open_data(path)
         self.mutable_data = self.original_data.copy()
-        self.mutable_data.drop(columns=["__MCDecayString__"])
     
     def refresh_data(self):
         self.cut_hist = []
@@ -146,53 +145,70 @@ class Data_Handler:
             print(cut.string)
         
 
+class Command:
+    def __init__(self, name, action):
+        self.name = name
+        self.action = action
+
+
+
+
+class Command_Manager:
+    def __init__(self):
+        self.commands = []
+    def add_command(self, name, action):
+        c = Command(name, action)
+        self.commands.append(c)
+    def find_command(self, name):
+        try:
+            command = [i for i in self.commands if i.name == name][0]
+            return command
+        except IndexError: raise ValueError("Command not found.")
+    def run_command(self, name, arg):
+        try:
+            command = self.find_command(name)
+            if arg: command.action(arg)
+            else: command.action()
+        except:                
+            print("something went wrong...")
+            traceback.print_exc()
+
 
 class Parser:
 
     def __init__(self):
         self.set_defaults()
-        self.known_commands = [
-            'cut',
-            'head',
-            'count',
-            'quit',
-            'load',
-            'veto_q2',
-            'refresh_data',
-            'noise_only',
-            'signal_only',
-            'gen_only',
-            'det_only',
-            'print_cuts'
-        ]
 
     def set_defaults(self):
-        self.command = None
-        self.arg = None
+        self.command = ''
+        self.arg = ''
 
     def get_command(self, user_input):
-        command = user_input.split()[0]
-        assert command in self.known_commands
-        self.command = command
+        self.command = user_input.split()[0]
         
     def get_arg(self, user_input):
         arg = ""
         arg = arg.join(user_input.split()[1:])
         arg = arg.strip()
+        if arg == "": arg = None
         self.arg = arg
 
     def parse_user_input(self, user_input:str):
-        self.get_command(user_input)
-        self.get_arg(user_input)
+        try:
+            self.get_command(user_input)
+            self.get_arg(user_input)
+        except:
+            print("something went wrong...")
+            traceback.print_exc()
 
 
 class Prompt:
     def __init__(self):
         self.sym = '|>__<| '
-        self.cmd = None
+        self.input = None
 
-    def get_cmd(self):
-        self.cmd = input(self.sym)
+    def get_input(self):
+        self.input = input(self.sym)
 
 
 def main():
@@ -200,86 +216,98 @@ def main():
     prompt = Prompt()
     parser = Parser()
     dh = Data_Handler(sys.argv[1])
+    cm = Command_Manager()
+
+    def head(arg):
+        dh.head(int(arg))
+    cm.add_command(name='head', action=head)
+    def load(arg):
+        dh.load(arg)
+    cm.add_command(name='load', action=load)
+    cm.add_command(name='refresh_data', action=dh.refresh_data)
+    cm.add_command(name='count', action=dh.count)
+
 
     while True:
-        prompt.get_cmd()
-        try: parser.parse_user_input(prompt.cmd)
-        except Exception: 
-            print("something went wrong...")
-            traceback.print_exc()
-
-        if parser.command == "load":
-            try:dh.load(parser.arg)
-            except:
-                print("something went wrong...")
-                traceback.print_exc()
-
-        if parser.command == "refresh_data":
-            try:dh.refresh_data()
-            except:
-                print("something went wrong...")
-                traceback.print_exc()
+        prompt.get_input()
+        parser.parse_user_input(prompt.input)
         
-        if parser.command == "cut":
-            try:
-                cut = Cut(parser.arg)
-                dh.cut_data(cut)
+        cm.run_command(parser.command, parser.arg)
 
-            except:
-                print("something went wrong...")
-                traceback.print_exc()
 
-        if parser.command == "veto_q2":
-            try:dh.mutable_data = veto_q_squared(dh.mutable_data)
-            except:
-                print("something went wrong...")
-                traceback.print_exc()
 
-        if parser.command == "noise_only":
-            try:dh.mutable_data = section(dh.mutable_data, sig_noise='noise')
-            except:
-                print("something went wrong...")
-                traceback.print_exc()
+        # if parser.command == "load":
+        #     try:dh.load(parser.arg)
+        #     except:
+        #         print("something went wrong...")
+        #         traceback.print_exc()
 
-        if parser.command == "signal_only":
-            try:dh.mutable_data = section(dh.mutable_data, sig_noise='sig')
-            except:
-                print("something went wrong...")
-                traceback.print_exc()
-
-        if parser.command == "gen_only":
-            try:dh.mutable_data = section(dh.mutable_data, gen_det='gen')
-            except:
-                print("something went wrong...")
-                traceback.print_exc()
-
-        if parser.command == "det_only":
-            try:dh.mutable_data = section(dh.mutable_data, gen_det='det')
-            except:
-                print("something went wrong...")
-                traceback.print_exc()
-
-        if parser.command == "count":
-            try:dh.count()
-            except:
-                print("something went wrong...")
-                traceback.print_exc()
-
-        if parser.command == "head":
-            try:dh.head(int(parser.arg))
-            except:
-                print("something went wrong...")
-                traceback.print_exc()
-
-        if parser.command == "print_cuts":
-            try:dh.print_cuts()
-            except:
-                print("something went wrong...")
-                traceback.print_exc()
+        # if parser.command == "refresh_data":
+        #     try:dh.refresh_data()
+        #     except:
+        #         print("something went wrong...")
+        #         traceback.print_exc()
         
-        if parser.command == "quit":
-            print("all systems shutting down. Bye bye!")
-            quit()
+        # if parser.command == "cut":
+        #     try:
+        #         cut = Cut(parser.arg)
+        #         dh.cut_data(cut)
+
+        #     except:
+        #         print("something went wrong...")
+        #         traceback.print_exc()
+
+        # if parser.command == "veto_q2":
+        #     try:dh.mutable_data = veto_q_squared(dh.mutable_data)
+        #     except:
+        #         print("something went wrong...")
+        #         traceback.print_exc()
+
+        # if parser.command == "noise_only":
+        #     try:dh.mutable_data = section(dh.mutable_data, sig_noise='noise')
+        #     except:
+        #         print("something went wrong...")
+        #         traceback.print_exc()
+
+        # if parser.command == "signal_only":
+        #     try:dh.mutable_data = section(dh.mutable_data, sig_noise='sig')
+        #     except:
+        #         print("something went wrong...")
+        #         traceback.print_exc()
+
+        # if parser.command == "gen_only":
+        #     try:dh.mutable_data = section(dh.mutable_data, gen_det='gen')
+        #     except:
+        #         print("something went wrong...")
+        #         traceback.print_exc()
+
+        # if parser.command == "det_only":
+        #     try:dh.mutable_data = section(dh.mutable_data, gen_det='det')
+        #     except:
+        #         print("something went wrong...")
+        #         traceback.print_exc()
+
+        # if parser.command == "count":
+        #     try:dh.count()
+        #     except:
+        #         print("something went wrong...")
+        #         traceback.print_exc()
+
+        # if parser.command == "head":
+        #     try:dh.head(int(parser.arg))
+        #     except:
+        #         print("something went wrong...")
+        #         traceback.print_exc()
+
+        # if parser.command == "print_cuts":
+        #     try:dh.print_cuts()
+        #     except:
+        #         print("something went wrong...")
+        #         traceback.print_exc()
+        
+        # if parser.command == "quit":
+        #     print("all systems shutting down. Bye bye!")
+        #     quit()
         
         parser.set_defaults()
 
