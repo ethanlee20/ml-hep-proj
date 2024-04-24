@@ -44,7 +44,7 @@ def odd(a:int):
 
 def is_int(s:str):
     try: int(s)
-    except ValueError: return False
+    except: return False
     return True
 
 class SimpleCut:
@@ -194,8 +194,8 @@ class Parser:
         arg = ""
         arg = arg.join(user_input.split()[1:])
         arg = arg.strip()
-        if arg == "": arg = None
         if is_int(arg): arg = int(arg)
+        if arg == "": arg = None
         self.arg = arg
 
     def parse_user_input(self, user_input:str):
