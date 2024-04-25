@@ -164,11 +164,11 @@ class Data_Handler:
 
     def cut_data(self, cut):
         self.mutable_data = cut.apply(self.mutable_data)
-        self.cut_hist.append(cut)
+        self.cut_hist.append(cut.string)
         
     def list_cuts(self):
         for cut in self.cut_hist:
-            print(cut.string)
+            print(cut)
         
 
 class Command:
