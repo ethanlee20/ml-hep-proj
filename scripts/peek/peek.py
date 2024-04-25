@@ -1,5 +1,6 @@
 import sys
 import traceback
+import readline 
 
 import pandas as pd
 pd.options.display.max_columns = None
