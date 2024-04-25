@@ -255,6 +255,11 @@ class Peek:
         self.cm.add_command(name='quit', action=self.quit)
         self.cm.add_command(name='cut', action=lambda c: self.dh.cut_data(Cut(c)))
         self.cm.add_command(name='veto_q2', action=self.dh.veto_q2)
+        self.cm.add_command(name='noise_only', action=self.dh.noise_only)
+        self.cm.add_command(name='signal_only', action=self.dh.signal_only)
+        self.cm.add_command(name='det_only', action=self.dh.det_only)
+        self.cm.add_command(name='gen_only', action=self.dh.gen_only)
+        self.cm.add_command(name='list_cuts', action=self.dh.list_cuts)
         
     def quit(self):
         print("Shutting down all systems. Bye bye!")
