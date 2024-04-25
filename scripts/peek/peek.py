@@ -42,10 +42,12 @@ def split_and_strip(s, sep):
 def odd(a:int):
     return (a % 2) == 1
 
+
 def is_int(s:str):
     try: int(s)
     except: return False
     return True
+
 
 class SimpleCut:
     def __init__(self, string):
@@ -124,6 +126,26 @@ class Data_Handler:
         self.cut_hist = []
         self.mutable_data = self.original_data.copy()
 
+    def veto_q2(self):
+        self.mutable_data = veto_q_squared(self.mutable_data)
+        self.cut_hist.append('veto_q2')
+
+    def noise_only(self):
+        self.mutable_data = section(self.mutable_data, sig_noise='noise')
+        self.cut_hist.append('noise_only')
+    
+    def signal_only(self):
+        self.mutable_data = section(self.mutable_data, sig_noise='sig')
+        self.cut_hist.append('signal_only')
+
+    def gen_only(self):
+        self.mutable_data = section(self.mutable_data, gen_det='gen')
+        self.cut_hist.append('gen_only')
+    
+    def det_only(self):
+        self.mutable_data = section(self.mutable_data, gen_det='det')
+        self.cut_hist.append('det_only')
+
     def head(self, num_ex):
         print(self.mutable_data.head(num_ex))
 
@@ -141,10 +163,10 @@ class Data_Handler:
         print("num det tot", len(section(self.mutable_data, gen_det='det')))
 
     def cut_data(self, cut):
-        self.cut_hist.append(cut)
         self.mutable_data = cut.apply(self.mutable_data)
+        self.cut_hist.append(cut)
         
-    def print_cuts(self):
+    def list_cuts(self):
         for cut in self.cut_hist:
             print(cut.string)
         
@@ -232,6 +254,7 @@ class Peek:
         self.cm.add_command(name='count', action=self.dh.count)
         self.cm.add_command(name='quit', action=self.quit)
         self.cm.add_command(name='cut', action=lambda c: self.dh.cut_data(Cut(c)))
+        self.cm.add_command(name='veto_q2', action=self.dh.veto_q2)
         
     def quit(self):
         print("Shutting down all systems. Bye bye!")
@@ -244,88 +267,12 @@ class Peek:
             self.cm.run_command(self.parser.command, self.parser.arg)
             self.parser.set_defaults()
 
+
 def main():
 
     peek = Peek()
-    peek.run()
-
-
-
-
-        # if parser.command == "load":
-        #     try:dh.load(parser.arg)
-        #     except:
-        #         print("something went wrong...")
-        #         traceback.print_exc()
-
-        # if parser.command == "refresh_data":
-        #     try:dh.refresh_data()
-        #     except:
-        #         print("something went wrong...")
-        #         traceback.print_exc()
+    peek.run()        
         
-        # if parser.command == "cut":
-        #     try:
-        #         cut = Cut(parser.arg)
-        #         dh.cut_data(cut)
-
-        #     except:
-        #         print("something went wrong...")
-        #         traceback.print_exc()
-
-        # if parser.command == "veto_q2":
-        #     try:dh.mutable_data = veto_q_squared(dh.mutable_data)
-        #     except:
-        #         print("something went wrong...")
-        #         traceback.print_exc()
-
-        # if parser.command == "noise_only":
-        #     try:dh.mutable_data = section(dh.mutable_data, sig_noise='noise')
-        #     except:
-        #         print("something went wrong...")
-        #         traceback.print_exc()
-
-        # if parser.command == "signal_only":
-        #     try:dh.mutable_data = section(dh.mutable_data, sig_noise='sig')
-        #     except:
-        #         print("something went wrong...")
-        #         traceback.print_exc()
-
-        # if parser.command == "gen_only":
-        #     try:dh.mutable_data = section(dh.mutable_data, gen_det='gen')
-        #     except:
-        #         print("something went wrong...")
-        #         traceback.print_exc()
-
-        # if parser.command == "det_only":
-        #     try:dh.mutable_data = section(dh.mutable_data, gen_det='det')
-        #     except:
-        #         print("something went wrong...")
-        #         traceback.print_exc()
-
-        # if parser.command == "count":
-        #     try:dh.count()
-        #     except:
-        #         print("something went wrong...")
-        #         traceback.print_exc()
-
-        # if parser.command == "head":
-        #     try:dh.head(int(parser.arg))
-        #     except:
-        #         print("something went wrong...")
-        #         traceback.print_exc()
-
-        # if parser.command == "print_cuts":
-        #     try:dh.print_cuts()
-        #     except:
-        #         print("something went wrong...")
-        #         traceback.print_exc()
-        
-        # if parser.command == "quit":
-        #     print("all systems shutting down. Bye bye!")
-        #     quit()
-        
-
 
 
 if __name__ == "__main__":
