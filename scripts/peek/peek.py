@@ -163,8 +163,13 @@ class Data_Handler:
         try:
             print("num det sig", len(section(self.mutable_data, sig_noise='sig', gen_det='det')))
         except KeyError as err: print("no detector signal events?", err)
-        print("num det noise", len(section(self.mutable_data, gen_det='det', sig_noise='noise')))
-        print("num det tot", len(section(self.mutable_data, gen_det='det')))
+        try:
+            print("num det noise", len(section(self.mutable_data, gen_det='det', sig_noise='noise')))
+        except KeyError as err: print("no det noise?", err)
+        try:
+            print("num det tot", len(section(self.mutable_data, gen_det='det')))
+        except KeyError as err: print("no det events?", err)
+        print("length of dataframe:", len(self.mutable_data))
 
     def count_bkg(self):
         print("num misID:", len(self.mutable_data[self.mutable_data['']]))
