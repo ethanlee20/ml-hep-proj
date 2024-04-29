@@ -1,195 +1,3 @@
-Define qoverp_incohMix_B_s0 1.0
-Define dm_incohMix_B_s0 17.8e12
-Define qoverp_incohMix_B0 1.0
-Define dm_incohMix_B0 0.507e12
-# Old definition of dm still in some decay models
-Define dm 0.507e12
-#Define dgamma 0
-#Define qoverp 1
-#Define phaseqoverp 0
-#Define values for B0s mixing
-#Define dms 20.e12
-# DeltaGammas corresponds to DG/G = 10%
-#Define dgammas 6.852e10
-# Activate incoherent Mixing
-### TODO: find a way to give mixing parameters through decay file to EvtGen
-#####yesIncoherentB0Mixing dm  dgamma
-#####yesIncoherentBsMixing dms dgammas
-# define the values of the CKM angles  (alpha=70, beta=40)
-Define alpha 1.365
-Define beta  0.39
-Define gamma 1.387
-Define twoBetaPlusGamma  2.167
-Define betaPlusHalfGamma 1.0835
-Define minusGamma -1.387
-Define minusTwoBeta -0.78
-
-# New definitions for psiKstar modes (Lange, July 26, 2000)
-Define PKHplus  0.159
-Define PKHzero  0.775
-Define PKHminus 0.612
-Define PKphHplus  1.563
-Define PKphHzero  0.0
-Define PKphHminus 2.712
-
-Define Aplus  0.490
-Define Azero  1.10
-Define Aminus 0.4
-
-Define phAplus  2.5
-Define phAzero  0.0
-Define phAminus -0.17
-
-
-# These model aliases are used to specify parameters
-# for SLPOLE and SLBKPOLE models used in D semi-leptonic
-# decays (see EvtGen documentation for details)
-ModelAlias SLBKPOLE_DtoKlnu SLBKPOLE 1.0 0.303 1.0 2.112;
-ModelAlias SLBKPOLE_Dtopilnu SLBKPOLE 1.0 0.281 1.0 2.010;
-ModelAlias SLBKPOLE_Dtoetalnu SLBKPOLE 1.0 0.281 1.0 2.010;
-ModelAlias SLBKPOLE_Dtoetaplnu SLBKPOLE 1.0 0.281 1.0 2.010;
-ModelAlias SLPOLE_DtoKstarlnu SLPOLE 1.00 -0.558 0.0 1.0 0.85 -0.558 0.0 1.0 1.50 -0.790 0.0 1.0 0.00 -0.558 0.0 1.0;
-ModelAlias SLPOLE_Dtorholnu SLPOLE 1.00 -0.605 0.0 1.0 0.60 -0.605 0.0 1.0 1.50 -0.871 0.0 1.0 0.00 -0.605 0.0 1.0;
-ModelAlias SLPOLE_Dtoomegalnu SLPOLE 1.00 -0.605 0.0 1.0 0.60 -0.605 0.0 1.0 1.50 -0.871 0.0 1.0 0.00 -0.605 0.0 1.0;
-
-
-# These particle aliases are used in for CP violating decays
-# in which the decay distributions depends on how the K* decayed.
-Alias K*L         K*0
-Alias K*S         K*0
-Alias K*BL        anti-K*0
-Alias K*BS        anti-K*0
-Alias K*0T        K*0
-Alias anti-K*0T   anti-K*0
-Alias anti-K_0*0N anti-K_0*0
-Alias K_0*0N      K_0*0
-ChargeConj K*L    K*BL
-ChargeConj K*S    K*BS
-ChargeConj K*0T   anti-K*0T
-ChargeConj K_0*0N anti-K_0*0N
-
-
-# These particle aliases are used to avoid double-counting
-# resonances included in D_DALITZ models
-Alias phiR        phi
-Alias f_2R        f_2
-Alias K*BR        anti-K*0
-Alias K*0R        K*0
-ChargeConj K*0R   K*BR
-Alias K*-R        K*-
-Alias K*+R        K*+
-ChargeConj K*+R   K*-R
-
-# PR LHCb: Alias for signal productions in LHCb
-Alias      B0sig             B0
-Alias      anti-B0sig        anti-B0
-ChargeConj B0sig             anti-B0sig
-Alias      B+sig             B+
-Alias      B-sig             B-
-ChargeConj B+sig             B-sig
-Alias      B_s0sig           B_s0
-Alias      anti-B_s0sig      anti-B_s0
-ChargeConj B_s0sig           anti-B_s0sig
-Alias      B_c+sig           B_c+
-Alias      B_c-sig           B_c-
-ChargeConj B_c+sig           B_c-sig
-Alias      eta_bsig          eta_b
-ChargeConj eta_bsig          eta_bsig
-Alias      h_bsig            h_b
-ChargeConj h_bsig            h_bsig
-Alias      Sigma_b-sig       Sigma_b-
-Alias      anti-Sigma_b+sig  anti-Sigma_b+
-ChargeConj Sigma_b-sig       anti-Sigma_b+sig
-Alias      Lambda_b0sig      Lambda_b0
-Alias      anti-Lambda_b0sig anti-Lambda_b0
-ChargeConj Lambda_b0sig      anti-Lambda_b0sig
-Alias      Omega_b-sig       Omega_b-
-Alias      anti-Omega_b+sig  anti-Omega_b+
-ChargeConj Omega_b-sig       anti-Omega_b+sig
-Alias      Xi_b-sig          Xi_b-
-Alias      anti-Xi_b+sig     anti-Xi_b+
-ChargeConj Xi_b-sig          anti-Xi_b+sig
-Alias      Xi_b0sig          Xi_b0
-Alias      anti-Xi_b0sig     anti-Xi_b0
-ChargeConj Xi_b0sig          anti-Xi_b0sig
-Alias      J/psisig          J/psi
-ChargeConj J/psisig          J/psisig
-Alias      chi_c0sig         chi_c0
-ChargeConj chi_c0sig         chi_c0sig
-Alias      chi_c1sig         chi_c1
-ChargeConj chi_c1sig         chi_c1sig
-Alias      chi_c2sig         chi_c2
-ChargeConj chi_c2sig         chi_c2sig
-Alias      psi(2S)sig        psi(2S)
-ChargeConj psi(2S)sig        psi(2S)sig
-Alias      psi(3770)sig      psi(3770)
-ChargeConj psi(3770)sig      psi(3770)sig
-Alias      D*+sig            D*+
-Alias      D*-sig            D*-
-ChargeConj D*+sig            D*-sig
-Alias      D*0sig            D*0
-Alias      anti-D*0sig       anti-D*0
-ChargeConj D*0sig            anti-D*0sig
-Alias      D0sig             D0
-Alias      anti-D0sig        anti-D0
-ChargeConj D0sig             anti-D0sig
-Alias      D+sig             D+
-Alias      D-sig             D-
-ChargeConj D+sig             D-sig
-Alias      D_s+sig           D_s+
-Alias      D_s-sig           D_s-
-ChargeConj D_s+sig           D_s-sig
-Alias      Lambda_c+sig      Lambda_c+
-Alias      anti-Lambda_c-sig anti-Lambda_c-
-ChargeConj Lambda_c+sig      anti-Lambda_c-sig
-Alias      tau+sig           tau+
-Alias      tau-sig           tau-
-ChargeConj tau+sig           tau-sig
-Alias      Upsilonsig        Upsilon
-ChargeConj Upsilonsig        Upsilonsig
-Alias      Upsilon(2S)sig    Upsilon(2S)
-ChargeConj Upsilon(2S)sig    Upsilon(2S)sig
-Alias      Upsilon(3S)sig    Upsilon(3S)
-ChargeConj Upsilon(3S)sig    Upsilon(3S)sig
-Alias      Upsilon(4S)sig    Upsilon(4S)
-ChargeConj Upsilon(4S)sig    Upsilon(4S)sig
-Alias      Upsilon(5S)sig    Upsilon(5S)
-ChargeConj Upsilon(5S)sig    Upsilon(5S)sig
-Alias      X_1(3872)sig      X_1(3872)
-ChargeConj X_1(3872)sig      X_1(3872)sig
-Alias      h_csig            h_c
-ChargeConj h_csig            h_csig
-Alias      Sigma+sig         Sigma+
-Alias      anti-Sigma-sig    anti-Sigma-
-ChargeConj Sigma+sig         anti-Sigma-sig
-Alias      Lambda0sig        Lambda0
-Alias      anti-Lambda0sig   anti-Lambda0
-ChargeConj Lambda0sig        anti-Lambda0sig
-Alias      B_10sig           B_10
-Alias      anti-B_10sig      anti-B_10
-ChargeConj B_10sig           anti-B_10sig
-Alias      B_2*0sig          B_2*0
-Alias      anti-B_2*0sig     anti-B_2*0
-ChargeConj B_2*0sig          anti-B_2*0sig
-Alias      B_s10sig          B_s10
-Alias      anti-B_s10sig     anti-B_s10
-ChargeConj B_s10sig          anti-B_s10sig
-Alias      B_s2*0sig         B_s2*0
-Alias      anti-B_s2*0sig    anti-B_s2*0
-ChargeConj B_s2*0sig         anti-B_s2*0sig
-Alias      B_1+sig           B_1+
-Alias      B_1-sig           B_1-
-ChargeConj B_1+sig           B_1-sig
-Alias      B_2*+sig          B_2*+
-Alias      B_2*-sig          B_2*-
-ChargeConj B_2*+sig          B_2*-sig
-
-
-
-
-
-# Turn on PHOTOS for all decays
-yesPhotos
 
 
 
@@ -198,13 +6,10 @@ yesPhotos
 ##########                         Upsilon(4S)                          ##########
 ##########                                                              ##########
 ##################################################################################
-#
-# Updated to PDG 2011
-#
-# Use VSS_BMIX mixing decay model (DK,28-Oct-1999)
+
 Decay Upsilon(4S)
 
-1.000   B0  anti-B0                                  VSS_BMIX dm;
+1.000   B0sig anti-B0sig       VSS_BMIX dm;
 
 Enddecay
 
@@ -225,12 +30,10 @@ Enddecay
 #                                           #
 #############################################
 
-Decay B0
+Decay B0sig
 
 # b -> c semileptonic
-#
-# Updated to PDG 2017: using the Isospin average between B+ and B0.
-#
+
 0.507548669   D*-  e+  nu_e                                BGL 0.02596 -0.06049 0.01311 0.01713 0.00753 -0.09346; #FF values taken from [arxiv:2008.09341]
 0.212554629   D-  e+  nu_e                                 BGL 0.0126 -0.094 0.34 -0.1 0.0115 -0.057 0.12 0.4;    #[Belle measurement: 1510.03657]
 0.069924513   D_1-  e+  nu_e                               LLSW 0.71 -1.6 -0.5 2.9;
@@ -265,7 +68,7 @@ Enddecay
 #                                           #
 #############################################
 
-Decay anti-B0
+Decay anti-B0sig
 
 # b -> c semileptonic
 #
