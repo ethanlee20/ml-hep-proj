@@ -21,7 +21,7 @@ path_out = path_out_dir.joinpath("mc_se_e.root")
 
 
 main.add_module(
-    "EventInfoSetter", evtNumList=[100], expList=[0]
+    "EventInfoSetter", evtNumList=[1000], expList=[0]
 )
 
 ge.add_evtgen_generator(
