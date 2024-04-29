@@ -150,6 +150,13 @@ def create_variable_lists(ell):
     vm.addAlias('tfNdf', 'extraInfo(ndf)')
     vm.addAlias('tfRedChiSq', 'formula(tfChiSq / tfNdf)')
     vm.addAlias('mcMother_mcPDG', 'mcMother(mcPDG)')
+    vm.addAlias('mcSister_0_mcPDG', 'mcMother(mcDaughter(0, mcPDG))')
+    vm.addAlias('mcSister_1_mcPDG', 'mcMother(mcDaughter(1, mcPDG))')
+    vm.addAlias('mcSister_2_mcPDG', 'mcMother(mcDaughter(2, mcPDG))')
+    vm.addAlias('mcSister_3_mcPDG', 'mcMother(mcDaughter(3, mcPDG))')
+    vm.addAlias('mcSister_4_mcPDG', 'mcMother(mcDaughter(4, mcPDG))')
+    vm.addAlias('mcSister_5_mcPDG', 'mcMother(mcDaughter(5, mcPDG))')
+    vm.addAlias('mcSister_6_mcPDG', 'mcMother(mcDaughter(6, mcPDG))')
     vm.addAlias('e_id_BDT', 'pidChargedBDTScore(11, ALL)')
 
     std_vars = (
@@ -158,9 +165,11 @@ def create_variable_lists(ell):
         + vc.mc_truth
         + ['mcMother_mcPDG']
         + ['PDG']
+        + ['mcSister_0_mcPDG', 'mcSister_1_mcPDG', 'mcSister_2_mcPDG', 'mcSister_3_mcPDG', 'mcSister_4_mcPDG', 'mcSister_5_mcPDG', 'mcSister_6_mcPDG']
         + vc.pid
         + vc.kinematics
         + vc.mc_kinematics
+        + ['dr', 'dz']
         + ['theta', 'thetaErr', 'mcTheta']
         + ['tfChiSq', 'tfNdf', 'tfRedChiSq']
         + ['isSignalAcceptBremsPhotons']

@@ -150,6 +150,9 @@ class Data_Handler:
     def head(self, num_ex):
         print(self.mutable_data.head(num_ex))
 
+    def view(self, cols:list, num_ex):
+        print(self.mutable_data[cols].head(num_ex))
+
     def count(self):
         try:
             print("num gen", len(section(self.mutable_data, gen_det='gen')))
@@ -162,6 +165,9 @@ class Data_Handler:
         except KeyError as err: print("no detector signal events?", err)
         print("num det noise", len(section(self.mutable_data, gen_det='det', sig_noise='noise')))
         print("num det tot", len(section(self.mutable_data, gen_det='det')))
+
+    def count_bkg(self):
+        print("num misID:", len(self.mutable_data[self.mutable_data['']]))
 
     def cut_data(self, cut):
         self.mutable_data = cut.apply(self.mutable_data)
