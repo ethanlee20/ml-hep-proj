@@ -19,7 +19,7 @@ path_out.mkdir(parents=True, exist_ok=True)
 
 
 main.add_module(
-    "EventInfoSetter", evtNumList=[1_000], expList=[0]
+    "EventInfoSetter", evtNumList=[100], expList=[0]
 )
 
 ge.add_evtgen_generator(
