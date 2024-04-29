@@ -24,7 +24,7 @@ from variables import variables as vm
 import vertex as vx
 
 
-ell = 'mu'
+ell = 'e'
 sideband = False
 cut_strength = 'tight'
 
@@ -43,9 +43,9 @@ def input_to_the_path(ell):
     assert ell in {'mu', 'e'}
 
     if ell == 'mu':
-        test_file = '/home/belle2/elee20/ml-hep-proj/data/2024-04-12_mdst_test/sub00/mdst_000001_prod00025631_task10020000001.root'
+        test_file = '/home/belle2/elee20/ml-hep-proj/data/2024-04-29_sl_e_test/mc_se_e.root'
     elif ell == 'e':
-        test_file = 'mmm'
+        test_file = '/home/belle2/elee20/ml-hep-proj/data/2024-04-29_sl_e_test/mc_se_e.root'
 
     ma.inputMdstList(
         filelist=[test_file],
