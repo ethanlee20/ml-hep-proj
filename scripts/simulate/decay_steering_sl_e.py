@@ -13,8 +13,10 @@ main = b2.Path()
 
 path_dec = pl.Path("/home/belle2/elee20/ml-hep-proj/scripts/simulate/sl_e.dec")
 
-path_out = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-04-29_sl_e_test/mc_se_e.root')
-path_out.mkdir(parents=True, exist_ok=True)
+
+path_out_dir = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-04-29_sl_e_test/')
+path_out_dir.mkdir(parents=True, exist_ok=True)
+path_out = path_out_dir.joinpath("mc_se_e.root")
 
 
 
