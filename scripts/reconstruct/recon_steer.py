@@ -26,7 +26,7 @@ import vertex as vx
 
 
 ell = 'e'
-sideband = True
+sideband = False
 cut_strength = 'loose' # tight or loose
 
 
