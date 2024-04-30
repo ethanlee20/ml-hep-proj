@@ -7,12 +7,13 @@
 Submit like this:
 
 gbasf2 \
-    -p mu_mixed_morecuts \
+    -p e_mixed_sideband_mini \
     -s light-2401-ocicat \
-    --input_dslist /home/belle2/elee20/ml-hep-proj/scripts/reconstruct/lpns_results_gen_mixed_mini.txt \
+    -i /belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00024821/s00/e1003/4S/r00000/mixed/mdst \
     /home/belle2/elee20/ml-hep-proj/scripts/reconstruct/recon_steer.py
 
     first: -i /belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00024821/s00/e1003/4S/r00000/mixed/mdst \
+    mini list: --input_dslist /home/belle2/elee20/ml-hep-proj/scripts/reconstruct/lpns_results_gen_mixed_mini.txt \
 """
 
 
@@ -25,7 +26,7 @@ import vertex as vx
 
 
 ell = 'e'
-sideband = False
+sideband = True
 cut_strength = 'loose' # tight or loose
 
 
@@ -86,9 +87,9 @@ def reconstruct_detector_level(ell, sideband=False, cut_strength='tight'):
         kaonID_min = 0.9
         invMKst_width_scale = 1.5
     elif cut_strength == 'loose':
-        muonID_min = 0.85
-        electronID_min = 0.85
-        kaonID_min = 0.85
+        muonID_min = 0.80
+        electronID_min = 0.80
+        kaonID_min = 0.80
         invMKst_width_scale = 2
 
     muon_cut = f"[muonID > {muonID_min}] and [p > 0.6] and [{dr_cut}] and [{dz_cut}]  and thetaInCDCAcceptance"
