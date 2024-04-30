@@ -145,7 +145,7 @@ def reconstruct_detector_level(ell, sideband=False, cut_strength='tight'):
 
 
 def printMCParticles():
-    ma.printMCParticles(onlyPrimaries=False, suppressPrint=False, path=main)
+    ma.printMCParticles(onlyPrimaries=False, suppressPrint=True, path=main)
 
 
 def create_variable_lists(ell):
