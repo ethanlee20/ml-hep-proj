@@ -26,7 +26,7 @@ import vertex as vx
 
 ell = 'e'
 sideband = False
-cut_strength = 'tight'
+cut_strength = 'loose' # tight or loose
 
 
 main = b2.Path()
@@ -96,6 +96,11 @@ def reconstruct_detector_level(ell, sideband=False, cut_strength='tight'):
     kaon_cut = f"[kaonID > {kaonID_min}] and [{dr_cut}] and [{dz_cut}] and thetaInCDCAcceptance"
     pion_cut = f"[{dr_cut}] and [{dz_cut}] and thetaInCDCAcceptance"
     
+    if (cut_strength=='loose') & (ell=='e'):
+        deltaE_cut = '-0.075 <= deltaE <= 0.05'
+    else:
+        deltaE_cut = 'abs(deltaE) <= 0.05'
+
     if sideband:
         Mbc_cut = "5.2 < Mbc < 5.26"
     else: 
@@ -129,7 +134,7 @@ def reconstruct_detector_level(ell, sideband=False, cut_strength='tight'):
 
     ma.reconstructDecay(
         f"B0:det =direct=> K*0:det {ell}+:det {ell}-:det {marker}", 
-        cut=f"[abs(deltaE) <= 0.05] and [{Mbc_cut}]", 
+        cut=f"[{deltaE_cut}] and [{Mbc_cut}]", 
         path=main
     )
     
