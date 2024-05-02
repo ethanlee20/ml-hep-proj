@@ -7,7 +7,7 @@
 Submit like this:
 
 gbasf2 \
-    -p e_mixed_sideband_mini \
+    -p e_sig_single \
     -s light-2401-ocicat \
     -i /belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00025630/s00/e1003/4S/r00000/1120240010/mdst/sub00/mdst_000001_prod00025630_task10020000001.root \
     /home/belle2/elee20/ml-hep-proj/scripts/reconstruct/recon_steer.py
@@ -180,7 +180,7 @@ def rest_of_event():
     tight_gamma = f'clusterE>0.05 and abs(clusterTiming)<formula(2*clusterErrorTiming) and abs(clusterTiming)<200 and \
                     beamBackgroundSuppression>0.05 and fakePhotonSuppression>0.1 and minC2TDist>25'
     roe_mask1 = ('my_mask',  loose_track, loose_gamma)
-    ma.appendROEMasks('anti-B0:Dl', [roe_mask1], path=main)
+    ma.appendROEMasks('B0:det', [roe_mask1], path=main)
 
     # creates V0 particle lists and uses V0 candidates to update/optimize the Rest Of Event
     ma.updateROEUsingV0Lists('B0:det', mask_names='my_mask', default_cleanup=True, selection_cuts=None,
