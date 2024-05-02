@@ -303,7 +303,7 @@ reconstruct_generator_level(ell)
 
 reconstruct_detector_level(ell, sideband=sideband, cut_strength=cut_strength)
 
-rest_of_event()
+#rest_of_event()
 
 # tree_fit_leptons(ell)
 
