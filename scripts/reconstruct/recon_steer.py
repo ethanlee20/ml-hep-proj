@@ -9,11 +9,12 @@ Submit like this:
 gbasf2 \
     -p e_mixed_sideband_mini \
     -s light-2401-ocicat \
-    -i /belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00024821/s00/e1003/4S/r00000/mixed/mdst \
+    -i /belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00025630/s00/e1003/4S/r00000/1120240010/mdst/sub00/mdst_000001_prod00025630_task10020000001.root \
     /home/belle2/elee20/ml-hep-proj/scripts/reconstruct/recon_steer.py
 
-    first: -i /belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00024821/s00/e1003/4S/r00000/mixed/mdst \
-    mini list: --input_dslist /home/belle2/elee20/ml-hep-proj/scripts/reconstruct/lpns_results_gen_mixed_mini.txt \
+    mixed bkg first file: -i /belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00024821/s00/e1003/4S/r00000/mixed/mdst \
+    mixed bkg mini list: --input_dslist /home/belle2/elee20/ml-hep-proj/scripts/reconstruct/lpns_results_gen_mixed_mini.txt \
+    signal e first: -i /belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00025630/s00/e1003/4S/r00000/1120240010/mdst/sub00/mdst_000001_prod00025630_task10020000001.root \
 """
 
 
