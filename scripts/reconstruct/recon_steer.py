@@ -47,7 +47,8 @@ def input_to_the_path(ell):
     if ell == 'mu':
         test_file = '/home/belle2/elee20/ml-hep-proj/data/2024-04-29_sl_e_test/mc_se_e.root'
     elif ell == 'e':
-        test_file = '/home/belle2/elee20/ml-hep-proj/data/2024-05-02/mc_e.root'
+        # test_file = '/home/belle2/elee20/ml-hep-proj/data/2024-05-02/mc_e.root'
+        test_file = '/home/belle2/elee20/ml-hep-proj/data/2024-04-29_sl_e_test/mc_se_e.root'
 
     ma.inputMdstList(
         filelist=[test_file],
