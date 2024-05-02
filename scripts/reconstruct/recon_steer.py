@@ -64,7 +64,6 @@ def reconstruct_generator_level(ell):
     ma.fillParticleListFromMC(decayString="K+:gen", cut="", path=main)
     ma.fillParticleListFromMC(decayString="pi-:gen", cut="", path=main)
     ma.fillParticleListFromMC(decayString=f"{ell}+:gen", cut="", path=main)
-    ma.fillParticleListFromMC(decayString=f"{ell}-:gen", cut="", path=main)
 
     ma.reconstructMCDecay("K*0:gen =direct=> K+:gen pi-:gen", cut="", path=main)
     ma.reconstructMCDecay(f"B0:gen =direct=> K*0:gen {ell}+:gen {ell}-:gen", cut="", path=main)
@@ -162,12 +161,6 @@ def tree_fit_leptons(ell):
 
 def rest_of_event():
     # build the ROE
-    ma.fillParticleList('pi+:all', '', path=main)
-    ma.tagCurlTracks('pi+:all', mcTruth=True, selectorType='mva', path=main)
-    vm.addAlias('isCurl', 'extraInfo(isCurl)')
-    vm.addAlias('isTruthCurl', 'extraInfo(isTruthCurl)')
-    vm.addAlias('truthBundleSize', 'extraInfo(truthBundleSize)')
-
     ma.buildRestOfEvent('B0:det', fillWithMostLikely=True, path=main)
 
     loose_track = 'dr<10 and abs(dz)<20 and thetaInCDCAcceptance and E<5.5' 
