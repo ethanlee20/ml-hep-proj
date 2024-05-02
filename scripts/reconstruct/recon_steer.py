@@ -40,6 +40,20 @@ def append_global_tag():
     b2.conditions.append_globaltag(gt)
 
 
+def define_aliases():
+    vm.addAlias("goodFWDGamma", "passesCut(clusterReg == 1 and clusterE > 0.075)")
+    vm.addAlias("goodBRLGamma", "passesCut(clusterReg == 2 and clusterE > 0.05)")
+    vm.addAlias("goodBWDGamma", "passesCut(clusterReg == 3 and clusterE > 0.1)")
+    vm.addAlias("goodGamma", "passesCut(goodFWDGamma or goodBRLGamma or goodBWDGamma)")
+    
+    vm.addAlias("invM_Kst", "0.892")
+    vm.addAlias("fullwidth_Kst", "0.05")
+
+    vm.addAlias('tfChiSq', 'extraInfo(chiSquared)')
+    vm.addAlias('tfNdf', 'extraInfo(ndf)')
+    vm.addAlias('tfRedChiSq', 'formula(tfChiSq / tfNdf)')
+
+
 def input_to_the_path(ell):
 
     assert ell in {'mu', 'e'}
@@ -110,10 +124,7 @@ def reconstruct_detector_level(ell, sideband=False, cut_strength='tight'):
 
     if ell == 'e':
         ma.fillParticleList(decayString="e+:raw", cut='', path=main)
-        vm.addAlias("goodFWDGamma", "passesCut(clusterReg == 1 and clusterE > 0.075)")
-        vm.addAlias("goodBRLGamma", "passesCut(clusterReg == 2 and clusterE > 0.05)")
-        vm.addAlias("goodBWDGamma", "passesCut(clusterReg == 3 and clusterE > 0.1)")
-        vm.addAlias("goodGamma", "passesCut(goodFWDGamma or goodBRLGamma or goodBWDGamma)")
+
         ma.fillParticleList(decayString="gamma:brems", cut="goodGamma", path=main)
         ma.correctBrems("e+:det", "e+:raw", "gamma:brems", path=main)
 
@@ -126,8 +137,6 @@ def reconstruct_detector_level(ell, sideband=False, cut_strength='tight'):
     ma.fillParticleList(decayString="K+:det", cut=kaon_cut, path=main)
     ma.fillParticleList(decayString="pi-:det", cut=pion_cut, path=main)
 
-    vm.addAlias("invM_Kst", "0.892")
-    vm.addAlias("fullwidth_Kst", "0.05")
     ma.reconstructDecay(
         "K*0:det =direct=> K+:det pi-:det", 
         cut=f"abs(formula(daughterInvM(0, 1) - invM_Kst)) <= formula({invMKst_width_scale} * fullwidth_Kst)", 
@@ -139,16 +148,13 @@ def reconstruct_detector_level(ell, sideband=False, cut_strength='tight'):
         cut=f"[{deltaE_cut}] and [{Mbc_cut}]", 
         path=main
     )
-    
-    vm.addAlias('tfChiSq', 'extraInfo(chiSquared)')
-    vm.addAlias('tfNdf', 'extraInfo(ndf)')
-    vm.addAlias('tfRedChiSq', 'formula(tfChiSq / tfNdf)')
-    
+    ma.matchMCTruth("B0:det", path=main)
+
+
+def tree_fit_all():
     vx.treeFit('B0:det', conf_level=0.00, updateAllDaughters=True, ipConstraint=True, path=main)
     ma.variablesToExtraInfo('B0:det', {'tfRedChiSq':'tfRedChiSqB0'}, option=0, path=main)
     vm.addAlias('tfRedChiSqB0', 'extraInfo(tfRedChiSqB0)')
-
-    ma.matchMCTruth("B0:det", path=main)
 
 
 def tree_fit_leptons(ell):
@@ -290,6 +296,8 @@ def save_output(ell, B0_vars):
 
 
 append_global_tag()
+
+define_aliases()
 
 input_to_the_path(ell)
 
