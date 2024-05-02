@@ -178,8 +178,7 @@ def rest_of_event():
                     [0.25<pt<0.5 and formula(dr**2/49+dz**2/16)<1] or \
                     [0.5<pt<1 and formula(dr**2/25+dz**2/36)<1] or \
                     [pt>1 and formula(dr**2+dz**2)<1]'
-    tight_gamma = f'clusterE>0.05 and abs(clusterTiming)<formula(2*clusterErrorTiming) and abs(clusterTiming)<200 and \
-                    fakePhotonSuppression>0.1 and minC2TDist>25'
+    tight_gamma = f'clusterE>0.05 and abs(clusterTiming)<formula(2*clusterErrorTiming) and abs(clusterTiming)<200'
     roe_mask1 = ('my_mask',  loose_track, loose_gamma)
     ma.appendROEMasks('B0:det', [roe_mask1], path=main)
 
