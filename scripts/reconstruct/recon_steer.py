@@ -179,7 +179,7 @@ def rest_of_event():
                     [0.5<pt<1 and formula(dr**2/25+dz**2/36)<1] or \
                     [pt>1 and formula(dr**2+dz**2)<1]'
     tight_gamma = f'clusterE>0.05 and abs(clusterTiming)<formula(2*clusterErrorTiming) and abs(clusterTiming)<200 and \
-                    beamBackgroundSuppression>0.05 and fakePhotonSuppression>0.1 and minC2TDist>25'
+                    fakePhotonSuppression>0.1 and minC2TDist>25'
     roe_mask1 = ('my_mask',  loose_track, loose_gamma)
     ma.appendROEMasks('B0:det', [roe_mask1], path=main)
 
@@ -227,7 +227,7 @@ def create_variable_lists(ell):
         + ['theta', 'thetaErr', 'mcTheta']
         + ['tfChiSq', 'tfNdf', 'tfRedChiSq']
         + ['isSignalAcceptBremsPhotons']
-        # + ['CMS3_weMissM2']
+        + ['CMS3_weMissM2']
     )
 
     Kstar0_vars = vu.create_aliases_for_selected(
@@ -303,9 +303,9 @@ reconstruct_generator_level(ell)
 
 reconstruct_detector_level(ell, sideband=sideband, cut_strength=cut_strength)
 
-#rest_of_event()
+rest_of_event()
 
-# tree_fit_leptons(ell)
+tree_fit_leptons(ell)
 
 printMCParticles()
 
