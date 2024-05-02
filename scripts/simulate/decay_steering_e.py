@@ -13,8 +13,10 @@ main = b2.Path()
 
 path_dec = "/home/belle2/elee20/ml-hep-proj/scripts/simulate/decay_e.dec"
 
-path_out = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-02-21_e_test/mc_e.root')
-path_out.mkdir(parents=True, exist_ok=True)
+out_dir_path = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-05-02/')
+out_dir_path.mkdir(parents=True, exist_ok=True)
+file_name = 'mc_e.root'
+out_file_path = out_dir_path.joinpath(file_name)
 
 
 main.add_module(
@@ -31,10 +33,8 @@ si.add_simulation(path=main)
 
 re.add_reconstruction(path=main)
 
-mdst.add_mdst_output(path=main, filename=path_out)
-
+mdst.add_mdst_output(path=main, filename=str(out_file_path))
 
 b2.process(path=main)
-
 
 print(b2.statistics)
