@@ -7,7 +7,7 @@
 Submit like this:
 
 gbasf2 \
-    -p e_sig_single2 \
+    -p e_sig_single3 \
     -s light-2401-ocicat \
     -i /belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00025630/s00/e1003/4S/r00000/1120240010/mdst/sub00/mdst_000001_prod00025630_task10020000001.root \
     /home/belle2/elee20/ml-hep-proj/scripts/reconstruct/recon_steer.py
@@ -47,7 +47,7 @@ def input_to_the_path(ell):
     if ell == 'mu':
         test_file = '/home/belle2/elee20/ml-hep-proj/data/2024-04-29_sl_e_test/mc_se_e.root'
     elif ell == 'e':
-        test_file = '/home/belle2/elee20/ml-hep-proj/data/2024-05-02/mc_e.root'
+        test_file = '/home/belle2/elee20/ml-hep-proj/data/mini_sig_e/mc_e.root'
         # test_file = '/home/belle2/elee20/ml-hep-proj/data/2024-04-29_sl_e_test/mc_se_e.root'
 
     ma.inputMdstList(
@@ -140,7 +140,13 @@ def reconstruct_detector_level(ell, sideband=False, cut_strength='tight'):
         path=main
     )
     
+    vm.addAlias('tfChiSq', 'extraInfo(chiSquared)')
+    vm.addAlias('tfNdf', 'extraInfo(ndf)')
+    vm.addAlias('tfRedChiSq', 'formula(tfChiSq / tfNdf)')
+    
     vx.treeFit('B0:det', conf_level=0.00, updateAllDaughters=True, ipConstraint=True, path=main)
+    ma.variablesToExtraInfo('B0:det', {'tfRedChiSq':'tfRedChiSqB0'}, option=0, path=main)
+    vm.addAlias('tfRedChiSqB0', 'extraInfo(tfRedChiSqB0)')
 
     ma.matchMCTruth("B0:det", path=main)
 
@@ -157,6 +163,8 @@ def tree_fit_leptons(ell):
         path=main
     )
     vx.treeFit('vpho:det', conf_level=0.00, updateAllDaughters=False, ipConstraint=False, path=main)
+    ma.variablesToExtraInfo('vpho:det', {'tfRedChiSq':'tfRedChiSqVpho'}, option=0, path=main)
+    vm.addAlias('tfRedChiSqVpho', 'extraInfo(tfRedChiSqVpho)')
 
 
 def rest_of_event():
@@ -178,7 +186,6 @@ def rest_of_event():
     # creates V0 particle lists and uses V0 candidates to update/optimize the Rest Of Event
     ma.updateROEUsingV0Lists('B0:det', mask_names='my_mask', default_cleanup=True, selection_cuts=None,
                             apply_mass_fit=True, fitter='treefit', path=main)
-
     ma.updateROEMask("B0:det", "my_mask", tight_track, tight_gamma, path=main)
     vm.addAlias('CMS3_weMissM2','weMissM2(my_mask,3)')
 
@@ -190,10 +197,6 @@ def printMCParticles():
 def create_variable_lists(ell):
 
     assert ell in {'mu', 'e'}
-
-    vm.addAlias('tfChiSq', 'extraInfo(chiSquared)')
-    vm.addAlias('tfNdf', 'extraInfo(ndf)')
-    vm.addAlias('tfRedChiSq', 'formula(tfChiSq / tfNdf)')
 
     vm.addAlias('mcMother_mcPDG', 'mcMother(mcPDG)')
     vm.addAlias('mcSister_0_mcPDG', 'mcMother(mcDaughter(0, mcPDG))')
@@ -217,7 +220,6 @@ def create_variable_lists(ell):
         + vc.mc_kinematics
         + ['dr', 'dz']
         + ['theta', 'thetaErr', 'mcTheta']
-        + ['tfChiSq', 'tfNdf', 'tfRedChiSq']
         + ['isSignalAcceptBremsPhotons']
         + ['CMS3_weMissM2']
     )
@@ -240,12 +242,12 @@ def create_variable_lists(ell):
     )
 
     fake_vpho_vars = vu.create_aliases_for_selected(
-        list_of_variables=std_vars,
+        list_of_variables=std_vars + ['tfRedChiSqVPho'],
         decay_string=f"^vpho -> {ell}+ {ell}-",
         prefix=["vpho"]
     )
     
-    B0_vars = std_vars + Kstar0_vars + K_pi_vars + lepton_vars + fake_vpho_vars
+    B0_vars = ['tfRedChiSqB0'] + std_vars + Kstar0_vars + K_pi_vars + lepton_vars + fake_vpho_vars
         
     return B0_vars
 
