@@ -309,6 +309,8 @@ rest_of_event()
 
 tree_fit_leptons(ell)
 
+tree_fit_all()
+
 printMCParticles()
 
 B0_vars = create_variable_lists(ell)
