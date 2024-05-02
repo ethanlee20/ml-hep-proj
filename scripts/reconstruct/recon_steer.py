@@ -144,6 +144,51 @@ def reconstruct_detector_level(ell, sideband=False, cut_strength='tight'):
     ma.matchMCTruth("B0:det", path=main)
 
 
+def tree_fit_leptons(ell):
+    if ell == 'e':
+        marker = '?addbrems'
+    elif ell == 'mu':
+        marker = ''
+
+    ma.reconstructDecay(
+        f"vpho:det =direct=> {ell}+:det {ell}-:det {marker}",
+        cut="",
+        path=main
+    )
+    vx.treeFit('vpho:det', conf_level=0.00, updateAllDaughters=False, ipConstraint=False, path=main)
+
+
+def rest_of_event():
+    # build the ROE
+    ma.fillParticleList('pi+:all', '', path=main)
+    ma.tagCurlTracks('pi+:all', mcTruth=True, selectorType='mva', path=main)
+    vm.addAlias('isCurl', 'extraInfo(isCurl)')
+    vm.addAlias('isTruthCurl', 'extraInfo(isTruthCurl)')
+    vm.addAlias('truthBundleSize', 'extraInfo(truthBundleSize)')
+
+    ma.buildRestOfEvent('B0:det', fillWithMostLikely=True, path=main)
+
+    loose_track = 'dr<10 and abs(dz)<20 and thetaInCDCAcceptance and E<5.5' 
+    loose_gamma = "0.05 < clusterE < 5.5"
+    tight_track = f'nCDCHits>=0 and thetaInCDCAcceptance and pValue>=0.0005 and \
+                    [pt<0.15 and formula(dr**2/36+dz**2/16)<1] or \
+                    [0.15<pt<0.25 and formula(dr**2/49+dz**2/64)<1] or \
+                    [0.25<pt<0.5 and formula(dr**2/49+dz**2/16)<1] or \
+                    [0.5<pt<1 and formula(dr**2/25+dz**2/36)<1] or \
+                    [pt>1 and formula(dr**2+dz**2)<1]'
+    tight_gamma = f'clusterE>0.05 and abs(clusterTiming)<formula(2*clusterErrorTiming) and abs(clusterTiming)<200 and \
+                    beamBackgroundSuppression>0.05 and fakePhotonSuppression>0.1 and minC2TDist>25'
+    roe_mask1 = ('my_mask',  loose_track, loose_gamma)
+    ma.appendROEMasks('anti-B0:Dl', [roe_mask1], path=main)
+
+    # creates V0 particle lists and uses V0 candidates to update/optimize the Rest Of Event
+    ma.updateROEUsingV0Lists('B0:det', mask_names='my_mask', default_cleanup=True, selection_cuts=None,
+                            apply_mass_fit=True, fitter='treefit', path=main)
+
+    ma.updateROEMask("B0:det", "my_mask", tight_track, tight_gamma, path=main)
+    vm.addAlias('CMS3_weMissM2','weMissM2(my_mask,3)')
+
+
 def printMCParticles():
     ma.printMCParticles(onlyPrimaries=False, suppressPrint=True, path=main)
 
@@ -179,6 +224,7 @@ def create_variable_lists(ell):
         + ['theta', 'thetaErr', 'mcTheta']
         + ['tfChiSq', 'tfNdf', 'tfRedChiSq']
         + ['isSignalAcceptBremsPhotons']
+        + ['CMS3_weMissM2']
     )
 
     Kstar0_vars = vu.create_aliases_for_selected(
@@ -197,8 +243,14 @@ def create_variable_lists(ell):
         decay_string=f"B0 -> [K*0 -> K+ pi-] ^{ell}+ ^{ell}-",
         prefix=[f"{ell}_p", f"{ell}_m"],
     )
+
+    fake_vpho_vars = vu.create_aliases_for_selected(
+        list_of_variables=std_vars,
+        decay_string=f"^vpho -> {ell}+ {ell}-",
+        prefix=["vpho"]
+    )
     
-    B0_vars = std_vars + Kstar0_vars + K_pi_vars + lepton_vars
+    B0_vars = std_vars + Kstar0_vars + K_pi_vars + lepton_vars + fake_vpho_vars
         
     return B0_vars
 
@@ -247,6 +299,10 @@ input_to_the_path(ell)
 reconstruct_generator_level(ell)
 
 reconstruct_detector_level(ell, sideband=sideband, cut_strength=cut_strength)
+
+rest_of_event()
+
+tree_fit_leptons(ell)
 
 printMCParticles()
 
