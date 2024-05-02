@@ -7,7 +7,7 @@
 Submit like this:
 
 gbasf2 \
-    -p e_sig_single \
+    -p e_sig_single2 \
     -s light-2401-ocicat \
     -i /belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00025630/s00/e1003/4S/r00000/1120240010/mdst/sub00/mdst_000001_prod00025630_task10020000001.root \
     /home/belle2/elee20/ml-hep-proj/scripts/reconstruct/recon_steer.py
@@ -201,6 +201,7 @@ def create_variable_lists(ell):
     vm.addAlias('tfChiSq', 'extraInfo(chiSquared)')
     vm.addAlias('tfNdf', 'extraInfo(ndf)')
     vm.addAlias('tfRedChiSq', 'formula(tfChiSq / tfNdf)')
+
     vm.addAlias('mcMother_mcPDG', 'mcMother(mcPDG)')
     vm.addAlias('mcSister_0_mcPDG', 'mcMother(mcDaughter(0, mcPDG))')
     vm.addAlias('mcSister_1_mcPDG', 'mcMother(mcDaughter(1, mcPDG))')
