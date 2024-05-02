@@ -227,7 +227,7 @@ def create_variable_lists(ell):
         + ['theta', 'thetaErr', 'mcTheta']
         + ['tfChiSq', 'tfNdf', 'tfRedChiSq']
         + ['isSignalAcceptBremsPhotons']
-        + ['CMS3_weMissM2']
+        # + ['CMS3_weMissM2']
     )
 
     Kstar0_vars = vu.create_aliases_for_selected(
