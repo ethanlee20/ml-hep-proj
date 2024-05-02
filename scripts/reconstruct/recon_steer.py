@@ -153,7 +153,7 @@ def reconstruct_detector_level(ell, sideband=False, cut_strength='tight'):
 
 def tree_fit_all():
     vx.treeFit('B0:det', conf_level=0.00, updateAllDaughters=True, ipConstraint=True, path=main)
-    ma.variablesToExtraInfo('B0:det', {'tfRedChiSq':'tfRedChiSqB0'}, option=0, path=main)
+    ma.variablesToExtraInfo('B0:det', {'tfRedChiSq':'tfRedChiSqB0'}, option=2, path=main)
     vm.addAlias('tfRedChiSqB0', 'extraInfo(tfRedChiSqB0)')
 
 
@@ -169,7 +169,7 @@ def tree_fit_leptons(ell):
         path=main
     )
     vx.treeFit('vpho:det', conf_level=0.00, updateAllDaughters=False, ipConstraint=False, path=main)
-    ma.variablesToExtraInfo('vpho:det', {'tfRedChiSq':'tfRedChiSqVpho'}, option=0, path=main)
+    ma.variablesToExtraInfo('vpho:det', {'tfRedChiSq':'tfRedChiSqVpho'}, option=2, path=main)
     vm.addAlias('tfRedChiSqVpho', 'extraInfo(tfRedChiSqVpho)')
 
 
