@@ -40,6 +40,6 @@ plot_hist(
     data["CMS3_weMissM2"],
     title=r"$M_\text{miss}^2$",
     xlabel='[GeV$^2$]',
-    xlim=(None,None),
+    xlim=(-1,0.5),
     save_path=plot_dir_path.joinpath('mmisssq.png')
 )
