@@ -169,9 +169,9 @@ def tree_fit_leptons(ell):
         path=main
     )
     vx.treeFit('vpho:det', conf_level=0.00, updateAllDaughters=False, ipConstraint=False, path=main)
-    ma.variablesToExtraInfo('vpho:det', {'tfRedChiSq':'tfRedChiSqVpho'}, option=0, path=main)
+    ma.variablesToExtraInfo('B0:det', {'tfRedChiSq':'tfRedChiSqVpho'}, option=0, path=main)
     vm.addAlias('tfRedChiSqVpho', 'extraInfo(tfRedChiSqVpho)')
-    ma.variablesToExtraInfo('vpho:det', {'tfNdf':'tfNdfVpho'}, option=0, path=main)
+    ma.variablesToExtraInfo('B0:det', {'tfNdf':'tfNdfVpho'}, option=0, path=main)
     vm.addAlias('tfNdfVpho', 'extraInfo(tfNdfVpho)')
 
 
