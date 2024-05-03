@@ -24,7 +24,7 @@ plot_hist(
     data["vpho_tfRedChiSqVpho"],
     title=r"$\chi^2_\text{red}$ dilepton",
     xlabel='',
-    xlim=(0, 20)
+    xlim=(0, 20),
     save_path=plot_dir_path.joinpath('tfredchisqvpho.png')
 )
 
