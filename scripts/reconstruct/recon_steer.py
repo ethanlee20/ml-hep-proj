@@ -72,7 +72,6 @@ def input_to_the_path(ell):
 
 
 def reconstruct_generator_level(ell):
-    
     assert ell in {'mu', 'e'}
 
     ma.fillParticleListFromMC(decayString="K+:gen", cut="", path=main)
@@ -144,35 +143,26 @@ def reconstruct_detector_level(ell, sideband=False, cut_strength='tight'):
     )
 
     ma.reconstructDecay(
-        f"B0:det =direct=> K*0:det {ell}+:det {ell}-:det {marker}", 
+        f"vpho:det =direct=> {ell}+:det {ell}-:det {marker}", 
+        cut=f"", 
+        path=main
+    )
+
+    vx.treeFit('vpho:det', conf_level=0.00, updateAllDaughters=False, ipConstraint=False, path=main)
+    ma.variablesToExtraInfo('vpho:det', {'tfRedChiSq':'tfRedChiSqVpho'}, option=0, path=main)
+    vm.addAlias('tfRedChiSqVpho', 'tfRedChiSq')
+
+    ma.reconstructDecay(
+        f"B0:det =direct=> K*0:det vpho:det", 
         cut=f"[{deltaE_cut}] and [{Mbc_cut}]", 
         path=main
     )
-    ma.matchMCTruth("B0:det", path=main)
-
-
-def tree_fit_all():
     vx.treeFit('B0:det', conf_level=0.00, updateAllDaughters=True, ipConstraint=True, path=main)
     ma.variablesToExtraInfo('B0:det', {'tfRedChiSq':'tfRedChiSqB0'}, option=0, path=main)
     vm.addAlias('tfRedChiSqB0', 'extraInfo(tfRedChiSqB0)')
 
+    ma.matchMCTruth("B0:det", path=main)
 
-def tree_fit_leptons(ell):
-    if ell == 'e':
-        marker = '?addbrems'
-    elif ell == 'mu':
-        marker = ''
-
-    ma.reconstructDecay(
-        f"vpho:det =direct=> {ell}+:det {ell}-:det {marker}",
-        cut="",
-        path=main
-    )
-    vx.treeFit('vpho:det', conf_level=0.00, updateAllDaughters=False, ipConstraint=False, path=main)
-    # ma.variablesToExtraInfo('B0:det', {'tfRedChiSq':'tfRedChiSqVpho'}, option=0, path=main)
-    # vm.addAlias('tfRedChiSqVpho', 'tfRedChiSq')
-    # ma.variablesToExtraInfo('B0:det', {'tfNdf':'tfNdfVpho'}, option=0, path=main)
-    # vm.addAlias('tfNdfVpho', 'extraInfo(tfNdfVpho)')
 
 
 def rest_of_event():
@@ -230,39 +220,39 @@ def create_variable_lists(ell):
         + ['theta', 'thetaErr', 'mcTheta']
         + ['isSignalAcceptBremsPhotons']
         + ['CMS3_weMissM2']
-        + ['tfRedChiSq', 'tfNdf']
+        # + ['tfRedChiSq', 'tfNdf']
     )
 
     Kstar0_vars = vu.create_aliases_for_selected(
         list_of_variables=std_vars,
-        decay_string=f"B0 -> ^K*0 {ell}+ {ell}-",
+        decay_string=f"B0 -> [^K*0 -> K+ pi-] [vpho -> {ell}+ {ell}-]",
     )
 
     K_pi_vars = vu.create_aliases_for_selected(
         list_of_variables=std_vars,
-        decay_string=f"B0 -> [K*0 -> ^K+ ^pi-] {ell}+ {ell}-",
+        decay_string=f"B0 -> [K*0 -> ^K+ ^pi-] [vpho -> {ell}+ {ell}-]",
         prefix=["K_p", "pi_m"],
+    )
+
+    vpho_vars = vu.create_aliases_for_selected(
+        list_of_variables=std_vars + ['tfRedChiSqVpho'],
+        decay_string=f"B0 -> [K*0 -> K+ pi-] [^vpho -> {ell}+ {ell}-]",
+        prefix=[f"{ell}_p", f"{ell}_m"],
     )
 
     lepton_vars = vu.create_aliases_for_selected(
         list_of_variables=std_vars + ['e_id_BDT'],
-        decay_string=f"B0 -> [K*0 -> K+ pi-] ^{ell}+ ^{ell}-",
+        decay_string=f"B0 -> [K*0 -> K+ pi-] [vpho -> ^{ell}+ ^{ell}-]",
         prefix=[f"{ell}_p", f"{ell}_m"],
-    )
-
-    fake_vpho_vars = vu.create_aliases_for_selected(
-        list_of_variables=std_vars,
-        decay_string=f"^vpho -> {ell}+ {ell}-",
-        prefix=["vpho"]
     )
     
     B0_vars = (
-        std_vars + 
-        Kstar0_vars + 
-        K_pi_vars + 
-        lepton_vars + 
-        fake_vpho_vars #+
-        #['tfRedChiSqB0']
+        std_vars
+        + Kstar0_vars
+        + K_pi_vars 
+        + vpho_vars
+        + lepton_vars
+        + ['tfRedChiSqB0']
     )
         
     return B0_vars
@@ -316,10 +306,6 @@ reconstruct_generator_level(ell)
 reconstruct_detector_level(ell, sideband=sideband, cut_strength=cut_strength)
 
 rest_of_event()
-
-tree_fit_leptons(ell)
-
-#tree_fit_all()
 
 printMCParticles()
 
