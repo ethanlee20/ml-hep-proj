@@ -256,7 +256,14 @@ def create_variable_lists(ell):
         prefix=["vpho"]
     )
     
-    B0_vars = ['tfRedChiSqB0'] + std_vars + Kstar0_vars + K_pi_vars + lepton_vars + fake_vpho_vars
+    B0_vars = (
+        std_vars + 
+        Kstar0_vars + 
+        K_pi_vars + 
+        lepton_vars + 
+        fake_vpho_vars #+
+        #['tfRedChiSqB0']
+    )
         
     return B0_vars
 
