@@ -237,7 +237,7 @@ def create_variable_lists(ell):
     vpho_vars = vu.create_aliases_for_selected(
         list_of_variables=std_vars + ['tfRedChiSqVpho'],
         decay_string=f"B0 -> [K*0 -> K+ pi-] [^vpho -> {ell}+ {ell}-]",
-        prefix=[f"{ell}_p", f"{ell}_m"],
+        prefix=["vpho"],
     )
 
     lepton_vars = vu.create_aliases_for_selected(
