@@ -250,7 +250,7 @@ def create_variable_lists(ell):
     )
 
     fake_vpho_vars = vu.create_aliases_for_selected(
-        list_of_variables=std_vars + ['tfRedChiSqVpho'],
+        list_of_variables=std_vars + ['tfRedChiSqVpho', 'tfNdfVpho'],
         decay_string=f"^vpho -> {ell}+ {ell}-",
         prefix=["vpho"]
     )
