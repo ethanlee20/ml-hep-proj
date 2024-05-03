@@ -125,6 +125,14 @@ def plot_hist(
 ):
     """Plot a simple histogram."""
 
+    left_bound = xlim[0]
+    right_bound = xlim[1]
+
+    if left_bound:
+        data = data[data > left_bound]
+    if right_bound:
+        data = data[data < right_bound]
+
     fig, ax = plt.subplots()
 
     ax.hist(
