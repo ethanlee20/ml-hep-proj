@@ -7,7 +7,7 @@
 Submit like this:
 
 gbasf2 \
-    -p e_sig_single3 \
+    -p e_sig_single4 \
     -s light-2401-ocicat \
     -i /belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00025630/s00/e1003/4S/r00000/1120240010/mdst/sub00/mdst_000001_prod00025630_task10020000001.root \
     /home/belle2/elee20/ml-hep-proj/scripts/reconstruct/recon_steer.py
@@ -248,11 +248,11 @@ def create_variable_lists(ell):
     
     B0_vars = (
         std_vars
+        + ['tfRedChiSqB0']
         + Kstar0_vars
         + K_pi_vars 
         + vpho_vars
         + lepton_vars
-        + ['tfRedChiSqB0']
     )
         
     return B0_vars
