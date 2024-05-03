@@ -20,18 +20,26 @@ plot_dir_path = pl.Path('/home/belle2/elee20/ml-hep-proj/data/2024-05-03_sig_e/e
 plot_dir_path.mkdir(parents=True, exist_ok=True)
 
 
-plot_hist(
-    data["vpho_tfRedChiSqVpho"],
-    title=r"$\chi^2_\text{red}$ dilepton",
-    xlabel='',
-    xlim=(0, 20),
-    save_path=plot_dir_path.joinpath('tfredchisqvpho.png')
-)
+# plot_hist(
+#     data["vpho_tfRedChiSqVpho"],
+#     title=r"$\chi^2_\text{red}$ dilepton",
+#     xlabel='',
+#     xlim=(0, 20),
+#     save_path=plot_dir_path.joinpath('tfredchisqvpho.png')
+# )
+
+# plot_hist(
+#     data["tfRedChiSqB0"],
+#     title=r"$\chi^2_\text{red}$ $B^0$",
+#     xlabel='',
+#     xlim=(0,20),
+#     save_path=plot_dir_path.joinpath('tfredchisqb0.png')
+# )
 
 plot_hist(
-    data["tfRedChiSqB0"],
-    title=r"$\chi^2_\text{red}$ $B^0$",
-    xlabel='',
-    xlim=(0,20),
+    data["CMS3_weMissM2"],
+    title=r"$M_\text{miss}^2$",
+    xlabel='[GeV$^2$]',
+    xlim=(None,None),
     save_path=plot_dir_path.joinpath('tfredchisqb0.png')
 )
