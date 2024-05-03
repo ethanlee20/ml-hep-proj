@@ -125,7 +125,7 @@ def plot_hist(
 ):
     """Plot a simple histogram."""
 
-    fig, ax = plt.subplot()
+    fig, ax = plt.subplots()
 
     ax.hist(
         data,
