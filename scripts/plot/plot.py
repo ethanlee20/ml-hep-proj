@@ -41,5 +41,5 @@ plot_hist(
     title=r"$M_\text{miss}^2$",
     xlabel='[GeV$^2$]',
     xlim=(None,None),
-    save_path=plot_dir_path.joinpath('tfredchisqb0.png')
+    save_path=plot_dir_path.joinpath('mmisssq.png')
 )
