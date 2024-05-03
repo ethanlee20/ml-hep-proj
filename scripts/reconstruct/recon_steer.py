@@ -169,10 +169,10 @@ def tree_fit_leptons(ell):
         path=main
     )
     vx.treeFit('vpho:det', conf_level=0.00, updateAllDaughters=False, ipConstraint=False, path=main)
-    ma.variablesToExtraInfo('B0:det', {'tfRedChiSq':'tfRedChiSqVpho'}, option=0, path=main)
-    vm.addAlias('tfRedChiSqVpho', 'extraInfo(tfRedChiSqVpho)')
-    ma.variablesToExtraInfo('B0:det', {'tfNdf':'tfNdfVpho'}, option=0, path=main)
-    vm.addAlias('tfNdfVpho', 'extraInfo(tfNdfVpho)')
+    # ma.variablesToExtraInfo('B0:det', {'tfRedChiSq':'tfRedChiSqVpho'}, option=0, path=main)
+    # vm.addAlias('tfRedChiSqVpho', 'tfRedChiSq')
+    # ma.variablesToExtraInfo('B0:det', {'tfNdf':'tfNdfVpho'}, option=0, path=main)
+    # vm.addAlias('tfNdfVpho', 'extraInfo(tfNdfVpho)')
 
 
 def rest_of_event():
@@ -230,7 +230,7 @@ def create_variable_lists(ell):
         + ['theta', 'thetaErr', 'mcTheta']
         + ['isSignalAcceptBremsPhotons']
         + ['CMS3_weMissM2']
-        + ['tfRedChiSqVpho', 'tfNdfVpho']
+        + ['tfRedChiSq', 'tfNdf']
     )
 
     Kstar0_vars = vu.create_aliases_for_selected(
@@ -312,7 +312,7 @@ rest_of_event()
 
 tree_fit_leptons(ell)
 
-tree_fit_all()
+#tree_fit_all()
 
 printMCParticles()
 
