@@ -1,3 +1,4 @@
+import pathlib as pl
 from matplotlib import pyplot as plt
 import matplotlib as mpl
 import numpy as np
@@ -112,6 +113,35 @@ def stats_legend(
         leg += f"\nRMS: {stats['rms']:.2G}"
 
     return leg
+
+
+def plot_hist(
+    data,
+    title,
+    xlabel,
+    save_path,
+    xlim=(None, None),
+    scale='linear',
+):
+    """Plot a simple histogram."""
+
+    fig, ax = plt.subplot()
+
+    ax.hist(
+        data,
+        label=stats_legend(data),
+        bins=approx_num_bins(data),
+        color="purple",
+        histtype="step",
+        linestyle="-",
+    )
+    ax.set_yscale(scale)
+    ax.set_xlim(xlim)
+    ax.legend()
+    ax.set_title(title)
+    ax.set_xlabel(xlabel)
+    plt.savefig(pl.Path(save_path), bbox_inches="tight")
+    plt.close()
 
 
 def plot_gen_det(
