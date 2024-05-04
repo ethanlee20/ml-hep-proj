@@ -53,6 +53,23 @@ def define_aliases():
     vm.addAlias('tfNdf', 'extraInfo(ndf)')
     vm.addAlias('tfRedChiSq', 'formula(tfChiSq / tfNdf)')
 
+    vm.addAlias('CMS3_weMissM2','weMissM2(my_mask,3)')
+
+    vm.addAlias('mcMother_mcPDG', 'mcMother(mcPDG)')
+    vm.addAlias('mcSister_0_mcPDG', 'mcMother(mcDaughter(0, mcPDG))')
+    vm.addAlias('mcSister_1_mcPDG', 'mcMother(mcDaughter(1, mcPDG))')
+    vm.addAlias('mcSister_2_mcPDG', 'mcMother(mcDaughter(2, mcPDG))')
+    vm.addAlias('mcSister_3_mcPDG', 'mcMother(mcDaughter(3, mcPDG))')
+    vm.addAlias('mcSister_4_mcPDG', 'mcMother(mcDaughter(4, mcPDG))')
+    vm.addAlias('mcSister_5_mcPDG', 'mcMother(mcDaughter(5, mcPDG))')
+    vm.addAlias('mcSister_6_mcPDG', 'mcMother(mcDaughter(6, mcPDG))')
+    vm.addAlias('mcSister_7_mcPDG', 'mcMother(mcDaughter(7, mcPDG))')
+    vm.addAlias('mcSister_8_mcPDG', 'mcMother(mcDaughter(8, mcPDG))')
+    vm.addAlias('mcSister_9_mcPDG', 'mcMother(mcDaughter(9, mcPDG))')
+    
+    vm.addAlias('e_id_BDT', 'pidChargedBDTScore(11, ALL)')
+
+
 
 def input_to_the_path(ell):
 
@@ -107,7 +124,7 @@ def reconstruct_detector_level(ell, sideband=False, cut_strength='tight'):
         invMKst_width_scale = 2
 
     muon_cut = f"[muonID > {muonID_min}] and [p > 0.6] and [{dr_cut}] and [{dz_cut}]  and thetaInCDCAcceptance"
-    electron_cut = f"[pidChargedBDTScore(11, ALL) > {electronID_min}] and [p > 0.2] and [{dr_cut}] and [{dz_cut}] and thetaInCDCAcceptance"
+    electron_cut = f"[e_id_BDT > {electronID_min}] and [p > 0.2] and [{dr_cut}] and [{dz_cut}] and thetaInCDCAcceptance"
     kaon_cut = f"[kaonID > {kaonID_min}] and [{dr_cut}] and [{dz_cut}] and thetaInCDCAcceptance"
     pion_cut = f"[{dr_cut}] and [{dz_cut}] and thetaInCDCAcceptance"
     
@@ -143,26 +160,18 @@ def reconstruct_detector_level(ell, sideband=False, cut_strength='tight'):
     )
 
     ma.reconstructDecay(
-        f"vpho:det =direct=> {ell}+:det {ell}-:det {marker}", 
-        cut=f"", 
-        path=main
-    )
-
-    vx.treeFit('vpho:det', conf_level=0.00, updateAllDaughters=False, ipConstraint=False, path=main)
-    ma.variablesToExtraInfo('vpho:det', {'tfRedChiSq':'tfRedChiSqVpho'}, option=0, path=main)
-    vm.addAlias('tfRedChiSqVpho', 'tfRedChiSq')
-
-    ma.reconstructDecay(
-        f"B0:det =direct=> K*0:det vpho:det", 
+        f"B0:det =direct=> K*0:det {ell}+:det {ell}-:det {marker}", 
         cut=f"[{deltaE_cut}] and [{Mbc_cut}]", 
         path=main
     )
-    vx.treeFit('B0:det', conf_level=0.00, updateAllDaughters=True, ipConstraint=True, path=main)
-    ma.variablesToExtraInfo('B0:det', {'tfRedChiSq':'tfRedChiSqB0'}, option=0, path=main)
-    vm.addAlias('tfRedChiSqB0', 'extraInfo(tfRedChiSqB0)')
 
     ma.matchMCTruth("B0:det", path=main)
 
+
+def treefit():
+    vx.treeFit('B0:det', conf_level=0.00, updateAllDaughters=True, ipConstraint=True, path=main)
+    ma.variablesToExtraInfo('B0:det', {'tfRedChiSq':'tfRedChiSqB0'}, option=0, path=main)
+    vm.addAlias('tfRedChiSqB0', 'extraInfo(tfRedChiSqB0)')
 
 
 def rest_of_event():
@@ -185,7 +194,6 @@ def rest_of_event():
     ma.updateROEUsingV0Lists('B0:det', mask_names='my_mask', default_cleanup=True, selection_cuts=None,
                             apply_mass_fit=True, fitter='treefit', path=main)
     ma.updateROEMask("B0:det", "my_mask", tight_track, tight_gamma, path=main)
-    vm.addAlias('CMS3_weMissM2','weMissM2(my_mask,3)')
 
 
 def printMCParticles():
@@ -196,23 +204,13 @@ def create_variable_lists(ell):
 
     assert ell in {'mu', 'e'}
 
-    vm.addAlias('mcMother_mcPDG', 'mcMother(mcPDG)')
-    vm.addAlias('mcSister_0_mcPDG', 'mcMother(mcDaughter(0, mcPDG))')
-    vm.addAlias('mcSister_1_mcPDG', 'mcMother(mcDaughter(1, mcPDG))')
-    vm.addAlias('mcSister_2_mcPDG', 'mcMother(mcDaughter(2, mcPDG))')
-    vm.addAlias('mcSister_3_mcPDG', 'mcMother(mcDaughter(3, mcPDG))')
-    vm.addAlias('mcSister_4_mcPDG', 'mcMother(mcDaughter(4, mcPDG))')
-    vm.addAlias('mcSister_5_mcPDG', 'mcMother(mcDaughter(5, mcPDG))')
-    vm.addAlias('mcSister_6_mcPDG', 'mcMother(mcDaughter(6, mcPDG))')
-    vm.addAlias('e_id_BDT', 'pidChargedBDTScore(11, ALL)')
-
     std_vars = (
         vc.deltae_mbc
         + vc.inv_mass
         + vc.mc_truth
         + ['mcMother_mcPDG']
         + ['PDG']
-        + ['mcSister_0_mcPDG', 'mcSister_1_mcPDG', 'mcSister_2_mcPDG', 'mcSister_3_mcPDG', 'mcSister_4_mcPDG', 'mcSister_5_mcPDG', 'mcSister_6_mcPDG']
+        + ['mcSister_0_mcPDG', 'mcSister_1_mcPDG', 'mcSister_2_mcPDG', 'mcSister_3_mcPDG', 'mcSister_4_mcPDG', 'mcSister_5_mcPDG', 'mcSister_6_mcPDG', 'mcSister_7_mcPDG', 'mcSister_8_mcPDG', 'mcSister_9_mcPDG']
         + vc.pid
         + vc.kinematics
         + vc.mc_kinematics
@@ -220,38 +218,30 @@ def create_variable_lists(ell):
         + ['theta', 'thetaErr', 'mcTheta']
         + ['isSignalAcceptBremsPhotons']
         + ['CMS3_weMissM2']
-        # + ['tfRedChiSq', 'tfNdf']
     )
 
     Kstar0_vars = vu.create_aliases_for_selected(
         list_of_variables=std_vars,
-        decay_string=f"B0 -> [^K*0 -> K+ pi-] [vpho -> {ell}+ {ell}-]",
+        decay_string=f"B0 -> [^K*0 -> K+ pi-] {ell}+ {ell}-",
     )
 
     K_pi_vars = vu.create_aliases_for_selected(
         list_of_variables=std_vars,
-        decay_string=f"B0 -> [K*0 -> ^K+ ^pi-] [vpho -> {ell}+ {ell}-]",
+        decay_string=f"B0 -> [K*0 -> ^K+ ^pi-] {ell}+ {ell}-",
         prefix=["K_p", "pi_m"],
-    )
-
-    vpho_vars = vu.create_aliases_for_selected(
-        list_of_variables=std_vars + ['tfRedChiSqVpho'],
-        decay_string=f"B0 -> [K*0 -> K+ pi-] [^vpho -> {ell}+ {ell}-]",
-        prefix=["vpho"],
     )
 
     lepton_vars = vu.create_aliases_for_selected(
         list_of_variables=std_vars + ['e_id_BDT'],
-        decay_string=f"B0 -> [K*0 -> K+ pi-] [vpho -> ^{ell}+ ^{ell}-]",
+        decay_string=f"B0 -> [K*0 -> K+ pi-] ^{ell}+ ^{ell}-",
         prefix=[f"{ell}_p", f"{ell}_m"],
     )
-    
+
     B0_vars = (
         std_vars
         + ['tfRedChiSqB0']
         + Kstar0_vars
         + K_pi_vars 
-        + vpho_vars
         + lepton_vars
     )
         
@@ -304,6 +294,8 @@ input_to_the_path(ell)
 reconstruct_generator_level(ell)
 
 reconstruct_detector_level(ell, sideband=sideband, cut_strength=cut_strength)
+
+treefit()
 
 rest_of_event()
 
