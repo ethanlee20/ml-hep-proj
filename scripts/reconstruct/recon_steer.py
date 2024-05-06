@@ -7,9 +7,9 @@
 Submit like this:
 
 gbasf2 \
-    -p e_gen_charge_sideb \
+    -p e_sig5 \
     -s light-2401-ocicat \
-    --input_dslist /home/belle2/elee20/ml-hep-proj/scripts/reconstruct/lpns_results_gen_charged.txt \
+    -i /belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00025630/s00/e1003/4S/r00000/1120240010/mdst/sub00/mdst_000001_prod00025630_task10020000001.root \
     /home/belle2/elee20/ml-hep-proj/scripts/reconstruct/recon_steer.py
 
     mixed bkg first file: -i /belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00024821/s00/e1003/4S/r00000/mixed/mdst \
@@ -29,7 +29,7 @@ import vertex as vx
 
 
 ell = 'e'
-sideband = True
+sideband = False
 cut_strength = 'loose' # tight or loose
 
 
