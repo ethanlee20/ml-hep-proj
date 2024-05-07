@@ -8,8 +8,8 @@ parser.add_argument('in_path')
 parser.add_argument('out_path')
 args = parser.parse_args()
 
-in_path = pl.Path(parser.in_path)
-out_path = pl.Path(parser.out_path)
+in_path = pl.Path(args.in_path)
+out_path = pl.Path(args.out_path)
 
 
 data = open_data(in_path)
