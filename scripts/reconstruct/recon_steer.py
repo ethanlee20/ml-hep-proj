@@ -7,9 +7,9 @@
 Submit like this:
 
 gbasf2 \
-    -p e_gen_charge_sigr \
+    -p test \
     -s light-2401-ocicat \
-    --input_dslist /home/belle2/elee20/ml-hep-proj/scripts/reconstruct/lpns_results_gen_charged.txt \
+    --input_dslist /home/belle2/elee20/ml-hep-proj/scripts/reconstruct/lpns_results_gen_mixed.txt \
     /home/belle2/elee20/ml-hep-proj/scripts/reconstruct/recon_steer.py
 
     mixed bkg first file: -i /belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00024821/s00/e1003/4S/r00000/mixed/mdst \
@@ -28,7 +28,7 @@ from variables import variables as vm
 import vertex as vx
 
 
-ell = 'e'
+ell = 'mu'
 sideband = False
 cut_strength = 'loose' # tight or loose
 
@@ -78,7 +78,7 @@ def input_to_the_path(ell):
     assert ell in {'mu', 'e'}
 
     if ell == 'mu':
-        test_file = '/home/belle2/elee20/ml-hep-proj/data/2024-04-29_sl_e_test/mc_se_e.root'
+        test_file = '/home/belle2/elee20/alexei/kstarll/kstarll.root'
     elif ell == 'e':
         test_file = '/home/belle2/elee20/ml-hep-proj/data/mini_sig_e/mc_e.root'
         # test_file = '/home/belle2/elee20/ml-hep-proj/data/2024-04-29_sl_e_test/mc_se_e.root'
