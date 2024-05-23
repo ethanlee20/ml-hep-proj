@@ -1,0 +1,12 @@
+WARNING: Parsing of '.cfg' files as command line arguments is changing!
+          Set the environment variable 'export DIRAC_NO_CFG=1' to pass the file as a positional
+          argument (this will become the default).
+          To modify the local configuration use '--cfg <configfile>' instead.
+2024-05-04 21:30:04 UTC dirac-jobexec INFO: JobID: 407490925
+2024-05-04 21:30:04 UTC dirac-jobexec INFO: DIRAC JobID 407490925 is running at site DIRAC.UVic-local.ca
+Executing StepInstance RunScriptStep1 of type ScriptStep1 ['ScriptStep1']
+2024-05-04 21:30:06 UTC dirac-jobexec/BelleScript INFO: Command is: /mnt/.rw/condor/execute/dir_16222/TORQUE_TpTeFY_wrapper/DIRAC_AcXJHRpilot/407490925/basf2helper.py recon_steer-e_gen_charge_sideb.py light-2401-ocicat e_gen_charge_sideb
+2024-05-04 21:48:21 UTC dirac-jobexec/BelleScript INFO: /mnt/.rw/condor/execute/dir_16222/TORQUE_TpTeFY_wrapper/DIRAC_AcXJHRpilot/407490925/basf2helper.py recon_steer-e_gen_charge_sideb.py light-2401-ocicat e_gen_charge_sideb execution completed with status 0
+2024-05-04 21:48:21 UTC dirac-jobexec/BelleScript INFO: Output written to Script1_basf2helper.py.log, execution complete.
+2024-05-04 21:48:22 UTC dirac-jobexec/BelleScript INFO: Done
+2024-05-04 21:48:22 UTC dirac-jobexec/BelleScript INFO: ===== Terminating <class 'BelleDIRAC.Workflow.Modules.BelleScript.BelleScript'> ===== 

@@ -1,10 +1,8 @@
 
 """Steering file for reconstructing B -> K* ell+ ell-."""
 
-
-
 """
-Submit like this:
+Submit to the Grid like this:
 
 gbasf2 \
     -p test \
@@ -19,6 +17,8 @@ gbasf2 \
     signal e first: -i /belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00025630/s00/e1003/4S/r00000/1120240010/mdst/sub00/mdst_000001_prod00025630_task10020000001.root \
 """
 
+import pathlib as pl
+import argparse
 
 import basf2 as b2
 import modularAnalysis as ma
@@ -28,13 +28,15 @@ from variables import variables as vm
 import vertex as vx
 
 
-ell = 'mu'
-sideband = False
-cut_strength = 'loose' # tight or loose
+parser = argparse.ArgumentParser()
+parser.add_argument('input_dir')
+parser.add_argument('ell', choices=['mu', 'e'])
+parser.add_argument('--sideband', action='store_true', default=False)
+args = parser.parse_args()
 
+args.input_dir = pl.Path(args.input_dir)
 
 main = b2.Path()
-
 
 
 def append_global_tag():
@@ -47,13 +49,14 @@ def define_aliases():
     vm.addAlias("goodBRLGamma", "passesCut(clusterReg == 2 and clusterE > 0.05)")
     vm.addAlias("goodBWDGamma", "passesCut(clusterReg == 3 and clusterE > 0.1)")
     vm.addAlias("goodGamma", "passesCut(goodFWDGamma or goodBRLGamma or goodBWDGamma)")
-    
+
     vm.addAlias("invM_Kst", "0.892")
     vm.addAlias("fullwidth_Kst", "0.05")
 
     vm.addAlias('tfChiSq', 'extraInfo(chiSquared)')
     vm.addAlias('tfNdf', 'extraInfo(ndf)')
     vm.addAlias('tfRedChiSq', 'formula(tfChiSq / tfNdf)')
+    vm.addAlias('tfRedChiSqB0', 'extraInfo(tfRedChiSqB0)')
 
     vm.addAlias('CMS3_weMissM2','weMissM2(my_mask,3)')
 
@@ -67,80 +70,68 @@ def define_aliases():
     vm.addAlias('mcSister_6_mcPDG', 'mcMother(mcDaughter(6, mcPDG))')
     vm.addAlias('mcSister_7_mcPDG', 'mcMother(mcDaughter(7, mcPDG))')
     vm.addAlias('mcSister_8_mcPDG', 'mcMother(mcDaughter(8, mcPDG))')
-    vm.addAlias('mcSister_9_mcPDG', 'mcMother(mcDaughter(9, mcPDG))')
-    
+    vm.addAlias('mcSister_9_mcPDG', 'mcMother(mcDaughter(9, mcPDG))')    
+
     vm.addAlias('e_id_BDT', 'pidChargedBDTScore(11, ALL)')
 
 
-
-def input_to_the_path(ell):
-
-    assert ell in {'mu', 'e'}
-
-    if ell == 'mu':
-        test_file = '/home/belle2/elee20/alexei/kstarll/kstarll.root'
-    elif ell == 'e':
-        test_file = '/home/belle2/elee20/ml-hep-proj/data/mini_sig_e/mc_e.root'
-        # test_file = '/home/belle2/elee20/ml-hep-proj/data/2024-04-29_sl_e_test/mc_se_e.root'
-
+def input_to_the_path():
+    
+    input_files = [str(i) for i in args.input_dir.glob("**/*.root")]
+    
     ma.inputMdstList(
-        filelist=[test_file],
+        filelist=input_files,
         path=main,
         environmentType="default",
     )
 
 
-def reconstruct_generator_level(ell):
-    assert ell in {'mu', 'e'}
+def reconstruct_generator_level():
 
     ma.fillParticleListFromMC(decayString="K+:gen", cut="", path=main)
     ma.fillParticleListFromMC(decayString="pi-:gen", cut="", path=main)
-    ma.fillParticleListFromMC(decayString=f"{ell}+:gen", cut="", path=main)
+    ma.fillParticleListFromMC(decayString=f"{args.ell}+:gen", cut="", path=main)
 
     ma.reconstructMCDecay("K*0:gen =direct=> K+:gen pi-:gen", cut="", path=main)
-    ma.reconstructMCDecay(f"B0:gen =direct=> K*0:gen {ell}+:gen {ell}-:gen", cut="", path=main)
+    ma.reconstructMCDecay(f"B0:gen =direct=> K*0:gen {args.ell}+:gen {args.ell}-:gen", cut="", path=main)
 
 
-def reconstruct_detector_level(ell, sideband=False, cut_strength='tight'):
+def reconstruct_detector_level():
 
-    assert ell in {'mu', 'e'}
-    assert cut_strength in {'tight', 'loose'}    
-    assert sideband in {True, False}
-
-    if ell == 'e':
+    marker = ''
+    if args.ell == 'e':
         marker = '?addbrems'
-    elif ell == 'mu':
-        marker = ''
 
-    dz_cut = "abs(dz) < 4"
-    dr_cut = "dr < 2"
-    if cut_strength == 'tight':
-        muonID_min = 0.9
-        electronID_min = 0.9
-        kaonID_min = 0.9
-        invMKst_width_scale = 1.5
-    elif cut_strength == 'loose':
-        muonID_min = 0.80
-        electronID_min = 0.80
-        kaonID_min = 0.80
-        invMKst_width_scale = 2
+    dz_cut = "[abs(dz) < 4]"
+    dr_cut = "[dr < 2]"
 
-    muon_cut = f"[muonID > {muonID_min}] and [p > 0.6] and [{dr_cut}] and [{dz_cut}]  and thetaInCDCAcceptance"
-    electron_cut = f"[e_id_BDT > {electronID_min}] and [p > 0.2] and [{dr_cut}] and [{dz_cut}] and thetaInCDCAcceptance"
-    kaon_cut = f"[kaonID > {kaonID_min}] and [{dr_cut}] and [{dz_cut}] and thetaInCDCAcceptance"
-    pion_cut = f"[{dr_cut}] and [{dz_cut}] and thetaInCDCAcceptance"
-    
-    if (cut_strength=='loose') & (ell=='e'):
-        deltaE_cut = '-0.075 <= deltaE <= 0.05'
-    else:
-        deltaE_cut = 'abs(deltaE) <= 0.05'
+    muonID_cut = "[muonID > 0.8]"
+    muon_p_cut = "[p > 0.6]" 
 
-    if sideband:
-        Mbc_cut = "5.2 < Mbc < 5.26"
-    else: 
-        Mbc_cut = "Mbc > 5.27"
+    electronID_cut = "[e_id_BDT > 0.8]"
+    electron_p_cut = "[p > 0.2]"
 
-    if ell == 'e':
+    kaonID_cut = "[kaonID > 0.8]"
+
+    invMKst_cut = "[abs(formula(daughterInvM(0, 1) - invM_Kst)) <= formula(2 * fullwidth_Kst)]"
+
+    deltaE_cut = '[abs(deltaE) <= 0.05]'    
+    if args.ell == 'e':
+        deltaE_cut = '[-0.075 <= deltaE <= 0.05]'
+
+    Mbc_cut = "[Mbc > 5.27]"
+    if args.sideband:
+        Mbc_cut = "[5.2 < Mbc < 5.26]"
+     
+    muon_cut = f"{muonID_cut} and {muon_p_cut} and {dr_cut} and {dz_cut}  and thetaInCDCAcceptance"
+
+    electron_cut = f"{electronID_cut} and {electron_p_cut} and {dr_cut} and {dz_cut} and thetaInCDCAcceptance"
+
+    kaon_cut = f"{kaonID_cut} and {dr_cut} and {dz_cut} and thetaInCDCAcceptance"
+
+    pion_cut = f"{dr_cut} and {dz_cut} and thetaInCDCAcceptance"
+
+    if args.ell == 'e':
         ma.fillParticleList(decayString="e+:raw", cut='', path=main)
 
         ma.fillParticleList(decayString="gamma:brems", cut="goodGamma", path=main)
@@ -149,7 +140,7 @@ def reconstruct_detector_level(ell, sideband=False, cut_strength='tight'):
         ma.applyChargedPidMVA(['e+:det'], path=main, trainingMode=1)
         ma.applyCuts("e+:det", electron_cut, path=main)
 
-    elif ell == 'mu':
+    elif args.ell == 'mu':
         ma.fillParticleList(decayString="mu+:det", cut=muon_cut, path=main)
 
     ma.fillParticleList(decayString="K+:det", cut=kaon_cut, path=main)
@@ -157,13 +148,13 @@ def reconstruct_detector_level(ell, sideband=False, cut_strength='tight'):
 
     ma.reconstructDecay(
         "K*0:det =direct=> K+:det pi-:det", 
-        cut=f"abs(formula(daughterInvM(0, 1) - invM_Kst)) <= formula({invMKst_width_scale} * fullwidth_Kst)", 
+        cut=f"{invMKst_cut}", 
         path=main
     )
 
     ma.reconstructDecay(
-        f"B0:det =direct=> K*0:det {ell}+:det {ell}-:det {marker}", 
-        cut=f"[{deltaE_cut}] and [{Mbc_cut}]", 
+        f"B0:det =direct=> K*0:det {args.ell}+:det {args.ell}-:det {marker}", 
+        cut=f"{deltaE_cut} and {Mbc_cut}", 
         path=main
     )
 
@@ -173,7 +164,6 @@ def reconstruct_detector_level(ell, sideband=False, cut_strength='tight'):
 def treefit():
     vx.treeFit('B0:det', conf_level=0.00, updateAllDaughters=True, ipConstraint=True, path=main)
     ma.variablesToExtraInfo('B0:det', {'tfRedChiSq':'tfRedChiSqB0'}, option=0, path=main)
-    vm.addAlias('tfRedChiSqB0', 'extraInfo(tfRedChiSqB0)')
 
 
 def rest_of_event():
@@ -202,10 +192,7 @@ def printMCParticles():
     ma.printMCParticles(onlyPrimaries=False, suppressPrint=True, path=main)
 
 
-def create_variable_lists(ell):
-
-    assert ell in {'mu', 'e'}
-
+def create_variable_lists():
     std_vars = (
         vc.deltae_mbc
         + vc.inv_mass
@@ -224,19 +211,19 @@ def create_variable_lists(ell):
 
     Kstar0_vars = vu.create_aliases_for_selected(
         list_of_variables=std_vars,
-        decay_string=f"B0 -> [^K*0 -> K+ pi-] {ell}+ {ell}-",
+        decay_string=f"B0 -> [^K*0 -> K+ pi-] {args.ell}+ {args.ell}-",
     )
 
     K_pi_vars = vu.create_aliases_for_selected(
         list_of_variables=std_vars,
-        decay_string=f"B0 -> [K*0 -> ^K+ ^pi-] {ell}+ {ell}-",
+        decay_string=f"B0 -> [K*0 -> ^K+ ^pi-] {args.ell}+ {args.ell}-",
         prefix=["K_p", "pi_m"],
     )
 
     lepton_vars = vu.create_aliases_for_selected(
         list_of_variables=std_vars + ['e_id_BDT'],
-        decay_string=f"B0 -> [K*0 -> K+ pi-] ^{ell}+ ^{ell}-",
-        prefix=[f"{ell}_p", f"{ell}_m"],
+        decay_string=f"B0 -> [K*0 -> K+ pi-] ^{args.ell}+ ^{args.ell}-",
+        prefix=[f"{args.ell}_p", f"{args.ell}_m"],
     )
 
     B0_vars = (
@@ -250,17 +237,14 @@ def create_variable_lists(ell):
     return B0_vars
 
 
-def save_output(ell, B0_vars):
-    assert ell in {'mu', 'e'}
-    out_file_name = f"{ell}_re"
+def save_output(B0_vars):
+    out_filename = f"{args.input_dir.stem}_re"
     root_ext = ".root"
-    # udst_ext = ".udst"
-    # mdst_ext = ".mdst"
 
     ma.variablesToNtuple(
         decayString="B0:gen",
         variables=B0_vars,
-        filename=out_file_name + root_ext,
+        filename=out_filename + root_ext,
         treename="gen",
         path=main,
     )
@@ -268,13 +252,13 @@ def save_output(ell, B0_vars):
     ma.variablesToNtuple(
         decayString="B0:det",
         variables=B0_vars,
-        filename=out_file_name + root_ext,
+        filename=out_filename + root_ext,
         treename="det",
         path=main,
     )
 
     # udst.add_udst_output(
-    #     filename=out_file_name + udst_ext + root_ext,
+    #     filename=out_filename + udst_ext + root_ext,
     #     particleLists=['B0:det','B0:gen'],
     #     path=main,
     #     mc=True,
@@ -283,7 +267,7 @@ def save_output(ell, B0_vars):
     # mdst.add_mdst_output(
     #     path=main,
     #     mc=True,
-    #     filename=out_file_name + mdst_ext + root_ext,
+    #     filename=out_filename + mdst_ext + root_ext,
     # )
 
 
@@ -291,21 +275,21 @@ append_global_tag()
 
 define_aliases()
 
-input_to_the_path(ell)
+input_to_the_path()
 
-reconstruct_generator_level(ell)
+reconstruct_generator_level()
 
-reconstruct_detector_level(ell, sideband=sideband, cut_strength=cut_strength)
+reconstruct_detector_level()
 
 treefit()
 
 rest_of_event()
 
-# printMCParticles()
+#printMCParticles()
 
-B0_vars = create_variable_lists(ell)
+B0_vars = create_variable_lists()
 
-save_output(ell, B0_vars)
+save_output(B0_vars)
 
 b2.process(main)
 

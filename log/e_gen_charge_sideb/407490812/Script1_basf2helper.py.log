@@ -1,0 +1,304 @@
+<<<<<<<<<< basf2helper.py Standard Output >>>>>>>>>>
+
+Unpack e_gen_charge_sideb-inputsandbox.tar.bz2
+2024-05-04 21:32:39 UTC Unknown INFO: initialization
+Input file mdst_000337_prod00024816_task10020000339.root confirmed.
+2024-05-04 21:32:39 UTC Unknown INFO: Parameter GBASF2_PARAMETER = 336
+2024-05-04 21:32:39 UTC Unknown INFO: basf2 running
+2024-05-04 21:32:39 UTC Unknown INFO: ApplicationStatus = Running
+basf2exec.sh: line 26: which: command not found
+basf2exec.sh: line 87: ulimit: max memory size: cannot modify limit: Operation not permitted
+basf2 recon_steer-e_gen_charge_sideb.py -i mdst_000337_prod00024816_task10020000339.root --job-information=basf2_output.json
+fatal: detected dubious ownership in repository at '/cvmfs/belle.cern.ch/tools'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /cvmfs/belle.cern.ch/tools
+Belle II software tools set up at: /cvmfs/belle.cern.ch/tools
+Environment setup for release: light-2401-ocicat
+Central release directory    : /cvmfs/belle.cern.ch/el7/releases/light-2401-ocicat
+Warning: The release light-2401-ocicat is not supported any more. Please update to light-2403-persian
+[INFO] Steering file: recon_steer-e_gen_charge_sideb.py
+[INFO] Job information file: basf2_output.json
+[INFO] Using default cleanup in updateROEUsingV0Lists.
+[INFO] Starting event processing, random seed is set to 'e661488ddcc926cda882e1116ca9647f19d0cb0a76d42ad436f26df09813fef7'
+[INFO] Added file mdst_000337_prod00024816_task10020000339.root
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: K+:gen (K-:gen)
+[INFO]    -> MDST source: MCParticles
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: pi-:gen (pi+:gen)
+[INFO]    -> MDST source: MCParticles
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: e+:gen (e-:gen)
+[INFO]    -> MDST source: MCParticles
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: e+:all (e-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: gamma:all (gamma:all)
+[INFO]    -> MDST source: ECLClusters and KLMClusters
+[INFO] ParticleSelector: gamma:brems
+[INFO]    -> With cuts  : goodGamma
+[INFO] ParticleSelector: gamma:brems
+[INFO]    -> With cuts  : isFromECL
+[INFO] Conditions Database: found working metadata provider
+	provider = http://belle2db.sdcc.bnl.gov/b2s/rest/
+[INFO] Conditions data: configured globaltags (highest priority first) are analysis_tools_light-2305-korat, mc_production_MC15ri_a, release-06-00-07, Legacy_CollisionAxisCMS
+[INFO] Run: 0. Load supported MVA interfaces for multi-class charged particle identification...
+[INFO] Setting hard-coded aliases for the ChargedPidMVA algorithm.
+[INFO] 	Loading weightfiles from the payload class.
+[INFO] 	Construct the MVA experts and datasets from N = 27 weightfiles...
+[WARNING] String passed to makeROOTCompatible contains double-underscore __, which is used internally for escaping special characters. It is recommended to avoid this. However escaping a string twice with makeROOTCompatible is safe, but will print this warning. Passed string: __event__  { module: ChargedPidMVAMulticlass_Multiclass }
+ ... message repeated 26 times
+[INFO] ParticleSelector: e+:det
+[INFO]    -> With cuts  : [e_id_BDT > 0.8] and [p > 0.2] and [dr < 2] and [abs(dz) < 4] and thetaInCDCAcceptance
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: K+:all (K-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleSelector: K+:det
+[INFO]    -> With cuts  : [kaonID > 0.8] and [dr < 2] and [abs(dz) < 4] and thetaInCDCAcceptance
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: pi-:all (pi+:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleSelector: pi-:det
+[INFO]    -> With cuts  : [dr < 2] and [abs(dz) < 4] and thetaInCDCAcceptance
+[INFO] MCMatcher module will search for Particle -> MCParticle associations for the ParticleList B0:det.
+[INFO]   - The MCMatcher will use default algorithm suitable for analysis of Belle II MC.
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: pi+:all (pi-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: pi+:all (pi-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleSelector: pi+:mostlikely_roe
+[INFO]    -> With cuts  : pidIsMostLikely() > 0 and thetaInCDCAcceptance and nCDCHits>20
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: K+:all (K-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleSelector: K+:mostlikely_roe
+[INFO]    -> With cuts  : pidIsMostLikely() > 0 and thetaInCDCAcceptance and nCDCHits>20
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: p+:all (anti-p-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleSelector: p+:mostlikely_roe
+[INFO]    -> With cuts  : pidIsMostLikely() > 0 and thetaInCDCAcceptance and nCDCHits>20
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: e+:all (e-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleSelector: e+:mostlikely_roe
+[INFO]    -> With cuts  : pidIsMostLikely() > 0 and thetaInCDCAcceptance and nCDCHits>20
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: mu+:all (mu-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleSelector: mu+:mostlikely_roe
+[INFO]    -> With cuts  : pidIsMostLikely() > 0 and thetaInCDCAcceptance and nCDCHits>20
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: gamma:all (gamma:all)
+[INFO]    -> MDST source: ECLClusters and KLMClusters
+[INFO] ParticleSelector: gamma:all
+[INFO]    -> With cuts  : isFromECL
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: K_L0:all (K_L0:all)
+[INFO]    -> MDST source: exclusively KLMClusters or exclusively ECLClusters (matching between those not used)
+[INFO] ParticleSelector: K_L0:roe_default
+[INFO]    -> With cuts  : isFromKLM > 0
+[INFO] RestOfEventInterpreter added ROEMask with specific fractions under name 'my_mask' with track cuts: dr<10 and abs(dz)<20 and thetaInCDCAcceptance and E<5.5 and eclCluster cuts: 0.05 < clusterE < 5.5
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: gamma:V0 (gamma:V0)
+[INFO]    -> MDST source: V0
+[INFO] ParticleSelector: gamma:v0_roe
+[INFO]    -> With cuts  : abs(dM) < 0.1 and daughter(0,particleID) > 0.2 and daughter(1,particleID) > 0.2 and daughter(0,thetaInCDCAcceptance) and daughter(1,thetaInCDCAcceptance) and isInRestOfEvent > 0
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: K_S0:V0 (K_S0:V0)
+[INFO]    -> MDST source: V0
+[INFO] ParticleSelector: K_S0:v0_roe
+[INFO]    -> With cuts  : abs(dM) < 0.1 and daughter(0,particleID) > 0.2 and daughter(1,particleID) > 0.2 and daughter(0,thetaInCDCAcceptance) and daughter(1,thetaInCDCAcceptance) and isInRestOfEvent > 0
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: Lambda0:V0 (anti-Lambda0:V0)
+[INFO]    -> MDST source: V0
+[INFO] ParticleSelector: Lambda0:v0_roe
+[INFO]    -> With cuts  : abs(dM) < 0.1 and daughter(0,particleID) > 0.2 and daughter(1,particleID) > 0.2 and daughter(0,thetaInCDCAcceptance) and daughter(1,thetaInCDCAcceptance) and isInRestOfEvent > 0
+[INFO] RestOfEventUpdater updated track/eclCluster ROEMask(s) with infoList: gamma:v0_roe and cut: 
+[INFO] RestOfEventUpdater updated track/eclCluster ROEMask(s) with infoList: K_S0:v0_roe and cut: 
+[INFO] RestOfEventUpdater updated track/eclCluster ROEMask(s) with infoList: Lambda0:v0_roe and cut: 
+[INFO] RestOfEventInterpreter added ROEMask with specific fractions under name 'my_mask' with track cuts: nCDCHits>=0 and thetaInCDCAcceptance and pValue>=0.0005 and                     [pt<0.15 and formula(dr**2/36+dz**2/16)<1] or                     [0.15<pt<0.25 and formula(dr**2/49+dz**2/64)<1] or                     [0.25<pt<0.5 and formula(dr**2/49+dz**2/16)<1] or                     [0.5<pt<1 and formula(dr**2/25+dz**2/36)<1] or                     [pt>1 and formula(dr**2+dz**2)<1] and eclCluster cuts: clusterE>0.05 and abs(clusterTiming)<formula(2*clusterErrorTiming) and abs(clusterTiming)<200
+[ERROR] Relation between particle and ROE doesn't exist!  { module: VariablesToNtuple_B0:det }
+ ... message repeated 19 times
+[INFO] Writing NTuple det
+[INFO] Writing NTuple gen
+[WARNING] Not a single candidate survived the fit. Candidates before fit: 0 after: 0  { module: TreeFitter_Lambda0:v0_roe }
+[WARNING] Not a single candidate survived the fit. Candidates before fit: 0 after: 0  { module: TreeFitter_K_S0:v0_roe }
+[WARNING] Not a single candidate survived the fit. Candidates before fit: 0 after: 0  { module: TreeFitter_gamma:v0_roe }
+[WARNING] There were 260 tracks skipped because of zero charge for mu+:all  { module: ParticleLoader_mu+:mostlikely_roe }
+[WARNING] There were 357 tracks skipped because of zero charge for p+:all  { module: ParticleLoader_p+:mostlikely_roe }
+[INFO] [1;35m================================================================================[0m
+[INFO] [40;97m            ,.,                                                                 [0m
+[INFO] [40;97m           ;%&M%;_   ,..,                                                       [0m
+[INFO] [40;97m             "_ "__" % M % M %;          , ..., ,                               [0m
+[INFO] [40;97m      , ..., __." --"    , .,     _ - " % &W % WM %;                            [0m
+[INFO] [40;97m     ; % M&$M % "___ "_._   %M%"_."" _ """"""                                   [0m
+[INFO] [40;97m       """""    "" , \_.   "_. ."                                               [0m
+[INFO] [40;97m              , ., _"__ \__./ ."                                                [0m
+[INFO] [40;97m          ___       __ |  y     , ..,     [97;40mThank you for using TreeFitter.       [0m
+[INFO] [40;97m         /)'\    ''''| u  \ %W%W%%;                                             [0m
+[INFO] [40;97m     ___)/   "---\_ \   |____"            [97;40mPlease cite both:                     [0m
+[INFO] [40;97m   ;&&%%;           (|__.|)./  ,..,           [97;40m10.1016/j.nima.2020.164269        [0m
+[INFO] [40;97m             ,.., ___\    |/     &&"       [97;40m   10.1016/j.nima.2005.06.078        [0m
+[INFO] [40;97m           &&%%&    (| Uo /        '"     [97;40mEmail:                                [0m
+[INFO] [40;97m            ''''     \ 7 \                   [97;40mfrancesco.tenchini@desy.de         [0m
+[INFO] [40;97m  ._______________.-'____""-.____.           [97;40mjo-frederik.krohn@desy.de          [0m
+[INFO] [40;97m   \                           /                                                [0m
+[INFO] [40;97m    \       [0m[32;40mTREEFITTER[0m[40;97m        /                                                 [0m
+[INFO] [40;97m     \_______________________/                                                  [0m
+[INFO] [40;97m      (_)                 (_)                                                   [0m
+[INFO] [40;97m                                                                                [0m
+[INFO] [1;35m============= TREEFIT STATISTICS ===============================================[0m
+[INFO] [1;39mTarget particle list: B0:det[0m
+[INFO] [1;39mCandidates before fit: 4[0m
+[INFO] [1;39mCandidates after fit:  4[0m
+[INFO] [1;39mA total of 0 candidates were removed during the fit.[0m
+[INFO] [1;39m100% of candidates survived the fit.[0m
+[INFO] [1;39m0% of candidates did not.[0m
+[INFO] [1;39mYou chose to drop all candidates with pValue < 0.[0m
+[INFO] [1;35m================================================================================[0m
+[WARNING] There were 260 tracks skipped because of zero charge for pi-:all  { module: ParticleLoader_pi-:det }
+[WARNING] There were 311 tracks skipped because of zero charge for K+:all  { module: ParticleLoader_K+:det }
+[WARNING] There were 260 tracks skipped because of zero charge for e+:all  { module: ParticleLoader_e+:raw }
+
+[INFO] ===Error Summary================================================================
+[ERROR] Relation between particle and ROE doesn't exist!  { module: VariablesToNtuple_B0:det }
+    (last message occurred 20 times)
+[WARNING] String passed to makeROOTCompatible contains double-underscore __, which is used internally for escaping special characters. It is recommended to avoid this. However escaping a string twice with makeROOTCompatible is safe, but will print this warning. Passed string: __event__  { module: ChargedPidMVAMulticlass_Multiclass }
+    (last message occurred 27 times)
+[WARNING] Not a single candidate survived the fit. Candidates before fit: 0 after: 0  { module: TreeFitter_Lambda0:v0_roe }
+    (last message occurred 3 times)
+[WARNING] There were 260 tracks skipped because of zero charge for e+:all  { module: ParticleLoader_e+:raw }
+[WARNING] There were 311 tracks skipped because of zero charge for K+:all  { module: ParticleLoader_K+:det }
+[WARNING] There were 260 tracks skipped because of zero charge for pi-:all  { module: ParticleLoader_pi-:det }
+[WARNING] There were 357 tracks skipped because of zero charge for p+:all  { module: ParticleLoader_p+:mostlikely_roe }
+[WARNING] There were 260 tracks skipped because of zero charge for mu+:all  { module: ParticleLoader_mu+:mostlikely_roe }
+[INFO] ================================================================================
+[ERROR] in total, 20 errors occurred during processing
+[WARNING] in total, 35 warnings occurred during processing
+=============================================================================================================================
+Name                                                              |      Calls | Memory(MB) |    Time(s) |     Time(ms)/Call
+=============================================================================================================================
+RootInput                                                         |     180001 |         19 |      61.98 |    0.34 +-   2.69
+ProgressBar                                                       |     180000 |          0 |       1.13 |    0.01 +-   0.00
+ParticleLoader_K+:gen                                             |     180000 |          2 |       3.31 |    0.02 +-   0.00
+ParticleLoader_pi-:gen                                            |     180000 |          0 |       3.60 |    0.02 +-   0.01
+ParticleLoader_e+:gen                                             |     180000 |          0 |       3.17 |    0.02 +-   0.00
+ParticleCombinerFromMC_K*0:gen =direct=> K+:gen pi-:gen           |     180000 |          0 |      75.50 |    0.42 +-   0.14
+ParticleCombinerFromMC_B0:gen =direct=> K*0:gen e+:gen e-:gen     |     180000 |          0 |      55.88 |    0.31 +-   0.34
+ParticleLoader_e+:raw                                             |     180000 |        165 |      21.30 |    0.12 +-   3.66
+PListCopy_e+:raw                                                  |     180000 |          0 |       2.92 |    0.02 +-   0.00
+ParticleLoader_gamma:brems                                        |     180000 |          0 |      38.54 |    0.21 +-   0.05
+PListCopy_gamma:brems                                             |     180000 |          0 |       4.45 |    0.02 +-   0.01
+ParticleSelector_applyCuts_gamma:brems                            |     180000 |          0 |      11.96 |    0.07 +-   0.01
+ParticleSelector_applyCuts_gamma:brems                            |     180000 |          0 |       1.46 |    0.01 +-   0.00
+bremsCorrector_e+:det                                             |     180000 |          0 |      17.70 |    0.10 +-   0.02
+ChargedPidMVAMulticlass_Multiclass                                |     180000 |          0 |     347.14 |    1.93 +-   0.61
+ParticleSelector_applyCuts_e+:det                                 |     180000 |          0 |       5.26 |    0.03 +-   0.01
+ParticleLoader_K+:det                                             |     180000 |          0 |      19.45 |    0.11 +-   0.03
+PListCopy_K+:det                                                  |     180000 |          0 |       2.93 |    0.02 +-   0.00
+ParticleSelector_applyCuts_K+:det                                 |     180000 |          0 |       6.65 |    0.04 +-   0.01
+ParticleLoader_pi-:det                                            |     180000 |          0 |      17.06 |    0.09 +-   0.03
+PListCopy_pi-:det                                                 |     180000 |          0 |       2.65 |    0.01 +-   0.00
+ParticleSelector_applyCuts_pi-:det                                |     180000 |          0 |       8.35 |    0.05 +-   0.01
+ParticleCombiner_K*0:det =direct=> K+:det pi-:det                 |     180000 |          0 |       5.17 |    0.03 +-   0.02
+ParticleCombiner_B0:det =direct=> K*0:det e+:det e-:det ?addbrems |     180000 |          0 |       1.81 |    0.01 +-   0.00
+MCMatch_B0:det                                                    |     180000 |          0 |       1.12 |    0.01 +-   0.00
+TreeFitter_B0:det                                                 |     180000 |          0 |       1.33 |    0.01 +-   0.00
+VariablesToExtraInfo_B0:det                                       |     180000 |          0 |       1.06 |    0.01 +-   0.00
+ParticleLoader_pi+:all                                            |     180000 |          0 |       1.08 |    0.01 +-   0.00
+ParticleLoader_pi+:mostlikely_roe                                 |     180000 |          0 |       1.05 |    0.01 +-   0.00
+PListCopy_pi+:mostlikely_roe                                      |     180000 |          0 |       2.71 |    0.02 +-   0.00
+ParticleSelector_applyCuts_pi+:mostlikely_roe                     |     180000 |          0 |       5.72 |    0.03 +-   0.01
+ParticleLoader_K+:mostlikely_roe                                  |     180000 |          0 |       1.08 |    0.01 +-   0.00
+PListCopy_K+:mostlikely_roe                                       |     180000 |          0 |       2.56 |    0.01 +-   0.00
+ParticleSelector_applyCuts_K+:mostlikely_roe                      |     180000 |          0 |       4.57 |    0.03 +-   0.01
+ParticleLoader_p+:mostlikely_roe                                  |     180000 |          0 |      17.47 |    0.10 +-   0.03
+PListCopy_p+:mostlikely_roe                                       |     180000 |          0 |       2.68 |    0.01 +-   0.00
+ParticleSelector_applyCuts_p+:mostlikely_roe                      |     180000 |          0 |       4.50 |    0.02 +-   0.01
+ParticleLoader_e+:mostlikely_roe                                  |     180000 |          0 |       1.09 |    0.01 +-   0.00
+PListCopy_e+:mostlikely_roe                                       |     180000 |          0 |       2.61 |    0.01 +-   0.00
+ParticleSelector_applyCuts_e+:mostlikely_roe                      |     180000 |          0 |       4.55 |    0.03 +-   0.01
+ParticleLoader_mu+:mostlikely_roe                                 |     180000 |          1 |      17.03 |    0.09 +-   0.03
+PListCopy_mu+:mostlikely_roe                                      |     180000 |          0 |       2.62 |    0.01 +-   0.00
+ParticleSelector_applyCuts_mu+:mostlikely_roe                     |     180000 |          0 |       4.79 |    0.03 +-   0.01
+ParticleLoader_gamma:all                                          |     180000 |          0 |       1.16 |    0.01 +-   0.00
+ParticleSelector_applyCuts_gamma:all                              |     180000 |          0 |       2.06 |    0.01 +-   0.00
+ParticleLoader_K_L0:roe_default                                   |     180000 |          0 |      35.84 |    0.20 +-   0.05
+PListCopy_K_L0:roe_default                                        |     180000 |          0 |       4.47 |    0.02 +-   0.01
+ParticleSelector_applyCuts_K_L0:roe_default                       |     180000 |          0 |       2.18 |    0.01 +-   0.00
+ROEBuilder_B0:det                                                 |     180000 |          0 |       1.12 |    0.01 +-   0.00
+RestOfEventInterpreter_B0:det_MaskList                            |     180000 |          0 |       1.08 |    0.01 +-   0.00
+for_each(RestOfEvent : RestOfEvents)                              |     180000 |          0 |       1.05 |    0.01 +-   0.00
+SigSideParticleFilter_B0:det                                      |          4 |          0 |       0.00 |    0.03 +-   0.02
+ParticleLoader_gamma:v0_roe -> e+ e-                              |          4 |          0 |       0.00 |    0.01 +-   0.00
+PListCopy_gamma:v0_roe                                            |          4 |          0 |       0.00 |    0.01 +-   0.00
+ParticleSelector_applyCuts_gamma:v0_roe                           |          4 |          0 |       0.00 |    0.01 +-   0.00
+ParticleLoader_K_S0:v0_roe -> pi+ pi-                             |          4 |          0 |       0.00 |    0.01 +-   0.00
+PListCopy_K_S0:v0_roe                                             |          4 |          0 |       0.00 |    0.01 +-   0.00
+ParticleSelector_applyCuts_K_S0:v0_roe                            |          4 |          0 |       0.00 |    0.01 +-   0.00
+ParticleLoader_Lambda0:v0_roe -> p+ pi-                           |          4 |          0 |       0.00 |    0.02 +-   0.02
+PListCopy_Lambda0:v0_roe                                          |          4 |          0 |       0.00 |    0.01 +-   0.00
+ParticleSelector_applyCuts_Lambda0:v0_roe                         |          4 |          0 |       0.00 |    0.01 +-   0.00
+TreeFitter_gamma:v0_roe                                           |          4 |          0 |       0.00 |    0.01 +-   0.00
+RestOfEventUpdater_gamma:v0_roe_masks                             |          4 |          0 |       0.00 |    0.02 +-   0.01
+TreeFitter_K_S0:v0_roe                                            |          4 |          0 |       0.00 |    0.01 +-   0.00
+RestOfEventUpdater_K_S0:v0_roe_masks                              |          4 |          0 |       0.00 |    0.01 +-   0.00
+TreeFitter_Lambda0:v0_roe                                         |          4 |          0 |       0.00 |    0.01 +-   0.00
+RestOfEventUpdater_Lambda0:v0_roe_masks                           |          4 |          0 |       0.00 |    0.01 +-   0.00
+RestOfEventInterpreter_B0:det_my_mask                             |     180000 |          0 |       1.00 |    0.01 +-   0.00
+PrintMCParticles                                                  |     180000 |          0 |      14.29 |    0.08 +-   0.02
+VariablesToNtuple_B0:gen                                          |     180000 |          0 |       1.42 |    0.01 +-   0.00
+VariablesToNtuple_B0:det                                          |     180000 |          0 |       1.21 |    0.01 +-   0.01
+=============================================================================================================================
+Total                                                             |     180001 |        186 |     958.22 |    5.32 +-   6.26
+=============================================================================================================================
+
+2024-05-04 21:49:01 UTC Unknown INFO: Basf2 status:
+2024-05-04 21:49:01 UTC Unknown INFO: Warnings: 35; Errors: 20; 
+
+2024-05-04 21:49:01 UTC Unknown INFO: Found following files to be uploaded
+2024-05-04 21:49:01 UTC Unknown INFO:  e_re.root
+2024-05-04 21:49:02 UTC Unknown INFO: Rescheduling: 00
+2024-05-04 21:49:02 UTC Unknown INFO: matching data description
+Upload e_re_00336_job407490812_00.root as /belle/user/elee20/e_gen_charge_sideb/sub00/e_re_00336_job407490812_00.root
+2024-05-04 21:49:02 UTC Unknown INFO: output verification
+2024-05-04 21:49:02 UTC Unknown INFO: Skip output file verification of ./e_re_00336_job407490812_00.root
+2024-05-04 21:49:02 UTC Unknown INFO: data uploading
+2024-05-04 21:49:02 UTC Unknown INFO: ApplicationStatus = Preparing to upload
+Metadata path /belle/user/elee20/e_gen_charge_sideb/sub00: OK
+2024-05-04 21:49:04 UTC Unknown INFO: Destination SEs=SIGNET-TMP-SE
+trying to upload/register /belle/user/elee20/e_gen_charge_sideb/sub00/e_re_00336_job407490812_00.root 
+2024-05-04 21:49:04 UTC Unknown INFO: GUIDs not found from POOL XML Catalogue (and were generated) for: ./e_re_00336_job407490812_00.root
+2024-05-04 21:49:04 UTC Unknown INFO: File Info: Size=69461 Checksum=1c598f95 GUID=23BC61C3-DF32-AFBA-EC4A-495F3D29E443
+Upload: ./e_re_00336_job407490812_00.root
+2024-05-04 21:49:10 UTC Unknown INFO: SE SIGNET-TMP-SE: ready to transfer: 10 < 500
+2024-05-04 21:49:10 UTC Unknown/FailoverTransfer INFO: Attempting dm.putAndRegister ('/belle/user/elee20/e_gen_charge_sideb/sub00/e_re_00336_job407490812_00.root','/tmp/49074653/jbfKDmEMSN5nTkIgJmuwkNOnRl5aLmABFKDmls4KDmABFKDm7qbuhm/DIRAC_BRsS1Qpilot/407490812/./e_re_00336_job407490812_00.root','SIGNET-TMP-SE',guid='23BC61C3-DF32-AFBA-EC4A-495F3D29E443',catalog='None', checksum = '1c598f95')
+2024-05-04 21:49:18 UTC Unknown/FailoverTransfer INFO: dm.putAndRegister successfully uploaded and registered ./e_re_00336_job407490812_00.root to SIGNET-TMP-SE
+2024-05-04 21:49:18 UTC Unknown INFO: transferAndRegisterFile successfully uploaded and registered ./e_re_00336_job407490812_00.root to SIGNET-TMP-SE
+Upload: OK , lfn: lfn
+file size: 69461
+catalog size: 69461
+file size: OK
+Data upload: OK
+Register metadata of ./e_re_00336_job407490812_00.root in FileCatalog
+gbasf2:  ./e_re_00336_job407490812_00.root has no basf2 metadata.
+Register metadata of ./e_re_00336_job407490812_00.root
+2024-05-04 21:49:23 UTC Unknown INFO: ApplicationStatus = Registering
+Reading metadata...
+gbasf2:  ./e_re_00336_job407490812_00.root has no basf2 metadata.
+Prepare dataset
+Dataset attributes already exist (17): OK
+bulkInsert: OK
+Metadata registration: OK
+2024-05-04 21:49:33 UTC Unknown INFO: Successfully handled /belle/user/elee20/e_gen_charge_sideb/sub00/e_re_00336_job407490812_00.root
+2024-05-04 21:49:33 UTC Unknown INFO: registering accounting metadata
+2024-05-04 21:49:34 UTC Unknown INFO: Succesfully added dataset accounting metadata to file metadata in rucio.
+Successfully upload/register all outputs.
+2024-05-04 21:49:34 UTC Unknown INFO: ApplicationStatus = Done
+2024-05-04 21:49:34 UTC Unknown INFO: Done
+ 

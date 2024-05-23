@@ -1,0 +1,261 @@
+<<<<<<<<<< basf2helper.py Standard Output >>>>>>>>>>
+
+Unpack e_gen_charge_sideb-inputsandbox.tar.bz2
+2024-05-04 21:24:11 UTC Unknown INFO: initialization
+Input file mdst_000001_prod00024816_task10020000001.root confirmed.
+2024-05-04 21:24:11 UTC Unknown INFO: Parameter GBASF2_PARAMETER = 0
+2024-05-04 21:24:11 UTC Unknown INFO: basf2 running
+2024-05-04 21:24:11 UTC Unknown INFO: ApplicationStatus = Running
+basf2exec.sh: line 26: which: command not found
+basf2exec.sh: line 87: ulimit: max memory size: cannot modify limit: Operation not permitted
+basf2 recon_steer-e_gen_charge_sideb_s.py -i mdst_000001_prod00024816_task10020000001.root --job-information=basf2_output.json -n 10
+fatal: detected dubious ownership in repository at '/cvmfs/belle.cern.ch/tools'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /cvmfs/belle.cern.ch/tools
+Belle II software tools set up at: /cvmfs/belle.cern.ch/tools
+Environment setup for release: light-2401-ocicat
+Central release directory    : /cvmfs/belle.cern.ch/el7/releases/light-2401-ocicat
+Warning: The release light-2401-ocicat is not supported any more. Please update to light-2403-persian
+[INFO] Steering file: recon_steer-e_gen_charge_sideb_s.py
+[INFO] Job information file: basf2_output.json
+[INFO] Using default cleanup in updateROEUsingV0Lists.
+[INFO] Starting event processing, random seed is set to '784102267d64ca748c94ae76d580c82133b0adb721fd6443ebb6dc62588fd9f'
+[INFO] Added file mdst_000001_prod00024816_task10020000001.root
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: K+:gen (K-:gen)
+[INFO]    -> MDST source: MCParticles
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: pi-:gen (pi+:gen)
+[INFO]    -> MDST source: MCParticles
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: e+:gen (e-:gen)
+[INFO]    -> MDST source: MCParticles
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: e+:all (e-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: gamma:all (gamma:all)
+[INFO]    -> MDST source: ECLClusters and KLMClusters
+[INFO] ParticleSelector: gamma:brems
+[INFO]    -> With cuts  : goodGamma
+[INFO] ParticleSelector: gamma:brems
+[INFO]    -> With cuts  : isFromECL
+[INFO] Conditions Database: found working metadata provider
+	provider = http://belle2db.sdcc.bnl.gov/b2s/rest/
+[INFO] Conditions data: configured globaltags (highest priority first) are analysis_tools_light-2305-korat, mc_production_MC15ri_a, release-06-00-07, Legacy_CollisionAxisCMS
+[INFO] Run: 0. Load supported MVA interfaces for multi-class charged particle identification...
+[INFO] Setting hard-coded aliases for the ChargedPidMVA algorithm.
+[INFO] 	Loading weightfiles from the payload class.
+[INFO] 	Construct the MVA experts and datasets from N = 27 weightfiles...
+[WARNING] String passed to makeROOTCompatible contains double-underscore __, which is used internally for escaping special characters. It is recommended to avoid this. However escaping a string twice with makeROOTCompatible is safe, but will print this warning. Passed string: __event__  { module: ChargedPidMVAMulticlass_Multiclass }
+ ... message repeated 26 times
+[INFO] ParticleSelector: e+:det
+[INFO]    -> With cuts  : [e_id_BDT > 0.8] and [p > 0.2] and [dr < 2] and [abs(dz) < 4] and thetaInCDCAcceptance
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: K+:all (K-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleSelector: K+:det
+[INFO]    -> With cuts  : [kaonID > 0.8] and [dr < 2] and [abs(dz) < 4] and thetaInCDCAcceptance
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: pi-:all (pi+:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleSelector: pi-:det
+[INFO]    -> With cuts  : [dr < 2] and [abs(dz) < 4] and thetaInCDCAcceptance
+[INFO] MCMatcher module will search for Particle -> MCParticle associations for the ParticleList B0:det.
+[INFO]   - The MCMatcher will use default algorithm suitable for analysis of Belle II MC.
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: pi+:all (pi-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: pi+:all (pi-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleSelector: pi+:mostlikely_roe
+[INFO]    -> With cuts  : pidIsMostLikely() > 0 and thetaInCDCAcceptance and nCDCHits>20
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: K+:all (K-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleSelector: K+:mostlikely_roe
+[INFO]    -> With cuts  : pidIsMostLikely() > 0 and thetaInCDCAcceptance and nCDCHits>20
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: p+:all (anti-p-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleSelector: p+:mostlikely_roe
+[INFO]    -> With cuts  : pidIsMostLikely() > 0 and thetaInCDCAcceptance and nCDCHits>20
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: e+:all (e-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleSelector: e+:mostlikely_roe
+[INFO]    -> With cuts  : pidIsMostLikely() > 0 and thetaInCDCAcceptance and nCDCHits>20
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: mu+:all (mu-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleSelector: mu+:mostlikely_roe
+[INFO]    -> With cuts  : pidIsMostLikely() > 0 and thetaInCDCAcceptance and nCDCHits>20
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: gamma:all (gamma:all)
+[INFO]    -> MDST source: ECLClusters and KLMClusters
+[INFO] ParticleSelector: gamma:all
+[INFO]    -> With cuts  : isFromECL
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: K_L0:all (K_L0:all)
+[INFO]    -> MDST source: exclusively KLMClusters or exclusively ECLClusters (matching between those not used)
+[INFO] ParticleSelector: K_L0:roe_default
+[INFO]    -> With cuts  : isFromKLM > 0
+[INFO] RestOfEventInterpreter added ROEMask with specific fractions under name 'my_mask' with track cuts: dr<10 and abs(dz)<20 and thetaInCDCAcceptance and E<5.5 and eclCluster cuts: 0.05 < clusterE < 5.5
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: gamma:V0 (gamma:V0)
+[INFO]    -> MDST source: V0
+[INFO] ParticleSelector: gamma:v0_roe
+[INFO]    -> With cuts  : abs(dM) < 0.1 and daughter(0,particleID) > 0.2 and daughter(1,particleID) > 0.2 and daughter(0,thetaInCDCAcceptance) and daughter(1,thetaInCDCAcceptance) and isInRestOfEvent > 0
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: K_S0:V0 (K_S0:V0)
+[INFO]    -> MDST source: V0
+[INFO] ParticleSelector: K_S0:v0_roe
+[INFO]    -> With cuts  : abs(dM) < 0.1 and daughter(0,particleID) > 0.2 and daughter(1,particleID) > 0.2 and daughter(0,thetaInCDCAcceptance) and daughter(1,thetaInCDCAcceptance) and isInRestOfEvent > 0
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: Lambda0:V0 (anti-Lambda0:V0)
+[INFO]    -> MDST source: V0
+[INFO] ParticleSelector: Lambda0:v0_roe
+[INFO]    -> With cuts  : abs(dM) < 0.1 and daughter(0,particleID) > 0.2 and daughter(1,particleID) > 0.2 and daughter(0,thetaInCDCAcceptance) and daughter(1,thetaInCDCAcceptance) and isInRestOfEvent > 0
+[INFO] RestOfEventUpdater updated track/eclCluster ROEMask(s) with infoList: gamma:v0_roe and cut: 
+[INFO] RestOfEventUpdater updated track/eclCluster ROEMask(s) with infoList: K_S0:v0_roe and cut: 
+[INFO] RestOfEventUpdater updated track/eclCluster ROEMask(s) with infoList: Lambda0:v0_roe and cut: 
+[INFO] RestOfEventInterpreter added ROEMask with specific fractions under name 'my_mask' with track cuts: nCDCHits>=0 and thetaInCDCAcceptance and pValue>=0.0005 and                     [pt<0.15 and formula(dr**2/36+dz**2/16)<1] or                     [0.15<pt<0.25 and formula(dr**2/49+dz**2/64)<1] or                     [0.25<pt<0.5 and formula(dr**2/49+dz**2/16)<1] or                     [0.5<pt<1 and formula(dr**2/25+dz**2/36)<1] or                     [pt>1 and formula(dr**2+dz**2)<1] and eclCluster cuts: clusterE>0.05 and abs(clusterTiming)<formula(2*clusterErrorTiming) and abs(clusterTiming)<200
+[=====>                                            ]  10% 26s remaining          
+[INFO] Writing NTuple det
+[INFO] Writing NTuple gen
+[WARNING] Not a single candidate survived the fit. Candidates before fit: 0 after: 0  { module: TreeFitter_Lambda0:v0_roe }
+[WARNING] Not a single candidate survived the fit. Candidates before fit: 0 after: 0  { module: TreeFitter_K_S0:v0_roe }
+[WARNING] Not a single candidate survived the fit. Candidates before fit: 0 after: 0  { module: TreeFitter_gamma:v0_roe }
+[WARNING] Not a single candidate survived the fit. Candidates before fit: 0 after: 0  { module: TreeFitter_B0:det }
+
+[INFO] ===Error Summary================================================================
+[WARNING] String passed to makeROOTCompatible contains double-underscore __, which is used internally for escaping special characters. It is recommended to avoid this. However escaping a string twice with makeROOTCompatible is safe, but will print this warning. Passed string: __event__  { module: ChargedPidMVAMulticlass_Multiclass }
+    (last message occurred 27 times)
+[WARNING] Not a single candidate survived the fit. Candidates before fit: 0 after: 0  { module: TreeFitter_Lambda0:v0_roe }
+    (last message occurred 4 times)
+[INFO] ================================================================================
+[WARNING] in total, 31 warnings occurred during processing
+=============================================================================================================================
+Name                                                              |      Calls | Memory(MB) |    Time(s) |     Time(ms)/Call
+=============================================================================================================================
+RootInput                                                         |         10 |          0 |       0.01 |    0.56 +-   0.08
+ProgressBar                                                       |         10 |          0 |       0.00 |    0.08 +-   0.20
+ParticleLoader_K+:gen                                             |         10 |          0 |       0.00 |    0.10 +-   0.15
+ParticleLoader_pi-:gen                                            |         10 |          0 |       0.00 |    0.06 +-   0.02
+ParticleLoader_e+:gen                                             |         10 |          0 |       0.00 |    0.05 +-   0.01
+ParticleCombinerFromMC_K*0:gen =direct=> K+:gen pi-:gen           |         10 |          0 |       0.01 |    1.34 +-   0.72
+ParticleCombinerFromMC_B0:gen =direct=> K*0:gen e+:gen e-:gen     |         10 |          0 |       0.01 |    0.69 +-   0.44
+ParticleLoader_e+:raw                                             |         10 |        160 |       2.86 |  285.75 +- 856.42
+PListCopy_e+:raw                                                  |         10 |          0 |       0.00 |    0.05 +-   0.03
+ParticleLoader_gamma:brems                                        |         10 |          0 |       0.02 |    1.66 +-   3.51
+PListCopy_gamma:brems                                             |         10 |          0 |       0.00 |    0.05 +-   0.01
+ParticleSelector_applyCuts_gamma:brems                            |         10 |          0 |       0.00 |    0.25 +-   0.33
+ParticleSelector_applyCuts_gamma:brems                            |         10 |          0 |       0.00 |    0.02 +-   0.01
+bremsCorrector_e+:det                                             |         10 |          0 |       0.00 |    0.26 +-   0.13
+ChargedPidMVAMulticlass_Multiclass                                |         10 |          0 |       0.04 |    3.86 +-   1.97
+ParticleSelector_applyCuts_e+:det                                 |         10 |          0 |       0.00 |    0.10 +-   0.11
+ParticleLoader_K+:det                                             |         10 |          0 |       0.00 |    0.26 +-   0.06
+PListCopy_K+:det                                                  |         10 |          0 |       0.00 |    0.04 +-   0.01
+ParticleSelector_applyCuts_K+:det                                 |         10 |          0 |       0.00 |    0.10 +-   0.03
+ParticleLoader_pi-:det                                            |         10 |          0 |       0.00 |    0.20 +-   0.07
+PListCopy_pi-:det                                                 |         10 |          0 |       0.00 |    0.03 +-   0.00
+ParticleSelector_applyCuts_pi-:det                                |         10 |          0 |       0.00 |    0.10 +-   0.03
+ParticleCombiner_K*0:det =direct=> K+:det pi-:det                 |         10 |          0 |       0.00 |    0.08 +-   0.05
+ParticleCombiner_B0:det =direct=> K*0:det e+:det e-:det ?addbrems |         10 |          0 |       0.00 |    0.02 +-   0.00
+MCMatch_B0:det                                                    |         10 |          0 |       0.00 |    0.02 +-   0.00
+TreeFitter_B0:det                                                 |         10 |          0 |       0.00 |    0.02 +-   0.01
+VariablesToExtraInfo_B0:det                                       |         10 |          0 |       0.00 |    0.02 +-   0.01
+ParticleLoader_pi+:all                                            |         10 |          0 |       0.00 |    0.02 +-   0.00
+ParticleLoader_pi+:mostlikely_roe                                 |         10 |          0 |       0.00 |    0.02 +-   0.00
+PListCopy_pi+:mostlikely_roe                                      |         10 |          0 |       0.00 |    0.04 +-   0.01
+ParticleSelector_applyCuts_pi+:mostlikely_roe                     |         10 |          0 |       0.00 |    0.22 +-   0.47
+ParticleLoader_K+:mostlikely_roe                                  |         10 |          0 |       0.00 |    0.02 +-   0.00
+PListCopy_K+:mostlikely_roe                                       |         10 |          0 |       0.00 |    0.04 +-   0.01
+ParticleSelector_applyCuts_K+:mostlikely_roe                      |         10 |          0 |       0.00 |    0.06 +-   0.01
+ParticleLoader_p+:mostlikely_roe                                  |         10 |          0 |       0.00 |    0.21 +-   0.07
+PListCopy_p+:mostlikely_roe                                       |         10 |          0 |       0.00 |    0.04 +-   0.00
+ParticleSelector_applyCuts_p+:mostlikely_roe                      |         10 |          0 |       0.00 |    0.06 +-   0.02
+ParticleLoader_e+:mostlikely_roe                                  |         10 |          0 |       0.00 |    0.02 +-   0.01
+PListCopy_e+:mostlikely_roe                                       |         10 |          0 |       0.00 |    0.04 +-   0.01
+ParticleSelector_applyCuts_e+:mostlikely_roe                      |         10 |          0 |       0.00 |    0.06 +-   0.02
+ParticleLoader_mu+:mostlikely_roe                                 |         10 |          0 |       0.00 |    0.21 +-   0.06
+PListCopy_mu+:mostlikely_roe                                      |         10 |          0 |       0.00 |    0.04 +-   0.00
+ParticleSelector_applyCuts_mu+:mostlikely_roe                     |         10 |          0 |       0.00 |    0.06 +-   0.01
+ParticleLoader_gamma:all                                          |         10 |          0 |       0.00 |    0.02 +-   0.00
+ParticleSelector_applyCuts_gamma:all                              |         10 |          0 |       0.00 |    0.03 +-   0.00
+ParticleLoader_K_L0:roe_default                                   |         10 |          0 |       0.00 |    0.42 +-   0.05
+PListCopy_K_L0:roe_default                                        |         10 |          0 |       0.00 |    0.05 +-   0.01
+ParticleSelector_applyCuts_K_L0:roe_default                       |         10 |          0 |       0.00 |    0.03 +-   0.00
+ROEBuilder_B0:det                                                 |         10 |          0 |       0.00 |    0.02 +-   0.02
+RestOfEventInterpreter_B0:det_MaskList                            |         10 |          0 |       0.00 |    0.02 +-   0.01
+for_each(RestOfEvent : RestOfEvents)                              |         10 |          0 |       0.00 |    0.02 +-   0.00
+SigSideParticleFilter_B0:det                                      |          0 |          0 |       0.00 |    0.00 +-   0.00
+ParticleLoader_gamma:v0_roe -> e+ e-                              |          0 |          0 |       0.00 |    0.00 +-   0.00
+PListCopy_gamma:v0_roe                                            |          0 |          0 |       0.00 |    0.00 +-   0.00
+ParticleSelector_applyCuts_gamma:v0_roe                           |          0 |          0 |       0.00 |    0.00 +-   0.00
+ParticleLoader_K_S0:v0_roe -> pi+ pi-                             |          0 |          0 |       0.00 |    0.00 +-   0.00
+PListCopy_K_S0:v0_roe                                             |          0 |          0 |       0.00 |    0.00 +-   0.00
+ParticleSelector_applyCuts_K_S0:v0_roe                            |          0 |          0 |       0.00 |    0.00 +-   0.00
+ParticleLoader_Lambda0:v0_roe -> p+ pi-                           |          0 |          0 |       0.00 |    0.00 +-   0.00
+PListCopy_Lambda0:v0_roe                                          |          0 |          0 |       0.00 |    0.00 +-   0.00
+ParticleSelector_applyCuts_Lambda0:v0_roe                         |          0 |          0 |       0.00 |    0.00 +-   0.00
+TreeFitter_gamma:v0_roe                                           |          0 |          0 |       0.00 |    0.00 +-   0.00
+RestOfEventUpdater_gamma:v0_roe_masks                             |          0 |          0 |       0.00 |    0.00 +-   0.00
+TreeFitter_K_S0:v0_roe                                            |          0 |          0 |       0.00 |    0.00 +-   0.00
+RestOfEventUpdater_K_S0:v0_roe_masks                              |          0 |          0 |       0.00 |    0.00 +-   0.00
+TreeFitter_Lambda0:v0_roe                                         |          0 |          0 |       0.00 |    0.00 +-   0.00
+RestOfEventUpdater_Lambda0:v0_roe_masks                           |          0 |          0 |       0.00 |    0.00 +-   0.00
+RestOfEventInterpreter_B0:det_my_mask                             |         10 |          0 |       0.00 |    0.02 +-   0.00
+PrintMCParticles                                                  |         10 |          0 |       0.00 |    0.20 +-   0.06
+VariablesToNtuple_B0:gen                                          |         10 |          0 |       0.00 |    0.02 +-   0.00
+VariablesToNtuple_B0:det                                          |         10 |          0 |       0.00 |    0.02 +-   0.00
+=============================================================================================================================
+Total                                                             |         10 |        160 |       3.69 |  368.85 +-1072.80
+=============================================================================================================================
+
+2024-05-04 21:24:57 UTC Unknown INFO: Basf2 status:
+2024-05-04 21:24:57 UTC Unknown INFO: Warnings: 31; Errors: 0; 
+
+2024-05-04 21:24:57 UTC Unknown INFO: Found following files to be uploaded
+2024-05-04 21:24:57 UTC Unknown INFO:  e_re.root
+2024-05-04 21:24:59 UTC Unknown INFO: Rescheduling: 00
+2024-05-04 21:24:59 UTC Unknown INFO: matching data description
+Upload e_re_00000_job407490466_00.root as /belle/scout/user/elee20/e_gen_charge_sideb/sub00/e_re_00000_job407490466_00.root
+2024-05-04 21:24:59 UTC Unknown INFO: output verification
+2024-05-04 21:24:59 UTC Unknown INFO: Skip output file verification of ./e_re_00000_job407490466_00.root
+2024-05-04 21:24:59 UTC Unknown INFO: data uploading
+2024-05-04 21:25:00 UTC Unknown INFO: ApplicationStatus = Preparing to upload
+Metadata path /belle/scout/user/elee20/e_gen_charge_sideb/sub00: OK
+2024-05-04 21:25:01 UTC Unknown INFO: Destination SEs=SIGNET-TMP-SE
+trying to upload/register /belle/scout/user/elee20/e_gen_charge_sideb/sub00/e_re_00000_job407490466_00.root 
+2024-05-04 21:25:01 UTC Unknown INFO: GUIDs not found from POOL XML Catalogue (and were generated) for: ./e_re_00000_job407490466_00.root
+2024-05-04 21:25:01 UTC Unknown INFO: File Info: Size=27451 Checksum=6662aff5 GUID=5C0D9BAB-ABE4-34C8-EC8F-42165ADD7F1F
+Upload: ./e_re_00000_job407490466_00.root
+2024-05-04 21:25:07 UTC Unknown INFO: SE SIGNET-TMP-SE: ready to transfer: 0 < 500
+2024-05-04 21:25:07 UTC Unknown/FailoverTransfer INFO: Attempting dm.putAndRegister ('/belle/scout/user/elee20/e_gen_charge_sideb/sub00/e_re_00000_job407490466_00.root','/data0/slurm/62378898/quMKDmWCZN5n4J8tmqCBXHLnABFKDmABFKDmEZOKDmABFKDmtRg4on/DIRAC_wiSoeSpilot/407490466/./e_re_00000_job407490466_00.root','SIGNET-TMP-SE',guid='5C0D9BAB-ABE4-34C8-EC8F-42165ADD7F1F',catalog='None', checksum = '6662aff5')
+2024-05-04 21:25:15 UTC Unknown/FailoverTransfer INFO: dm.putAndRegister successfully uploaded and registered ./e_re_00000_job407490466_00.root to SIGNET-TMP-SE
+2024-05-04 21:25:15 UTC Unknown INFO: transferAndRegisterFile successfully uploaded and registered ./e_re_00000_job407490466_00.root to SIGNET-TMP-SE
+Upload: OK , lfn: lfn
+file size: 27451
+catalog size: 27451
+file size: OK
+Data upload: OK
+Register metadata of ./e_re_00000_job407490466_00.root in FileCatalog
+gbasf2:  ./e_re_00000_job407490466_00.root has no basf2 metadata.
+Register metadata of ./e_re_00000_job407490466_00.root
+2024-05-04 21:25:20 UTC Unknown INFO: ApplicationStatus = Registering
+Reading metadata...
+gbasf2:  ./e_re_00000_job407490466_00.root has no basf2 metadata.
+Prepare dataset
+Dataset attributes already exist (17): OK
+bulkInsert: OK
+Metadata registration: OK
+2024-05-04 21:25:30 UTC Unknown INFO: Successfully handled /belle/scout/user/elee20/e_gen_charge_sideb/sub00/e_re_00000_job407490466_00.root
+2024-05-04 21:25:30 UTC Unknown INFO: registering accounting metadata
+2024-05-04 21:25:31 UTC Unknown INFO: Succesfully added dataset accounting metadata to file metadata in rucio.
+Successfully upload/register all outputs.
+2024-05-04 21:25:31 UTC Unknown INFO: ApplicationStatus = Done
+2024-05-04 21:25:31 UTC Unknown INFO: Done
+ 

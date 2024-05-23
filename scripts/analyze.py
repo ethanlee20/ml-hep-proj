@@ -17,39 +17,39 @@ from mylib.phys import (
 
 parser = argparse.ArgumentParser()
 parser.add_argument("ell")
-parser.add_argument("input_dir")
-parser.add_argument("output_dir")
+parser.add_argument("input_path")
+parser.add_argument("output_path")
 args = parser.parse_args()
 
 
 ell = args.ell
-input_dir = pl.Path(args.input_dir)
-output_dir = pl.Path(args.output_dir)
+input_path = pl.Path(args.input_path)
+output_path = pl.Path(args.output_path)
 
 
-def config_input_data_paths(input_dir):
-    input_dir = pl.Path(input_dir)
-    input_file_paths = list(input_dir.glob("**/*.pkl")) + list(input_dir.glob("**/*.root"))
-    return input_file_paths
+def config_input_paths(input_path):
+    if input_path.is_dir():
+        input_file_paths = list(input_path.glob("**/*.pkl")) + list(input_path.glob("**/*.root"))
+        return input_file_paths
+    return [input_path]
 
 
-def config_output_data_paths(output_dir, input_file_paths):    
-    output_dir = pl.Path(output_dir)
+def config_output_paths(output_path, input_file_paths):    
     output_file_paths = [
-        output_dir.joinpath(f"{path.stem}_an.pkl")
+        output_path.joinpath(f"{path.stem}_an.pkl")
         for path in input_file_paths
     ]
     return output_file_paths
 
 
-def config_paths(input_dirs, output_dir):
-    input_file_paths = config_input_data_paths(input_dirs)
-    output_file_paths = config_output_data_paths(output_dir, input_file_paths)
+def config_paths(input_path, output_path):
+    input_file_paths = config_input_paths(input_path)
+    output_file_paths = config_output_paths(output_path, input_file_paths)
     return input_file_paths, output_file_paths
 
 
-def list_finished(output_dir):
-    finished = list(output_dir.glob("*.pkl"))
+def list_finished(output_path):
+    finished = list(output_path.glob("*.pkl"))
     return finished
 
 
@@ -195,11 +195,11 @@ def run_calc(data):
     return data
 
 
-output_dir.mkdir(parents=True, exist_ok=True)
+output_path.mkdir(parents=True, exist_ok=True)
 
-input_file_paths, output_file_paths = config_paths(input_dir, output_dir)
+input_file_paths, output_file_paths = config_paths(input_path, output_path)
 
-finished = list_finished(output_dir)
+finished = list_finished(output_path)
 
 for in_path, out_path in zip(input_file_paths, output_file_paths):
     if out_path in finished:

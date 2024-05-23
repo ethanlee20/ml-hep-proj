@@ -1,0 +1,34 @@
+/Job/Arguments = jobDescription.xml -o LogLevel=INFO  -p ParametricInputData="{LFN:/belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00024816/s00/e1003/4S/r00000/charged/mdst/sub00/mdst_000004_prod00024816_task10020000004.root}" pilot.cfg
+/Basf2Rel = light-2401-ocicat
+/CPUTime = 218277
+/DIRACSetup = Belle-KEK
+/Executable = dirac-jobexec
+/ExecutionEnvironment = GBASF2_PARAMETER=3, GBASF2_BASF2INPUT=mdst_000004_prod00024816_task10020000004.root, GBASF2_BASF2OPT=-n%2010, DIRAC_JOB_PROCESSORS=1
+/GBASF2_BASF2INPUT = mdst_000004_prod00024816_task10020000004.root
+/GBASF2_PARAMETER = 3
+/GBasf2Rel = 5.8.3
+/InputData = LFN:/belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00024816/s00/e1003/4S/r00000/charged/mdst/sub00/mdst_000004_prod00024816_task10020000004.root
+/InputDataModule = DIRAC.WorkloadManagementSystem.Client.InputDataResolution
+/InputSandbox = recon_steer-e_gen_charge_sideb_s.py, /cvmfs/belle.kek.jp/grid/BelleDIRAC/5.8.3/lib/python3.9/site-packages/BelleDIRAC/gbasf2/lib/basf2exec.sh, /cvmfs/belle.kek.jp/grid/BelleDIRAC/5.8.3/lib/python3.9/site-packages/BelleDIRAC/gbasf2/lib/metadata_converter.py, /cvmfs/belle.kek.jp/grid/BelleDIRAC/5.8.3/lib/python3.9/site-packages/BelleDIRAC/gbasf2/lib/output_verifier.py, e_gen_charge_sideb-inputsandbox.tar.bz2, /cvmfs/belle.kek.jp/grid/BelleDIRAC/5.8.3/lib/python3.9/site-packages/BelleDIRAC/gbasf2/lib/basf2helper.py, SB:KEK-SandboxSE|/SandBox/e/elee20.belle/a3a/856/a3a8565ef10b2e8034fcf22cab134fba.tar.bz2
+/JobGroup = e_gen_charge_sideb
+/JobID = 407490469
+/JobName = e_gen_charge_sideb
+/JobRequirements = [    CPUTime = 218277;    OwnerDN = /DC=org/DC=cilogon/C=US/O=Brookhaven National Laboratory/CN=Ethan Lee E140858;    OwnerGroup = belle;    Setup = Belle-KEK;    UserPriority = 9;    VirtualOrganization = belle;    Sites =    "{      ARC.SIGNET.si,      CLOUD.Australia.au,      LCG.KIT-TARDIS.de,      LCG.KMI.jp,      LCG.SIGNET.si,      LCG.DESY.de,      DIRAC.LocalTest.jp,      OSG.BNL.us,      LCG.KEK-merge.jp,      DIRAC.UVic.ca,      LCG.KEK2.jp,      EuroHPC.Vega.si,      DIRAC.UVic-local.ca    }";    JobTypes = UserScout;  ]
+/JobType = UserScout
+/LogLevel = INFO
+/OutputSandbox = basf2.err, std.err, std.out, job.info, basf2.profile, *basf2helper.py.log, *_request.json, *.metadata, Script1_basf2helper.py.log
+/Owner = elee20
+/OwnerDN = /DC=org/DC=cilogon/C=US/O=Brookhaven National Laboratory/CN=Ethan Lee E140858
+/OwnerGroup = belle
+/OwnerName = elee20
+/Parameter = 1
+/Parameter.GBASF2_BASF2INPUT = mdst_000004_prod00024816_task10020000004.root
+/Parameter.GBASF2_PARAMETER = 3
+/Parameter.InputData = LFN:/belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00024816/s00/e1003/4S/r00000/charged/mdst/sub00/mdst_000004_prod00024816_task10020000004.root
+/ParameterNumber = 3
+/Priority = 9
+/SoftwareDistModule = BelleDIRAC.Core.Utilities.SoftwareInstallation
+/StdError = std.err
+/StdOutput = std.out
+/VirtualOrganization = belle
+/ExtraOptions = pilot.cfg
