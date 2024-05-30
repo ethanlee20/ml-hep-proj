@@ -18,20 +18,28 @@ from mylib.util import (
 
 def setup_mpl_params_save():
     """Setup plotting parameters."""
-    mpl.rcParams["figure.figsize"] = (8, 5)
+    mpl.rcParams["figure.figsize"] = (6, 4)
     mpl.rcParams["figure.dpi"] = 200
-    mpl.rcParams["axes.titlesize"] = 28
-    mpl.rcParams["figure.titlesize"] = 32
-    mpl.rcParams["axes.labelsize"] = 26
+    mpl.rcParams["axes.titlesize"] = 11
+    mpl.rcParams["figure.titlesize"] = 12
+    mpl.rcParams["axes.labelsize"] = 16
     mpl.rcParams["figure.labelsize"] = 30
-    mpl.rcParams["xtick.labelsize"] = 20
-    mpl.rcParams["ytick.labelsize"] = 20
+    mpl.rcParams["xtick.labelsize"] = 12 
+    mpl.rcParams["ytick.labelsize"] = 12
     mpl.rcParams["text.usetex"] = True
-    mpl.rcParams[
-        "text.latex.preamble"
-    ] = r"\usepackage{physics}"
     mpl.rcParams["font.family"] = "serif"
     mpl.rcParams["font.serif"] = ["Computer Modern"]
+    mpl.rcParams["axes.titley"] = None
+    mpl.rcParams["axes.titlepad"] = 4
+    mpl.rcParams["legend.fancybox"] = False
+    mpl.rcParams["legend.edgecolor"] = "white"
+    mpl.rcParams["legend.markerscale"] = 0.1
+    mpl.rcParams["font.size"] = 7.5
+
+
+def save_plot_and_clear(filename):
+    plt.savefig(filename, bbox_inches="tight")
+    plt.close()
 
 
 def save_plot(plot_name, q_squared_split, out_dir):
@@ -160,24 +168,28 @@ def plot_gen_det(
     xlabel,
     xlim=(None, None)
 ):
-    """Plot the generator level distribution alongside the detector level distribution."""
+    """Plot the generator level distribution alongside the detector level (signal) distribution."""
 
     data = section(data, only_sig=True, var=var, q_squared_split=q_squared_split)
-
-    if xlim not in {(None, None), None}:
-        data = data[(data > xlim[0]) & (data < xlim[1])]
 
     legends = {
         "gen":stats_legend(data.loc["gen"], "Generator"), 
         "det":stats_legend(data.loc["det"], "Detector (signal)")
     }
 
+    if xlim not in {(None, None), None}:
+        data = data[(data > xlim[0]) & (data < xlim[1])]
+
+    n_bins = round(np.mean(
+        [approx_num_bins(i) for i in (data.loc["gen"], data.loc["det"])]
+    )) 
+
     fig, ax = plt.subplots()
 
     ax.hist(
         data.loc["gen"],
         label=legends["gen"],    
-        bins=approx_num_bins(data.loc["gen"]),
+        bins=n_bins,
         color="purple",
         histtype="step",
         linestyle="-",
@@ -186,7 +198,7 @@ def plot_gen_det(
     ax.hist(
         data.loc["det"],
         label=legends["det"],    
-        bins=approx_num_bins(data.loc["det"]),
+        bins=n_bins,
         color="blue",
         histtype="step",
     )
@@ -197,6 +209,74 @@ def plot_gen_det(
 
     return fig, ax
 
+
+def plot_sm_np_comp(sm_data, np_data, var, q_squared_split, title, xlabel, xlim=(None, None), leg_ncols=2):
+    """Compare the standard model distribution to the new physics distribution."""
+
+    sm_data = section(sm_data, sig_noise='sig', var=var, q_squared_split=q_squared_split)
+    np_data = section(np_data, sig_noise='sig', var=var, q_squared_split=q_squared_split)
+
+    legends = {
+        "sm_gen":stats_legend(sm_data.loc["gen"], "SM Gen."), 
+        "sm_det":stats_legend(sm_data.loc["det"], "SM Det. (sig.)"),
+        "np_gen":stats_legend(np_data.loc["gen"], "NP Gen."),
+        "np_det":stats_legend(np_data.loc["det"], "NP Det. (sig.)"),
+    }
+
+    if xlim not in {(None, None), None}:
+        sm_data = sm_data[(sm_data > xlim[0]) & (sm_data < xlim[1])]
+        np_data = np_data[(np_data > xlim[0]) & (np_data < xlim[1])]
+        
+    n_bins = approx_num_bins([
+        sm_data.loc["gen"], 
+        sm_data.loc["det"],
+        np_data.loc["gen"],
+        np_data.loc["det"],
+    ])
+
+    fig, ax = plt.subplots()
+
+    ax.hist(
+        sm_data.loc["gen"],
+        label=legends["sm_gen"],    
+        bins=n_bins,
+        color="purple",
+        histtype="step",
+        linestyle="-",
+    )
+
+    ax.hist(
+        sm_data.loc["det"],
+        label=legends["sm_det"],    
+        bins=n_bins,
+        color="blue",
+        histtype="step",
+    )
+
+    ax.hist(
+        np_data.loc["gen"],
+        label=legends["np_gen"],    
+        bins=n_bins,
+        color="red",
+        histtype="step",
+        linestyle="-",
+    )
+
+    ax.hist(
+        np_data.loc["det"],
+        label=legends["np_det"],    
+        bins=n_bins,
+        color="orange",
+        histtype="step",
+    )
+    
+    ax.legend(ncols=leg_ncols)
+    ax.set_title(title, loc='right')
+    ax.set_xlabel(xlabel)
+
+    return fig, ax
+
+   
 
 def plot_sig_noise(data, var, q_squared_split, noise_type, title, xlabel, out_dir, xlim=(None, None), ymax=None, scale='linear', extra_name=""):
     """

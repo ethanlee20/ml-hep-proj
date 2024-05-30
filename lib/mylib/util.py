@@ -166,7 +166,9 @@ def over_q_squared_splits(f):
 
 def approx_num_bins(data):
     """Approximate the number of bins for a histogram by the length of the data."""
-    return round(np.sqrt(len(data)))
+    if type(data) == list:
+        return round(np.mean([np.sqrt(len(d)) for d in data])*0.2)
+    return round(np.sqrt(len(data))*0.2)
 
 
 def make_bin_edges(start, stop, num_bins):

@@ -1,8 +1,10 @@
-
 __pycache__
 *.ipynb
+.jupyter
 *.DS_Store
-data/
+*.root
+*.pkl
+*.png
 .pytest_cache
 .vscode
 *~
