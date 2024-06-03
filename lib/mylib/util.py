@@ -87,10 +87,12 @@ def open_data(path, tree_names=["gen", "det"]):
 
 """Data Manipulations"""
 
-def min_max_over_arrays(ars:list):
-    big_ar = np.concatenate(ars, axis=None)
-    min = np.nanmin(big_ar)
-    max = np.nanmax(big_ar)
+def min_max(a):
+    """Find the (min, max) of an array or list of arrays."""
+    if type(a) == list:
+        a = np.concatenate(a, axis=None)
+    min = np.nanmin(a)
+    max = np.nanmax(a)
     return min, max   
 
 
@@ -122,8 +124,21 @@ def split_by_q_squared(data, split):
         raise ValueError()
 
 
-def section(data, sig_noise=None, var=None, q_squared_split=None, gen_det=None):
-    
+def trim(d, l:tuple):
+    """Trim data d to limits l."""
+    if l == (None, None):
+        return d
+    elif (l[0]!=None) & (l[1]!=None):
+        return d[(d>l[0]) & (d<l[1])]
+    elif (l[0]!=None):
+        return d[d>l[0]]
+    elif (l[1]!=None):
+        return d[d<l[1]]
+    else: raise ValueError(f"Bad limits: {l}")
+
+
+def section(data, sig_noise=None, var=None, q_squared_split=None, gen_det=None, lim=(None, None)):
+
     if gen_det == "gen":
         data = data.loc[["gen"]]
     elif gen_det == "det":
@@ -139,6 +154,11 @@ def section(data, sig_noise=None, var=None, q_squared_split=None, gen_det=None):
 
     if var:
         data = data[var]
+
+    if (lim!=(None,None)) & (type(data)==pd.Series):
+        data = trim(data, lim)
+    elif (lim!=(None,None)) & (type(data)==pd.DataFrame): 
+        raise ValueError
 
     return data
 
@@ -164,19 +184,28 @@ def over_q_squared_splits(f):
 
 """Histogram"""
 
-def approx_num_bins(data):
-    """Approximate the number of bins for a histogram by the length of the data."""
+
+def approx_num_bins(data, scale=0.2, xlim=(None,None)):
+    """Approximate the number of bins for a histogram by the number of events."""
     if type(data) == list:
-        return round(np.mean([np.sqrt(len(d)) for d in data])*0.2)
-    return round(np.sqrt(len(data))*0.2)
+        data = [trim(d, xlim) for d in data]
+        return round(np.mean([np.sqrt(len(d)) for d in data])*scale)
+    return round(np.sqrt(len(trim(data, xlim)))*scale)   
 
 
 def make_bin_edges(start, stop, num_bins):
     """Make histogram bin edges."""
-    
     bin_size = (stop - start) / num_bins
-
     return np.arange(start, stop + bin_size, bin_size)
+
+
+def approx_bins(data, scale=0.2, xlim=(None,None)):
+    """Make bins based on the number of events."""
+    num_bins = approx_num_bins(data, scale=scale, xlim=xlim)
+    if xlim == (None, None):
+        xlim = min_max(data)        
+    bins = make_bin_edges(start=xlim[0], stop=xlim[1], num_bins=num_bins)
+    return bins
 
 
 def find_bin_middles(bin_edges):
@@ -201,7 +230,7 @@ def bin_data(df, var, num_bins, ret_edges=False):
         stop=df[var].max(), 
         num_bins=num_bins
     )
-    bins = pd.cut(df[var], bin_edges, include_lowest=True)
+    bins = pd.cut(df[var], bin_edges, include_lowest=True) # the interval each event falls into
     binned = df.groupby(bins)
 
     if ret_edges == False:

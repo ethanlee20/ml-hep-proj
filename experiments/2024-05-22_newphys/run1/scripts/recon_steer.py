@@ -28,8 +28,8 @@ from variables import variables as vm
 import vertex as vx
 
 
-input_dir = pl.Path("/home/belle2/elee20/ml-hep-proj/experiments/2024-05-22_newphys/run1/datafiles/sm")
-output_file = pl.Path("/home/belle2/elee20/ml-hep-proj/experiments/2024-05-22_newphys/run1/datafiles/sm_an.root")
+input_dir = pl.Path("/home/belle2/elee20/ml-hep-proj/experiments/2024-05-22_newphys/run1/datafiles/more/np")
+output_file = pl.Path("/home/belle2/elee20/ml-hep-proj/experiments/2024-05-22_newphys/run1/datafiles/more/np_re_2.root")
 ell = "mu" # 'mu' or 'e'
 sideband = False
 

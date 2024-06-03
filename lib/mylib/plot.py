@@ -4,13 +4,14 @@ import matplotlib as mpl
 import numpy as np
 import pandas as pd
 from mylib.util import (
-    approx_num_bins, 
+    approx_num_bins,
+    approx_bins, 
     bin_data, 
     count_events, 
     find_bin_counts, 
     find_bin_middles, 
     make_bin_edges, 
-    min_max_over_arrays, 
+    min_max, 
     noise_, sig_,
     section, 
 )
@@ -210,71 +211,6 @@ def plot_gen_det(
     return fig, ax
 
 
-def plot_sm_np_comp(sm_data, np_data, var, q_squared_split, title, xlabel, xlim=(None, None), leg_ncols=2):
-    """Compare the standard model distribution to the new physics distribution."""
-
-    sm_data = section(sm_data, sig_noise='sig', var=var, q_squared_split=q_squared_split)
-    np_data = section(np_data, sig_noise='sig', var=var, q_squared_split=q_squared_split)
-
-    legends = {
-        "sm_gen":stats_legend(sm_data.loc["gen"], "SM Gen."), 
-        "sm_det":stats_legend(sm_data.loc["det"], "SM Det. (sig.)"),
-        "np_gen":stats_legend(np_data.loc["gen"], "NP Gen."),
-        "np_det":stats_legend(np_data.loc["det"], "NP Det. (sig.)"),
-    }
-
-    if xlim not in {(None, None), None}:
-        sm_data = sm_data[(sm_data > xlim[0]) & (sm_data < xlim[1])]
-        np_data = np_data[(np_data > xlim[0]) & (np_data < xlim[1])]
-        
-    n_bins = approx_num_bins([
-        sm_data.loc["gen"], 
-        sm_data.loc["det"],
-        np_data.loc["gen"],
-        np_data.loc["det"],
-    ])
-
-    fig, ax = plt.subplots()
-
-    ax.hist(
-        sm_data.loc["gen"],
-        label=legends["sm_gen"],    
-        bins=n_bins,
-        color="purple",
-        histtype="step",
-        linestyle="-",
-    )
-
-    ax.hist(
-        sm_data.loc["det"],
-        label=legends["sm_det"],    
-        bins=n_bins,
-        color="blue",
-        histtype="step",
-    )
-
-    ax.hist(
-        np_data.loc["gen"],
-        label=legends["np_gen"],    
-        bins=n_bins,
-        color="red",
-        histtype="step",
-        linestyle="-",
-    )
-
-    ax.hist(
-        np_data.loc["det"],
-        label=legends["np_det"],    
-        bins=n_bins,
-        color="orange",
-        histtype="step",
-    )
-    
-    ax.legend(ncols=leg_ncols)
-    ax.set_title(title, loc='right')
-    ax.set_xlabel(xlabel)
-
-    return fig, ax
 
    
 

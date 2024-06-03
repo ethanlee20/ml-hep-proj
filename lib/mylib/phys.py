@@ -518,6 +518,7 @@ def calc_afb_of_q_squared(df, ell, num_points):
         return calc
 
 
+    df = df[(df['q_squared']>0) & (df['q_squared']<20)]
     binned, edges = bin_data(df, 'q_squared', num_points, ret_edges=True)
     
     afbs = binned.apply(_calc_afb(ell))
@@ -583,6 +584,7 @@ def calc_s5_of_q_squared(df, num_points):
         
         return err
 
+    df = df[(df['q_squared']>0) & (df['q_squared']<20)]
     binned, edges = bin_data(df, 'q_squared', num_points, ret_edges=True)
     s5s = binned.apply(_calc_s5)
     errs = binned.apply(_calc_s5_err)
