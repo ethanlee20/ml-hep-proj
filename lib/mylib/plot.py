@@ -45,7 +45,7 @@ def setup_mpl_params():
     mpl.rcParams["axes.titlepad"] = 4
     mpl.rcParams["legend.fancybox"] = False
     mpl.rcParams["legend.edgecolor"] = "white"
-    mpl.rcParams["legend.markerscale"] = 0.1
+    mpl.rcParams["legend.markerscale"] = 1
     mpl.rcParams["font.size"] = 7.5
 
 
@@ -59,6 +59,18 @@ def save_plot(path):
     plt.savefig(path, bbox_inches="tight")
     plt.close()
 
+
+def setup_ax(ax, title=None, xlabel=None, legend=True, xlim=(None,None), ylim=(None,None), yscale='linear'):
+    """
+    Setup the matplotlib axes object in terms of labels and scale.
+    """
+    
+    ax.set_title(title, loc='right')
+    ax.set_xlabel(xlabel)
+    if legend: ax.legend()
+    ax.set_xlim(xlim)
+    ax.set_ylim(ylim)
+    ax.set_yscale(yscale)
 
 
 def ticks_in_radians(axis, interval:str):
@@ -166,12 +178,52 @@ def plot_hist(
     for d, l, c in zip(data, label, color):
         ax.hist(d, bins=bins, label=l, density=density, histtype=histtype, color=c)
 
-    ax.set_yscale(scale)
-    ax.legend()
-    ax.set_title(title)
-    ax.set_xlabel(xlabel)
+    setup_ax(ax, title=title, xlabel=xlabel, yscale=yscale)
+    if save_path: save_plot(save_path)
 
-    if save_path: save_plot(plot_name, out_dir)
+
+def plot_scatter(
+    ax,
+    d,
+    desc,
+    xlim=(None, None),
+    ylim=(None, None),
+    yscale='linear',
+    color=None,
+    count=None,
+    title=None,
+    xlabel=None,
+    save_path=None,
+):    
+    """
+    Plot a scatter plot.
+
+    data d is assumed to be a tuple of (xs, ys, errors) or a list of such tuples.
+    If d is a list of tuples, desc must be a list of descriptions
+    and color can be a list of colors. 
+    count can be specified if event count is to be shown (can be a list).
+    """
+
+    if type(d) != list: d = [d]
+    if type(desc) != list: desc = [desc]
+    if type(color) != list: color = [color]
+    if type(count) != list: count = [count]
+    assert len(data) == len(desc) == len(count)
+
+    if count == [None]: count = [None]*len(d)
+    if color == [None]: color = [None]*len(d)
+    
+    def l_desc(de): return r"\textbf{" + de + "}"
+    def l_count(co): return f"\nCount: {co}"
+    label = [l_desc(de)+l_count(co) if co else l_desc(de) 
+        for de,co in zip(desc,count)]
+
+    for dset, col, l in zip(d, color, label):
+        ax.errorbar(dset[0], dset[1], yerr=dset[2], fmt='none', ecolor=col, elinewidth=0.5, capsize=1, alpha=0.7)
+        ax.scatter(dset[0], dset[1], s=4, color=col, alpha=0.7, label=l, marker="X")
+        
+    setup_ax(ax, title=title, xlabel=xlabel, xlim=xlim, ylim=ylim, yscale=yscale)
+    if save_path: save_plot(save_path)
     
 
 def plot_image(
