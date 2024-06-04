@@ -21,8 +21,9 @@ def four_momemtum_dataframe(df_with_4_col):
     """
     Create a four-momentum dataframe.
 
-    Create a four-momentum dataframe with well-labeled columns.
-    The returned dataframe is separate from the input dataframe.
+    Create a dataframe where each row represents a four-momentum.
+    The columns are well labeled.
+    The returned dataframe is a new dataframe.
     """
 
     df_4mom = df_with_4_col.copy()
@@ -33,9 +34,10 @@ def four_momemtum_dataframe(df_with_4_col):
 def three_momemtum_dataframe(df_with_3_col):
     """
     Create a three-momentum dataframe.
-
-    Create a three-momentum dataframe with well-labeled columns.
-    The returned dataframe is separate from the input dataframe.
+    
+    Create a dataframe where each row represents a three-momentum.
+    The columns are well labeled.
+    The returned dataframe is a new dataframe.
     """
 
     df_3mom = df_with_3_col.copy()
@@ -46,11 +48,12 @@ def three_momemtum_dataframe(df_with_3_col):
 def three_velocity_dataframe(df_with_3_col):
     """
     Create a three-velocity dataframe.
-
-    Create a three-velocity dataframe with well-labeled columns.
-    The new dataframe is separate from the input dataframe.
+    
+    Create a dataframe where each row represents a three-velocity.
+    The columns are well labeled.
+    The returned dataframe is a new dataframe.
     """
-
+    
     df_3vel = df_with_3_col.copy()
     df_3vel.columns = ["vx", "vy", "vz"]
     return df_3vel
@@ -62,8 +65,8 @@ def inv_mass_sq_two_particles(
     """
     Compute the squares of the invariant masses for two particles systems.
 
-    Given the four-momentum dataframes of particle 1 and particle 2,
-    return a series of the invariant masses squared.
+    Given the four-momentum dataframe of particle 1 and of particle 2,
+    return an invariant masses squared series.
     """
 
     df_p1_4mom = four_momemtum_dataframe(df_p1_4mom)
@@ -470,6 +473,11 @@ def find_chi(
 
 
 def calc_dif_inv_mass_k_pi_and_kst(df_K_4mom, df_pi_4mom):
+    """
+    Calcualate the difference between the invariant mass of the K pi system
+    and the K*'s invariant mass (PDG value).
+    """
+
     inv_mass_kst = 0.892
 
     df_inv_mass_k_pi = np.sqrt(
@@ -481,7 +489,11 @@ def calc_dif_inv_mass_k_pi_and_kst(df_K_4mom, df_pi_4mom):
 
 
 def calc_afb_of_q_squared(df, ell, num_points):
-
+    """
+    Calcuate Afb as a function of q squared.
+    Afb is the forward-backward asymmetry.
+    """
+    
     def _calc_afb(ell):
         def calc(df):
             if ell == 'mu':
@@ -529,6 +541,10 @@ def calc_afb_of_q_squared(df, ell, num_points):
 
 
 def calc_s5_of_q_squared(df, num_points):
+    """
+    Calculate S5 as a function of q squared.
+    S5 is an angular asymmetry.
+    """
 
     def _calc_s5(df):
         costheta_k = df["costheta_K"]
