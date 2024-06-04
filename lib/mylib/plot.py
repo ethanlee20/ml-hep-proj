@@ -1,3 +1,9 @@
+
+"""
+Plotting functionality.
+"""
+
+
 import pathlib as pl
 from matplotlib import pyplot as plt
 import matplotlib as mpl
@@ -17,8 +23,13 @@ from mylib.util import (
 )
 
 
-def setup_mpl_params_save():
-    """Setup plotting parameters."""
+def setup_mpl_params():
+    """
+    Setup plotting parameters.
+    
+    i.e. Setup to make fancy looking plots.
+    Inspiration from Chris Ketter.
+    """
     mpl.rcParams["figure.figsize"] = (6, 4)
     mpl.rcParams["figure.dpi"] = 200
     mpl.rcParams["axes.titlesize"] = 11
@@ -38,34 +49,26 @@ def setup_mpl_params_save():
     mpl.rcParams["font.size"] = 7.5
 
 
-def save_plot_and_clear(filename):
-    plt.savefig(filename, bbox_inches="tight")
+def save_plot(path):
+    """
+    Save plot.
+    
+    Also closes the figure.
+    """
+
+    plt.savefig(path, bbox_inches="tight")
     plt.close()
 
 
-def save_plot(plot_name, q_squared_split, out_dir):
-    """Save plot."""
 
-    def _plot_file_name(plot_name, q_squared_split):
-        return f"q2{q_squared_split}_{plot_name}.png"
+def ticks_in_radians(axis, interval:str):
+    """
+    Change axis ticks to multiples of pi.
 
-    def _save_fig_and_clear(file_name, out_dir):
-        plt.savefig(out_dir.joinpath(file_name), bbox_inches="tight")
-        plt.close()
-
-    file_name = _plot_file_name(plot_name, q_squared_split)
-    _save_fig_and_clear(file_name, out_dir)
-
-
-def set_x_lims(ax, data_gen, data_det):
-    """Set the plot's x limits to contain all the data."""
-
-    min, max = min_max_over_arrays([data_gen, data_det])
-    ax.set_xlim(min - 0.05, max + 0.05)
-
-
-def ticks_in_radians(axis, kind):
-    """Change axis ticks to units of pi."""
+    axis specifies the axis to change ('x' or 'y').
+    interval specifies the interval of the ticks ('zero_to_two_pi' 
+    or 'zero_to_pi')
+    """
 
     zero_to_two_pi = {
         'nums':[0, np.pi/2, np.pi, (3/2)*np.pi, 2*np.pi],
@@ -82,11 +85,11 @@ def ticks_in_radians(axis, kind):
     elif axis == "y":
         ticks = plt.yticks
         
-    if kind == "0 to 2pi":
+    if interval == "0 to 2pi":
         ticks(zero_to_two_pi.nums, zero_to_two_pi.syms)
-    elif kind == "0 to pi":
+    elif interval == "0 to pi":
         ticks(zero_to_pi.nums, zero_to_pi.syms) 
-    else: raise ValueError(f"Unrecognized kind: {kind}")
+    else: raise ValueError(f"Unrecognized interval: {interval}")
 
 
 def stats_legend(
@@ -96,7 +99,12 @@ def stats_legend(
     show_count=True,
     show_rms=True,
 ):
-    """Make a legend label similar to the roots stats box."""
+    """
+    Make a legend label similar to the roots stats box.
+
+    Return a string meant to be used as a label for a matplotlib plot.
+    Displayable stats are mean, count, and RMS.
+    """
     
     def calculate_stats(ar):
         mean = np.mean(ar)
@@ -125,149 +133,46 @@ def stats_legend(
 
 
 def plot_hist(
+    ax,
     data,
-    title,
-    xlabel,
-    save_path,
-    xlim=(None, None),
+    desc,
+    xlim=(None,None),
+    density=True,
     scale='linear',
+    histtype='step',
+    color=None,
+    stats=True,
+    title=None,
+    xlabel=None,
+    save_path=None,
 ):
-    """Plot a simple histogram."""
-
-    left_bound = xlim[0]
-    right_bound = xlim[1]
-
-    if left_bound:
-        data = data[data > left_bound]
-    if right_bound:
-        data = data[data < right_bound]
-
-    fig, ax = plt.subplots()
-
-    ax.hist(
-        data,
-        label=stats_legend(data),
-        bins=approx_num_bins(data),
-        color="purple",
-        histtype="step",
-        linestyle="-",
-    )
-    ax.set_yscale(scale)
-    ax.set_xlim(xlim)
-    ax.legend()
-    ax.set_title(title)
-    ax.set_xlabel(xlabel)
-    plt.savefig(pl.Path(save_path), bbox_inches="tight")
-    plt.close()
-
-
-def plot_gen_det(
-    data,
-    var,
-    q_squared_split, 
-    title,
-    xlabel,
-    xlim=(None, None)
-):
-    """Plot the generator level distribution alongside the detector level (signal) distribution."""
-
-    data = section(data, only_sig=True, var=var, q_squared_split=q_squared_split)
-
-    legends = {
-        "gen":stats_legend(data.loc["gen"], "Generator"), 
-        "det":stats_legend(data.loc["det"], "Detector (signal)")
-    }
-
-    if xlim not in {(None, None), None}:
-        data = data[(data > xlim[0]) & (data < xlim[1])]
-
-    n_bins = round(np.mean(
-        [approx_num_bins(i) for i in (data.loc["gen"], data.loc["det"])]
-    )) 
-
-    fig, ax = plt.subplots()
-
-    ax.hist(
-        data.loc["gen"],
-        label=legends["gen"],    
-        bins=n_bins,
-        color="purple",
-        histtype="step",
-        linestyle="-",
-    )
-
-    ax.hist(
-        data.loc["det"],
-        label=legends["det"],    
-        bins=n_bins,
-        color="blue",
-        histtype="step",
-    )
-
-    ax.legend()
-    ax.set_title(title)
-    ax.set_xlabel(xlabel)
-
-    return fig, ax
-
-
-
-   
-
-def plot_sig_noise(data, var, q_squared_split, noise_type, title, xlabel, out_dir, xlim=(None, None), ymax=None, scale='linear', extra_name=""):
     """
-    Plot the signal distribution and the noise distribution
-    on the same plot.
+    Plot a histogram.
+
+    data can be a list of datasets.
+    If data is a list of datasets, desc can be a list of descriptions
+    and color can be a list of colors. 
     """
-    
-    sig = section(data.loc["det"], sig_noise='sig', var=var, q_squared_split=q_squared_split)
-    noise = section(data.loc["det"], sig_noise='noise', var=var, q_squared_split=q_squared_split)
-    
-    if xlim not in {(None, None), None}:
-        sig = sig[(sig > xlim[0]) & (sig < xlim[1])]
-        noise = noise[(noise > xlim[0]) & (noise < xlim[1])]
-    
-    leg_sig = stats_legend(sig, "Det. Signal")
-    if noise_type == 'bkg':
-        leg_noise = stats_legend(noise, "Det. Background")
-    elif noise_type == 'mis':
-        leg_noise = stats_legend(noise, "Det. Misrecon.", show_mean=False, show_rms=False)
-    elif noise_type == 'both':
-        leg_noise = stats_legend(noise, "Det. Bkg./Misrecon.")
 
-    fig, ax = plt.subplots()
+    if type(data) != list: data = [data]
+    if type(desc) != list: desc = [desc]
+    if type(color) != list: color = [color]
+    assert len(data) == len(desc)
 
-    ax.hist(
-        sig,
-        label=leg_sig,
-        bins=approx_num_bins(sig),
-        alpha=0.6,
-        color="red",
-        histtype="stepfilled",
-    )
-
-    ax.hist(
-        noise,
-        label=leg_noise,
-        bins=approx_num_bins(noise),
-        color="blue",
-        histtype="step",
-        linewidth=1,
-    )
+    bins = approx_bins(data, xlim=xlim)
+    if color == [None]: color = [None]*len(data)
+    if stats: label = [stats_legend(d, de) for d, de in zip(data, desc)]
+    else: label = desc
+    for d, l, c in zip(data, label, color):
+        ax.hist(d, bins=bins, label=l, density=density, histtype=histtype, color=c)
 
     ax.set_yscale(scale)
-    ax.set_ylim(top=ymax)
-    # ax.set_xlim(xlim)
     ax.legend()
     ax.set_title(title)
     ax.set_xlabel(xlabel)
 
-    save_plot(
-        plot_name=f"sig_noise_{var}_{extra_name}",
-        q_squared_split=q_squared_split,
-        out_dir=out_dir
-    )
-
+    if save_path: save_plot(plot_name, out_dir)
+    
 
 def plot_image(
     path_image_pickle_file,
@@ -326,6 +231,7 @@ def calc_eff(data_gen, data_det, num_points):
     number of detector entries in i divided by the number of
     generator entries in i.
     """
+
     min, max = min_max_over_arrays([data_gen, data_det])
     bin_edges = make_bin_edges(start=min, stop=max, num_bins=num_points)
     bin_mids = find_bin_middles(bin_edges)
@@ -397,7 +303,7 @@ def plot_eff(
     return fig, ax
 
 
-def plot_gen_eff(
+def plot_generator_efficiency(
     data_gen,
     data_gen_cut,
     num_points,
@@ -611,44 +517,3 @@ def add_color_bar(axs, norm, cmap):
     
     sm = scalar_mappable(norm, cmap)
     plt.colorbar(sm, ax=axs, aspect=30)
-
-
-def hist2d_sig_noise(data, xvar, yvar, out_dir, n_bins, xlabel, ylabel, save_name, cmap="magma"):
-    """Plot 2d-histogram of signal next to 2d-histogram of noise."""
-
-    sig = sig_(data).loc["det"]
-    noise = noise_(data).loc["det"]
-
-    fig, axs, norm = plot_hist_2d_side_by_side(
-        xs=[
-            sig[xvar],
-            noise[xvar],
-        ],
-        ys=[
-            sig[yvar],
-            noise[yvar],
-        ],
-        num_bins=n_bins,
-        cmap=cmap
-    )
-
-    add_color_bar(axs, norm, cmap=cmap)
-
-    axs[0].set_title(r"Signal \small" + f"(count: {count_events(sig)})")
-    axs[1].set_title(r"Bkg. and Misrecon. \small" + f"(count: {count_events(noise)})")
-    fig.supxlabel(xlabel)
-    axs[0].set_ylabel(ylabel)
-    save_plot(save_name, q_squared_split="all", out_dir=out_dir)
-
-
-def hist2d_sig(data, xvar, yvar, out_dir, n_bins, xrange, yrange, xlabel, ylabel, scale, save_name, cmap="magma"):
-    """Plot 2d-histogram of signal."""
-
-    sig = sig_(data).loc["det"]
-    plt.hist2d(sig[xvar], sig[yvar], bins=n_bins, cmap=cmap, range=(xrange, yrange), norm=scale)
-    plt.colorbar()
-    plt.title(r"Signal \small" + f"(count: {count_events(sig)})")
-    plt.ylabel(ylabel)
-    plt.xlabel(xlabel)
-    save_plot(save_name, q_squared_split="all", out_dir=out_dir)
-
