@@ -1,6 +1,6 @@
 
 """
-Utilities.
+Utility functions.
 """
 
 
@@ -18,58 +18,31 @@ simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
 
 
 """
-Misc.
-"""
-
-def unzip(zipped_stuff):
-    """
-    Unzip some zipped stuff.
-
-    i.e. separate the zipped lists.
-    Return a list of tuples.
-    """
-    return list(zip(*zipped_stuff))
-
-
-def unzip_dicts(a:list):
-    """
-    Unzip a list of dictionaries a.
-    
-    Dictionaries must have the same keys.
-    Return a dictionary of tuples.
-    """
-    keys = a[0].keys()
-    values = unzip([i.values() for i in a])
-    return dict(zip(keys, values))
-    
-
-"""
 File handling
 """
 
-def open_tree(file_path, tree_name):
-    """Open a root tree as a pandas dataframe."""
+#def open_tree(file_path, tree_name):
+#    """Open a root tree as a pandas dataframe."""
+#
+#    df = uproot.open(f"{file_path}:{tree_name}").arrays(library="pd")
+#    return df
 
-    df = uproot.open(f"{file_path}:{tree_name}").arrays(library="pd")
-    return df
 
-
-def open_root(file_path, tree_names):
+def open_root(file_path):
     """
     Open a root file as a pandas dataframe.
 
     The file can contain multiple trees.
     Each tree will be labeled by a pandas multi-index
     """
-    
-	dfs = [
-		open_tree(file_path, tree_name) 
-		for tree_name in tree_names
-	]
-	return pd.concat(dfs, keys=tree_names)
+    f = uproot.open(file_path)
+    tree_names = [name.split(';')[0] for name in f.keys()]
+    dfs = [f[name].arrays(library="pd") for name in tree_names] 
+    result = pd.concat(dfs, keys=tree_names)
+    return result
 
 
-def open_datafile(path, tree_names=None):
+def open_datafile(path):
     """
     Open a datafile as a pandas dataframe.
 
@@ -77,16 +50,17 @@ def open_datafile(path, tree_names=None):
     If opening a root file, tree_names must be specified.
     """
     path = pl.Path(path)
-    assert path.is_file():
+    assert path.is_file()
+    assert path.suffix in {".root", ".pkl"}
     print(f"opening {path}")
     if path.suffix == ".root":
-        return open_root(path, tree_names) 
+        return open_root(path) 
     elif path.suffix == ".pkl":
         return pd.read_pickle(path)
     else: raise ValueError("Unknown file type.")
 
 
-def open_data_dir(path, tree_names=None):
+def open_data_dir(path):
     """
     Open all datafiles in a directory (recursively).
 
@@ -96,14 +70,14 @@ def open_data_dir(path, tree_names=None):
     path = pl.Path(path)
     assert path.is_dir()
     file_paths = list(path.glob('**/*.root')) + list(path.glob('**/*.pkl'))
-    dfs = [open_datafile(path, tree_names) for path in file_paths]
+    dfs = [open_datafile(path) for path in file_paths]
     if dfs == []:
         raise ValueError("Empty dir.")
     data = pd.concat(dfs)
     return data
 
 
-def open_data(path, tree_names=["gen", "det"]):
+def open_data(path):
     """
     Open all datafiles in a directory (if path is a directory).
     Open the specified datafile (if path is a datafile).
@@ -111,26 +85,21 @@ def open_data(path, tree_names=["gen", "det"]):
 
     path = pl.Path(path)
     if path.is_file():
-        try:
-            data = open_datafile(path, tree_names=tree_names) 
-            return data
-        except ValueError as err:
-            print(err)
+        data = open_datafile(path) 
     elif path.is_dir(): 
-        try:
-            data = open_data_dir(path, tree_names=tree_names) 
-            return data
-        except ValueError as err:
-            print(err)
+        data = open_data_dir(path) 
+    return data
+
 
 
 """
 Data Manipulations
 """
 
-def remove_df(d, v, s:tuple):
+def cut_df(d, v, s:tuple):
     """
-    Remove section s in variable v from dataframe d.
+    Remove elements that are in section s in variable v 
+    from dataframe d.
     """
     return d[~((d[v]>s[0]) & (d[v]<s[1]))]
 
@@ -138,6 +107,7 @@ def remove_df(d, v, s:tuple):
 def trim_series(d, l:tuple):
     """
     Trim series d to limits l.
+    l can contain a None value to indicate an open interval.
 
     Assumes that d is a pandas series.
     """
@@ -219,7 +189,7 @@ q_squared_bounds = {
 }
 
     
-def split_by_q_squared(data, split):
+def section_q_squared(data, split):
     """
     Filter to a certain region of q squared.
 
@@ -250,7 +220,7 @@ def section(data, sig_noise=None, var=None, q_squared_split=None, gen_det=None, 
         data = only_noise(data)
 
     if q_squared_split:
-        data = split_by_q_squared(data, q_squared_split)
+        data = section_q_squared(data, q_squared_split)
 
     if var:
         data = data[var]
@@ -263,8 +233,8 @@ def veto_q_squared(data):
     """
     Veto out the JPsi and Psi2S regions in q_squared.    
     """    
-    data = remove_df(data, 'q_squared', q_squared_bounds['JPsi'])
-    data = remove_df(data, 'q_squared', q_squared_bounds['Psi2S'])
+    data = cut_df(data, 'q_squared', q_squared_bounds['JPsi'])
+    data = cut_df(data, 'q_squared', q_squared_bounds['Psi2S'])
     return data
 
 
@@ -303,7 +273,22 @@ def approx_num_bins(data, scale=0.2, xlim=(None,None)):
     return round(np.sqrt(len(trim_series(data, xlim)))*scale)   
 
 
-def make_bin_edges(start, stop, num_bins):
+def find_bin_middles(bins):
+    """
+    Find the position of the middle of each bin.
+    
+    bins is a list of edges.
+    Assumes uniform bin widths.
+    """
+    num_bins = len(bins) - 1
+    bin_width = (
+        np.max(bins) - np.min(bins)
+    ) / num_bins
+    shifted_edges = bins + 0.5 * bin_width
+    return shifted_edges[:-1]
+
+    
+def make_bin_edges(start, stop, num_bins, ret_middles=False):
     """
     Make histogram bin edges.
 
@@ -311,7 +296,11 @@ def make_bin_edges(start, stop, num_bins):
     """
 
     bin_size = (stop - start) / num_bins
-    return np.arange(start, stop + bin_size, bin_size)
+    edges = np.arange(start, stop + bin_size, bin_size) 
+    if ret_middles:
+        middles = find_bin_middles(edges)
+        return edges, middles
+    return edges
 
 
 def approx_bins(data, scale=0.2, xlim=(None,None)):
@@ -335,19 +324,6 @@ def approx_bins(data, scale=0.2, xlim=(None,None)):
     return bins
 
 
-def find_bin_middles(bins):
-    """
-    Find the position of the middle of each bin.
-    
-    Note: Assumes uniform bin widths.
-    """
-    num_bins = len(bins) - 1
-    bin_width = (
-        np.max(bins) - np.min(bins)
-    ) / num_bins
-    shifted_edges = bins + 0.5 * bin_width
-    return shifted_edges[:-1]
-    
     
 def bin_data(df, var, num_bins, ret_edges=False):
     """

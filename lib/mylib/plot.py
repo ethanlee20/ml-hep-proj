@@ -18,7 +18,6 @@ from mylib.util import (
     find_bin_middles, 
     make_bin_edges, 
     min_max, 
-    noise_, sig_,
     section, 
 )
 
@@ -52,21 +51,18 @@ def setup_mpl_params():
 def save_plot(path):
     """
     Save plot.
-    
-    Also closes the figure.
     """
-
     plt.savefig(path, bbox_inches="tight")
-    plt.close()
 
 
-def setup_ax(ax, title=None, xlabel=None, legend=True, xlim=(None,None), ylim=(None,None), yscale='linear'):
+def setup_ax(ax, title=None, xlabel=None, ylabel=None, legend=True, xlim=(None,None), ylim=(None,None), yscale='linear'):
     """
     Setup the matplotlib axes object in terms of labels and scale.
     """
     
     ax.set_title(title, loc='right')
     ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
     if legend: ax.legend()
     ax.set_xlim(xlim)
     ax.set_ylim(ylim)
@@ -180,6 +176,7 @@ def plot_hist(
 
     setup_ax(ax, title=title, xlabel=xlabel, yscale=yscale)
     if save_path: save_plot(save_path)
+    
 
 
 def plot_scatter(
@@ -190,9 +187,10 @@ def plot_scatter(
     ylim=(None, None),
     yscale='linear',
     color=None,
-    count=None,
+    info=None,
     title=None,
     xlabel=None,
+    ylabel=None,
     save_path=None,
 ):    
     """
@@ -201,28 +199,27 @@ def plot_scatter(
     data d is assumed to be a tuple of (xs, ys, errors) or a list of such tuples.
     If d is a list of tuples, desc must be a list of descriptions
     and color can be a list of colors. 
-    count can be specified if event count is to be shown (can be a list).
+    info can be specified if additional legend info is to be shown (can be a list).
     """
 
     if type(d) != list: d = [d]
     if type(desc) != list: desc = [desc]
     if type(color) != list: color = [color]
-    if type(count) != list: count = [count]
-    assert len(data) == len(desc) == len(count)
-
-    if count == [None]: count = [None]*len(d)
+    if type(info) != list: info = [info]
+    if info == [None]: info = [None]*len(d)
     if color == [None]: color = [None]*len(d)
+    assert len(d) == len(desc) == len(info)
     
-    def l_desc(de): return r"\textbf{" + de + "}"
-    def l_count(co): return f"\nCount: {co}"
-    label = [l_desc(de)+l_count(co) if co else l_desc(de) 
-        for de,co in zip(desc,count)]
+    def label_desc(desc): return r"\textbf{" + desc + "}"
+    def label_info(info): return "\n"+info
+    label = [label_desc(de)+label_info(inf) if inf else label_desc(de) 
+        for de,inf in zip(desc,info)]
 
     for dset, col, l in zip(d, color, label):
         ax.errorbar(dset[0], dset[1], yerr=dset[2], fmt='none', ecolor=col, elinewidth=0.5, capsize=1, alpha=0.7)
         ax.scatter(dset[0], dset[1], s=4, color=col, alpha=0.7, label=l, marker="X")
         
-    setup_ax(ax, title=title, xlabel=xlabel, xlim=xlim, ylim=ylim, yscale=yscale)
+    setup_ax(ax, title=title, xlabel=xlabel, ylabel=ylabel, xlim=xlim, ylim=ylim, yscale=yscale)
     if save_path: save_plot(save_path)
     
 
@@ -269,35 +266,6 @@ def plot_image(
             shrink=0.6,
             location="left",
         )
-
-
-def calc_eff(data_gen, data_det, num_points):
-    """
-    Calculate the efficiency per bin.
-    
-    The efficiency of bin i is defined as the number of
-    detector entries in i divided by the number of generator
-    entries in i.
-    
-    The errorbar for bin i is calculated as the squareroot of the
-    number of detector entries in i divided by the number of
-    generator entries in i.
-    """
-
-    min, max = min_max_over_arrays([data_gen, data_det])
-    bin_edges = make_bin_edges(start=min, stop=max, num_bins=num_points)
-    bin_mids = find_bin_middles(bin_edges)
-
-    binned_gen = bin_data(data_gen, bin_edges)
-    binned_det = bin_data(data_det, bin_edges)
-
-    bin_count_gen = find_bin_counts(binned_gen)
-    bin_count_det = find_bin_counts(binned_det)
-    
-    eff = (bin_count_det / bin_count_gen).values
-    err = (np.sqrt(bin_count_det) / bin_count_gen).values
-    
-    return eff, bin_mids, err
 
 
 def plot_eff(
@@ -408,32 +376,6 @@ def plot_generator_efficiency(
 
     return fig, ax
 
-
-def calculate_resolution(data, variable, q_squared_split):
-    """
-    Calculate the resolution.
-    
-    The resolution of a variable is defined as the 
-    reconstructed value minus the MC truth value.
-    """
-    data_calc = section(data, sig_noise='sig', var=variable, q_squared_split=q_squared_split).loc["det"]
-    data_mc = section(data, sig_noise='sig', var=variable+'_mc', q_squared_split=q_squared_split).loc["det"]
-    
-    resolution = data_calc - data_mc
-
-    if variable != "chi":
-        return resolution
-
-    def apply_periodicity(resolution):
-        resolution = resolution.where(
-                resolution < np.pi, resolution - 2 * np.pi
-        )
-        resolution = resolution.where(
-            resolution > -np.pi, resolution + 2 * np.pi
-        )
-        return resolution
-
-    return apply_periodicity(resolution)
 
 
 def plot_resolution(

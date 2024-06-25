@@ -1,19 +1,25 @@
 
-"""Steering file for reconstructing B -> K* ell+ ell-."""
-
 """
+Steering file for reconstructing B -> K* ell+ ell-.
+
+
 Submit to the Grid like this:
 
 gbasf2 \
-    -p test \
+    -p 2024-06-04_sig_e \
     -s light-2401-ocicat \
-    --input_dslist /home/belle2/elee20/ml-hep-proj/scripts/reconstruct/lpns_results_gen_mixed.txt \
-    /home/belle2/elee20/ml-hep-proj/scripts/reconstruct/recon_steer.py
+    -i /belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00025630/s00/e1003/4S/r00000/1120240010/mdst \
+    /home/belle2/elee20/ml-hep-proj/experiments/2024-06-04_eff_res/scripts/recon_steer.py
+
+
+Dataset paths:
 
     mixed bkg first file: -i /belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00024821/s00/e1003/4S/r00000/mixed/mdst \
     mixed bkg mini list: --input_dslist /home/belle2/elee20/ml-hep-proj/scripts/reconstruct/lpns_results_gen_mixed_mini.txt \
     mixed bkg all list: --input_dslist /home/belle2/elee20/ml-hep-proj/scripts/reconstruct/lpns_results_gen_mixed.txt \
     charged bkg all list: --input_dslist /home/belle2/elee20/ml-hep-proj/scripts/reconstruct/lpns_results_gen_charged.txt \
+    signal mu: /belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00025631/s00/e1003/4S/r00000/1120240011/mdst
+    signal e: /belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00025630/s00/e1003/4S/r00000/1120240010/mdst
     signal e first: -i /belle/MC/release-06-00-08/DB00002100/MC15ri_b/prod00025630/s00/e1003/4S/r00000/1120240010/mdst/sub00/mdst_000001_prod00025630_task10020000001.root \
 """
 
@@ -28,13 +34,11 @@ from variables import variables as vm
 import vertex as vx
 
 
-parser = argparse.ArgumentParser()
-parser.add_argument('input_dir')
-parser.add_argument('ell', choices=['mu', 'e'])
-parser.add_argument('--sideband', action='store_true', default=False)
-args = parser.parse_args()
+input_filepaths = [""] # overwritten on the Grid
+output_filepath = "e_re.root"
+ell = "e" # 'mu' or 'e'
+sideband = False
 
-args.input_dir = pl.Path(args.input_dir)
 
 main = b2.Path()
 
@@ -77,10 +81,8 @@ def define_aliases():
 
 def input_to_the_path():
     
-    input_files = [str(i) for i in args.input_dir.glob("**/*.root")]
-    
     ma.inputMdstList(
-        filelist=input_files,
+        filelist=input_filepaths,
         path=main,
         environmentType="default",
     )
@@ -90,16 +92,16 @@ def reconstruct_generator_level():
 
     ma.fillParticleListFromMC(decayString="K+:gen", cut="", path=main)
     ma.fillParticleListFromMC(decayString="pi-:gen", cut="", path=main)
-    ma.fillParticleListFromMC(decayString=f"{args.ell}+:gen", cut="", path=main)
+    ma.fillParticleListFromMC(decayString=f"{ell}+:gen", cut="", path=main)
 
     ma.reconstructMCDecay("K*0:gen =direct=> K+:gen pi-:gen", cut="", path=main)
-    ma.reconstructMCDecay(f"B0:gen =direct=> K*0:gen {args.ell}+:gen {args.ell}-:gen", cut="", path=main)
+    ma.reconstructMCDecay(f"B0:gen =direct=> K*0:gen {ell}+:gen {ell}-:gen", cut="", path=main)
 
 
 def reconstruct_detector_level():
 
     marker = ''
-    if args.ell == 'e':
+    if ell == 'e':
         marker = '?addbrems'
 
     dz_cut = "[abs(dz) < 4]"
@@ -116,11 +118,11 @@ def reconstruct_detector_level():
     invMKst_cut = "[abs(formula(daughterInvM(0, 1) - invM_Kst)) <= formula(2 * fullwidth_Kst)]"
 
     deltaE_cut = '[abs(deltaE) <= 0.05]'    
-    if args.ell == 'e':
+    if ell == 'e':
         deltaE_cut = '[-0.075 <= deltaE <= 0.05]'
 
     Mbc_cut = "[Mbc > 5.27]"
-    if args.sideband:
+    if sideband:
         Mbc_cut = "[5.2 < Mbc < 5.26]"
      
     muon_cut = f"{muonID_cut} and {muon_p_cut} and {dr_cut} and {dz_cut}  and thetaInCDCAcceptance"
@@ -131,7 +133,7 @@ def reconstruct_detector_level():
 
     pion_cut = f"{dr_cut} and {dz_cut} and thetaInCDCAcceptance"
 
-    if args.ell == 'e':
+    if ell == 'e':
         ma.fillParticleList(decayString="e+:raw", cut='', path=main)
 
         ma.fillParticleList(decayString="gamma:brems", cut="goodGamma", path=main)
@@ -140,7 +142,7 @@ def reconstruct_detector_level():
         ma.applyChargedPidMVA(['e+:det'], path=main, trainingMode=1)
         ma.applyCuts("e+:det", electron_cut, path=main)
 
-    elif args.ell == 'mu':
+    elif ell == 'mu':
         ma.fillParticleList(decayString="mu+:det", cut=muon_cut, path=main)
 
     ma.fillParticleList(decayString="K+:det", cut=kaon_cut, path=main)
@@ -153,7 +155,7 @@ def reconstruct_detector_level():
     )
 
     ma.reconstructDecay(
-        f"B0:det =direct=> K*0:det {args.ell}+:det {args.ell}-:det {marker}", 
+        f"B0:det =direct=> K*0:det {ell}+:det {ell}-:det {marker}", 
         cut=f"{deltaE_cut} and {Mbc_cut}", 
         path=main
     )
@@ -211,19 +213,19 @@ def create_variable_lists():
 
     Kstar0_vars = vu.create_aliases_for_selected(
         list_of_variables=std_vars,
-        decay_string=f"B0 -> [^K*0 -> K+ pi-] {args.ell}+ {args.ell}-",
+        decay_string=f"B0 -> [^K*0 -> K+ pi-] {ell}+ {ell}-",
     )
 
     K_pi_vars = vu.create_aliases_for_selected(
         list_of_variables=std_vars,
-        decay_string=f"B0 -> [K*0 -> ^K+ ^pi-] {args.ell}+ {args.ell}-",
+        decay_string=f"B0 -> [K*0 -> ^K+ ^pi-] {ell}+ {ell}-",
         prefix=["K_p", "pi_m"],
     )
 
     lepton_vars = vu.create_aliases_for_selected(
         list_of_variables=std_vars + ['e_id_BDT'],
-        decay_string=f"B0 -> [K*0 -> K+ pi-] ^{args.ell}+ ^{args.ell}-",
-        prefix=[f"{args.ell}_p", f"{args.ell}_m"],
+        decay_string=f"B0 -> [K*0 -> K+ pi-] ^{ell}+ ^{ell}-",
+        prefix=[f"{ell}_p", f"{ell}_m"],
     )
 
     B0_vars = (
@@ -238,13 +240,10 @@ def create_variable_lists():
 
 
 def save_output(B0_vars):
-    out_filename = f"{args.input_dir.stem}_re"
-    root_ext = ".root"
-
     ma.variablesToNtuple(
         decayString="B0:gen",
         variables=B0_vars,
-        filename=out_filename + root_ext,
+        filename=output_filepath,
         treename="gen",
         path=main,
     )
@@ -252,23 +251,10 @@ def save_output(B0_vars):
     ma.variablesToNtuple(
         decayString="B0:det",
         variables=B0_vars,
-        filename=out_filename + root_ext,
+        filename=output_filepath,
         treename="det",
         path=main,
     )
-
-    # udst.add_udst_output(
-    #     filename=out_filename + udst_ext + root_ext,
-    #     particleLists=['B0:det','B0:gen'],
-    #     path=main,
-    #     mc=True,
-    # )
-    
-    # mdst.add_mdst_output(
-    #     path=main,
-    #     mc=True,
-    #     filename=out_filename + mdst_ext + root_ext,
-    # )
 
 
 append_global_tag()

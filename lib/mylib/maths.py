@@ -85,7 +85,7 @@ def cosine_angle(df_vec1, df_vec2):
 
 def cross_product_3d(df_3vec1, df_3vec2):
     """
-    Find the cross product of vectors in two 3-dim vector dataframes.
+    Find the cross product of vectors in two 3-dimentional vector dataframes.
 
     Return vector dataframe of results (computed row-wise).
     """
@@ -127,7 +127,7 @@ def cross_product_3d(df_3vec1, df_3vec2):
 
 def unit_normal(df_3vec1, df_3vec2):
     """
-    Find the unit normals to planes specified by two vector dataframes.
+    Compute the unit normal dataframe of planes specified by two vector dataframes.
 
     Return a vector dataframe of the results.
     """
