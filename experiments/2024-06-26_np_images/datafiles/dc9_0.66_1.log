@@ -1,0 +1,787 @@
+[INFO] Steering file: mc_gen_steer.py
+
+**************************************************************
+ Geant4 version Name: geant4-10-06-patch-03    (6-November-2020)
+                       Copyright : Geant4 Collaboration
+                      References : NIM A 506 (2003), 250-303
+                                 : IEEE-TNS 53 (2006), 270-278
+                                 : NIM A 835 (2016), 186-225
+                             WWW : http://geant4.org/
+**************************************************************
+
+[WARNING] stdPi0s is loading "May2020" pi0 recommendations. Please check Neutrals Performance Confluence page for most up-to-date pi0 recommendations.
+[INFO] Starting event processing, random seed is set to '13734fc0c86942e6e49f6c45ab55309cd2930e47063d27c709c11f942505be4'
+[INFO] Conditions Database: found working server
+	url = http://belle2db.sdcc.bnl.gov/b2s/rest/
+[INFO] Conditions data: configured globaltags (highest priority first) are mc_production_MC15ri_a, release-06-00-07
+[INFO] SVDNoiseCalibrations: from now on we are using ../databases/user_xmls/phase3-globalruns/GlobalRun_LV7_HV50_VS-0.8_hv_shift_L6_30V_MaxStrip64_20201029_14-000656.xml
+TClass::Init:0: RuntimeWarning: no dictionary for class pair<unsigned short,Belle2::KLMChannelStatus::ChannelStatus> is available
+ ... message repeated 3 times
+[INFO] SVDFADCMaskedStrips: from now on we are using /mnt/data/user_xmls/phase3-globalruns/GlobalRun_LV7_HV50_VS-0.8_hv_shift_L6_30V_MaxStrip64_20201029_14-000656.xml
+[INFO] SVDChargeSimulationCalibrations: from now on we are using ChargeSimulationCalibrations_default_2021-06-25T23:32:19.954782_INFO:release-06_APVCouplings=0
+[INFO] SVDPulseShapeCalibrations: from now on we are using PulseShapeCalibrations_default_2020-04-27T21:41:16.240855_INFO:_peakTime=fromPhase3calibrations_pulseWidth=130_gain=fromPhase3calibrations
+[INFO] BGOverlayInput: starting with event 1790844
+[WARNING] ClockFreq4TDC changed from cdclocal 1.017774e+00 to official 1.017752e+00 (GHz)!  { module: Geometry }
+[INFO] Using Belle2 physics list
+### Birks coefficients used in run time
+   G4_POLYSTYRENE     0.07943 mm/MeV     0.00841958 g/cm^2/MeV  massFactor=  101.167 effCharge= 0.027027
+[INFO] Setting global Geant4 production cut
+	cutValue = 0.070000000000000007
+[INFO] Perform Geant4 final initialization: Geometry optimization, PhysicsList calculations...
+[INFO] done, Geant4 ready
+[INFO] TRGGDLModule::initialize. simulationMode=1
+ FLOATING-POINT NUMBERS ASSUMED ACCURATE TO 1e-06
+ FLOATING-POINT NUMBERS ASSUMED ACCURATE TO 1e-06
+[INFO] FiltersContainer: Replacing existing filter for setup name: SVDOnlyDefault
+[INFO] ExtManager::Initialize(): Ext will run with FullSim and has initialized the extrapolator
+[INFO] Ext hypothesis for PDG code 11 and its antiparticle will be extrapolated
+[INFO] Ext hypothesis for PDG code 13 and its antiparticle will be extrapolated
+[INFO] Ext hypothesis for PDG code 211 and its antiparticle will be extrapolated
+[INFO] Ext hypothesis for PDG code 321 and its antiparticle will be extrapolated
+[INFO] Ext hypothesis for PDG code 2212 and its antiparticle will be extrapolated
+[INFO] Ext hypothesis for PDG code 1000010020 and its antiparticle will be extrapolated
+[INFO] TOPBunchFinder: running in data processing mode
+[INFO] ExtManager::Initialize(): Muid will run with FullSim; the extrapolator has already been initialized
+[INFO] Muid hypothesis for PDG code 13 and its antiparticle will be extrapolated
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: pi+:all (pi-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleSelector: pi+:skim
+[INFO]    -> With cuts  : pt>0.2 and abs(d0) < 2 and abs(z0) < 4
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: pi+:all (pi-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleSelector: pi+:hadb
+[INFO]    -> With cuts  : p>0.1 and abs(d0) < 2 and abs(z0) < 4
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: pi+:all (pi-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleSelector: pi+:tau
+[INFO]    -> With cuts  : abs(d0) < 2 and abs(z0) < 8
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: gamma:all (gamma:all)
+[INFO]    -> MDST source: ECLClusters and KLMClusters
+[INFO] ParticleSelector: gamma:skim
+[INFO]    -> With cuts  : E>0.1
+[INFO] ParticleSelector: gamma:skim
+[INFO]    -> With cuts  : isFromECL
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: K_S0:V0 (K_S0:V0)
+[INFO]    -> MDST source: V0
+[INFO] ParticleVertexFitter: Performing vertex fit on K_S0:V0_MassWindow using KFit
+[INFO] ParticleSelector: K_S0:V0_MassWindow
+[INFO]    -> With cuts  : 0.450 < M < 0.550
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: pi+:all (pi-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleVertexFitter: Performing vertex fit on K_S0:RD using KFit
+[INFO] ParticleSelector: K_S0:RD
+[INFO]    -> With cuts  : 0.450 < M < 0.550
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: Lambda0:V0 (anti-Lambda0:V0)
+[INFO]    -> MDST source: V0
+[INFO] ParticleSelector: Lambda0:V0_MassWindow
+[INFO]    -> With cuts  : 1.10 < M < 1.13
+[INFO] ParticleSelector: Lambda0:V0_MassWindow
+[INFO]    -> With cuts  : extraInfo(highQualityVertex)
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: pi+:all (pi-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: p+:all (anti-p-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleSelector: Lambda0:RD
+[INFO]    -> With cuts  : 1.10 < M < 1.13
+[INFO] ParticleSelector: Lambda0:RD
+[INFO]    -> With cuts  : extraInfo(highQualityVertex)
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: K+:all (K-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleSelector: K+:dstSkim
+[INFO]    -> With cuts  : abs(d0) < 2 and abs(z0) < 4
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: pi+:all (pi-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleSelector: pi+:dstSkim
+[INFO]    -> With cuts  : abs(d0) < 2 and abs(z0) < 4
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: gamma:all (gamma:all)
+[INFO]    -> MDST source: ECLClusters and KLMClusters
+[INFO] ParticleSelector: gamma:loose
+[INFO]    -> With cuts  : theta > 0.296706 and theta < 2.61799 and     [[clusterReg == 1 and E > 0.03] or [clusterReg == 2 and E > 0.02] or [clusterReg == 3 and E > 0.03]] and     [abs(clusterTiming) < formula(1.0 * clusterErrorTiming) or E > 0.1] and [clusterE1E9 > 0.3 or E > 0.1]
+[INFO] ParticleSelector: gamma:loose
+[INFO]    -> With cuts  : isFromECL
+[INFO] ParticleVertexFitter: Performing mass fit on pi0:veryLooseFit using KFit
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: pi+:all (pi-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleSelector: pi+:offip
+[INFO]    -> With cuts  : [abs(z0) > 10] and [nSVDHits >=3 or nCDCHits >= 20]
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: pi+:all (pi-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleSelector: pi+:GoodTrackForHLT
+[INFO]    -> With cuts  : abs(d0) < 2 and abs(z0) < 5
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: K+:all (K-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleSelector: K+:GoodTrackForHLT
+[INFO]    -> With cuts  : abs(d0) < 2 and abs(z0) < 5
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: gamma:all (gamma:all)
+[INFO]    -> MDST source: ECLClusters and KLMClusters
+[INFO] ParticleSelector: gamma:all
+[INFO]    -> With cuts  : isFromECL
+[INFO] MCMatcher module will search for Particle -> MCParticle associations for the ParticleList pi0:all.
+[INFO]   - The MCMatcher will use default algorithm suitable for analysis of Belle II MC (for MC5 use legacy algorithm).
+[INFO] ECLChannelMapper:: loaded ECLChannelMap from the database
+	IoV = 1003,0,1003,-1
+[INFO] [TRGECLModule] 3DBhabhaVetoInTrackThetaRegion (low : high) = (3 : 15)
+[INFO] [TRGECLModule] EventTimingQualityThresholds (low : high)= (0.5 : 10) (GeV)
+[INFO] [TRGECLModule] Taub2b two CL Angle cut in CM (degree) (dphi L, H, theta sum L, H ) = (110,250,130,230)
+[INFO] [TRGECLModule] Taub2b Total Energy Cut in lab. (GeV) = 7
+[INFO] [TRGECLModule] Taub2b Cluster Energy Cut in lab. (GeV) : (E(CL1), E(CL2)) = (1.9, 999)
+[INFO] [TRGECLModule] Bhabha Add Angle cut in CM (degree) (dphi L, H, theta sum L, H) = (150,210,160,200)
+[INFO] [TRGECLModule] Taub2b2 two CL Angle cut in CM (degree) (dphi L, H, theta sum L, H) = (120,240,140,220)
+[INFO] [TRGECLModule] Taub2b2 Total Energy Cut in lab. (GeV) = 7
+[INFO] [TRGECLModule] Taub2b2 Energy Cut in lab. for cluster in endcap (GeV) = 3
+[INFO] [TRGECLModule] Taub2b2 Cluster energy cut in lab. (GeV) = 0.162
+[INFO] SVDRecoConfiguration: from now on we are using SVDRecoConfiguration_default_3=6_2021-06-10T03:54:14.284092_INFO:_CoG3Time_MaxSampleCharge_CoGOnlyPosition
+[INFO] SVD  6-sample DAQ, cluster time algorithm: CoG3, cluster charge algorithm: MaxSample, cluster position algorithm: CoGOnly
+[INFO]  with strip charge reconstructed with MaxSample and strip time reconstructed with dontdo
+[INFO] SVD  3-sample DAQ, cluster time algorithm: CoG3, cluster charge algorithm: MaxSample, cluster position algorithm: CoGOnly
+[INFO]  with strip charge reconstructed with MaxSample and strip time reconstructed with dontdo
+[INFO] ECLShowerCorrector beginRun: Number of energies = 8
+[INFO] SVDRecoConfiguration: from now on we are using SVDRecoConfiguration_default_3=6_2021-06-10T03:54:14.284092_INFO:_CoG3Time_MaxSampleCharge_CoGOnlyPosition
+[INFO] SVD  6-sample DAQ, cluster time algorithm: CoG3, cluster charge algorithm: MaxSample, cluster position algorithm: CoGOnly
+[INFO]  with strip charge reconstructed with MaxSample and strip time reconstructed with dontdo
+[INFO] SVD  3-sample DAQ, cluster time algorithm: CoG3, cluster charge algorithm: MaxSample, cluster position algorithm: CoGOnly
+[INFO]  with strip charge reconstructed with MaxSample and strip time reconstructed with dontdo
+[INFO] TOPGeometryPar: envelope of PMT dependent QE has been set
+[INFO] TOPGeometryPar: QE of PMT's mapped to positions, size = 512
+[INFO] TOPGeometryPar: PMT types mapped to positions, size = 512
+[INFO] TOPGeometryPar: pixel relative quantum efficiencies have been set, size = 8192
+[INFO] TOPRecoManager: new relative pixel efficiencies have been passed to reconstruction
+[INFO] TOPRecoManager: new channel masks have been passed to reconstruction
+[INFO] TOPRecoManager: channelT0-uncalibrated channels have been masked off
+[INFO] TOPRecoManager: timebase-uncalibrated channels have been masked off
+[WARNING] Could not extrapolate the fit result for pdg 211 to the perigee point. Why, I don't know.  { module: TrackCreator }
+[WARNING] Could not extrapolate the fit result for pdg 321 to the perigee point. Why, I don't know.  { module: TrackCreator }
+[WARNING] Could not extrapolate the fit result for pdg 2212 to the perigee point. Why, I don't know.  { module: TrackCreator }
+[WARNING] Could not extrapolate the fit result for pdg 211 to the perigee point. Why, I don't know.  { module: TrackCreator }
+ ... message repeated 1 times
+[WARNING] Could not extrapolate the fit result for pdg 321 to the perigee point. Why, I don't know.  { module: TrackCreator }
+[WARNING] Inner hits remained after 5 times of removing inner hits!  { module: V0Finder }
+[WARNING] Could not extrapolate the fit result for pdg 2212 to the perigee point. Why, I don't know.  { module: TrackCreator }
+[WARNING] Could not extrapolate the fit result for pdg 321 to the perigee point. Why, I don't know.  { module: TrackCreator }
+ ... message repeated 1 times
+[WARNING] Could not extrapolate the fit result for pdg 2212 to the perigee point. Why, I don't know.  { module: TrackCreator }
+ ... message repeated 1 times
+[WARNING] Could not extrapolate the fit result for pdg 321 to the perigee point. Why, I don't know.  { module: TrackCreator }
+[WARNING] Could not extrapolate the fit result for pdg 2212 to the perigee point. Why, I don't know.  { module: TrackCreator }
+ ... message repeated 1 times
+[WARNING] CDCSensitiveDetector: Strange path length: s2= 66.1608 sint= 66.1604 s_in_layer= 0.00032251 test= 1  { module: FullSim }
+[WARNING] Could not extrapolate the fit result for pdg 2212 to the perigee point. Why, I don't know.  { module: TrackCreator }
+[WARNING] Could not extrapolate the fit result for pdg 321 to the perigee point. Why, I don't know.  { module: TrackCreator }
+ ... message repeated 3 times
+[WARNING] Could not extrapolate the fit result for pdg 211 to the perigee point. Why, I don't know.  { module: TrackCreator }
+[WARNING] Could not extrapolate the fit result for pdg 2212 to the perigee point. Why, I don't know.  { module: TrackCreator }
+Error in <TDecompChol::Decompose()>: matrix not positive definite
+Error in <TDecompChol::Decompose()>: matrix not positive definite
+[WARNING] Could not extrapolate the fit result for pdg 211 to the perigee point. Why, I don't know.  { module: TrackCreator }
+[WARNING] Geant4 exception during material lookup -- origin: G4Navigator::ComputeStep()
+ code:GeomNav0003
+ description:Stuck Track: potential geometry or navigation problem.
+  Track stuck, not moving for 25 steps.
+  Current  phys volume: 'phys_Lv2Vacuum_name'
+   - at position : (7.137052928819837,-2.447375308165333,1.702933114867101e-12)
+     in direction: (-0.9364426948785176,0.3508205797963681,1.51857864980624e-10)
+    (local position: (7.137052928819837,-2.447375308165333,1.702933114867101e-12))
+    (local direction: (-0.9364426948785176,0.3508205797963681,1.51857864980624e-10)).
+  Previous phys volume: 'phys_Lv2Vacuum_name'
+
+  Likely geometry overlap - else navigation problem !
+ Track *abandoned* due to excessive number of Zero steps. Event aborted. 
+
+  { module: CDCToSVDSpacePointCKF_backward }
+ ... message repeated 1 times
+[WARNING] Geant4 exception during material lookup -- origin: G4Navigator::ComputeStep()
+ code:GeomNav0003
+ description:Stuck Track: potential geometry or navigation problem.
+  Track stuck, not moving for 25 steps.
+  Current  phys volume: 'phys_Lv2Vacuum_name'
+   - at position : (7.137052928819837,-2.447375308165333,1.702933114867101e-12)
+     in direction: (-0.9364426948785176,0.3508205797963681,1.51857864980624e-10)
+    (local position: (7.137052928819837,-2.447375308165333,1.702933114867101e-12))
+    (local direction: (-0.9364426948785176,0.3508205797963681,1.51857864980624e-10)).
+  Previous phys volume: 'phys_Lv2Vacuum_name'
+
+  Likely geometry overlap - else navigation problem !
+ Track *abandoned* due to excessive number of Zero steps. Event aborted. 
+
+  { module: CDCToSVDSpacePointCKF_forward }
+ ... message repeated 1 times
+[WARNING] Geant4 exception during material lookup -- origin: G4Navigator::ComputeStep()
+ code:GeomNav0003
+ description:Stuck Track: potential geometry or navigation problem.
+  Track stuck, not moving for 25 steps.
+  Current  phys volume: 'phys_Lv2Vacuum_name'
+   - at position : (7.137052928819837,-2.447375308165333,1.702933114867101e-12)
+     in direction: (-0.9364426948785176,0.3508205797963681,1.51857864980624e-10)
+    (local position: (7.137052928819837,-2.447375308165333,1.702933114867101e-12))
+    (local direction: (-0.9364426948785176,0.3508205797963681,1.51857864980624e-10)).
+  Previous phys volume: 'phys_Lv2Vacuum_name'
+
+  Likely geometry overlap - else navigation problem !
+ Track *abandoned* due to excessive number of Zero steps. Event aborted. 
+
+  { module: DAFRecoFitter }
+ ... message repeated 1 times
+[WARNING] Geant4 exception during material lookup -- origin: G4Navigator::ComputeStep()
+ code:GeomNav0003
+ description:Stuck Track: potential geometry or navigation problem.
+  Track stuck, not moving for 25 steps.
+  Current  phys volume: 'phys_Lv2Vacuum_name'
+   - at position : (7.137052928819837,-2.447375308165333,1.702933114867101e-12)
+     in direction: (-0.9364426948785176,0.3508205797963681,1.51857864980624e-10)
+    (local position: (7.137052928819837,-2.447375308165333,1.702933114867101e-12))
+    (local direction: (-0.9364426948785176,0.3508205797963681,1.51857864980624e-10)).
+  Previous phys volume: 'phys_Lv2Vacuum_name'
+
+  Likely geometry overlap - else navigation problem !
+ Track *abandoned* due to excessive number of Zero steps. Event aborted. 
+
+  { module: CDCToSVDSeedCKF_backward }
+ ... message repeated 1 times
+[WARNING] Geant4 exception during material lookup -- origin: G4Navigator::ComputeStep()
+ code:GeomNav0003
+ description:Stuck Track: potential geometry or navigation problem.
+  Track stuck, not moving for 25 steps.
+  Current  phys volume: 'phys_Lv2Vacuum_name'
+   - at position : (7.137052928819837,-2.447375308165333,1.702933114867101e-12)
+     in direction: (-0.9364426948785176,0.3508205797963681,1.51857864980624e-10)
+    (local position: (7.137052928819837,-2.447375308165333,1.702933114867101e-12))
+    (local direction: (-0.9364426948785176,0.3508205797963681,1.51857864980624e-10)).
+  Previous phys volume: 'phys_Lv2Vacuum_name'
+
+  Likely geometry overlap - else navigation problem !
+ Track *abandoned* due to excessive number of Zero steps. Event aborted. 
+
+  { module: DAFRecoFitter }
+ ... message repeated 1 times
+[WARNING] Geant4 exception during material lookup -- origin: G4Navigator::ComputeStep()
+ code:GeomNav0003
+ description:Stuck Track: potential geometry or navigation problem.
+  Track stuck, not moving for 25 steps.
+  Current  phys volume: 'phys_Lv2Vacuum_name'
+   - at position : (7.137052928819837,-2.447375308165333,1.702933114867101e-12)
+     in direction: (-0.9364426948785176,0.3508205797963681,1.51857864980624e-10)
+    (local position: (7.137052928819837,-2.447375308165333,1.702933114867101e-12))
+    (local direction: (-0.9364426948785176,0.3508205797963681,1.51857864980624e-10)).
+  Previous phys volume: 'phys_Lv2Vacuum_name'
+
+  Likely geometry overlap - else navigation problem !
+ Track *abandoned* due to excessive number of Zero steps. Event aborted. 
+
+  { module: CDCToSVDSeedCKF_forward }
+ ... message repeated 1 times
+[WARNING] Geant4 exception during material lookup -- origin: G4Navigator::ComputeStep()
+ code:GeomNav0003
+ description:Stuck Track: potential geometry or navigation problem.
+  Track stuck, not moving for 25 steps.
+  Current  phys volume: 'phys_Lv2Vacuum_name'
+   - at position : (7.137052928819837,-2.447375308165333,1.702933114867101e-12)
+     in direction: (-0.9364426948785176,0.3508205797963681,1.51857864980624e-10)
+    (local position: (7.137052928819837,-2.447375308165333,1.702933114867101e-12))
+    (local direction: (-0.9364426948785176,0.3508205797963681,1.51857864980624e-10)).
+  Previous phys volume: 'phys_Lv2Vacuum_name'
+
+  Likely geometry overlap - else navigation problem !
+ Track *abandoned* due to excessive number of Zero steps. Event aborted. 
+
+  { module: RelatedTracksCombiner }
+ ... message repeated 1 times
+[WARNING] Could not extrapolate the fit result for pdg 321 to the perigee point. Why, I don't know.  { module: TrackCreator }
+[WARNING] Could not extrapolate the fit result for pdg 211 to the perigee point. Why, I don't know.  { module: TrackCreator }
+[WARNING] Could not extrapolate the fit result for pdg 321 to the perigee point. Why, I don't know.  { module: TrackCreator }
+[WARNING] Could not extrapolate the fit result for pdg 2212 to the perigee point. Why, I don't know.  { module: TrackCreator }
+[WARNING] Could not extrapolate the fit result for pdg 321 to the perigee point. Why, I don't know.  { module: TrackCreator }
+ ... message repeated 1 times
+[WARNING] Could not extrapolate the fit result for pdg 211 to the perigee point. Why, I don't know.  { module: TrackCreator }
+[WARNING] Could not extrapolate the fit result for pdg 321 to the perigee point. Why, I don't know.  { module: TrackCreator }
+[ERROR] In G4LongLivedNeutralDecay::DecayIt , DECAY101: LongLivedNeutral particle: decay probability exist but no pre-assigned decay products defined - the particle will be killed;
+  { module: FullSim }
+[WARNING] 177743 tracks had not enough hits to have at least 5 number of degrees of freedom (NDF). No Track Candidates were created from them so they will not be passed to the track fitter  { module: TrackFinderMCTruthRecoTracks }
+[INFO] The MCTrackFinder created a total of 267907 track candidates
+[WARNING] There were 31 tracks skipped because of zero charge for K+:all  { module: ParticleLoader_K+:dstSkim }
+[INFO] [1;35m================================================================================[0m
+[INFO] [40;97m            ,.,                                                                 [0m
+[INFO] [40;97m           ;%&M%;_   ,..,                                                       [0m
+[INFO] [40;97m             "_ "__" % M % M %;          , ..., ,                               [0m
+[INFO] [40;97m      , ..., __." --"    , .,     _ - " % &W % WM %;                            [0m
+[INFO] [40;97m     ; % M&$M % "___ "_._   %M%"_."" _ """"""                                   [0m
+[INFO] [40;97m       """""    "" , \_.   "_. ."                                               [0m
+[INFO] [40;97m              , ., _"__ \__./ ."                                                [0m
+[INFO] [40;97m          ___       __ |  y     , ..,     [97;40mThank you for using TreeFitter.       [0m
+[INFO] [40;97m         /)'\    ''''| u  \ %W%W%%;                                             [0m
+[INFO] [40;97m     ___)/   "---\_ \   |____"            [97;40mPlease cite both:                     [0m
+[INFO] [40;97m   ;&&%%;           (|__.|)./  ,..,           [97;40m10.1016/j.nima.2020.164269        [0m
+[INFO] [40;97m             ,.., ___\    |/     &&"       [97;40m   10.1016/j.nima.2005.06.078        [0m
+[INFO] [40;97m           &&%%&    (| Uo /        '"     [97;40mEmail:                                [0m
+[INFO] [40;97m            ''''     \ 7 \                   [97;40mfrancesco.tenchini@desy.de         [0m
+[INFO] [40;97m  ._______________.-'____""-.____.           [97;40mjo-frederik.krohn@desy.de          [0m
+[INFO] [40;97m   \                           /                                                [0m
+[INFO] [40;97m    \       [0m[32;40mTREEFITTER[0m[40;97m        /                                                 [0m
+[INFO] [40;97m     \_______________________/                                                  [0m
+[INFO] [40;97m      (_)                 (_)                                                   [0m
+[INFO] [40;97m                                                                                [0m
+[INFO] [1;35m============= TREEFIT STATISTICS ===============================================[0m
+[INFO] [1;39mCandidates before fit: 400224[0m
+[INFO] [1;39mCandidates after fit:  380748[0m
+[INFO] [1;39mA total of 19476 candidates were removed during the fit.[0m
+[INFO] [1;39m95.1337% of candidates survived the fit.[0m
+[INFO] [1;39m4.86627% of candidates did not.[0m
+[INFO] [1;39mYou choose to drop all candidates with pValue < 0.[0m
+[INFO] [1;35m================================================================================[0m
+[WARNING] There were 33 tracks skipped because of zero charge for p+:all  { module: ParticleLoader_p+:all }
+[INFO] [1;35m================================================================================[0m
+[INFO] [40;97m            ,.,                                                                 [0m
+[INFO] [40;97m           ;%&M%;_   ,..,                                                       [0m
+[INFO] [40;97m             "_ "__" % M % M %;          , ..., ,                               [0m
+[INFO] [40;97m      , ..., __." --"    , .,     _ - " % &W % WM %;                            [0m
+[INFO] [40;97m     ; % M&$M % "___ "_._   %M%"_."" _ """"""                                   [0m
+[INFO] [40;97m       """""    "" , \_.   "_. ."                                               [0m
+[INFO] [40;97m              , ., _"__ \__./ ."                                                [0m
+[INFO] [40;97m          ___       __ |  y     , ..,     [97;40mThank you for using TreeFitter.       [0m
+[INFO] [40;97m         /)'\    ''''| u  \ %W%W%%;                                             [0m
+[INFO] [40;97m     ___)/   "---\_ \   |____"            [97;40mPlease cite both:                     [0m
+[INFO] [40;97m   ;&&%%;           (|__.|)./  ,..,           [97;40m10.1016/j.nima.2020.164269        [0m
+[INFO] [40;97m             ,.., ___\    |/     &&"       [97;40m   10.1016/j.nima.2005.06.078        [0m
+[INFO] [40;97m           &&%%&    (| Uo /        '"     [97;40mEmail:                                [0m
+[INFO] [40;97m            ''''     \ 7 \                   [97;40mfrancesco.tenchini@desy.de         [0m
+[INFO] [40;97m  ._______________.-'____""-.____.           [97;40mjo-frederik.krohn@desy.de          [0m
+[INFO] [40;97m   \                           /                                                [0m
+[INFO] [40;97m    \       [0m[32;40mTREEFITTER[0m[40;97m        /                                                 [0m
+[INFO] [40;97m     \_______________________/                                                  [0m
+[INFO] [40;97m      (_)                 (_)                                                   [0m
+[INFO] [40;97m                                                                                [0m
+[INFO] [1;35m============= TREEFIT STATISTICS ===============================================[0m
+[INFO] [1;39mCandidates before fit: 23527[0m
+[INFO] [1;39mCandidates after fit:  21724[0m
+[INFO] [1;39mA total of 1803 candidates were removed during the fit.[0m
+[INFO] [1;39m92.3365% of candidates survived the fit.[0m
+[INFO] [1;39m7.66354% of candidates did not.[0m
+[INFO] [1;39mYou choose to drop all candidates with pValue < 0.[0m
+[INFO] [1;35m================================================================================[0m
+[WARNING] There were 22 v0s skipped because of same charge daughters for Lambda0:V0  { module: ParticleLoader_Lambda0:V0 -> p+ pi- }
+[WARNING] There were 9 v0s skipped because of same charge daughters for K_S0:V0  { module: ParticleLoader_K_S0:V0 -> pi+ pi- }
+[WARNING] There were 29 tracks skipped because of zero charge for pi+:all  { module: ParticleLoader_pi+:skim }
+[INFO] ===V0Finder summary=============================================================
+[INFO] In total 17856 saved V0s have inner hits.
+[INFO] - Inner hits successfully removed in 11983 V0s.
+[INFO] - The hit removal failed in 5873 V0s, instead V0s before removing inner hits saved.
+[RESULT] TOPBunchFinder: event T0 determined for 23784/24000 events
+[INFO] ===Error Summary================================================================
+[ERROR] In G4LongLivedNeutralDecay::DecayIt , DECAY101: LongLivedNeutral particle: decay probability exist but no pre-assigned decay products defined - the particle will be killed;
+  { module: FullSim }
+[WARNING] Geant4 exception during material lookup -- origin: G4Navigator::ComputeStep()
+ code:GeomNav0003
+ description:Stuck Track: potential geometry or navigation problem.
+  Track stuck, not moving for 25 steps.
+  Current  phys volume: 'phys_Lv2Vacuum_name'
+   - at position : (7.137052928819837,-2.447375308165333,1.702933114867101e-12)
+     in direction: (-0.9364426948785176,0.3508205797963681,1.51857864980624e-10)
+    (local position: (7.137052928819837,-2.447375308165333,1.702933114867101e-12))
+    (local direction: (-0.9364426948785176,0.3508205797963681,1.51857864980624e-10)).
+  Previous phys volume: 'phys_Lv2Vacuum_name'
+
+  Likely geometry overlap - else navigation problem !
+ Track *abandoned* due to excessive number of Zero steps. Event aborted. 
+
+  { module: CDCToSVDSpacePointCKF_backward }
+    (last message occurred 14 times)
+[WARNING] Could not extrapolate the fit result for pdg 321 to the perigee point. Why, I don't know.  { module: TrackCreator }
+    (last message occurred 14 times)
+[WARNING] Could not extrapolate the fit result for pdg 2212 to the perigee point. Why, I don't know.  { module: TrackCreator }
+    (last message occurred 9 times)
+[WARNING] Could not extrapolate the fit result for pdg 211 to the perigee point. Why, I don't know.  { module: TrackCreator }
+    (last message occurred 7 times)
+[WARNING] There were 29 tracks skipped because of zero charge for pi+:all  { module: ParticleLoader_pi+:skim }
+[WARNING] There were 9 v0s skipped because of same charge daughters for K_S0:V0  { module: ParticleLoader_K_S0:V0 -> pi+ pi- }
+[WARNING] There were 22 v0s skipped because of same charge daughters for Lambda0:V0  { module: ParticleLoader_Lambda0:V0 -> p+ pi- }
+[WARNING] There were 33 tracks skipped because of zero charge for p+:all  { module: ParticleLoader_p+:all }
+[WARNING] There were 31 tracks skipped because of zero charge for K+:all  { module: ParticleLoader_K+:dstSkim }
+[WARNING] 177743 tracks had not enough hits to have at least 5 number of degrees of freedom (NDF). No Track Candidates were created from them so they will not be passed to the track fitter  { module: TrackFinderMCTruthRecoTracks }
+[WARNING] CDCSensitiveDetector: Strange path length: s2= 66.1608 sint= 66.1604 s_in_layer= 0.00032251 test= 1  { module: FullSim }
+[WARNING] Inner hits remained after 5 times of removing inner hits!  { module: V0Finder }
+[WARNING] ClockFreq4TDC changed from cdclocal 1.017774e+00 to official 1.017752e+00 (GHz)!  { module: Geometry }
+[INFO] ================================================================================
+[ERROR] in total, 1 errors occurred during processing
+[WARNING] in total, 53 warnings occurred during processing
+===============================================================================================================================================================================
+Name                                                                                                                |      Calls | Memory(MB) |    Time(s) |     Time(ms)/Call
+===============================================================================================================================================================================
+EventInfoSetter                                                                                                     |      24001 |          0 |       0.45 |    0.02 +-   0.01
+EvtGenInput                                                                                                         |      24000 |          4 |     172.46 |    7.19 +-  11.99
+BGOverlayInput                                                                                                      |      24000 |          8 |      51.03 |    2.13 +-  15.71
+Gearbox                                                                                                             |      24000 |          0 |       0.24 |    0.01 +-   0.00
+Geometry                                                                                                            |      24000 |          0 |       0.23 |    0.01 +-   0.00
+EventT0Generator                                                                                                    |      24000 |          0 |       0.48 |    0.02 +-   0.00
+SimulateEventLevelTriggerTimeInfo                                                                                   |      24000 |          0 |       0.24 |    0.01 +-   0.01
+FullSim                                                                                                             |      24000 |        -12 |   18839.36 |  784.97 +- 252.92
+CDCDigitizer                                                                                                        |      24000 |         -1 |     511.04 |   21.29 +-  15.69
+TOPDigitizer                                                                                                        |      24000 |         -0 |     319.95 |   13.33 +-   6.73
+ARICHDigitizer                                                                                                      |      24000 |          0 |       1.33 |    0.06 +-   0.05
+ECLDigitizer                                                                                                        |      24000 |          0 |     307.28 |   12.80 +-   2.28
+KLMDigitizer                                                                                                        |      24000 |          0 |      34.99 |    1.46 +-   0.53
+BGOverlayExecutor_CDC...KLM                                                                                         |      24000 |          0 |     114.32 |    4.76 +-   5.69
+CDCTriggerTSF                                                                                                       |      24000 |          0 |     491.88 |   20.50 +-   7.21
+CDCTrigger2DFinder                                                                                                  |      24000 |          0 |      27.26 |    1.14 +-   0.56
+CDCTriggerHoughETF                                                                                                  |      24000 |          0 |      22.35 |    0.93 +-   0.50
+CDCTrigger2DFitter                                                                                                  |      24000 |          0 |       2.99 |    0.12 +-   0.03
+CDCTrigger3DFitter                                                                                                  |      24000 |          0 |       3.78 |    0.16 +-   0.06
+CDCTriggerNeuro                                                                                                     |      24000 |          0 |      10.18 |    0.42 +-   0.19
+CDCTriggerTrackCombiner                                                                                             |      24000 |          0 |       4.38 |    0.18 +-   0.08
+TRGECLFAM                                                                                                           |      24000 |         65 |     378.54 |   15.77 +-   1.81
+TRGECL                                                                                                              |      24000 |          0 |       8.08 |    0.34 +-   0.14
+KLMTrigger                                                                                                          |      24000 |          0 |       1.21 |    0.05 +-   0.01
+TRGGRLMatch                                                                                                         |      24000 |          0 |       6.54 |    0.27 +-   0.11
+TRGGRLProjects                                                                                                      |      24000 |          0 |       6.55 |    0.27 +-   0.20
+TRGGDL                                                                                                              |      24000 |          0 |       4.19 |    0.17 +-   0.05
+Sum_TriggerSimulation                                                                                               |      24000 |         65 |   21321.34 |  888.39 +- 270.00
+SVDEventInfoSetter                                                                                                  |      24000 |          0 |       0.35 |    0.01 +-   0.00
+SVDDigitizer                                                                                                        |      24000 |          3 |     230.45 |    9.60 +-   3.69
+BGOverlayExecutor_SVD                                                                                               |      24000 |          0 |       3.15 |    0.13 +-   0.05
+SVDShaperDigitSorter                                                                                                |      24000 |          0 |      10.32 |    0.43 +-   0.18
+SVDZeroSuppressionEmulator                                                                                          |      24000 |          0 |      45.92 |    1.91 +-   0.70
+ROIfindingConditionFromDB                                                                                           |      24000 |          0 |       0.25 |    0.01 +-   0.00
+ActivatePXDPixelMasker                                                                                              |          0 |          0 |       0.00 |    0.00 +-   0.00
+ActivatePXDGainCalibrator                                                                                           |          0 |          0 |       0.00 |    0.00 +-   0.00
+PXDDigitizer                                                                                                        |          0 |          0 |       0.00 |    0.00 +-   0.00
+BGOverlayExecutor_PXD                                                                                               |          0 |          0 |       0.00 |    0.00 +-   0.00
+PXDDigitSorter                                                                                                      |          0 |          0 |       0.00 |    0.00 +-   0.00
+RegisterEventLevelTrackingInfo__ROI                                                                                 |          0 |          0 |       0.00 |    0.00 +-   0.00
+__ROISVDClusterizer                                                                                                 |          0 |          0 |       0.00 |    0.00 +-   0.00
+__ROISVDMissingAPVsClusterCreator                                                                                   |          0 |          0 |       0.00 |    0.00 +-   0.00
+SVDTrackingEventLevelMdstInfoFiller__ROI                                                                            |          0 |          0 |       0.00 |    0.00 +-   0.00
+RegisterEventLevelTrackingInfo__ROI                                                                                 |          0 |          0 |       0.00 |    0.00 +-   0.00
+__ROISVDSpacePointCreator                                                                                           |          0 |          0 |       0.00 |    0.00 +-   0.00
+SetupGenfitExtrapolationForPXDDataReduction                                                                         |          0 |          0 |       0.00 |    0.00 +-   0.00
+RegisterEventLevelTrackingInfo__ROI                                                                                 |          0 |          0 |       0.00 |    0.00 +-   0.00
+SectorMapBootstrap                                                                                                  |          0 |          0 |       0.00 |    0.00 +-   0.00
+SegmentNetworkProducer                                                                                              |          0 |          0 |       0.00 |    0.00 +-   0.00
+TrackFinderVXDCellOMat                                                                                              |          0 |          0 |       0.00 |    0.00 +-   0.00
+AddVXDTrackCandidateSubSets                                                                                         |          0 |          0 |       0.00 |    0.00 +-   0.00
+QualityEstimatorVXD                                                                                                 |          0 |          0 |       0.00 |    0.00 +-   0.00
+BestVXDTrackCandidatesSelector                                                                                      |          0 |          0 |       0.00 |    0.00 +-   0.00
+SPTCvirtualIPRemover                                                                                                |          0 |          0 |       0.00 |    0.00 +-   0.00
+SVDOverlapResolver                                                                                                  |          0 |          0 |       0.00 |    0.00 +-   0.00
+SPTCmomentumSeedRetriever                                                                                           |          0 |          0 |       0.00 |    0.00 +-   0.00
+SPTC2RTConverter                                                                                                    |          0 |          0 |       0.00 |    0.00 +-   0.00
+SVD-only DAFRecoFitter                                                                                              |          0 |          0 |       0.00 |    0.00 +-   0.00
+PXDROIFinder                                                                                                        |          0 |          0 |       0.00 |    0.00 +-   0.00
+PXDdigiFilter                                                                                                       |          0 |          0 |       0.00 |    0.00 +-   0.00
+PruneDataStore                                                                                                      |          0 |          0 |       0.00 |    0.00 +-   0.00
+ActivatePXDPixelMasker                                                                                              |      24000 |          0 |       0.24 |    0.01 +-   0.00
+ActivatePXDGainCalibrator                                                                                           |      24000 |          0 |       0.23 |    0.01 +-   0.00
+PXDDigitizer                                                                                                        |      24000 |          0 |      17.89 |    0.75 +-   0.81
+BGOverlayExecutor_PXD                                                                                               |      24000 |          0 |       5.19 |    0.22 +-   0.08
+PXDDigitSorter                                                                                                      |      24000 |          0 |      28.46 |    1.19 +-   0.31
+Sum_Simulation                                                                                                      |      24000 |          3 |     342.45 |   14.27 +-   4.73
+EventsOfDoomBuster                                                                                                  |      24000 |          0 |       0.32 |    0.01 +-   0.00
+Sum_EventsofDoomBuster                                                                                              |      24000 |          0 |       0.32 |    0.01 +-   0.00
+ECLWaveformFit                                                                                                      |      24000 |         -0 |     206.07 |    8.59 +-   2.74
+ECLDigitCalibrator                                                                                                  |      24000 |          0 |      80.40 |    3.35 +-   0.67
+ECLEventT0                                                                                                          |      24000 |          0 |       5.13 |    0.21 +-   0.11
+ECLCRFinder                                                                                                         |      24000 |          0 |     280.90 |   11.70 +-   2.38
+ECLLocalMaximumFinder                                                                                               |      24000 |          0 |      14.54 |    0.61 +-   0.18
+ECLSplitterN1                                                                                                       |      24000 |          0 |      80.32 |    3.35 +-   0.99
+ECLSplitterN2                                                                                                       |      24000 |          0 |      31.53 |    1.31 +-   0.33
+ECLShowerCorrector                                                                                                  |      24000 |          0 |       3.42 |    0.14 +-   0.04
+ECLShowerCalibrator                                                                                                 |      24000 |          0 |       0.23 |    0.01 +-   0.00
+ECLShowerShape                                                                                                      |      24000 |          0 |     133.68 |    5.57 +-   1.08
+ECLClusterPSD                                                                                                       |      24000 |          0 |      11.37 |    0.47 +-   0.16
+ECLCovarianceMatrix                                                                                                 |      24000 |          0 |       0.79 |    0.03 +-   0.01
+Sum_Clustering                                                                                                      |      24000 |         -0 |     848.39 |   35.35 +-   6.40
+SetupGenfitExtrapolation                                                                                            |      24000 |          0 |       0.24 |    0.01 +-   0.00
+RegisterEventLevelTrackingInfo                                                                                      |      24000 |          0 |       0.45 |    0.02 +-   0.00
+SVDClusterizer                                                                                                      |      24000 |          0 |      78.31 |    3.26 +-   1.19
+SVDMissingAPVsClusterCreator                                                                                        |      24000 |          0 |       0.25 |    0.01 +-   0.00
+SVDTrackingEventLevelMdstInfoFiller                                                                                 |      24000 |          0 |       0.30 |    0.01 +-   0.00
+SVDSpacePointCreator                                                                                                |      24000 |          0 |      39.54 |    1.65 +-   1.12
+PXDClusterizer                                                                                                      |      24000 |          0 |      70.46 |    2.94 +-   0.51
+PXDTrackingEventLevelMdstInfoFiller                                                                                 |      24000 |          0 |       0.36 |    0.01 +-   0.00
+TFCDC_WireHitPreparer                                                                                               |      24000 |          0 |      64.98 |    2.71 +-   0.73
+TFCDC_ClusterPreparer                                                                                               |      24000 |          0 |     135.60 |    5.65 +-   2.19
+TFCDC_SegmentFinderFacetAutomaton                                                                                   |      24000 |         24 |     968.45 |   40.35 +-  29.63
+TFCDC_AxialTrackFinderLegendre                                                                                      |      24000 |         73 |     940.15 |   39.17 +-  32.87
+TFCDC_TrackQualityAsserter                                                                                          |      24000 |          0 |       6.35 |    0.26 +-   0.12
+TFCDC_StereoHitFinder                                                                                               |      24000 |          2 |     203.33 |    8.47 +-   6.46
+TFCDC_SegmentTrackCombiner                                                                                          |      24000 |          1 |      83.57 |    3.48 +-   2.38
+TFCDC_TrackQualityAsserter                                                                                          |      24000 |          0 |      17.10 |    0.71 +-   0.28
+TFCDC_TrackQualityEstimator                                                                                         |      24000 |          0 |       7.88 |    0.33 +-   0.23
+TFCDC_TrackExporter                                                                                                 |      24000 |          0 |      73.94 |    3.08 +-   1.07
+IPTrackTimeEstimator                                                                                                |      24000 |          0 |       0.68 |    0.03 +-   0.00
+CDCHitBasedT0Extraction                                                                                             |      24000 |          5 |      44.51 |    1.85 +-   0.75
+CDCTrackingEventLevelMdstInfoFiller                                                                                 |      24000 |          0 |       0.72 |    0.03 +-   0.01
+CDCToSVDSpacePointCKF_backward                                                                                      |      24000 |         43 |    2833.76 |  118.07 +-  46.66
+CDCToSVDSpacePointCKF_forward                                                                                       |      24000 |          6 |     115.95 |    4.83 +-  11.52
+SectorMapBootstrap                                                                                                  |      24000 |          0 |       0.24 |    0.01 +-   0.00
+SegmentNetworkProducer                                                                                              |      24000 |          1 |      26.37 |    1.10 +-   1.79
+TrackFinderVXDCellOMat                                                                                              |      24000 |          6 |      13.57 |    0.57 +-   4.95
+AddVXDTrackCandidateSubSets                                                                                         |      24000 |          0 |       1.74 |    0.07 +-   0.07
+QualityEstimatorVXD                                                                                                 |      24000 |          0 |       2.45 |    0.10 +-   0.28
+BestVXDTrackCandidatesSelector                                                                                      |      24000 |          0 |       0.30 |    0.01 +-   0.04
+SPTCvirtualIPRemover                                                                                                |      24000 |          0 |       0.26 |    0.01 +-   0.00
+SVDOverlapResolver                                                                                                  |      24000 |          0 |      30.27 |    1.26 +-   3.85
+SPTCmomentumSeedRetriever                                                                                           |      24000 |          0 |       1.05 |    0.04 +-   0.03
+SPTC2RTConverter                                                                                                    |      24000 |          0 |       4.59 |    0.19 +-   0.23
+DAFRecoFitter                                                                                                       |      24000 |          0 |      42.02 |    1.75 +-  10.56
+CDCToSVDSeedCKF_backward                                                                                            |      24000 |          0 |      46.80 |    1.95 +-  10.57
+DAFRecoFitter                                                                                                       |      24000 |          0 |      40.00 |    1.67 +-  10.56
+CDCToSVDSeedCKF_forward                                                                                             |      24000 |          0 |      54.02 |    2.25 +-  10.63
+RelatedTracksCombiner                                                                                               |      24000 |         -0 |     344.63 |   14.36 +-  17.49
+ToCDCCKF                                                                                                            |      24000 |          3 |     403.22 |   16.80 +-  27.65
+CDCCKFTracksCombiner                                                                                                |      24000 |          1 |     133.50 |    5.56 +-   1.64
+PruneRecoTracks                                                                                                     |      24000 |          0 |       5.39 |    0.22 +-   0.10
+PruneRecoTracks                                                                                                     |      24000 |          0 |       0.48 |    0.02 +-   0.01
+PXDSpacePointCreator                                                                                                |      24000 |          0 |      44.31 |    1.85 +-   0.33
+DAFRecoFitter                                                                                                       |      24000 |          5 |    3298.25 |  137.43 +-  44.34
+ToPXDCKF_backward                                                                                                   |      24000 |          1 |     310.21 |   12.93 +-   5.23
+DAFRecoFitter                                                                                                       |      24000 |          0 |      14.03 |    0.58 +-   4.30
+ToPXDCKF_forward                                                                                                    |      24000 |          1 |     129.76 |    5.41 +-   4.48
+RelatedTracksCombiner                                                                                               |      24000 |          1 |     155.56 |    6.48 +-   4.68
+PruneRecoTracks                                                                                                     |      24000 |         -1 |      41.84 |    1.74 +-   0.57
+PruneRecoTracks                                                                                                     |      24000 |          0 |       2.60 |    0.11 +-   0.05
+PruneRecoTracks                                                                                                     |      24000 |          0 |      44.06 |    1.84 +-   0.59
+PruneRecoTracks                                                                                                     |      24000 |          0 |       0.68 |    0.03 +-   0.00
+FullGridChi2TrackTimeExtractor                                                                                      |      24000 |         -2 |    5356.21 |  223.18 +-  53.09
+TrackFinderMCTruthRecoTracks                                                                                        |      24000 |          0 |     174.82 |    7.28 +-   2.82
+MCRecoTracksMatcher                                                                                                 |      24000 |          0 |     558.34 |   23.26 +-  10.89
+IPTrackTimeEstimator                                                                                                |      24000 |          0 |       0.91 |    0.04 +-   0.01
+Combined_DAFRecoFitter                                                                                              |      24000 |         -1 |    3454.74 |  143.95 +-  43.87
+TrackCreator                                                                                                        |      24000 |          7 |    6480.04 |  270.00 +-  77.20
+Sum_Prefilter_Tracking                                                                                              |      24000 |        174 |   26904.09 | 1121.00 +- 299.15
+CDCDedxPID                                                                                                          |      24000 |          1 |     177.07 |    7.38 +-   1.93
+VXDDedxPID                                                                                                          |      24000 |          0 |      23.73 |    0.99 +-   0.25
+Ext                                                                                                                 |      24000 |          4 |    1065.94 |   44.41 +-  36.85
+TOPChannelMasker                                                                                                    |      24000 |          1 |       5.10 |    0.21 +-   0.08
+TOPBunchFinder                                                                                                      |      24000 |          2 |    1323.01 |   55.13 +-  23.21
+TOPReconstructor                                                                                                    |      24000 |         -1 |    4410.85 |  183.79 +-  75.67
+ARICHFillHits                                                                                                       |      24000 |          0 |       2.46 |    0.10 +-   0.04
+ARICHReconstructor                                                                                                  |      24000 |          2 |      43.03 |    1.79 +-   1.45
+EventT0Combiner                                                                                                     |      24000 |          0 |       0.32 |    0.01 +-   0.00
+OnlineEventT0Creator                                                                                                |      24000 |          0 |       0.23 |    0.01 +-   0.00
+ECLFinalizer                                                                                                        |      24000 |          0 |      11.15 |    0.46 +-   0.11
+MCMatcherECLClusters                                                                                                |      24000 |          0 |     167.48 |    6.98 +-   2.30
+KLMReconstructor                                                                                                    |      24000 |          0 |       7.89 |    0.33 +-   0.11
+KLMClustersReconstructor                                                                                            |      24000 |          0 |       2.02 |    0.08 +-   0.24
+MCMatcherKLMClusters                                                                                                |      24000 |          0 |       8.60 |    0.36 +-   0.18
+Muid                                                                                                                |      24000 |         -1 |     558.85 |   23.29 +-   7.54
+ECLTrackClusterMatching                                                                                             |      24000 |          1 |      13.44 |    0.56 +-   0.53
+ECLClusterProperties                                                                                                |      24000 |          0 |     136.02 |    5.67 +-   1.63
+ECLChargedPID                                                                                                       |      24000 |          0 |       3.43 |    0.14 +-   0.02
+MdstPID                                                                                                             |      24000 |          0 |       3.37 |    0.14 +-   0.09
+KLMExpert                                                                                                           |      24000 |          0 |       3.73 |    0.16 +-   0.04
+ClusterMatcher                                                                                                      |      24000 |          0 |       7.77 |    0.32 +-   0.12
+ECLTrackBremFinder                                                                                                  |      24000 |          0 |     164.60 |    6.86 +-   9.66
+Sum_Posttracking_Reconstruction                                                                                     |      24000 |          9 |    8140.10 |  339.17 +- 109.47
+SoftwareTrigger                                                                                                     |      24000 |          0 |       8.00 |    0.33 +-   0.19
+Sum_HLT_Filter_Calculation                                                                                          |      24000 |          0 |       8.00 |    0.33 +-   0.19
+V0Finder                                                                                                            |      24000 |        347 |   10047.83 |  418.66 +- 334.01
+PruneRecoTracks                                                                                                     |      24000 |          0 |     114.27 |    4.76 +-   1.34
+PruneGenfitTracks                                                                                                   |      24000 |          0 |       0.30 |    0.01 +-   0.00
+PruneRecoHits                                                                                                       |      24000 |         -1 |     474.58 |   19.77 +-  11.70
+Sum_Postfilter_Reconstruction                                                                                       |      24000 |        345 |   10636.99 |  443.21 +- 345.71
+ParticleLoader_pi+:skim                                                                                             |      24000 |          0 |      11.45 |    0.48 +-   0.32
+PListCopy_pi+:skim                                                                                                  |      24000 |          0 |       0.68 |    0.03 +-   0.02
+ParticleSelector_applyCuts_pi+:skim                                                                                 |      24000 |          0 |       0.81 |    0.03 +-   0.00
+ParticleLoader_pi+:hadb                                                                                             |      24000 |          0 |       0.25 |    0.01 +-   0.00
+PListCopy_pi+:hadb                                                                                                  |      24000 |          0 |       0.50 |    0.02 +-   0.01
+ParticleSelector_applyCuts_pi+:hadb                                                                                 |      24000 |          0 |       0.49 |    0.02 +-   0.00
+ParticleLoader_pi+:tau                                                                                              |      24000 |          0 |       0.24 |    0.01 +-   0.00
+PListCopy_pi+:tau                                                                                                   |      24000 |          0 |       0.47 |    0.02 +-   0.01
+ParticleSelector_applyCuts_pi+:tau                                                                                  |      24000 |          0 |       0.46 |    0.02 +-   0.00
+ParticleLoader_gamma:skim                                                                                           |      24000 |          0 |       6.90 |    0.29 +-   0.07
+PListCopy_gamma:skim                                                                                                |      24000 |          0 |       0.70 |    0.03 +-   0.01
+ParticleSelector_applyCuts_gamma:skim                                                                               |      24000 |          0 |       0.40 |    0.02 +-   0.00
+ParticleSelector_applyCuts_gamma:skim                                                                               |      24000 |          0 |       0.29 |    0.01 +-   0.00
+ParticleLoader_K_S0:V0 -> pi+ pi-                                                                                   |      24000 |          0 |       1.07 |    0.04 +-   0.07
+PListCutAndCopy_K_S0:V0_MassWindow                                                                                  |      24000 |          0 |       0.33 |    0.01 +-   0.00
+ParticleVertexFitter_K_S0:V0_MassWindow                                                                             |      24000 |          0 |       4.35 |    0.18 +-   0.28
+ParticleSelector_applyCuts_K_S0:V0_MassWindow                                                                       |      24000 |          0 |       0.25 |    0.01 +-   0.00
+ParticleLoader_pi+:all                                                                                              |      24000 |          0 |       0.25 |    0.01 +-   0.00
+ParticleCombiner_K_S0:RD -> pi+:all pi-:all                                                                         |      24000 |          0 |       2.32 |    0.10 +-   0.05
+ParticleVertexFitter_K_S0:RD                                                                                        |      24000 |          0 |      44.64 |    1.86 +-   1.51
+ParticleSelector_applyCuts_K_S0:RD                                                                                  |      24000 |          0 |       0.36 |    0.01 +-   0.15
+PListMerger_K_S0:merged                                                                                             |      24000 |          0 |       0.46 |    0.02 +-   0.00
+PListCutAndCopy_K_S0:dstSkim                                                                                        |      24000 |          0 |       1.21 |    0.05 +-   0.03
+ParticleLoader_Lambda0:V0 -> p+ pi-                                                                                 |      24000 |          0 |       1.25 |    0.05 +-   0.07
+PListCutAndCopy_Lambda0:V0_MassWindow                                                                               |      24000 |          0 |       0.36 |    0.02 +-   0.00
+TreeFitter_Lambda0:V0_MassWindow                                                                                    |      24000 |          0 |       7.09 |    0.30 +-   0.72
+ParticleSelector_applyCuts_Lambda0:V0_MassWindow                                                                    |      24000 |          0 |       0.25 |    0.01 +-   0.00
+DuplicateVertexMarker                                                                                               |      24000 |          0 |       0.29 |    0.01 +-   0.01
+ParticleSelector_applyCuts_Lambda0:V0_MassWindow                                                                    |      24000 |          0 |       0.25 |    0.01 +-   0.00
+ParticleLoader_pi+:all                                                                                              |      24000 |          0 |       0.25 |    0.01 +-   0.00
+ParticleLoader_p+:all                                                                                               |      24000 |          0 |       3.72 |    0.15 +-   0.22
+ParticleCombiner_Lambda0:RD -> p+:all pi-:all                                                                       |      24000 |          0 |       2.68 |    0.11 +-   0.08
+TreeFitter_Lambda0:RD                                                                                               |      24000 |          0 |      78.07 |    3.25 +-   4.30
+ParticleSelector_applyCuts_Lambda0:RD                                                                               |      24000 |          0 |       0.38 |    0.02 +-   0.01
+DuplicateVertexMarker                                                                                               |      24000 |          0 |       0.48 |    0.02 +-   0.03
+ParticleSelector_applyCuts_Lambda0:RD                                                                               |      24000 |          0 |       0.31 |    0.01 +-   0.00
+PListMerger_Lambda0:merged                                                                                          |      24000 |          0 |       0.50 |    0.02 +-   0.01
+ParticleLoader_K+:dstSkim                                                                                           |      24000 |          0 |       3.75 |    0.16 +-   0.05
+PListCopy_K+:dstSkim                                                                                                |      24000 |          0 |       0.50 |    0.02 +-   0.00
+ParticleSelector_applyCuts_K+:dstSkim                                                                               |      24000 |          0 |       0.51 |    0.02 +-   0.00
+ParticleLoader_pi+:dstSkim                                                                                          |      24000 |          0 |       0.25 |    0.01 +-   0.00
+PListCopy_pi+:dstSkim                                                                                               |      24000 |          0 |       0.47 |    0.02 +-   0.00
+ParticleSelector_applyCuts_pi+:dstSkim                                                                              |      24000 |          0 |       0.48 |    0.02 +-   0.00
+ParticleLoader_gamma:loose                                                                                          |      24000 |          0 |       0.27 |    0.01 +-   0.06
+PListCopy_gamma:loose                                                                                               |      24000 |          0 |       0.69 |    0.03 +-   0.01
+ParticleSelector_applyCuts_gamma:loose                                                                              |      24000 |          0 |       1.05 |    0.04 +-   0.01
+ParticleSelector_applyCuts_gamma:loose                                                                              |      24000 |          0 |       0.31 |    0.01 +-   0.00
+ParticleCombiner_pi0:loose -> gamma:loose gamma:loose                                                               |      24000 |          0 |       6.97 |    0.29 +-   0.19
+PListCutAndCopy_pi0:veryLooseFit                                                                                    |      24000 |          0 |       1.33 |    0.06 +-   0.03
+ParticleVertexFitter_pi0:veryLooseFit                                                                               |      24000 |          0 |      65.00 |    2.71 +-   1.94
+ParticleCombiner_D0:ch1 -> K-:dstSkim pi+:dstSkim                                                                   |      24000 |          0 |       1.52 |    0.06 +-   0.06
+ParticleCombiner_D0:ch2 -> K-:dstSkim pi+:dstSkim pi0:veryLooseFit                                                  |      24000 |          0 |      52.21 |    2.18 +-   1.93
+ParticleCombiner_D0:ch3 -> K-:dstSkim pi+:dstSkim pi-:dstSkim pi+:dstSkim                                           |      24000 |          0 |      16.09 |    0.67 +-   0.91
+ParticleCombiner_D0:ch4 -> K_S0:dstSkim pi+:dstSkim pi-:dstSkim                                                     |      24000 |          0 |       0.50 |    0.02 +-   0.02
+ParticleCombiner_D*+:ch1 -> D0:ch1 pi+:all                                                                          |      24000 |          0 |       0.95 |    0.04 +-   0.02
+ParticleCombiner_D*+:ch2 -> D0:ch2 pi+:all                                                                          |      24000 |          0 |      33.68 |    1.40 +-   1.62
+ParticleCombiner_D*+:ch3 -> D0:ch3 pi+:all                                                                          |      24000 |          0 |       7.66 |    0.32 +-   0.70
+ParticleCombiner_D*+:ch4 -> D0:ch4 pi+:all                                                                          |      24000 |          0 |       0.47 |    0.02 +-   0.07
+PListCopy_D*+:d0pi                                                                                                  |      24000 |          0 |       0.57 |    0.02 +-   0.05
+ParticleLoader_pi+:offip                                                                                            |      24000 |          0 |       0.27 |    0.01 +-   0.00
+PListCopy_pi+:offip                                                                                                 |      24000 |          0 |       0.50 |    0.02 +-   0.01
+ParticleSelector_applyCuts_pi+:offip                                                                                |      24000 |          0 |       0.61 |    0.03 +-   0.01
+ParticleLoader_pi+:GoodTrackForHLT                                                                                  |      24000 |          0 |       0.24 |    0.01 +-   0.00
+PListCopy_pi+:GoodTrackForHLT                                                                                       |      24000 |          0 |       0.49 |    0.02 +-   0.05
+ParticleSelector_applyCuts_pi+:GoodTrackForHLT                                                                      |      24000 |          0 |       0.49 |    0.02 +-   0.00
+ParticleLoader_K+:GoodTrackForHLT                                                                                   |      24000 |          0 |       0.25 |    0.01 +-   0.00
+PListCopy_K+:GoodTrackForHLT                                                                                        |      24000 |          0 |       0.48 |    0.02 +-   0.00
+ParticleSelector_applyCuts_K+:GoodTrackForHLT                                                                       |      24000 |          0 |       0.51 |    0.02 +-   0.00
+ParticleLoader_gamma:all                                                                                            |      24000 |          0 |       0.26 |    0.01 +-   0.00
+ParticleSelector_applyCuts_gamma:all                                                                                |      24000 |          0 |       0.38 |    0.02 +-   0.00
+ParticleCombiner_pi0:all -> gamma:all gamma:all                                                                     |      24000 |          0 |      35.12 |    1.46 +-   0.86
+MCMatch_pi0:all                                                                                                     |      24000 |          0 |      11.71 |    0.49 +-   0.30
+PListCutAndCopy_pi0:GoodPi0ForHLT                                                                                   |      24000 |          0 |       6.27 |    0.26 +-   0.22
+ParticleCombiner_D0:KpiForHLT -> K-:GoodTrackForHLT pi+:GoodTrackForHLT                                             |      24000 |          0 |       1.16 |    0.05 +-   0.02
+ParticleCombiner_D0:Kpipi0ForHLT -> K-:GoodTrackForHLT pi+:GoodTrackForHLT pi0:GoodPi0ForHLT                        |      24000 |          0 |      34.89 |    1.45 +-   1.27
+ParticleCombiner_D0:KpipipiForHLT -> K-:GoodTrackForHLT pi+:GoodTrackForHLT pi+:GoodTrackForHLT pi-:GoodTrackForHLT |      24000 |          0 |      14.88 |    0.62 +-   0.80
+ParticleCombiner_D+:KpipiForHLT -> K-:GoodTrackForHLT pi+:GoodTrackForHLT pi+:GoodTrackForHLT                       |      24000 |          0 |       2.51 |    0.10 +-   0.07
+ParticleCombiner_D*+:D0_KpiForHLT -> D0:KpiForHLT pi+:GoodTrackForHLT                                               |      24000 |          0 |       0.50 |    0.02 +-   0.02
+ParticleCombiner_D*+:D0_Kpipi0ForHLT -> D0:Kpipi0ForHLT pi+:GoodTrackForHLT                                         |      24000 |          0 |       9.71 |    0.40 +-   0.47
+ParticleCombiner_D*+:D0_KpipipiForHLT -> D0:KpipipiForHLT pi+:GoodTrackForHLT                                       |      24000 |          0 |       3.21 |    0.13 +-   0.30
+ParticleCombiner_B+:BtoD0pi_KpiForHLT -> anti-D0:KpiForHLT pi+:GoodTrackForHLT                                      |      24000 |          0 |       0.80 |    0.03 +-   0.01
+ParticleCombiner_B+:BtoD0pi_Kpipi0ForHLT -> anti-D0:Kpipi0ForHLT pi+:GoodTrackForHLT                                |      24000 |          0 |      20.70 |    0.86 +-   0.96
+ParticleCombiner_B+:BtoD0pi_KpipipiForHLT -> anti-D0:KpipipiForHLT pi+:GoodTrackForHLT                              |      24000 |          0 |       6.43 |    0.27 +-   0.61
+ParticleCombiner_B0:B0toDpi_KpipiForHLT -> D-:KpipiForHLT pi+:GoodTrackForHLT                                       |      24000 |          0 |       0.91 |    0.04 +-   0.03
+ParticleCombiner_B0:B0toDstarPi_D0pi_KpiForHLT -> D*-:D0_KpiForHLT pi+:GoodTrackForHLT                              |      24000 |          0 |       0.36 |    0.01 +-   0.01
+ParticleCombiner_B0:B0toDstarPi_D0pi_KpipipiForHLT -> D*-:D0_KpipipiForHLT pi+:GoodTrackForHLT                      |      24000 |          0 |       0.95 |    0.04 +-   0.15
+ParticleCombiner_B0:B0toDstarPi_D0pi_Kpipi0ForHLT -> D*-:D0_Kpipi0ForHLT pi+:GoodTrackForHLT                        |      24000 |          0 |       1.91 |    0.08 +-   0.21
+PListCopy_B+:BtoCharmForHLT                                                                                         |      24000 |          0 |       0.89 |    0.04 +-   0.08
+PListCopy_B0:BtoCharmForHLT                                                                                         |      24000 |          0 |       0.45 |    0.02 +-   0.02
+SoftwareTrigger                                                                                                     |      24000 |          0 |      68.25 |    2.84 +-   1.16
+Sum_HLT_Skim_Calculation                                                                                            |      24000 |          1 |     596.08 |   24.84 +-  16.25
+RootOutput                                                                                                          |      24000 |         14 |      27.92 |    1.16 +-  19.86
+===============================================================================================================================================================================
+Total                                                                                                               |      24001 |        462 |   69498.34 | 2895.64 +- 811.41
+===============================================================================================================================================================================
+
+
+
+
+ ***************************************************************************
+ *                         *****TAUOLA LIBRARY: VERSION 2.9 ******         *
+ *                         ***********October 2011 ***************         *
+ *                         **AUTHORS: S.JADACH, Z.WAS*************         *
+ *                         **R. DECKER, M. JEZABEK, J.H.KUEHN*****         *
+ *                         **AVAILABLE FROM: www.cern.ch/wasm****          *
+ *                         ***** PUBLISHED IN COMP. PHYS. COMM.***         *
+ *                         0: Physics initialization  CLEO collab          *
+ *                          see Alain Weinstein www home page:             *
+ *                         http://www.cithep.caltech.edu/~ajw/             *
+ *                         /korb_doc.html#files                            *
+ *                         1: Physics initialization RChL of:              *
+ *                          O. Shekhovtsova, T. Przedzinski,               *
+ *                          P. Roig and Z. Was                             *
+ *                          IFJPAN-2013-5, UAB-FT-731                      *
+ *                         *******CPC 76 (1993) 361          *****         *
+ *                         **5 or more pi dec.: precision limited          *
+ *                         ****DEKAY ROUTINE: INITIALIZATION******         *
+ *                   0     JAK1   = DECAY MODE TAU+                        *
+ *                   0     JAK2   = DECAY MODE TAU-                        *
+ ***************************************************************************
+
+ *                   1     IVER   = hadronic current version           *
+  RANMAR INITIALIZED:   54217137           0         0
+
+ ***************************************************************************
+
+  In F3pi: chpt + 1 resonance + 2 resonance (RchT)
+  KORB: rho/rhop -> pi-pi0 mixing:
+  KORB: rho   =  0.769900024      0.151199996    
+  KORB: rhop  =   1.37000000      0.509999990     -0.109999999    
+  KORB: K*/K*prime -> Kpi mixing:
+  KORB: kstp  =   1.70000005      0.234999999      -3.79999988E-02
+  KORB: a1/a1prime -> 3pi, KKpi mixing:
+  KORB: a1    =   1.27499998      0.699999988    
+  KORB: a1prim=   1.46099997      0.250000000       0.00000000    
+  KORB: K1A/K1B -> Kpipi mixing:
+  KORB: K1A   =   1.26999998       9.00000036E-02   1.00000000    
+  KORB: K1B   =   1.40199995      0.173999995      0.800000012    
+  KORB: rho/rhop/rhopp -> 4pi mixing:
+  KORB: rho   =  0.769900024      0.151199996    
+  KORB: rhopp =   1.46500003      0.310000002     -0.109999999    
+  KORB: rhoppp=   1.70000005      0.234999999     -0.109999999    
+  KORB: 3PI-PI0 PARAMS:   0.00000000      0.124200001      0.160400003      0.271100014      0.444299996    
+  KORB: PI-3PI0 PARAMS:   0.00000000       1.00000000    
+=======================================================================
+======       Pre-compound/De-excitation Physics Parameters     ========
+=======================================================================
+Type of pre-compound inverse x-section              3
+Pre-compound model active                           1
+Pre-compound excitation low energy (MeV)            0.1
+Pre-compound excitation high energy (MeV)           30
+Type of de-excitation inverse x-section             3
+Type of de-excitation factory                       Evaporation+GEM
+Number of de-excitation channels                    68
+Min excitation energy (keV)                         0.01
+Min energy per nucleon for multifragmentation (MeV) 2e+05
+Limit excitation energy for Fermi BreakUp (MeV)     20
+Level density (1/MeV)                               0.075
+Use simple level density model                      1
+Use discrete excitation energy of the residual      0
+Time limit for long lived isomeres (ns)             1000
+Internal e- conversion flag                         1
+Store e- internal conversion data                   0
+Electron internal conversion ID                     0
+Correlated gamma emission flag                      0
+Max 2J for sampling of angular correlations         10
+Upload data before 1st event for                Z < 9
+=======================================================================
+=======================================================================
+======       Pre-compound/De-excitation Physics Parameters     ========
+=======================================================================
+Type of pre-compound inverse x-section              3
+Pre-compound model active                           1
+Pre-compound excitation low energy (MeV)            0.1
+Pre-compound excitation high energy (MeV)           30
+Type of de-excitation inverse x-section             3
+Type of de-excitation factory                       Evaporation+GEM
+Number of de-excitation channels                    68
+Min excitation energy (keV)                         0.01
+Min energy per nucleon for multifragmentation (MeV) 2e+05
+Limit excitation energy for Fermi BreakUp (MeV)     20
+Level density (1/MeV)                               0.075
+Use simple level density model                      1
+Use discrete excitation energy of the residual      0
+Time limit for long lived isomeres (ns)             1000
+Internal e- conversion flag                         1
+Store e- internal conversion data                   0
+Electron internal conversion ID                     0
+Correlated gamma emission flag                      0
+Max 2J for sampling of angular correlations         10
+Upload data before 1st event for                Z < 9
+=======================================================================
