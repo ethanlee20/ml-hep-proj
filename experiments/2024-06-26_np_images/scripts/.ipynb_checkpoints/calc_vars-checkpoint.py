@@ -17,41 +17,14 @@ from mylib.phys import (
 
 parser = argparse.ArgumentParser()
 parser.add_argument("ell", help="e or mu")
-parser.add_argument("input_path", help="path to input data directory or file")
-parser.add_argument("output_dir_path", help="path to output directory")
+parser.add_argument("input_path", help="path to input file")
+parser.add_argument("output_path", help="path to output file")
 args = parser.parse_args()
 
 
 ell = args.ell
 input_path = pl.Path(args.input_path)
-output_dir_path = pl.Path(args.output_dir_path)
-
-
-def config_input_paths(input_path):
-    if input_path.is_dir():
-        input_file_paths = list(input_path.glob("**/*.pkl")) + list(input_path.glob("**/*.root"))
-        return input_file_paths
-    return [input_path]
-
-
-def config_output_paths(output_dir_path, input_file_paths):
-    output_file_paths = [
-        output_dir_path.joinpath(f"{path.stem}_an.pkl")
-        for path in input_file_paths
-    ]
-    return output_file_paths
-
-
-def config_paths(input_path, output_dir_path):
-    input_file_paths = config_input_paths(input_path)
-    output_file_paths = config_output_paths(output_dir_path, input_file_paths)
-    return input_file_paths, output_file_paths
-
-
-def list_finished(output_dir_path):
-    finished = list(output_dir_path.glob("**/*.pkl"))
-    return finished
-
+output_path = pl.Path(args.output_path)
 
 
 if ell == 'mu':
@@ -136,7 +109,6 @@ def run_calc(data):
         data[["KST0_mcE", "KST0_mcPX", "KST0_mcPY", "KST0_mcPZ"]]
     )
 
-
     data["q_squared"] = inv_mass_sq_two_particles(
         df_ell_p_4mom, df_ell_m_4mom
     )
@@ -195,18 +167,9 @@ def run_calc(data):
     return data
 
 
-output_dir_path.mkdir(parents=True, exist_ok=True)
-
-input_file_paths, output_file_paths = config_paths(input_path, output_dir_path)
-
-finished = list_finished(output_dir_path)
-
-for in_path, out_path in zip(input_file_paths, output_file_paths):
-    if out_path in finished:
-        continue
-    try:
-        data = open_data(in_path)
-        data = run_calc(data)
-        data.to_pickle(out_path)
-    except ValueError as err:
-        print("Empty file? ", err)
+try:
+    data = open_data(input_path)
+    data = run_calc(data)
+    data.to_pickle(output_path)
+except ValueError as err:
+    print("Empty file? ", err)

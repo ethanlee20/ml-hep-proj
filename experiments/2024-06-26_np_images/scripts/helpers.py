@@ -1,15 +1,32 @@
 
 """
-Functions for generating / deleting new physics decay files.
+Functions for file handling.
 """
 
 
 import os
-from pathlib import Path
+from subprocess import run
+
+
+def image_name(dc9_real, trial):
+    proc = run(
+        ["bash", "image_name.sh", str(dc9_real), str(trial)],
+        text=True,
+        capture_output=True,
+    )
+    result = proc.stdout.removesuffix('\n')
+    if proc.stderr:
+        raise Exception("Problem regarding image name generation.")
+    return result
 
 
 def dec_filename(dc9_real, trial):
-    result = f"dc9_{str(dc9_real)}_{trial}.dec"
+    result = f"{image_name(dc9_real, trial)}.dec"
+    return result
+
+
+def mc_filename(dc9_real, trial):
+    result = f"{image_name(dc9_real, trial)}.root"
     return result
 
 
@@ -27,9 +44,3 @@ def make_dec(dc9_real, trial):
 def remove_dec(dc9_real, trial):
     os.remove(dec_filename(dc9_real, trial))
     return
-
-
-def mc_filename(dc9_real, trial):
-    result = Path(dec_filename(dc9_real, trial)).with_suffix(".root")
-    result = str(result)
-    return result

@@ -238,7 +238,7 @@ def create_variable_lists():
         + K_pi_vars 
         + lepton_vars
     )
-        
+
     return B0_vars
 
 

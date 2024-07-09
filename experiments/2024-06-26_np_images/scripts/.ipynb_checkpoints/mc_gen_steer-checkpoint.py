@@ -24,6 +24,15 @@ n_events = int(sys.argv[3])
 
 path_dec = make_dec(dc9_real, trial)
 
+
+print("\n-- Input Information --")
+print("dc9_real: ", dc9_real)
+print("trial: ", trial)
+print("n_events: ", n_events)
+print("dec file: ", path_dec)
+print("-----------------------\n")
+
+
 # background (collision) files
 bg = glob.glob('/group/belle2/dataprod/BGOverlay/early_phase3/release-06-00-05/overlay/BGx1/set0/*.root')
 # background if running locally
