@@ -1,9 +1,7 @@
 
-print_a() {
-    local a=24
-    echo $a
-}
+b=5
+e=8
 
-a=12
-
-print_a
+for ((i=b; i<=e; i++)); do
+    echo $i
+done

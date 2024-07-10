@@ -34898,3 +34898,35 @@ opening ../datafiles/dc9_1.1_2_re.root
   result = getattr(ufunc, method)(*inputs, **kwargs)
 /home/belle2/elee20/anaconda3/lib/python3.11/site-packages/pandas/core/arraylike.py:396: RuntimeWarning: invalid value encountered in sqrt
   result = getattr(ufunc, method)(*inputs, **kwargs)
+[INFO] Steering file: mc_gen_steer.py
+
+-- Input Information --
+dc9_real:  1.1
+trial:  2
+n_events:  24000
+dec file:  dc9_1.1_2.dec
+sim out file:  ../datafiles/dc9_1.1_2.root
+-----------------------
+
+
+**************************************************************
+ Geant4 version Name: geant4-10-06-patch-03    (6-November-2020)
+                       Copyright : Geant4 Collaboration
+                      References : NIM A 506 (2003), 250-303
+                                 : IEEE-TNS 53 (2006), 270-278
+                                 : NIM A 835 (2016), 186-225
+                             WWW : http://geant4.org/
+**************************************************************
+
+[WARNING] stdPi0s is loading "May2020" pi0 recommendations. Please check Neutrals Performance Confluence page for most up-to-date pi0 recommendations.
+[INFO] Starting event processing, random seed is set to '84b12eae9f3496fd7d2f83a88a03c98c5d23ce44eae65bfd9b52fc31511fdfb5'
+[INFO] Conditions Database: found working server
+	url = http://belle2db.sdcc.bnl.gov/b2s/rest/
+[INFO] Conditions data: configured globaltags (highest priority first) are mc_production_MC15ri_a, release-06-00-07
+[INFO] SVDNoiseCalibrations: from now on we are using ../databases/user_xmls/phase3-globalruns/GlobalRun_LV7_HV50_VS-0.8_hv_shift_L6_30V_MaxStrip64_20201029_14-000656.xml
+ ... message repeated 3 times
+[INFO] SVDFADCMaskedStrips: from now on we are using /mnt/data/user_xmls/phase3-globalruns/GlobalRun_LV7_HV50_VS-0.8_hv_shift_L6_30V_MaxStrip64_20201029_14-000656.xml
+[INFO] SVDChargeSimulationCalibrations: from now on we are using ChargeSimulationCalibrations_default_2021-06-25T23:32:19.954782_INFO:release-06_APVCouplings=0
+[INFO] SVDPulseShapeCalibrations: from now on we are using PulseShapeCalibrations_default_2020-04-27T21:41:16.240855_INFO:_peakTime=fromPhase3calibrations_pulseWidth=130_gain=fromPhase3calibrations
+[INFO] BGOverlayInput: starting with event 623429
+[WARNING] ClockFreq4TDC changed from cdclocal 1.017774e+00 to official 1.017752e+00 (GHz)!  { module: Geometry }

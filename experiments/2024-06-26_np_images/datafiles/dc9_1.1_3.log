@@ -1,0 +1,201 @@
+[INFO] Steering file: mc_gen_steer.py
+
+-- Input Information --
+dc9_real:  1.1
+trial:  3
+n_events:  24000
+dec file:  dc9_1.1_3.dec
+sim out file:  ../datafiles/dc9_1.1_3.root
+-----------------------
+
+
+**************************************************************
+ Geant4 version Name: geant4-10-06-patch-03    (6-November-2020)
+                       Copyright : Geant4 Collaboration
+                      References : NIM A 506 (2003), 250-303
+                                 : IEEE-TNS 53 (2006), 270-278
+                                 : NIM A 835 (2016), 186-225
+                             WWW : http://geant4.org/
+**************************************************************
+
+[WARNING] stdPi0s is loading "May2020" pi0 recommendations. Please check Neutrals Performance Confluence page for most up-to-date pi0 recommendations.
+[INFO] Starting event processing, random seed is set to 'a4d5b498ef1976b470e8bbfc29308aff72787a23c97c94e061f945dbf630be65'
+[INFO] Conditions Database: found working server
+	url = http://belle2db.sdcc.bnl.gov/b2s/rest/
+[INFO] Conditions data: configured globaltags (highest priority first) are mc_production_MC15ri_a, release-06-00-07
+[INFO] SVDNoiseCalibrations: from now on we are using ../databases/user_xmls/phase3-globalruns/GlobalRun_LV7_HV50_VS-0.8_hv_shift_L6_30V_MaxStrip64_20201029_14-000656.xml
+ ... message repeated 3 times
+[INFO] SVDFADCMaskedStrips: from now on we are using /mnt/data/user_xmls/phase3-globalruns/GlobalRun_LV7_HV50_VS-0.8_hv_shift_L6_30V_MaxStrip64_20201029_14-000656.xml
+[INFO] SVDChargeSimulationCalibrations: from now on we are using ChargeSimulationCalibrations_default_2021-06-25T23:32:19.954782_INFO:release-06_APVCouplings=0
+[INFO] SVDPulseShapeCalibrations: from now on we are using PulseShapeCalibrations_default_2020-04-27T21:41:16.240855_INFO:_peakTime=fromPhase3calibrations_pulseWidth=130_gain=fromPhase3calibrations
+[INFO] BGOverlayInput: starting with event 2122689
+[WARNING] ClockFreq4TDC changed from cdclocal 1.017774e+00 to official 1.017752e+00 (GHz)!  { module: Geometry }
+[INFO] Using Belle2 physics list
+### Birks coefficients used in run time
+   G4_POLYSTYRENE     0.07943 mm/MeV     0.00841958 g/cm^2/MeV  massFactor=  101.167 effCharge= 0.027027
+[INFO] Setting global Geant4 production cut
+	cutValue = 0.070000000000000007
+[INFO] Perform Geant4 final initialization: Geometry optimization, PhysicsList calculations...
+[INFO] done, Geant4 ready
+[INFO] TRGGDLModule::initialize. simulationMode=1
+ FLOATING-POINT NUMBERS ASSUMED ACCURATE TO 1e-06
+ FLOATING-POINT NUMBERS ASSUMED ACCURATE TO 1e-06
+[INFO] FiltersContainer: Replacing existing filter for setup name: SVDOnlyDefault
+[INFO] ExtManager::Initialize(): Ext will run with FullSim and has initialized the extrapolator
+[INFO] Ext hypothesis for PDG code 11 and its antiparticle will be extrapolated
+[INFO] Ext hypothesis for PDG code 13 and its antiparticle will be extrapolated
+[INFO] Ext hypothesis for PDG code 211 and its antiparticle will be extrapolated
+[INFO] Ext hypothesis for PDG code 321 and its antiparticle will be extrapolated
+[INFO] Ext hypothesis for PDG code 2212 and its antiparticle will be extrapolated
+[INFO] Ext hypothesis for PDG code 1000010020 and its antiparticle will be extrapolated
+[INFO] TOPBunchFinder: running in data processing mode
+[INFO] ExtManager::Initialize(): Muid will run with FullSim; the extrapolator has already been initialized
+[INFO] Muid hypothesis for PDG code 13 and its antiparticle will be extrapolated
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: pi+:all (pi-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleSelector: pi+:skim
+[INFO]    -> With cuts  : pt>0.2 and abs(d0) < 2 and abs(z0) < 4
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: pi+:all (pi-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleSelector: pi+:hadb
+[INFO]    -> With cuts  : p>0.1 and abs(d0) < 2 and abs(z0) < 4
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: pi+:all (pi-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleSelector: pi+:tau
+[INFO]    -> With cuts  : abs(d0) < 2 and abs(z0) < 8
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: gamma:all (gamma:all)
+[INFO]    -> MDST source: ECLClusters and KLMClusters
+[INFO] ParticleSelector: gamma:skim
+[INFO]    -> With cuts  : E>0.1
+[INFO] ParticleSelector: gamma:skim
+[INFO]    -> With cuts  : isFromECL
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: K_S0:V0 (K_S0:V0)
+[INFO]    -> MDST source: V0
+[INFO] ParticleVertexFitter: Performing vertex fit on K_S0:V0_MassWindow using KFit
+[INFO] ParticleSelector: K_S0:V0_MassWindow
+[INFO]    -> With cuts  : 0.450 < M < 0.550
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: pi+:all (pi-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleVertexFitter: Performing vertex fit on K_S0:RD using KFit
+[INFO] ParticleSelector: K_S0:RD
+[INFO]    -> With cuts  : 0.450 < M < 0.550
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: Lambda0:V0 (anti-Lambda0:V0)
+[INFO]    -> MDST source: V0
+[INFO] ParticleSelector: Lambda0:V0_MassWindow
+[INFO]    -> With cuts  : 1.10 < M < 1.13
+[INFO] ParticleSelector: Lambda0:V0_MassWindow
+[INFO]    -> With cuts  : extraInfo(highQualityVertex)
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: pi+:all (pi-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: p+:all (anti-p-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleSelector: Lambda0:RD
+[INFO]    -> With cuts  : 1.10 < M < 1.13
+[INFO] ParticleSelector: Lambda0:RD
+[INFO]    -> With cuts  : extraInfo(highQualityVertex)
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: K+:all (K-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleSelector: K+:dstSkim
+[INFO]    -> With cuts  : abs(d0) < 2 and abs(z0) < 4
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: pi+:all (pi-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleSelector: pi+:dstSkim
+[INFO]    -> With cuts  : abs(d0) < 2 and abs(z0) < 4
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: gamma:all (gamma:all)
+[INFO]    -> MDST source: ECLClusters and KLMClusters
+[INFO] ParticleSelector: gamma:loose
+[INFO]    -> With cuts  : theta > 0.296706 and theta < 2.61799 and     [[clusterReg == 1 and E > 0.03] or [clusterReg == 2 and E > 0.02] or [clusterReg == 3 and E > 0.03]] and     [abs(clusterTiming) < formula(1.0 * clusterErrorTiming) or E > 0.1] and [clusterE1E9 > 0.3 or E > 0.1]
+[INFO] ParticleSelector: gamma:loose
+[INFO]    -> With cuts  : isFromECL
+[INFO] ParticleVertexFitter: Performing mass fit on pi0:veryLooseFit using KFit
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: pi+:all (pi-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleSelector: pi+:offip
+[INFO]    -> With cuts  : [abs(z0) > 10] and [nSVDHits >=3 or nCDCHits >= 20]
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: pi+:all (pi-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleSelector: pi+:GoodTrackForHLT
+[INFO]    -> With cuts  : abs(d0) < 2 and abs(z0) < 5
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: K+:all (K-:all)
+[INFO]    -> MDST source: Tracks
+[INFO] ParticleSelector: K+:GoodTrackForHLT
+[INFO]    -> With cuts  : abs(d0) < 2 and abs(z0) < 5
+[INFO] ParticleLoader's Summary of Actions:
+[INFO]  o) creating (anti-)ParticleList with name: gamma:all (gamma:all)
+[INFO]    -> MDST source: ECLClusters and KLMClusters
+[INFO] ParticleSelector: gamma:all
+[INFO]    -> With cuts  : isFromECL
+[INFO] MCMatcher module will search for Particle -> MCParticle associations for the ParticleList pi0:all.
+[INFO]   - The MCMatcher will use default algorithm suitable for analysis of Belle II MC (for MC5 use legacy algorithm).
+[INFO] ECLChannelMapper:: loaded ECLChannelMap from the database
+	IoV = 1003,0,1003,-1
+[INFO] [TRGECLModule] 3DBhabhaVetoInTrackThetaRegion (low : high) = (3 : 15)
+[INFO] [TRGECLModule] EventTimingQualityThresholds (low : high)= (0.5 : 10) (GeV)
+[INFO] [TRGECLModule] Taub2b two CL Angle cut in CM (degree) (dphi L, H, theta sum L, H ) = (110,250,130,230)
+[INFO] [TRGECLModule] Taub2b Total Energy Cut in lab. (GeV) = 7
+[INFO] [TRGECLModule] Taub2b Cluster Energy Cut in lab. (GeV) : (E(CL1), E(CL2)) = (1.9, 999)
+[INFO] [TRGECLModule] Bhabha Add Angle cut in CM (degree) (dphi L, H, theta sum L, H) = (150,210,160,200)
+[INFO] [TRGECLModule] Taub2b2 two CL Angle cut in CM (degree) (dphi L, H, theta sum L, H) = (120,240,140,220)
+[INFO] [TRGECLModule] Taub2b2 Total Energy Cut in lab. (GeV) = 7
+[INFO] [TRGECLModule] Taub2b2 Energy Cut in lab. for cluster in endcap (GeV) = 3
+[INFO] [TRGECLModule] Taub2b2 Cluster energy cut in lab. (GeV) = 0.162
+[INFO] SVDRecoConfiguration: from now on we are using SVDRecoConfiguration_default_3=6_2021-06-10T03:54:14.284092_INFO:_CoG3Time_MaxSampleCharge_CoGOnlyPosition
+[INFO] SVD  6-sample DAQ, cluster time algorithm: CoG3, cluster charge algorithm: MaxSample, cluster position algorithm: CoGOnly
+[INFO]  with strip charge reconstructed with MaxSample and strip time reconstructed with dontdo
+[INFO] SVD  3-sample DAQ, cluster time algorithm: CoG3, cluster charge algorithm: MaxSample, cluster position algorithm: CoGOnly
+[INFO]  with strip charge reconstructed with MaxSample and strip time reconstructed with dontdo
+[INFO] ECLShowerCorrector beginRun: Number of energies = 8
+[INFO] SVDRecoConfiguration: from now on we are using SVDRecoConfiguration_default_3=6_2021-06-10T03:54:14.284092_INFO:_CoG3Time_MaxSampleCharge_CoGOnlyPosition
+[INFO] SVD  6-sample DAQ, cluster time algorithm: CoG3, cluster charge algorithm: MaxSample, cluster position algorithm: CoGOnly
+[INFO]  with strip charge reconstructed with MaxSample and strip time reconstructed with dontdo
+[INFO] SVD  3-sample DAQ, cluster time algorithm: CoG3, cluster charge algorithm: MaxSample, cluster position algorithm: CoGOnly
+[INFO]  with strip charge reconstructed with MaxSample and strip time reconstructed with dontdo
+[INFO] TOPGeometryPar: envelope of PMT dependent QE has been set
+[INFO] TOPGeometryPar: QE of PMT's mapped to positions, size = 512
+[INFO] TOPGeometryPar: PMT types mapped to positions, size = 512
+[INFO] TOPGeometryPar: pixel relative quantum efficiencies have been set, size = 8192
+[INFO] TOPRecoManager: new relative pixel efficiencies have been passed to reconstruction
+[INFO] TOPRecoManager: new channel masks have been passed to reconstruction
+[INFO] TOPRecoManager: channelT0-uncalibrated channels have been masked off
+[INFO] TOPRecoManager: timebase-uncalibrated channels have been masked off
+[WARNING] Could not extrapolate the fit result for pdg 211 to the perigee point. Why, I don't know.  { module: TrackCreator }
+[WARNING] Could not extrapolate the fit result for pdg 2212 to the perigee point. Why, I don't know.  { module: TrackCreator }
+[WARNING] Could not extrapolate the fit result for pdg 211 to the perigee point. Why, I don't know.  { module: TrackCreator }
+[WARNING] Could not extrapolate the fit result for pdg 321 to the perigee point. Why, I don't know.  { module: TrackCreator }
+[WARNING] Could not extrapolate the fit result for pdg 211 to the perigee point. Why, I don't know.  { module: TrackCreator }
+ ... message repeated 1 times
+[WARNING] Could not extrapolate the fit result for pdg 2212 to the perigee point. Why, I don't know.  { module: TrackCreator }
+[WARNING] Could not extrapolate the fit result for pdg 321 to the perigee point. Why, I don't know.  { module: TrackCreator }
+[WARNING] Could not extrapolate the fit result for pdg 2212 to the perigee point. Why, I don't know.  { module: TrackCreator }
+Error in <TDecompChol::Decompose()>: matrix not positive definite
+Error in <TDecompChol::Decompose()>: matrix not positive definite
+Error in <TDecompChol::Decompose()>: matrix not positive definite
+Error in <TDecompChol::Decompose()>: matrix not positive definite
+Error in <TDecompChol::Decompose()>: matrix not positive definite
+Error in <TDecompChol::Decompose()>: matrix not positive definite
+Error in <TDecompChol::Decompose()>: matrix not positive definite
+Error in <TDecompChol::Decompose()>: matrix not positive definite
+ ... message repeated 1 times
+[WARNING] Could not extrapolate the fit result for pdg 321 to the perigee point. Why, I don't know.  { module: TrackCreator }
+[WARNING] Could not extrapolate the fit result for pdg 2212 to the perigee point. Why, I don't know.  { module: TrackCreator }
+[WARNING] Could not extrapolate the fit result for pdg 211 to the perigee point. Why, I don't know.  { module: TrackCreator }
+[WARNING] CDCSensitiveDetector: Strange path length: s2= 76.1277 sint= 76.1272 s_in_layer= 0.000470489 test= 1  { module: FullSim }
+[WARNING] Could not extrapolate the fit result for pdg 2212 to the perigee point. Why, I don't know.  { module: TrackCreator }
+[WARNING] Could not extrapolate the fit result for pdg 211 to the perigee point. Why, I don't know.  { module: TrackCreator }
+[WARNING] Could not extrapolate the fit result for pdg 321 to the perigee point. Why, I don't know.  { module: TrackCreator }
+[WARNING] Could not extrapolate the fit result for pdg 2212 to the perigee point. Why, I don't know.  { module: TrackCreator }
