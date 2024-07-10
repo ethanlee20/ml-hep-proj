@@ -5,14 +5,21 @@
 #    Requires Alexei's basf2 env (and my python library).
 
 
+set -e
+
+
 simulate() {
     local dc9_real=$1
     local trial=$2
     local n_events=$3
+    local output_dir=$4
+
+    local file_out="${output_dir}/$(bash image_name.sh $dc9_real $trial).root" 
+    local file_log="${file_out%.root}.log"
     
-    basf2 mc_gen_steer.py -- $dc9_real $trial $n_events &>> $path_log
-    
-    echo "$(bash image_name.sh $dc9_real $trial).root"
+    basf2 mc_gen_steer.py -- $dc9_real $trial $n_events $output_dir &>> $file_log
+        
+    echo "$file_out"
 }
 
 
@@ -46,8 +53,9 @@ ell=$1
 dc9_real=$2
 trial=$3
 n_events=$4
+output_dir=$5
 
-file_simulate_out=$(simulate $dc9_real $trial $n_events)
+file_simulate_out=$(simulate $dc9_real $trial $n_events $output_dir)
 file_basic_recon_out=$(basic_recon $ell $file_simulate_out)
 calc_vars $ell $file_basic_recon_out
 rm $file_basic_recon_out

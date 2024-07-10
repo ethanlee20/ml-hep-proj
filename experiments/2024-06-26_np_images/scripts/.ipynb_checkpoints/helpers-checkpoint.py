@@ -14,7 +14,7 @@ def image_name(dc9_real, trial):
         text=True,
         capture_output=True,
     )
-    result = proc.stdout.removesuffix('\n')
+    result = proc.stdout.replace('\n', '')
     if proc.stderr:
         raise Exception("Problem regarding image name generation.")
     return result

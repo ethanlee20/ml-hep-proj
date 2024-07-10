@@ -1,0 +1,22 @@
+[INFO] Steering file: mc_gen_steer.py
+Traceback (most recent call last):
+  File "/gpfs/home/belle2/elee20/ml-hep-proj/experiments/2024-06-26_np_images/scripts/mc_gen_steer.py", line 27, in <module>
+    path_dec = make_dec(dc9_real, trial)
+  File "/gpfs/home/belle2/elee20/ml-hep-proj/experiments/2024-06-26_np_images/scripts/helpers.py", line 38, in make_dec
+    fname = dec_filename(dc9_real, trial)
+  File "/gpfs/home/belle2/elee20/ml-hep-proj/experiments/2024-06-26_np_images/scripts/helpers.py", line 24, in dec_filename
+    result = f"{image_name(dc9_real, trial)}.dec"
+  File "/gpfs/home/belle2/elee20/ml-hep-proj/experiments/2024-06-26_np_images/scripts/helpers.py", line 17, in image_name
+    result = proc.stdout.removesuffix('\n')
+AttributeError: 'str' object has no attribute 'removesuffix'
+[INFO] Steering file: mc_gen_steer.py
+Traceback (most recent call last):
+  File "/gpfs/home/belle2/elee20/ml-hep-proj/experiments/2024-06-26_np_images/scripts/mc_gen_steer.py", line 27, in <module>
+    path_dec = make_dec(dc9_real, trial)
+  File "/gpfs/home/belle2/elee20/ml-hep-proj/experiments/2024-06-26_np_images/scripts/helpers.py", line 38, in make_dec
+    fname = dec_filename(dc9_real, trial)
+  File "/gpfs/home/belle2/elee20/ml-hep-proj/experiments/2024-06-26_np_images/scripts/helpers.py", line 24, in dec_filename
+    result = f"{image_name(dc9_real, trial)}.dec"
+  File "/gpfs/home/belle2/elee20/ml-hep-proj/experiments/2024-06-26_np_images/scripts/helpers.py", line 17, in image_name
+    result = proc.stdout.removesuffix('\n')
+AttributeError: 'str' object has no attribute 'removesuffix'
