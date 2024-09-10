@@ -59,5 +59,5 @@ file_simulate_out=$(simulate $dc9_real $trial $n_events $output_dir)
 file_basic_recon_out=$(basic_recon $ell $file_simulate_out)
 calc_vars $ell $file_basic_recon_out
 rm $file_basic_recon_out
-
+rm $file_simulate_out
 
